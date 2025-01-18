@@ -1,7 +1,7 @@
 ---
 title: 希里的 CP2077 主菜单背景
 date: 2024-11-05 22:56:23
-tags: [Develop,Mod,CP2077,archive]
+tags: [Develop,Mod,CP2077,game archive]
 categories: 
  - [Mod Develop, Cyberpunk 2077]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1730822508/Typera/2024/11/3d3d0f08411e144047e5d8272d659746.png
