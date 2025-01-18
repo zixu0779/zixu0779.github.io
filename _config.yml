@@ -107,7 +107,6 @@ deploy:
   type: git
   repo: https://github.com/zixu0779/zixu0779.github.io.git
   branch: main
-  token: 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
   message: "Site updated"
 
 markdown:
