@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Sycamore's Blog # 懸鈴書架
-subtitle: '瑣憶流金'
+title: "Prism Port"
+subtitle: "Code, game mods, and random thoughts"
 description: ''
-keywords: CTF, Electron
+keywords: CTF, Electron, Cyberpunk2077
 author: Sycamore
 language: zh-CN
 timezone: 'Asia/Shanghai'
@@ -68,8 +68,8 @@ index_generator:
 # Category & Tag
 default_category: uncategorized
 category_map: 
-#   CTF-WriteUp: CTF
-#   渗透测试-Penetration: 渗透测试
+  Mod Develop: Mod-Develop
+  Cyberpunk 2077: Cyberpunk-2077
 tag_map:
 
 # Metadata elements
@@ -105,9 +105,9 @@ theme: shokaX
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/BergahornKlen/BergahornKlen.github.io.git
+  repo: https://github.com/zixu0779/zixu0779.github.io.git
   branch: main
-  token: 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
+  token: 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
   message: "Site updated"
 
 markdown:

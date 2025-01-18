@@ -41,6 +41,5 @@ git add .gitattributes  # 配置文件
 
 然后就是`add/commit/push`的常规操作了
 
-## npm插件编写
+## npm 插件编写
 
-...（5.1结束回去粘贴）

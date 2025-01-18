@@ -6,7 +6,13 @@ categories:
  - [Develop, Electron]
 ---
 
-项目地址：[Google-Translate-Desktop](https://github.com/noneSycamore/Google-Translate-Desktop)
+项目地址：[Google-Translate-Desktop](https://github.com/noneSycamore/Google-Translate-Desktop) (private repo)
+
+腰斩了，因为我发现已经有很好用的了，推荐：[Pot]([Pot | 跨平台划词翻译和OCR](https://pot-app.com/))
+
+因此以下内容仅作一个 idea 记录。
+
+---
 
 # 准备工作
 
@@ -76,3 +82,4 @@ npm install electron-store  # 数据存储插件
 
 ## 翻译功能
 
+调用 Google 的 API...

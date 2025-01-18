@@ -30,9 +30,9 @@ date: 2023-04-27 00:20:43
 
 - site: 咖啡豆子coffee的小站
   owner: 咖啡豆子coffee
-  url: https://kfdzcoffee.cn/
+  url: https://blog.kfdzcoffee.cn
   desc: 所有奇迹的始发点
-  image: https://kfdzcoffee.cn/upload/mmexport1715001096100.png
+  image: https://image.kfdzcoffee.cn/i/1/avatar.png
   color: "#af9bc0"
 - site: Lightu
   owner: Lightu
