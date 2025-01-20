@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ～/.npm
-          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/packages-lock.json') }}
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-npm-cache-
       - name: Install Dependencies
