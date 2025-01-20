@@ -26,6 +26,7 @@ jobs:
       - name: Install Dependencies
         run:  |
           npm install
+          mkdir themes
           ln -s node_modules/hexo-theme-shokax themes/shokax
       - name: Build the site
         run:  npm run build
