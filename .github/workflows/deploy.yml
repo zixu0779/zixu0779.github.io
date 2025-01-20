@@ -35,7 +35,12 @@ jobs:
         run: |
           pwd
           ls
-          git checkout main
+      - name: checkout main branch
+        uses: actions/checkout@v4
+        with: 
+          ref: main
+      - name: test
+        run: |
           pwd
           ls
       # - name: Commit and push to main
