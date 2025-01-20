@@ -48,7 +48,11 @@ jobs:
           mv ../public/* .
       - name: Commit and push to main
         run: |
-          git add .
-          git commit -m "Deploy to main branch" 2>/dev/null
-          git push origin main 2>/dev/null
+           if [[ -n $(git status --porcelain) ]]; then
+             git add .
+             git commit -m "Deploy to main branch"
+             git push origin main
+           else
+             echo "No changes to commit"
+           fi
           
