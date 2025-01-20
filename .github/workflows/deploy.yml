@@ -34,11 +34,10 @@ jobs:
       - name: Copy public folder to main branch
         run: |
           git fetch origin main || git branch main
-
-      - name: Commit and push to main
-        run: |
           git worktree add main main
           cp -r ./public/* main/
+      - name: Commit and push to main
+        run: |
           cd public
           git add --all
           git commit -m "Deploy to main branch"
