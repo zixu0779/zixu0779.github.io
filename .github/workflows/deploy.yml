@@ -33,9 +33,10 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       - name: Copy public folder to main branch
         run: |
+          ls
           mkdir public
           echo "111" > public/1.txt
-          ls public
+          echo "222" > public/2.txt
           mv public ../
       - name: checkout main branch
         uses: actions/checkout@v4
