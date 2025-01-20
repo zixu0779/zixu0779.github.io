@@ -23,25 +23,24 @@ jobs:
           key: ${{ runner.OS }}-npm-cache
           restore-keys: |
             ${{ runner.OS }}-npm-cache
-      # - name: Install Dependencies
-      #   run:  npm install
-      # - name: Build
-      #   run:  npm run build
-      - name: Copy public folder to main branch
-        run: |
-          mkdir public
-          echo "1112" > public/1.txt
-          mv public ../
-      - name: checkout main branch
+      - name: Install Dependencies
+        run:  npm install
+      - name: Build the site
+        run:  npm run build
+      - name: Move public folder out
+        run: mv public ../
+      - name: Checkout main branch
         uses: actions/checkout@v4
         with: 
           ref: main
-      - name: test
+      - name: Move public content in
         run: |
-          ls -a
           rm -rf *
-          ls -a
           mv ../public/* .
+      - name: Set up Git user
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       - name: Commit and push to main
         run: |
            if [[ -n $(git status --porcelain) ]]; then
