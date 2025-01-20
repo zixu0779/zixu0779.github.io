@@ -35,7 +35,6 @@ jobs:
         run: |
           mkdir public
           echo "111" > public/1.txt
-          echo "222" > public/2.txt
           mv public ../
       - name: checkout main branch
         uses: actions/checkout@v4
@@ -44,7 +43,7 @@ jobs:
       - name: test
         run: |
           ls -a
-          rm -rf *
+          rm -rf {*,.*} 2>/dev/null
           ls -a
           mv ../public/* .
       - name: Commit and push to main
