@@ -20,11 +20,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: node_modules
-          key: ${{ runner.OS }}-npm-cache
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('packages-lock.json') }}
           restore-keys: |
             ${{ runner.OS }}-npm-cache
       - name: Install Dependencies
-        run:  npm install
+        run:  |
+          npm install
+          ln -s node_modules/hexo-theme-shokax themes/shokax
       - name: Build the site
         run:  npm run build
       - name: Move public folder out
