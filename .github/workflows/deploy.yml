@@ -43,7 +43,9 @@ jobs:
           ref: main
       - name: test
         run: |
+          ls -a
           rm -rf *
+          ls -a
           mv ../public/* .
       - name: Commit and push to main
         run: |
