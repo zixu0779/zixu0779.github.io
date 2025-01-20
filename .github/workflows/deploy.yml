@@ -35,7 +35,7 @@ jobs:
         run: |
           git fetch origin main || git branch main
           git worktree add main main
-          rm -rf public/*
+          rm -rf main/*
           cp -r ./public/* main/
           cd main
       - name: Commit and push to main
