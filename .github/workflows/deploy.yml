@@ -50,5 +50,5 @@ jobs:
         run: |
           git add .
           git commit -m "Deploy to main branch" 2>/dev/null
-          git push origin main
+          git push origin main 2>/dev/null
           
