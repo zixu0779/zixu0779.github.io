@@ -1,0 +1,35 @@
+# language
+zh-CN:
+  favicon:
+    show: （●´3｀●）复活成功
+    hide: (´Д｀)浏览器崩溃啦
+  menu:
+    travellings: 开往
+  footer:
+    sentences: "%s"
+zh-TW:
+  favicon:
+    show: （●´3｀●）復活成功
+    hide: (´Д｀)瀏覽器崩潰啦
+  menu:
+    travellings: 開往
+  footer:
+    sentences: "%s"
+zh-HK:
+  favicon:
+    show: （●´3｀●）復活成功
+    hide: (´Д｀)瀏覽器崩潰啦
+  menu:
+    travellings: 開往
+  footer:
+    sentences: "%s"
+en:
+  menu:
+    travellings: Travellings
+  footer:
+    powered: "%s"
+ja:
+  menu:
+    travellings: 旅行
+  footer:
+    powered: "%s"

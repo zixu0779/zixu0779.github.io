@@ -1,2 +1,2 @@
 # Personal Blog
-Based on Hexo, with theme Shoka-x
+Based on Hexo, theme Shoka-X

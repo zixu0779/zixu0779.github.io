@@ -614,7 +614,7 @@ def debug(breakpoint=''):
     gdbscript += 'directory %sstdio-common/\n' % glibc_dir
     gdbscript += 'directory %sstdlib/\n' % glibc_dir
     gdbscript += 'directory %slibio/\n' % glibc_dir
-    elf_base = int(os.popen('pmap {}| awk \x27{{print \x241}}\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
+    elf_base = int(os.popen('pmap {}| awk \x27{ {print \x241} }\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
     gdbscript += 'b *{:#x}\n'.format(int(breakpoint) + elf_base) if isinstance(breakpoint, int) else breakpoint
     gdb.attach(p, gdbscript)
     time.sleep(1)
@@ -739,7 +739,7 @@ def debug(breakpoint=''):
     gdbscript += 'directory %sstdio-common/\n' % glibc_dir
     gdbscript += 'directory %sstdlib/\n' % glibc_dir
     gdbscript += 'directory %slibio/\n' % glibc_dir
-    elf_base = int(os.popen('pmap {}| awk \x27{{print \x241}}\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
+    elf_base = int(os.popen('pmap {}| awk \x27{ {print \x241} }\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
     gdbscript += 'b *{:#x}\n'.format(int(breakpoint) + elf_base) if isinstance(breakpoint, int) else breakpoint
     gdb.attach(p, gdbscript)
     time.sleep(1)
@@ -904,7 +904,7 @@ def debug(breakpoint=''):
     gdbscript += 'directory %sstdio-common/\n' % glibc_dir
     gdbscript += 'directory %sstdlib/\n' % glibc_dir
     gdbscript += 'directory %slibio/\n' % glibc_dir
-    elf_base = int(os.popen('pmap {}| awk \x27{{print \x241}}\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
+    elf_base = int(os.popen('pmap {}| awk \x27{ {print \x241} }\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
     gdbscript += 'b *{:#x}\n'.format(int(breakpoint) + elf_base) if isinstance(breakpoint, int) else breakpoint
     gdb.attach(p, gdbscript)
     time.sleep(1)

