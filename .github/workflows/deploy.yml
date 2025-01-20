@@ -28,6 +28,7 @@ jobs:
           npm install
           mkdir themes
           ln -s node_modules/hexo-theme-shokax themes/shokax
+          node ./node_modules/hexo-theme-shokax/toolbox/hoistdep.mjs
       - name: Build the site
         run:  npm run build
       - name: Move public folder out
