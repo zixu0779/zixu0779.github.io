@@ -23,24 +23,24 @@ jobs:
           key: ${{ runner.OS }}-npm-cache
           restore-keys: |
             ${{ runner.OS }}-npm-cache
-      - name: Install Dependencies
-        run:  npm install
-      - name: Build
-        run:  npm run build
+      # - name: Install Dependencies
+      #   run:  npm install
+      # - name: Build
+      #   run:  npm run build
       - name: Set up Git user
         run: |
           git config --global user.name "${{ github.actor }}"
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       - name: Copy public folder to main branch
         run: |
-          git fetch origin main || git branch main
-          git worktree add main main
-          rm -rf main/*
-          cp -r ./public/* main/
-          cd main
-      - name: Commit and push to main
-        run: |
-          git add --all
-          git commit -m "Deploy to main branch"
-          git push origin main
+          pwd
+          ls
+          git checkout main
+          pwd
+          ls
+      # - name: Commit and push to main
+      #   run: |
+      #     git add --all
+      #     git commit -m "Deploy to main branch"
+      #     git push origin main
           
