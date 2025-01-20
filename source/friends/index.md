@@ -26,7 +26,7 @@ date: 2023-04-27 00:20:43
 
 # 友链 :sparkling_heart:
 
-{% links %}
+{ % links % }
 
 - site: 咖啡豆子coffee的小站
   owner: 咖啡豆子coffee
@@ -65,4 +65,4 @@ date: 2023-04-27 00:20:43
   image: https://res.cloudinary.com/sycamore/image/upload/v1638117170/sycamore.top/favicon.png
   color: "#5daddc"
 
-{% endlinks %}
+{ % endlinks % }
