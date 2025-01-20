@@ -33,7 +33,6 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
       - name: Copy public folder to main branch
         run: |
-          ls
           mkdir public
           echo "111" > public/1.txt
           echo "222" > public/2.txt
@@ -44,12 +43,11 @@ jobs:
           ref: main
       - name: test
         run: |
+          rm -rf *
           mv ../public/* .
-          pwd
-          ls
-      # - name: Commit and push to main
-      #   run: |
-      #     git add --all
-      #     git commit -m "Deploy to main branch"
-      #     git push origin main
+      - name: Commit and push to main
+        run: |
+          git add .
+          git commit -m "Deploy to main branch"
+          git push origin main
           
