@@ -38,6 +38,7 @@ jobs:
           cp -r ./public/* main/
           cd public
       - name: Commit and push to main
+        run: |
           git add --all
           git commit -m "Deploy to main branch"
           git push origin main
