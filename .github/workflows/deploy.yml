@@ -28,7 +28,10 @@ jobs:
       - name: Build the site
         run:  npm run build
       - name: Move public folder out
-        run: mv public ../
+        run: |
+          ls public
+          cat public/index.html
+          mv public ../
       - name: Checkout main branch
         uses: actions/checkout@v4
         with: 
