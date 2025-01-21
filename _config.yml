@@ -98,15 +98,14 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: shokax
+theme: shokaX
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/zixu0779/zixu0779.github.io.git
+  repo: git@github.com:zixu0779/zixu0779.github.io.git
   branch: main
-  token: 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
   message: "Site updated"
 
 markdown:
