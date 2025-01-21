@@ -59,7 +59,7 @@ performance:
   # 使用dns-prefetch预解析的网址
   dnsPrefetch:
 
-playerAPI: "https://api.injahow.cn" # 结尾不带/,只填写域名
+playerAPI: "https://meting.sycamore.top" # 结尾不带/,只填写域名
 # 如果条件允许,请参考 https://github.com/injahow/meting-api 自建API
 # 使用vercel自行部署,请参考: https://github.com/xizeyoupan/Meting-API
 
@@ -243,11 +243,11 @@ social:
   #music: https://music.163.com/#/user/home?id=yourid || cloud-music || "#e60026"
   #weibo: https://weibo.com/yourname || weibo || "#ea716e"
   #about: https://about.me/yourname || address-card || "#3b5998"
-  #email: mailto:foo@xxx.com || envelope || "#55acd5"
+  email: mailto:sycamore.none@gmail.com || envelope || "#55acd5"
   #facebook: https://www.facebook.com/yourname || facebook
   #stackoverflow: https://stackoverflow.com/ || stack-overflow
   #youtube: https://youtube.com/yourname || youtube
-  #instagram: https://instagram.com/yourname || instagram
+  instagram: https://instagram.com/ziqixu41 || instagram
   #skype: skype:yourname?call|chat || skype
   #douban: https://www.douban.com/people/yourname/ || douban
 
@@ -329,10 +329,7 @@ creative_commons:
 audio:
   - title: 铃芽之旅
     list:
-    - https://music.163.com/#/playlist?id=8379150105
-  - title: English
-    list:
-    - https://music.163.com/#/playlist?id=8379011186
+    - https://music.163.com/#/playlist?id=13178747200
 
 # random image api
 image_server: # "https://acg.xydwz.cn/api/api.php"
@@ -423,5 +420,5 @@ livingtime:
 
 hitokoto: true
 
-# themes/shokax/layout/_mixin/widgets.pug: 随机文章数量
-# themes/shokax/source/js/_app/components/comments.ts & tcomments.ts: 评论数量
+# shokax/layout/_mixin/widgets.pug: 随机文章数量
+# shokax/source/js/_app/components/comments.ts & tcomments.ts: 评论数量
