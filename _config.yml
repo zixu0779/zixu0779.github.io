@@ -187,9 +187,9 @@ feed:
     output: "feed.json"
 
 algolia:
-  appId: 'OSL73NZXKJ'
-  apiKey: '62dde19a3b9ec3324dcc15afd6395384'
-  adminApiKey: 'b131da8fecaca440dcccede5e1865021'
+  appId: 'B86SK214ET'
+  apiKey: 'a976097516081f1eaa542accaf698069'
+  adminApiKey: 'd469811b9c73c7772868a568313ed88c'
   chunkSize: 5000
   indexName: "shokaX"
   fields:
