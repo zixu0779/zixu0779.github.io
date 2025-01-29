@@ -172,8 +172,7 @@ font:
 
 # //at.alicdn.com/t/c/font_4415496_59g1326wajd.css => 4415496_59g1326wajd
 # 自定义iconfont图标参见文档教程
-# //at.alicdn.com/t/c/font_4043376_m8a9usb48wc.css
-iconfont: "4043376_m8a9usb48wc"
+iconfont: "4043376_pettzy4qkih"
 
 menu:
   home: / || home
