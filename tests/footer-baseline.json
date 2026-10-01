@@ -1,0 +1,78 @@
+[
+  {
+    "theme": {
+      "busuanzi": {
+        "short": true,
+        "pv": {
+          "enable": true
+        },
+        "uv": {
+          "enable": true
+        }
+      },
+      "livingtime": {
+        "enable": true,
+        "createTime": "2021-11-20"
+      },
+      "hitokoto": true
+    },
+    "hash": "4500603d28a69482c22aa3b43b591ff9c4ca86066c00d88d4edbaf9883c47ac2"
+  },
+  {
+    "theme": {
+      "busuanzi": {
+        "short": true,
+        "pv": {
+          "enable": false
+        },
+        "uv": {
+          "enable": false
+        }
+      },
+      "livingtime": {
+        "enable": true,
+        "createTime": "2021-11-20"
+      },
+      "hitokoto": true
+    },
+    "hash": "4500603d28a69482c22aa3b43b591ff9c4ca86066c00d88d4edbaf9883c47ac2"
+  },
+  {
+    "theme": {
+      "busuanzi": {
+        "short": false,
+        "pv": {
+          "enable": true
+        },
+        "uv": {
+          "enable": true
+        }
+      },
+      "livingtime": {
+        "enable": true,
+        "createTime": "2021-11-20"
+      },
+      "hitokoto": true
+    },
+    "hash": "624fa2e3fbc375e6e35dfd2f05253468811e3081ca9d090b8a9c0e024975b3f1"
+  },
+  {
+    "theme": {
+      "busuanzi": {
+        "short": false,
+        "pv": {
+          "enable": false
+        },
+        "uv": {
+          "enable": false
+        }
+      },
+      "livingtime": {
+        "enable": true,
+        "createTime": "2021-11-20"
+      },
+      "hitokoto": true
+    },
+    "hash": "80cdbadd99caeb9b4a957131a52b2bbd6a09c4935e0dc9d590e372bbe90469f0"
+  }
+]
