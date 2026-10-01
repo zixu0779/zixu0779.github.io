@@ -1,0 +1,49 @@
+// Shared colors stay legible in both themes.
+:root {
+  --main-depth: 0 14px 36px rgba(39, 32, 48, .18), 0 3px 10px rgba(39, 32, 48, .1);
+  --card-depth: 0 6px 18px rgba(39, 32, 48, .16), 0 2px 5px rgba(39, 32, 48, .09);
+  --card-hover-depth: 0 14px 30px rgba(39, 32, 48, .24), 0 4px 10px rgba(39, 32, 48, .12);
+  --menu-ink: #333;
+  --menu-hover: #f9e4eb;
+  --menu-selected: #f4cbd9;
+}
+:root[data-theme="dark"] {
+  --main-depth: 0 14px 36px rgba(0, 0, 0, .48), 0 3px 10px rgba(0, 0, 0, .3);
+  --card-depth: 0 6px 18px rgba(0, 0, 0, .4), 0 2px 5px rgba(0, 0, 0, .24);
+  --card-hover-depth: 0 14px 30px rgba(0, 0, 0, .58), 0 4px 10px rgba(0, 0, 0, .32);
+  --menu-ink: #f3eaf0;
+  --menu-hover: #40323d;
+  --menu-selected: #654354;
+}
+
+#local-search {
+  margin: auto;
+  inset: 0;
+  width: 42rem;
+  max-width: calc(100vw - 2rem);
+  max-height: 80vh;
+  padding: 1.25rem;
+  border: 1px solid var(--grey-3);
+  border-radius: 1rem;
+  background: var(--grey-1);
+  color: var(--menu-ink);
+  box-shadow: 0 1rem 4rem rgba(0,0,0,.2);
+  &::backdrop { background: rgba(0,0,0,.45); backdrop-filter: blur(4px); }
+  .search-header { display: flex; gap: .75rem; align-items: center; margin-bottom: 1rem; }
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: .7rem;
+    background: var(--grey-2);
+    color: inherit;
+    border: 1px solid var(--grey-4);
+    border-radius: .5rem;
+  }
+  button { color: inherit; background: var(--menu-hover); border: 0; border-radius: .5rem; padding: .5rem .75rem; cursor: pointer; }
+  ul { padding: 0; list-style: none; }
+  li { border-top: 1px solid var(--grey-3); padding: .8rem 0; }
+  a { color: var(--color-aqua); font-weight: 600; }
+  p { margin: .5rem 0; font-size: .9rem; }
+}
+
+:root { --site-accent: #d47e9a; }

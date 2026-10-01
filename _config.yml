@@ -186,17 +186,3 @@ feed:
     template: "node_modules/hexo-theme-shokax/layout/_alternate/json.ejs"
     output: "feed.json"
 
-algolia:
-  appId: 'B86SK214ET'
-  apiKey: 'a976097516081f1eaa542accaf698069'
-  adminApiKey: 'd469811b9c73c7772868a568313ed88c'
-  chunkSize: 5000
-  indexName: "shokaX"
-  fields:
-    - title
-    - path
-    - categories
-    - content:strip:truncate,0,2000
-    - gallery
-    - photos
-    - tags

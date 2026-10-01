@@ -1,2 +1,1 @@
 hexo generate
-hexo algolia
