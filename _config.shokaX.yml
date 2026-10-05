@@ -1,4 +1,4 @@
-alternate: "Sycamore's Blog" # 站点大标题
+alternate: "" # 站点大标题
 
 statics: "/" # 静态文件根目录
 assets: "assets"
@@ -46,7 +46,7 @@ modules:
   player: true # 启用音乐播放器
   fireworks: true # 启用鼠标点击烟花特效
   unlazyHash: false # 启用unlazy hash预览图支持
-  visibilityListener: true # 启用可见度监听器
+  visibilityListener: false # 启用可见度监听器
   tabs: true # 启用选项卡扩展支持，如需开启 summary 功能请一并开启
   quiz: true # 启用文章内问题扩展支持
   fancybox: true # 启用 fancybox 支持（不建议禁用）
@@ -176,9 +176,6 @@ iconfont: "4043376_pettzy4qkih"
 
 menu:
   home: / || home
-  about:
-    default: /about/ || user
-    aboutsite: /about/ || cloud
   posts:
     default: / || feather
     archives: /archives/ || list-alt
@@ -234,7 +231,7 @@ summary:
 # Value before `||` delimiter is the target permalink,
 # secend value is the name of Font icon.
 social:
-  github: https://github.com/noneSycamore || github || "#191717"
+  github: https://github.com/zixu0779 || github || "#191717"
   #gitee: https://gitee.com/yourname || gitee || "#e60026"
   #google: https://plus.google.com/yourname || google
   #twitter: https://twitter.com/yourname || twitter || "#00aff0"
@@ -242,11 +239,11 @@ social:
   #music: https://music.163.com/#/user/home?id=yourid || cloud-music || "#e60026"
   #weibo: https://weibo.com/yourname || weibo || "#ea716e"
   #about: https://about.me/yourname || address-card || "#3b5998"
-  email: mailto:sycamore.none@gmail.com || envelope || "#55acd5"
+  email: mailto:zixu0779@gmail.com || envelope || "#55acd5"
+  bilibili: " || bilibili"
   #facebook: https://www.facebook.com/yourname || facebook
   #stackoverflow: https://stackoverflow.com/ || stack-overflow
   #youtube: https://youtube.com/yourname || youtube
-  instagram: https://instagram.com/ziqixu41 || instagram
   #skype: skype:yourname?call|chat || skype
   #douban: https://www.douban.com/people/yourname/ || douban
 
