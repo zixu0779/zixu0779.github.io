@@ -1,0 +1,25 @@
+extends _partials/layout.pug
+include _mixin/sidebar.pug
+include _mixin/comment.pug
+
+block title
+    != page.title
+
+block header
+    h1(itemprop="name headline")= page.title
+
+block content
+    - var sections = page.content.split('<!-- friend-application -->')
+    section(class="friend-links page wrap")
+        != partial('standalone-post.pug', {post: Object.assign(Object.create(page), {content: sections[0]}), standaloneReward: false})
+    section(class="friend-module wrap" aria-label="本站信息与友链申请")
+        != sections[1]
+    //- Keep the theme comment-loader anchor without the article copyright panel.
+    div(id="copyright" class="friend-comment-anchor" aria-hidden="true")
+        span.author(hidden)= config.author
+        span.link(hidden)= config.url
+        span.license(hidden)
+    +CommentRender
+
+block sidebar
+    +sidebarRender(false)

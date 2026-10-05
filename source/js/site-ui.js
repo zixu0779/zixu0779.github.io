@@ -1,6 +1,19 @@
 (() => {
   const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const updateAvatar = image => {
+    const avatar = image.closest('[data-avatar-fallback]');
+    if (!avatar) return;
+    const loaded = image.complete && image.naturalWidth > 0;
+    image.classList.toggle('avatar-loaded', loaded);
+    avatar.classList.toggle('avatar-placeholder', !loaded);
+  };
+  for (const type of ['load', 'error']) document.addEventListener(type, event => {
+    if (event.target.tagName === 'IMG') updateAvatar(event.target);
+  }, true);
   const refresh = () => {
+    document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {
+      updateAvatar(image);
+    });
     const sidebarMenu = document.querySelector('#sidebar .overview .menu');
     if (sidebarMenu && !sidebarMenu.dataset.hoverReady) {
       sidebarMenu.dataset.hoverReady = 'true';
@@ -66,6 +79,19 @@
     if (event.target.matches('#rightNav .search, .social .unlinked') && ['Enter', ' '].includes(event.key)) {
       event.preventDefault();
       event.target.click();
+    }
+  });
+  document.addEventListener('click', async event => {
+    const button = event.target.closest('[data-friend-copy]');
+    if (!button) return;
+    try {
+      await navigator.clipboard.writeText(button.dataset.friendCopy);
+      const label = button.innerHTML;
+      button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
+      button.title = '已复制';
+      setTimeout(() => { button.innerHTML = label; }, 1500);
+    } catch {
+      button.textContent = '请手动复制';
     }
   });
   document.addEventListener('click', event => {
