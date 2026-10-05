@@ -1,6 +1,21 @@
 (() => {
   const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const refresh = () => {
+    const sidebarMenu = document.querySelector('#sidebar .overview .menu');
+    if (sidebarMenu && !sidebarMenu.dataset.hoverReady) {
+      sidebarMenu.dataset.hoverReady = 'true';
+      const highlight = event => {
+        const link = event.target.closest('.item > a');
+        if (!link || !sidebarMenu.contains(link)) return;
+        const box = link.getBoundingClientRect(), menuBox = sidebarMenu.getBoundingClientRect();
+        for (const [key, value] of Object.entries({ x: box.left - menuBox.left, y: box.top - menuBox.top, w: box.width, h: box.height })) sidebarMenu.style.setProperty('--hover-' + key, value + 'px');
+        sidebarMenu.classList.toggle('hover-visible', !link.parentElement.classList.contains('active'));
+      };
+      sidebarMenu.addEventListener('pointerover', highlight);
+      sidebarMenu.addEventListener('focusin', highlight);
+      sidebarMenu.addEventListener('pointerleave', () => requestAnimationFrame(() => { if (!sidebarMenu.matches(':hover')) sidebarMenu.classList.remove('hover-visible'); }));
+      sidebarMenu.addEventListener('focusout', event => { if (!sidebarMenu.contains(event.relatedTarget) && !sidebarMenu.matches(':hover')) sidebarMenu.classList.remove('hover-visible'); });
+    }
     // The theme copies the sidebar menu into the top navigation first.
     if (document.querySelector('#nav .menu .dropdown')) {
       document.querySelector('#sidebar .overview .menu .dropdown')?.remove();
@@ -160,6 +175,51 @@
     search?.setAttribute('aria-label', '搜索博客');
     if (search) search.tabIndex = 0;
     refresh();
+    const sidebar = document.getElementById('sidebar');
+    const scroller = sidebar.querySelector('.panels > .inner');
+    const quick = sidebar.querySelector('#quick');
+    const desktop = matchMedia('(min-width: 992px)');
+    const holder = sidebar.querySelector(':scope > .inner');
+    let frame;
+    const updateSidebar = () => {
+      if (!desktop.matches) {
+        sidebar.classList.remove('desktop-docked');
+        sidebar.style.minHeight = '';
+        holder.style.height = '';
+        scroller.style.maxHeight = '';
+        scroller.style.overflow = '';
+        return;
+      }
+      const panelsStyle = getComputedStyle(sidebar.querySelector('.panels'));
+      const padding = parseFloat(panelsStyle.paddingTop) + parseFloat(panelsStyle.paddingBottom);
+      // Measure real panels, not the stretched scrolling viewport.
+      const naturalHeight = Array.from(scroller.children)
+        .filter(panel => getComputedStyle(panel).display !== 'none')
+        .reduce((height, panel) => height + panel.offsetHeight, 0);
+      const tabHeight = holder.querySelector('.tab')?.offsetHeight || 0;
+      const topSpace = parseFloat(getComputedStyle(holder).paddingTop) || 0;
+      const available = Math.max(0, innerHeight - quick.offsetHeight - tabHeight - padding - topSpace);
+      const shouldDock = document.querySelector('main').getBoundingClientRect().top <= 0;
+      sidebar.classList.toggle('desktop-docked', shouldDock);
+      sidebar.style.minHeight = naturalHeight + padding + tabHeight + topSpace + quick.offsetHeight + 'px';
+      holder.style.height = shouldDock ? innerHeight + 'px' : '';
+      const needsScroll = shouldDock && naturalHeight > available;
+      const shadowSpace = parseFloat(getComputedStyle(scroller).paddingTop) || 0;
+      scroller.style.maxHeight = needsScroll ? available + shadowSpace + 'px' : '';
+      scroller.style.overflow = needsScroll ? 'hidden auto' : 'visible';
+      if (!needsScroll) scroller.scrollTop = 0;
+    };
+    const scheduleSidebar = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(updateSidebar);
+    };
+    window.addEventListener('scroll', scheduleSidebar, { passive: true });
+    window.addEventListener('resize', scheduleSidebar);
+    const sidebarSize = new ResizeObserver(scheduleSidebar);
+    sidebar.querySelectorAll('.panel').forEach(panel => sidebarSize.observe(panel));
+    // Native scroll chaining passes subsequent wheel events to the page at either edge.
+    scroller.style.overscrollBehaviorY = 'auto';
+    updateSidebar();
     // Theme modules and PJAX can create the toolbar after DOMContentLoaded.
     new MutationObserver(refresh).observe(document.getElementById('container'), { childList: true, subtree: true });
   };

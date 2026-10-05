@@ -33,6 +33,28 @@
 
 :root[data-theme="dark"] .social .item.item:hover,
 :root[data-theme="dark"] .social .item.item:focus-visible { background: #70485e; }
+
+.overview .menu {
+  .item {
+    color: var(--menu-ink);
+    border-radius: .75rem;
+    transition: background-color .18s ease, color .18s ease;
+    &:hover, &:focus-within, &.expand { background: var(--menu-hover); color: var(--menu-ink); }
+    &.active, &.active:hover {
+      background: var(--menu-selected);
+      color: var(--menu-ink);
+      box-shadow: none;
+    }
+    a:focus-visible { outline: 2px solid var(--color-aqua); border-radius: .75rem; }
+  }
+
+}
+
+.overview .author { padding-top: .75rem; }
+.overview .author .image { max-width: 9rem; }
+:root[data-theme="dark"] .overview .author .name { margin-top: .75rem; }
+#sidebar.menu-visible #quick { display: flex; }
+#sidebar:not(.affix):not(.on) #quick { position: static; }
 .social .item.unlinked:hover i { animation: unavailable-shake .45s ease infinite; }
 .unavailable-message {
   position: fixed;
@@ -47,6 +69,14 @@
 }
 :root[data-theme="dark"] .unavailable-message { color: #f4aac7; }
 .unavailable-dust { position: fixed; z-index: 9999; pointer-events: none; }
+.overview .menu { padding: .5rem; }
+#sidebar.affix .panels > .inner { margin-top: 0; }
+#sidebar #quick.menu-clipped { visibility: hidden; pointer-events: none; }
+#sidebar.affix .panels, #sidebar.on .panels { padding-bottom: 3rem; }
+.overview .author .name a {
+  color: inherit;
+  &:hover { color: var(--color-aqua); }
+}
 
 #local-search {
   margin: auto;
@@ -77,7 +107,132 @@
   a { color: var(--color-aqua); font-weight: 600; }
   p { margin: .5rem 0; font-size: .9rem; }
 }
+@media (prefers-reduced-motion: reduce) {
+  .social .item.unlinked:hover i { animation: none; }
+  .overview .menu .item.dropdown > .submenu,
+  .social .item, .social .item i { transition: none; }
+}
+
+@media (min-width: 992px) {
+  #sidebar { align-self: stretch; transition: none; }
+  #sidebar > .inner, #sidebar.affix > .inner {
+    position: relative;
+    top: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  #sidebar .panels, #sidebar.affix .panels {
+    padding: 1.5rem 0 0;
+    height: auto;
+    min-height: 0;
+    width: 100%;
+  }
+  #sidebar .panels > .inner { margin-top: 0; height: auto; overflow-y: visible; }
+  #sidebar:has(.tab) .panels { padding-top: 4.6875rem; }
+  #sidebar.desktop-docked:has(.tab) .panels { padding-top: 3.625rem; }
+  #sidebar #quick {
+    display: flex;
+    position: static;
+    height: 40px;
+    flex-shrink: 0;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .2s ease, visibility .2s;
+  }
+  #sidebar.desktop-docked > .inner { position: fixed; top: 0; }
+  #sidebar.desktop-docked .panels { flex: 1; }
+  #sidebar.desktop-docked .panels > .inner { height: 100%; overflow-y: auto; }
+  #sidebar.desktop-docked #quick { opacity: 1; visibility: visible; pointer-events: auto; }
+}
 
 .unavailable-message { white-space: nowrap; width: max-content; max-width: none; }
+#sidebar .overview .menu { padding: 1.25rem; }
+#sidebar .overview .menu .item { background: transparent; box-shadow: none; transition: none; }
+#sidebar .overview .menu .item > a { border-radius: .75rem; transition: background-color .2s ease, color .2s ease; background: transparent; color: var(--menu-ink); }
+#sidebar .overview .menu .item > a:hover, #sidebar .overview .menu .item > a:focus-visible { background: var(--menu-hover); }
+#sidebar .overview .menu .item.active > a { background: var(--menu-selected); color: var(--menu-ink); box-shadow: none; }
+@media(min-width:992px) { :root[data-theme="dark"] #sidebar .panels > .inner { padding-top: .75rem; } }
+
+@media(min-width:992px) { #sidebar .overview .menu .item > a { max-width: 9.625rem; margin: 0 auto; } }
+
+// No clipping or internal scroll when the sidebar fits the viewport.
+@media(min-width:992px) {
+  #sidebar .panels, #sidebar.desktop-docked .panels { overflow: visible; min-height: 0; }
+  #sidebar .panels > .inner, #sidebar.desktop-docked .panels > .inner { height: auto; overflow: visible; padding: 0; }
+  :root[data-theme="dark"] #sidebar .panels > .inner { padding-top: 0; }
+  :root[data-theme="dark"] #sidebar .panels { padding-top: 2.25rem; }
+}
+
+/* Sidebar children occupy separate rows; no absolute tab or spacer padding. */
+@media(min-width:992px) {
+  #sidebar .tab, #sidebar.affix .tab { position: static; order: -1; flex-shrink: 0; align-self: center; padding: 0 0 .625rem; }
+  #sidebar .panels, #sidebar.affix .panels, #sidebar:has(.tab) .panels, #sidebar.desktop-docked:has(.tab) .panels,
+  :root[data-theme="dark"] #sidebar .panels { padding: 0; }
+  #sidebar .panels .panel { padding-top: 0; padding-bottom: 0; }
+  #sidebar .panels > .inner { padding-top: 0; }
+  #sidebar #quick { margin-top: auto; }
+}
+@media(min-width:992px) {
+  /* Keep a small panels inset while tabs occupy their own row. */
+  #sidebar .panels { padding-top: .625rem !important; }
+}
 
 :root { --site-accent: #d47e9a; }
+@media(min-width:992px) {
+  #sidebar > .inner { padding-top: 2rem; box-sizing: border-box; }
+}
+#sidebar #quick li.percent { display: none; }
+
+/* Sidebar scrollbars use one scoped style in both overview and article panels. */
+#sidebar .panels > .inner {
+  scrollbar-width: auto;
+  scrollbar-color: auto;
+}
+#sidebar .panels > .inner::-webkit-scrollbar { display: block; width: 6px; height: 6px; background: transparent; }
+#sidebar .panels > .inner::-webkit-scrollbar-track { background: transparent; }
+#sidebar .panels > .inner::-webkit-scrollbar-thumb { background: var(--site-accent); border: 0; border-radius: 6px; }
+
+#sidebar .overview .menu { padding: .375rem 1.25rem 0; }
+#sidebar .overview .menu .item:last-child { margin-bottom: 0; }
+#sidebar .overview .menu .item.active,
+#sidebar .overview .menu .item.active:hover { background: transparent; box-shadow: none; }
+#sidebar .overview .menu .item > a { border-radius: .9375rem; }
+#sidebar .overview .menu .item:not(.active) > a:hover,
+#sidebar .overview .menu .item:not(.active) > a:focus-visible { background: var(--menu-selected); }
+#sidebar .overview .menu .item.active > a,
+#sidebar .overview .menu .item.active > a:hover {
+  background: linear-gradient(to right, var(--color-pink), var(--color-orange));
+  color: #fff;
+  box-shadow: none;
+}
+
+/* Extend the scroll viewport into existing top space without moving its contents. */
+@media(min-width:992px) {
+  #sidebar .panels > .inner, #sidebar.affix .panels > .inner, #sidebar.desktop-docked .panels > .inner,
+  :root[data-theme="dark"] #sidebar .panels > .inner {
+    padding-top: 2rem;
+    margin-top: -2rem;
+    box-sizing: border-box;
+  }
+  #sidebar .tab { position: relative; z-index: 2; }
+}
+
+#sidebar .overview .menu[data-hover-ready] { position: relative; isolation: isolate; }
+#sidebar .overview .menu[data-hover-ready]::before {
+  content: ''; position: absolute; left: var(--hover-x, 20px); top: 0;
+  width: var(--hover-w, 9.625rem); height: var(--hover-h, 3rem);
+  transform: translateY(var(--hover-y, 0px)); border-radius: .9375rem;
+  background: var(--menu-selected); opacity: 0; pointer-events: none;
+  transition: transform .16s ease, opacity .12s ease;
+}
+#sidebar .overview .menu.hover-visible::before { opacity: 1; }
+#sidebar .overview .menu[data-hover-ready] .item { background: transparent; box-shadow: none; }
+#sidebar .overview .menu[data-hover-ready] .item > a { position: relative; z-index: 1; transition: color .16s ease; }
+#sidebar .overview .menu[data-hover-ready] .item:not(.active) > a:hover,
+#sidebar .overview .menu[data-hover-ready] .item:not(.active) > a:focus-visible { background: transparent; }
+#sidebar .overview .menu[data-hover-ready] .item.active > a { transition: box-shadow .2s ease-in-out; }
+#sidebar .overview .menu[data-hover-ready] .item.active > a:hover,
+#sidebar .overview .menu[data-hover-ready] .item.active > a:focus-visible { box-shadow: 0 0 .75rem var(--color-pink); }
