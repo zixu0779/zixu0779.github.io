@@ -70,6 +70,15 @@
         link.tabIndex = 0;
       }
     });
+    const name = document.querySelector('#sidebar .author .name');
+    if (name && !name.querySelector('a')) {
+      const link = document.createElement('a');
+      link.href = '/about/';
+      link.title = '关于我';
+      link.setAttribute('aria-label', `${name.textContent}：关于我`);
+      link.textContent = name.textContent;
+      name.replaceChildren(link);
+    }
     document.querySelectorAll('[itemprop="copyrightYear"]').forEach(el => {
       const year = String(new Date().getFullYear());
       if (el.textContent !== year) el.textContent = year;

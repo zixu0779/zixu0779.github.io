@@ -1,0 +1,22 @@
+extends _partials/layout.pug
+include _mixin/sidebar.pug
+include _mixin/comment.pug
+
+block title
+    != page.title
+block header
+    h1(itemprop="name headline")= page.title
+block content
+    - var sections = page.content.split('<!-- about-extras -->')
+    div(class="about-page")
+        section(class="about-body page wrap")
+            != partial('standalone-post.pug', {post: Object.assign(Object.create(page), {content: sections[0]}), standaloneReward: true})
+        section(class="about-modules" aria-label="所在地与人格")
+            != sections[1]
+        div(id="copyright" class="friend-comment-anchor" aria-hidden="true")
+            span.author(hidden)= config.author
+            span.link(hidden)= page.permalink
+            span.license(hidden)
+        +CommentRender
+block sidebar
+    +sidebarRender(false)
