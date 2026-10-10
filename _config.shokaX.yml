@@ -43,7 +43,7 @@ homeConfig:
 # ShokaX 模块化分包引入设置
 # 请关闭所有不使用的模块以优化主题 js 体积和性能
 modules:
-  player: true # 启用音乐播放器
+  player: false # 使用项目独立的 Astro 同款 Nyx Player
   fireworks: true # 启用鼠标点击烟花特效
   unlazyHash: false # 启用unlazy hash预览图支持
   visibilityListener: false # 启用可见度监听器

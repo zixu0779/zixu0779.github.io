@@ -79,13 +79,27 @@
       link.textContent = name.textContent;
       name.replaceChildren(link);
     }
+    const tool = document.getElementById('tool');
+    if (tool && !tool.querySelector('#nyx-show-btn')) {
+      const player = tool.querySelector('.player');
+      if (player) player.innerHTML = '<button id="nyx-show-btn" aria-label="显示或隐藏播放器"><i class="ic i-music"></i></button><button id="nyx-play-btn" aria-label="播放或暂停"><i class="ic i-play"></i></button>';
+      const top = tool.querySelector('.back-to-top');
+      const chat = tool.querySelector('.chat');
+      if (top) tool.prepend(top);
+      if (chat) top?.after(chat);
+      if (player) chat?.after(player);
+      for (const [selector, label] of [['.back-to-top', '返回顶部'], ['.contents', '切换侧栏']]) {
+        const button = tool.querySelector(selector);
+        if (button) { button.setAttribute('role', 'button'); button.setAttribute('aria-label', label); button.tabIndex = 0; }
+      }
+    }
     document.querySelectorAll('[itemprop="copyrightYear"]').forEach(el => {
       const year = String(new Date().getFullYear());
       if (el.textContent !== year) el.textContent = year;
     });
   };
   document.addEventListener('keydown', event => {
-    if (event.target.matches('#rightNav .search, .social .unlinked') && ['Enter', ' '].includes(event.key)) {
+    if (event.target.matches('#rightNav .search, .social .unlinked, #tool .back-to-top, #tool .contents') && ['Enter', ' '].includes(event.key)) {
       event.preventDefault();
       event.target.click();
     }
