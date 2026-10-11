@@ -10,6 +10,7 @@ hexo.extend.filter.register('before_generate', () => {
     .replace("        if theme.creative_commons.license\n            != partial('_partials/post/copyright.pug')", '')
     .replace("    != shokax_inject('postBodyEnd')", ''));
 
+  hexo.theme.setView('_partials/post/reward.pug', readFileSync(join(hexo.source_dir, '_layouts/reward.pug'), 'utf8'));
   for (const name of ['page', 'archive']) hexo.theme.setView(name + '.pug', readFileSync(join(hexo.source_dir, '_layouts/' + name + '.pug'), 'utf8'));
   hexo.theme.setView('about.pug', readFileSync(join(hexo.source_dir, '_layouts/about.pug'), 'utf8'));
   hexo.theme.setView('_partials/post/copyright.pug', readFileSync(join(hexo.source_dir, '_layouts/copyright.pug'), 'utf8'));

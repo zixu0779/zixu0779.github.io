@@ -10,7 +10,7 @@ const content = {
 };
 const details = {dataset:{},open:false,querySelectorAll:()=>rows,closest:()=>({parentElement:{}}),addEventListener:(name,fn)=>listeners[name]=fn,
   querySelector:selector=>selector==='.category-content'?content:selector==='.category-pagination'?nav:selector.includes('.page-number')?label:selector.includes('"-1"')?previous:next};
-vm.runInNewContext(code.slice(code.indexOf("    document.querySelectorAll('.category-group details"),code.indexOf('    const sidebarMenu')), {
+vm.runInNewContext(code.slice(code.indexOf("    document.querySelectorAll('.category-group details"),code.indexOf('    const topButton')), {
  document:{querySelectorAll:selector=>selector.includes('not([data-ready])')?[details]:[]},reducedMotion:()=>false,categorySize:{observe(){}},scheduleLayout(){},Event
 });
 const summary = () => listeners.click({target:{closest:selector=>selector==='summary'?{}:null},preventDefault(){}});

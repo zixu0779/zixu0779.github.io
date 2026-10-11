@@ -15,6 +15,11 @@
   --menu-hover: #40323d;
   --menu-selected: #654354;
 }
+#main { box-shadow: var(--main-depth); }
+.segments > .item {
+  box-shadow: var(--card-depth);
+  &:hover, &:focus-within { box-shadow: var(--card-hover-depth); }
+}
 
 .social .item.item {
   border-radius: .65rem;
@@ -56,6 +61,10 @@
 #sidebar.menu-visible #quick { display: flex; }
 #sidebar:not(.affix):not(.on) #quick { position: static; }
 .social .item.unlinked:hover i { animation: unavailable-shake .45s ease infinite; }
+@keyframes unavailable-shake {
+  25%, 75% { transform: rotate(-12deg); }
+  50% { transform: rotate(12deg); }
+}
 .unavailable-message {
   position: fixed;
   z-index: 9999;
@@ -77,6 +86,9 @@
   color: inherit;
   &:hover { color: var(--color-aqua); }
 }
+
+#comments, #new-comment { scroll-margin-top: 5rem; }
+#tool .chat[hidden] { display: none; }
 
 #local-search {
   margin: auto;
@@ -410,12 +422,32 @@ main:has(.friend-module) #quick .percent { display: none; }
   :root[data-theme="dark"] #sidebar .panels > .inner { padding-top: 0; }
   :root[data-theme="dark"] #sidebar .panels { padding-top: 2.25rem; }
 }
+html { background: var(--grey-1); color-scheme: light; scrollbar-color: #b47790 var(--grey-1); }
+:root[data-theme="dark"] { color-scheme: dark; scrollbar-color: #897383 var(--grey-1); }
+::-webkit-scrollbar { width: 10px; background: var(--grey-1); }
+::-webkit-scrollbar-track { background: var(--grey-1); }
+::-webkit-scrollbar-thumb { background: #b47790; border: 2px solid var(--grey-1); border-radius: 8px; }
+:root[data-theme="dark"]::-webkit-scrollbar-thumb { background: #897383; }
 .timeline .item, .collapse .item { --timeline-center: 2rem; }
 .timeline .item.section, .collapse .item.section { --timeline-center: 2.09375rem; }
 .timeline .item.normal, .collapse .item.normal { --timeline-center: 1.625rem; }
 .timeline .item::before, .collapse .item::before { top: var(--timeline-center); transform: translateY(-50%); }
 .timeline .item::after, .collapse .item::after { top: var(--timeline-center); }
 .taxonomy-overview > .item.title { line-height: 1.5; }
+#tool#tool {
+  position: fixed; right: 1rem; bottom: 1rem; width: 42px; top: auto; padding: .4rem .15rem;
+  display: flex; flex-direction: column; gap: .4rem; border: 1px solid var(--grey-3); border-radius: .75rem;
+  background: var(--grey-1-a7); color: var(--grey-6); box-shadow: 0 .5rem 1.25rem var(--box-bg-shadow);
+  backdrop-filter: blur(12px); transform: none;
+}
+#tool#tool .item { width: 100%; margin: 0; padding: 0; background: none; box-shadow: none; }
+#tool#tool .player { display: contents; }
+#tool#tool .back-to-top { display: flex; flex-direction: column; align-items: center; }
+#tool#tool .back-to-top span { font-size: .6875rem; line-height: 1; }
+#tool#tool .ic { font-size: 1.1rem; line-height: 2.125rem; }
+#tool#tool button, #tool#tool .chat, #tool#tool .contents { width: 34px; height: 34px; border: 0; border-radius: .625rem; background: transparent; color: inherit; cursor: pointer; }
+#tool#tool button:hover, #tool#tool .chat:hover, #tool#tool .back-to-top:hover { color: var(--primary-color); background: var(--menu-hover); }
+@media(min-width:992px) { #tool#tool .contents { display: none; } }
 
 /* Markers follow the first text line, including category/tag detail pages. */
 .timeline .item::before,
@@ -460,7 +492,26 @@ main:has(.friend-module) #quick .percent { display: none; }
 }
 .friend-steps .friend-note { margin-top: .5rem; color: var(--grey-5); font-size: .85rem; line-height: 1.7; }
 
+/* Same solid surrounding background and separated card bottom as the friends page. */
+main { background: var(--body-bg-shadow); }
+#main:not(:has(.friend-module)) { background: var(--grey-1); border-radius: 1rem; margin-bottom: 2.5rem; }
+
 .category-directory summary::-webkit-details-marker { display: none; }
+
+#tool#tool { color: var(--site-accent); }
+#tool#tool .item { opacity: 1; transition: none; }
+#tool#tool .chat:not([hidden]) { display: flex !important; }
+#tool#tool .back-to-top { height: auto; }
+#tool#tool .back-to-top:hover { background: transparent; color: inherit; }
+#tool#tool .back-to-top > .ic { width: 34px; height: 34px; border-radius: .625rem; cursor: pointer; }
+#tool#tool button, #tool#tool .chat, #tool#tool .contents, #tool#tool .back-to-top > .ic { transition: background-color .2s ease, color .2s ease; transform: none; }
+#tool#tool button:hover, #tool#tool .chat:hover, #tool#tool .back-to-top > .ic:hover, #tool#tool .back-to-top:focus-visible > .ic { color: var(--site-accent); background: var(--menu-hover); opacity: 1; }
+#tool#tool .ic { transform: none; }
+/* Keep the negative cover layer above body/root backgrounds, inside the site. */
+#container { isolation: isolate; }
+#container:not(:has(.friend-module)) main,
+#container:not(:has(.friend-module)) #footer { background: var(--grey-2); }
+#quick .percent { display: none; }
 #sidebar #quick li.percent { display: none; }
 
 /* Sidebar scrollbars use one scoped style in both overview and article panels. */
@@ -486,6 +537,12 @@ main:has(.friend-module) #quick .percent { display: none; }
   box-shadow: none;
 }
 
+#tool#tool, #tool#tool .item, #tool#tool .ic, #tool#tool button {
+  color: var(--site-accent);
+  text-shadow: none;
+  filter: none;
+}
+
 /* Extend the scroll viewport into existing top space without moving its contents. */
 @media(min-width:992px) {
   #sidebar .panels > .inner, #sidebar.affix .panels > .inner, #sidebar.desktop-docked .panels > .inner,
@@ -496,6 +553,12 @@ main:has(.friend-module) #quick .percent { display: none; }
   }
   #sidebar .tab { position: relative; z-index: 2; }
 }
+
+
+/* Only cards touching the cover have square top corners. */
+#main:not(:has(.friend-module)):not(:has(.about-page)),
+#main .friend-links,
+#main .about-body { border-radius: 0 0 1rem 1rem; }
 
 #sidebar .overview .menu[data-hover-ready] { position: relative; isolation: isolate; }
 #sidebar .overview .menu[data-hover-ready]::before {
@@ -563,6 +626,7 @@ main:has(.friend-module) #quick .percent { display: none; }
 .category-directory .item.normal[hidden] { display: none; }
 .category-directory .category-pagination { margin: .5rem 0 1rem 1.875rem; }
 .category-directory .category-pagination[hidden] { display: none; }
+#tool#tool .back-to-top > span:not(.page-scroll-progress) { display: none; }
 #sidebar .overview .menu[data-hover-ready] .item.active > a { transition: box-shadow .2s ease-in-out; }
 #sidebar .overview .menu[data-hover-ready] .item.active > a:hover,
 #sidebar .overview .menu[data-hover-ready] .item.active > a:focus-visible { box-shadow: 0 0 .75rem var(--color-pink); }

@@ -1,5 +1,11 @@
 (() => {
   const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Keep native copying; the theme's bubbling handler appends copyright text.
+  document.addEventListener('copy', event => {
+    if (event.target.closest?.('.post.block')) event.stopPropagation();
+  }, true);
+  let commentCorrection;
+  const commentTarget = () => document.getElementById('comments') || document.getElementById('new-comment')?.parentElement;
   const updateAvatar = image => {
     const avatar = image.closest('[data-avatar-fallback]');
     if (!avatar) return;
@@ -10,6 +16,14 @@
   for (const type of ['load', 'error']) document.addEventListener(type, event => {
     if (event.target.tagName === 'IMG') updateAvatar(event.target);
   }, true);
+  const updateProgress = () => {
+    const root = document.scrollingElement;
+    const maximum = Math.max(0, root.scrollHeight - root.clientHeight);
+    const offset = Math.max(0, root.scrollTop);
+    const value = maximum > 0 ? (offset >= maximum - .5 ? 100 : Math.min(99, Math.floor(offset / maximum * 100))) : 100;
+    const label = document.querySelector('#tool .page-scroll-progress');
+    if (label && label.textContent !== value + '%') label.textContent = value + '%';
+  };
   const updateCategoryLines = () => {
     document.querySelectorAll('.category-directory > section').forEach(section => {
       const nodes = Array.from(section.querySelectorAll('.item')).filter(node => !node.hidden && (!node.closest('details') || node.matches('summary') || node.closest('details').open));
@@ -22,12 +36,45 @@
   let layoutFrame;
   const scheduleLayout = () => {
     cancelAnimationFrame(layoutFrame);
-    layoutFrame = requestAnimationFrame(() => { updateCategoryLines(); });
+    layoutFrame = requestAnimationFrame(() => { updateProgress(); updateCategoryLines(); });
   };
   window.addEventListener('scroll', scheduleLayout, { passive: true });
   window.addEventListener('resize', scheduleLayout);
   const categorySize = new ResizeObserver(scheduleLayout);
+  let commentAnchor;
+  const locateComment = () => {
+    const id = location.hash.slice(1);
+    if (!/^[a-f0-9]{24}$/i.test(id)) { commentAnchor = null; return; }
+    const key = location.pathname + location.hash;
+    if (commentAnchor?.key !== key) commentAnchor = { key, loading: false, found: false };
+    if (commentAnchor.found) return;
+    const section = document.getElementById('comments');
+    if (!section) return;
+    const target = document.getElementById(id);
+    if (target && section.contains(target)) {
+      commentAnchor.found = true;
+      target.scrollIntoView({ behavior: 'instant', block: 'center' });
+      // Correct the theme's later initial-position animation, only for this navigation.
+      setTimeout(() => { if (location.pathname + location.hash === key && target.isConnected) target.scrollIntoView({ behavior: 'instant', block: 'center' }); }, 700);
+    } else if (!commentAnchor.loading) {
+      commentAnchor.loading = true;
+      (document.getElementById('copyright') || section).scrollIntoView({ behavior: 'instant', block: 'center' });
+    }
+  };
+  window.addEventListener('hashchange', locateComment);
+  document.addEventListener('click', event => {
+    const link = event.target.closest('#new-comment a');
+    if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const url = new URL(link.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || !/^#[a-f0-9]{24}$/i.test(url.hash)) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    location.hash = url.hash;
+    commentAnchor = null;
+    locateComment();
+  }, true);
   const refresh = () => {
+    locateComment();
     document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {
       updateAvatar(image);
     });
@@ -73,6 +120,13 @@
       update();
       categorySize.observe(details.closest('.category-group').parentElement);
     });
+    const topButton = document.querySelector('#tool .back-to-top');
+    if (topButton && !topButton.querySelector('.page-scroll-progress')) {
+      const label = document.createElement('span');
+      label.className = 'page-scroll-progress';
+      topButton.append(label);
+    }
+    scheduleLayout();
     const sidebarMenu = document.querySelector('#sidebar .overview .menu');
     if (sidebarMenu && !sidebarMenu.dataset.hoverReady) {
       sidebarMenu.dataset.hoverReady = 'true';
@@ -152,13 +206,35 @@
         if (button) { button.setAttribute('role', 'button'); button.setAttribute('aria-label', label); button.tabIndex = 0; }
       }
     }
+    const comments = commentTarget();
+    const chat = document.querySelector('#tool .chat');
+    if (chat) {
+      chat.hidden = !comments;
+      chat.title = document.getElementById('comments') ? '前往评论区' : '前往最新评论';
+      chat.setAttribute('role', 'button');
+      chat.tabIndex = comments ? 0 : -1;
+    }
     document.querySelectorAll('[itemprop="copyrightYear"]').forEach(el => {
       const year = String(new Date().getFullYear());
       if (el.textContent !== year) el.textContent = year;
     });
   };
+  document.addEventListener('click', event => {
+    if (!event.target.closest('#tool .chat')) return;
+    // The theme treats a missing comment target as scroll position zero.
+    event.stopImmediatePropagation();
+    event.preventDefault();
+    const comments = commentTarget();
+    if (!comments) return;
+    clearTimeout(commentCorrection);
+    comments.scrollIntoView({ behavior: reducedMotion() ? 'instant' : 'smooth', block: 'start' });
+    // Lazy-loaded article images can shift the destination during the scroll.
+    commentCorrection = setTimeout(() => {
+      if (comments.isConnected) comments.scrollIntoView({ behavior: 'instant', block: 'start' });
+    }, 700);
+  }, true);
   document.addEventListener('keydown', event => {
-    if (event.target.matches('#rightNav .search, .social .unlinked, #tool .back-to-top, #tool .contents') && ['Enter', ' '].includes(event.key)) {
+    if (event.target.matches('#rightNav .search, .social .unlinked, #tool .back-to-top, #tool .contents, #tool .chat') && ['Enter', ' '].includes(event.key)) {
       event.preventDefault();
       event.target.click();
     }
