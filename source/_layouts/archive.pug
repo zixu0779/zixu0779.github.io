@@ -1,0 +1,31 @@
+extends _partials/layout.pug
+
+block title
+    != __('title.archive')
+
+block header
+    h1(itemprop="name headline")= __('title.archive')
+
+block content
+    div(class="astro-archive wrap")
+        div(class="timeline")
+            h2(class="item header")
+                | 共 #{site.posts.length} 篇文章。
+                small(class="cheers")
+                    != __('cheers.ok') + '，'
+                    != __('keep_on')
+            - var posts = site.posts.sort('-date').toArray()
+            - var previous = ''
+            each post in posts
+                - var year = date(post.date, 'YYYY')
+                - var month = date(post.date, 'M')
+                - var key = year + '-' + month
+                if key !== previous
+                    - var count = posts.filter(p => date(p.date, 'YYYY-M') === key).length
+                    h3(class="item section")
+                        span #{year} #{__('symbol.year')}
+                        small /
+                        span #{month} #{__('symbol.month')}
+                        small (#{count})
+                    - previous = key
+                != archive_row(post)
