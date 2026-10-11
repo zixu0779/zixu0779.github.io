@@ -33,7 +33,7 @@ block content
         div(class="collapse wrap taxonomy-overview")
             h2(class="item title")
                 != _p('counter.categories', site.categories.length)
-            != _list_categories(3)
+            != category_directory()
     else if page.type === 'tags'
         div(class="collapse wrap taxonomy-overview")
             h2(class="item title")

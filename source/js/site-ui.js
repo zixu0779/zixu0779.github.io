@@ -10,9 +10,68 @@
   for (const type of ['load', 'error']) document.addEventListener(type, event => {
     if (event.target.tagName === 'IMG') updateAvatar(event.target);
   }, true);
+  const updateCategoryLines = () => {
+    document.querySelectorAll('.category-directory > section').forEach(section => {
+      const nodes = Array.from(section.querySelectorAll('.item')).filter(node => !node.hidden && (!node.closest('details') || node.matches('summary') || node.closest('details').open));
+      const box = section.getBoundingClientRect();
+      const center = node => node.getBoundingClientRect().top - box.top + parseFloat(getComputedStyle(node, '::before').top);
+      const values = { '--line-start': center(nodes[0]), '--line-solid': center(nodes[1]), '--line-end': Math.min(box.height, center(nodes.at(-1))) };
+      for (const [key, value] of Object.entries(values)) if (section.style.getPropertyValue(key) !== value + 'px') section.style.setProperty(key, value + 'px');
+    });
+  };
+  let layoutFrame;
+  const scheduleLayout = () => {
+    cancelAnimationFrame(layoutFrame);
+    layoutFrame = requestAnimationFrame(() => { updateCategoryLines(); });
+  };
+  window.addEventListener('scroll', scheduleLayout, { passive: true });
+  window.addEventListener('resize', scheduleLayout);
+  const categorySize = new ResizeObserver(scheduleLayout);
   const refresh = () => {
     document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {
       updateAvatar(image);
+    });
+    document.querySelectorAll('.category-group details:not([data-ready])').forEach(details => {
+      details.dataset.ready = 'true';
+      let page = 0, animation;
+      const content = details.querySelector('.category-content');
+      const rows = Array.from(details.querySelectorAll('.category-full .item.normal'));
+      const pages = Math.ceil(rows.length / 5);
+      const update = () => {
+        rows.forEach((row, index) => { row.hidden = Math.floor(index / 5) !== page; });
+        details.querySelector('.category-pagination').hidden = pages <= 1;
+        details.querySelector('.category-pagination .page-number').textContent = `${page + 1} / ${pages}`;
+        details.querySelector('[data-category-page="-1"]').disabled = page === 0;
+        details.querySelector('[data-category-page="1"]').disabled = page === pages - 1;
+      };
+      const transition = (change, close = false) => {
+        const from = details.open ? content.getBoundingClientRect().height : 0;
+        animation?.cancel();
+        details.open = true;
+        change();
+        const to = close ? 0 : content.getBoundingClientRect().height;
+        details.dataset.expanded = String(!close);
+        animation = content.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: reducedMotion() ? 0 : 240, easing: 'ease-in-out' });
+        animation.onfinish = () => { if (close) details.open = false; scheduleLayout(); };
+      };
+      details.addEventListener('category:close', () => transition(() => {}, true));
+      details.addEventListener('click', event => {
+        if (event.target.closest('summary')) {
+          event.preventDefault();
+          const close = details.dataset.expanded === 'true';
+          if (!close) document.querySelectorAll('.category-group details[data-expanded="true"]').forEach(other => { if (other !== details) other.dispatchEvent(new Event('category:close')); });
+          transition(() => { if (!close) { page = 0; update(); } }, close);
+          return;
+        }
+        const button = event.target.closest('[data-category-page]');
+        if (!button || button.disabled) return;
+        transition(() => {
+          page = Math.max(0, Math.min(pages - 1, page + Number(button.dataset.categoryPage)));
+          update();
+        });
+      });
+      update();
+      categorySize.observe(details.closest('.category-group').parentElement);
     });
     const sidebarMenu = document.querySelector('#sidebar .overview .menu');
     if (sidebarMenu && !sidebarMenu.dataset.hoverReady) {
