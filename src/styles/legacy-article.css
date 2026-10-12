@@ -1,0 +1,396 @@
+.i-check:before,
+.md ol > li.quiz > ul.options li.right::after,
+.md ol > li.quiz.show.true::after {
+  content: "";
+}
+.i-times:before,
+.md ol > li.quiz > ul.options li.wrong::after,
+.md ol > li.quiz.show.false::after {
+  content: "";
+}
+.i-arrow-circle-right:before,
+.md .note.default::before {
+  content: "";
+}
+.i-check-circle:before,
+.md ul li.task-list-item input[type="checkbox"]:checked + label::before,
+.md .note.success::before {
+  content: "";
+}
+.i-exclamation-circle:before,
+.md .note.warning::before {
+  content: "";
+}
+.i-info-circle:before,
+.md .note.info::before {
+  content: "";
+}
+.i-minus-circle:before,
+.md .note.danger::before {
+  content: "";
+}
+.i-plus-circle:before,
+.md .note.primary::before {
+  content: "";
+}
+.slide,
+.md ol > li.quiz.show blockquote,
+.md ol > li.quiz.show .note {
+  animation: slide 0.5s;
+}
+.elastic,
+.highlight.fullscreen {
+  animation: elastic 1s;
+}
+.table-container table td p:last-child,
+.table-container table td pre:last-child,
+.table-container table td .highlight:last-child {
+  margin: 0;
+}
+.md .note h1,
+.md .tabs .tab-content .tab-pane h1,
+.md .note h2,
+.md .tabs .tab-content .tab-pane h2,
+.md .note h3,
+.md .tabs .tab-content .tab-pane h3,
+.md .note h4,
+.md .tabs .tab-content .tab-pane h4,
+.md .note h5,
+.md .tabs .tab-content .tab-pane h5,
+.md .note h6,
+.md .tabs .tab-content .tab-pane h6 {
+  margin: 0 0.3125rem;
+}
+.md .spoiler:not(.bulr) {
+  background-color: var(--text-color);
+  color: var(--text-color);
+  text-shadow: none;
+  transition: color 0.3s;
+  padding: 0 0.1875rem;
+}
+.md .spoiler:not(.bulr):hover {
+  color: #fff;
+}
+.highlight {
+  background: var(--grey-2);
+  color: var(--grey-7);
+  line-height: 1.6;
+  margin: 1.25rem auto;
+}
+.highlight {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.3125rem 0.625rem -0.125rem var(--grey-9-a1);
+}
+.highlight *::selection {
+  background: var(--grey-4);
+}
+.highlight::before {
+  content: " ";
+  position: absolute;
+  border-radius: 50%;
+  background: #fc625d;
+  width: 0.75rem;
+  height: 0.75rem;
+  left: 0.75rem;
+  top: 0.8125rem;
+  box-shadow:
+    1.25rem 0 #fdbc40,
+    2.5rem 0 #35cd4b;
+}
+.highlight figcaption {
+  color: var(--grey-4);
+  display: inline-flex;
+  font-size: 0.875em;
+  font-weight: 700;
+  padding: 0 6rem 0 5rem;
+  min-height: 2.5rem;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--grey-3);
+  margin-bottom: 0.625rem;
+}
+.highlight figcaption::before {
+  content: attr(data-lang);
+  text-transform: Capitalize;
+}
+.highlight figcaption span,
+.highlight figcaption a {
+  display: block;
+  margin-left: 0.625rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.highlight figcaption a {
+  color: var(--grey-5);
+}
+.highlight figcaption a:hover {
+  color: var(--grey-6);
+}
+.highlight.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-width: 100%;
+  z-index: 9999;
+  margin: 0;
+  border-radius: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.highlight.fullscreen .show-btn {
+  position: fixed;
+}
+.highlight.breakline .code-container table {
+  line-break: anywhere;
+  white-space: break-spaces;
+}
+.highlight.breakline .code-container table pre {
+  white-space: break-spaces;
+}
+.md ol > li.quiz > ul.options li.right::before,
+.md ol > li.quiz.show.true::before {
+  color: var(--color-green);
+}
+.md ol > li.quiz > ul.options li.right::after,
+.md ol > li.quiz.show.true::after {
+  color: var(--color-green);
+  animation: fadeIn 0.5s;
+}
+.md ol > li.quiz > ul.options li.wrong::before,
+.md ol > li.quiz.show.false::before {
+  color: var(--color-red);
+}
+.md ol > li.quiz > ul.options li.wrong::after,
+.md ol > li.quiz.show.false::after {
+  color: var(--color-red);
+  animation: fadeIn 0.5s;
+}
+.md ol > li.quiz {
+  margin: 0.625rem 0;
+}
+.md ol > li.quiz::before {
+  counter-increment: counter;
+  content: counter(counter) ".";
+  position: absolute;
+  color: var(--primary-color);
+  text-align: right;
+  width: 2rem;
+  left: -2.2rem;
+  height: auto;
+  background: none !important;
+  border: none !important;
+  font-size: 1em;
+}
+.md ol > li.quiz > p {
+  margin: 0;
+  cursor: pointer;
+}
+.md ol > li.quiz > p:first-child::before {
+  content: "[" attr(data-type) "]";
+  font-size: 0.75em;
+  color: var(--grey-4);
+  margin: auto 0.3125rem;
+}
+.md ol > li.quiz.mistake > p:first-child::before {
+  color: var(--primary-color);
+}
+.md ol > li.quiz .gap {
+  display: inline-block;
+  min-width: 2.5rem;
+  text-align: center;
+  padding: 0 0.625rem;
+  text-indent: -624.9375rem;
+}
+.md ol > li.quiz .gap::after {
+  display: block;
+  content: "";
+  background: var(--text-color);
+  width: calc(100% + 1.25rem);
+  height: 0.0625rem;
+  margin-bottom: -0.0625rem;
+  margin-left: -0.625rem;
+}
+.md ol > li.quiz.show.fill .gap {
+  text-indent: 0;
+}
+.md ol > li.quiz::before,
+.md ol > li.quiz::after {
+  transition: all 0.2s ease-in-out 0s;
+}
+.md ol > li.quiz blockquote {
+  display: none;
+}
+.md ol > li.quiz blockquote .mistake {
+  display: block;
+  border: 0.1875rem dashed var(--grey-4);
+  padding: 0.625rem 1.25rem;
+  background: var(--grey-3);
+  margin: 0.3125rem;
+}
+.md ol > li.quiz blockquote .mistake::before {
+  display: block;
+  content: "[" attr(data-type) "]";
+  font-size: 0.8125em;
+  color: var(--grey-4);
+}
+.md ol > li.quiz .note {
+  display: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  border-radius: inherit;
+  color: unset;
+  font-size: inherit;
+  filter: unset;
+}
+.md ol > li.quiz.show blockquote,
+.md ol > li.quiz.show .note {
+  display: block;
+}
+.md ol > li.quiz ul.options {
+  padding-inline-start: 0.625rem;
+}
+.md ol > li.quiz ul.options li::before {
+  color: var(--color-grey);
+  margin-right: 0.625rem;
+  transition: all 0.2s ease-in-out 0s;
+  width: auto;
+  height: auto;
+  background: none !important;
+  border: none !important;
+  position: relative;
+  top: 0 !important;
+  left: 0 !important;
+}
+.md ol > li.quiz ul.options li:nth-child(1)::before {
+  content: "A.";
+}
+.md ol > li.quiz ul.options li:nth-child(2)::before {
+  content: "B.";
+}
+.md ol > li.quiz ul.options li:nth-child(3)::before {
+  content: "C.";
+}
+.md ol > li.quiz ul.options li:nth-child(4)::before {
+  content: "D.";
+}
+.md ol > li.quiz ul.options li:nth-child(5)::before {
+  content: "E.";
+}
+.md ol > li.quiz > ul.options li {
+  cursor: pointer;
+}
+.md ol > li.quiz > ul.options li::after {
+  font-family: "ic";
+  font-weight: normal;
+  position: absolute;
+  left: -1.5625rem;
+  top: 0;
+}
+.md ol > li.quiz.show.false::before,
+.md ol > li.quiz.show.true::before {
+  visibility: hidden;
+}
+.md ol > li.quiz.show.false::after,
+.md ol > li.quiz.show.true::after {
+  font-family: "ic";
+  font-weight: normal;
+  position: absolute;
+  left: -1.2rem;
+  top: 0.25rem;
+}
+.md .note {
+  border-radius: 0.1875rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  position: relative;
+  background: var(--note-bg, var(--grey-2));
+  color: var(--grey-6);
+  border-left: 0.25rem solid var(--note-border, var(--grey-4));
+  font-size: 0.875em;
+  padding-left: 2.5rem;
+  --primary-color: var(--note-text);
+}
+.md .note::before {
+  position: absolute;
+  left: 0.5rem;
+  top: calc(50% - 1.5rem);
+  font-family: "ic";
+  font-weight: normal;
+  font-size: 1.5rem;
+  color: var(--note-text, var(--grey-6));
+}
+.md .note.no-icon {
+  padding-left: 1rem;
+}
+.md .note.no-icon::before {
+  content: none;
+}
+span.label {
+  display: inline;
+  border-radius: 0.3rem;
+  border: 0.0625rem solid;
+  padding: 0.2rem 0.3rem;
+  font-family:
+    "Inconsolata",
+    consolas,
+    Menlo,
+    -apple-system,
+    "PingFang SC",
+    "Microsoft YaHei";
+  font-size: 1em;
+  background: var(--note-bg, var(--grey-2));
+  border-color: var(--note-border, var(--grey-4));
+  color: var(--note-text, var(--grey-6));
+}
+.md .note h2,
+.md details h2,
+.md .note h3,
+.md details h3,
+.md .note h4,
+.md details h4,
+.md .note h5,
+.md details h5,
+.md .note h6,
+.md details h6 {
+  margin-top: 0.1875rem;
+  border-bottom: initial;
+  margin-bottom: 0;
+  padding-top: 0;
+}
+.md .note p,
+.md details p {
+  line-height: 1.8;
+}
+.md .note a:not(.btn),
+.md details a:not(.btn) {
+  color: var(--note-hover);
+  border-bottom: 0.0625rem dashed var(--note-text);
+}
+.md .note a:not(.btn):hover,
+.md details a:not(.btn):hover {
+  color: var(--note-text);
+  border-bottom-color: var(--note-text);
+}
+.md .note ul li::before,
+.md details ul li::before {
+  background: var(--note-text);
+}
+.md .note ol li:before,
+.md details ol li:before {
+  background: var(--note-text, var(--primary-color)) !important;
+  width: 0.8rem;
+  height: 0.8rem;
+  font-size: 0.45rem;
+  line-height: 0.8rem;
+  top: 0.4rem;
+  left: -1.2rem;
+}

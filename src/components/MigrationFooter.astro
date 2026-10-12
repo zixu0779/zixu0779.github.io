@@ -1,0 +1,6 @@
+<div class="migration-footer"><div id="time"></div><div id="sentences-content" style="color:#ebb563">一言...</div><div id="sentences-from">來源</div></div>
+<script src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js" is:inline></script>
+<script>
+const updateUptime=()=>{const total=Math.floor((Date.now()-new Date('2021-11-20T00:00:00+08:00').getTime())/1000);const time=document.querySelector('#time');if(time)time.textContent=`此站已存活 ${Math.floor(total/86400)} 天 ${String(Math.floor(total/3600)%24).padStart(2,'0')} 小时 ${String(Math.floor(total/60)%60).padStart(2,'0')} 分 ${String(total%60).padStart(2,'0')} 秒`;};updateUptime();setInterval(updateUptime,1000);
+fetch('https://v1.hitokoto.cn/').then(response=>response.json()).then(data=>{const content=document.querySelector('#sentences-content');const from=document.querySelector('#sentences-from');if(content)content.textContent=data.hitokoto;if(from)from.textContent=data.from+(data.from_who&&data.from_who!==data.from?' · '+data.from_who:'');}).catch(console.error);
+</script>

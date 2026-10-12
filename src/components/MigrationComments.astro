@@ -1,0 +1,29 @@
+<div class="migration-waline" aria-label="评论区"></div>
+<script>
+import {init} from '@waline/client';
+import '@waline/client/style';
+const el=document.querySelector<HTMLElement>('.migration-waline');
+if(el) init(({
+	el,
+	'serverURL': 'https://waline.sycamore.top',
+	'lang': 'zh-CN',
+	'locale': { 'placeholder': '1. 提问前请先仔细阅读本文档⚡\n2. 页面显示问题💥，请提供控制台截图📸或者您的测试网址\n3. 其他任何报错💣，请提供详细描述和截图📸，祝食用愉快💪' },
+	'emoji': [
+		'https://unpkg.com/@waline/emojis@1.0.1/qq',
+		'https://unpkg.com/@waline/emojis@1.0.1/alus',
+		'https://unpkg.com/@waline/emojis@1.0.1/bilibili',
+		'https://unpkg.com/@waline/emojis@1.0.1/weibo'
+	],
+	'meta': [
+		'nick',
+		'mail',
+		'link'
+	],
+	'requiredMeta': ['nick', 'mail'],
+	'wordLimit': 0,
+	'pageSize': 10,
+	'pageview': false,
+	dark: ':root[data-theme="dark"]',
+	path: location.pathname
+}));
+</script>

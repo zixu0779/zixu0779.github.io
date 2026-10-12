@@ -1,0 +1,18 @@
+---
+import gallery from '@/migration/gallery.json';
+import themeConfig from '@/theme.config';
+interface Props {pageTitle?: string;postMeta?: {date:Date;wordCount:number;readTime:number};}
+const {pageTitle='',postMeta}=Astro.props;
+---
+<header id="header">
+  <div class="inner"><div id="brand"><div class="pjax">
+    {pageTitle ? <h1 class="title">{pageTitle}</h1> : <a class="logo" href="/" rel="start"><p class="artboard">{themeConfig.siteName}</p><h1 class="title">Build · Play · Tinker</h1></a>}
+    {pageTitle ? postMeta && <p class="meta">{postMeta.date.toLocaleDateString('zh-CN')} · {postMeta.wordCount} 字 · {postMeta.readTime} 分钟</p> : <p class="meta">= Following ideas, leaving traces. =</p>}
+  </div></div></div>
+  <div id="imgs" aria-hidden="true"><ul>{gallery.map((url)=><li class="item" style={`background-image:url("${url}")`}/>)}</ul></div>
+</header>
+<script>
+const header=document.querySelector('#header');
+const syncHeader=()=>{if(header)header.classList.toggle('hero-outside',header.getBoundingClientRect().bottom<=0);};
+syncHeader();addEventListener('scroll',syncHeader,{passive:true});
+</script>

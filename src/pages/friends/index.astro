@@ -1,0 +1,11 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import MigrationComments from "@/components/MigrationComments.astro";
+import html from '@/migration/friends.html?raw';
+import '@/styles/post.css';
+---
+<Layout pageTitle="友情链接">
+<section class="wrap post block friend-links"><div class="body md" set:html={html.split("<!-- friend-application -->")[0]}/></section>
+<section class="wrap friend-module" set:html={html.split("<!-- friend-application -->")[1]}/>
+<div id="comments" class="comment"><MigrationComments /></div>
+</Layout>

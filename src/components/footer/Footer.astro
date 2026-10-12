@@ -1,0 +1,18 @@
+---
+import {getCollection} from "astro:content";
+import status from '@/migration/footer-status.html?raw';
+import MigrationFooter from '@/components/MigrationFooter.astro';
+import Widgets from './Widgets';
+import type {WidgetPost} from '@/toolkit/posts/createWidgetPosts';
+interface Props {config?:unknown;siteName?:string;author?:string;posts:WidgetPost[];widgetsConfig:{randomPosts?:boolean;recentComments?:boolean;recentCommentsLimit?:number;recentCommentsServerURL?:string};}
+const {posts,widgetsConfig}=Astro.props;
+// 与 Hexo 一致：正文字符数、平均词长 4、每分钟 275 词。
+const symbols=(await getCollection('posts')).filter(post=>!post.data.draft).reduce((sum,post)=>sum+(post.data.legacySymbols??post.body?.length??0),0);
+const count=symbols<1e6?Math.round(symbols/1e3)+'k':Math.round(symbols/1e5)/10+'m';
+const minutes=Math.round(symbols/(4*275));
+const hours=Math.floor(minutes/60),remainder=Math.max(1,minutes-hours*60);
+const time=hours<1?remainder+' 分钟':hours+':'+String(remainder).padStart(2,'0');
+const renderedStatus=status.replace(/(title="站点总字数">)[^<]+/,'$1'+count+' 字').replace(/(title="站点阅读时长">)[^<]+/,'$1'+time);
+
+---
+<footer id="footer"><div class="inner"><Widgets client:idle posts={posts} enableRandomPosts={widgetsConfig.randomPosts} enableRecentComments={widgetsConfig.recentComments} recentCommentsLimit={5} walineServerURL={widgetsConfig.recentCommentsServerURL}/><Fragment set:html={renderedStatus}/><MigrationFooter/></div></footer>

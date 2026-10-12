@@ -1,0 +1,10 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import MigrationComments from "@/components/MigrationComments.astro";
+import html from '@/migration/about.html?raw';
+import '@/styles/post.css';
+---
+<Layout pageTitle="关于我">
+<section class="wrap post block about-page"><div class="body md" set:html={html}/></section>
+<div id="comments" class="comment"><MigrationComments /></div>
+</Layout>
