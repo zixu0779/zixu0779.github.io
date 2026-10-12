@@ -234,7 +234,7 @@
     }, 700);
   }, true);
   document.addEventListener('keydown', event => {
-    if (event.target.matches('#rightNav .search, .social .unlinked, #tool .back-to-top, #tool .contents, #tool .chat') && ['Enter', ' '].includes(event.key)) {
+    if (event.target.matches('#tool .chat, #tool .back-to-top, #tool .contents, #rightNav .search, .social .unlinked') && ['Enter', ' '].includes(event.key)) {
       event.preventDefault();
       event.target.click();
     }

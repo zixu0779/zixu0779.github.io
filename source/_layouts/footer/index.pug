@@ -9,11 +9,6 @@ script.
         authorSpan.textContent = 'Sycamore';
     }
 
-    const spanElement = document.querySelector('span[title="站点阅读时长"]');
-    if (spanElement) {
-        spanElement.textContent = " " + spanElement.textContent;
-        spanElement.insertAdjacentHTML('afterend', '<span id="busuanzi_short"><span class="post-meta-divider"> | </span><span class="ic i-eye"></span> <span id="busuanzi_value_site_pv"></span></span>');
-    }
 
 div(style="width: 100%;text-align:center;")
     include statistics.pug

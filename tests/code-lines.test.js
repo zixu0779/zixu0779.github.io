@@ -1,0 +1,16 @@
+const assert = require('node:assert/strict');
+const { codeLines } = require('../scripts/code-lines');
+assert.equal(codeLines({_content:'# 普通正文\n只有文字和 `inline()`。'}),0);
+assert.equal(codeLines({_content:'```js\na();\n\nb();\n```'}),3,'blank code lines count but fence marks do not');
+assert.equal(codeLines({_content:'```\n```'}),0);
+assert.equal(codeLines({_content:'    first\n    second\n'}),2,'indented code blocks count too');
+assert.equal(codeLines({_content:'~~~yaml\na: 1\n~~~\n\n```shell\necho hi\n```'}),2);
+console.log('Fenced/indented code blocks counted; prose, inline code and fence delimiters excluded');
+const { wordCount } = require('../scripts/code-lines');
+assert.equal(wordCount({_content:'中文文字 hello world'}),6);
+assert.equal(wordCount({_content:'**你好** [hello world](https://example.com/a-long-link) `codeHere()`\n\n```js\nignored();\n```'}),4);
+assert.equal(wordCount({_content:"English isn't counted by letters."}),5);
+assert.equal(wordCount({_content:'<div>中文 hello</div><pre>ignoreMe()</pre>'}),3);
+assert.equal(wordCount({_content:'图片 ![隐藏描述](https://example.com/a.png)'}),2);
+assert.equal(wordCount({_content:'网址 https://example.com 不计入'}),5);
+console.log('Chinese characters and English words counted without code, markup, images or URLs');

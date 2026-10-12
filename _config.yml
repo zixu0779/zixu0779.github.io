@@ -186,10 +186,14 @@ feed:
     template: "node_modules/hexo-theme-shokax/layout/_alternate/json.ejs"
     output: "feed.json"
 
-
 # 全部文章在单一归档页显示，不再生成年月子页。
 archive_generator:
   per_page: 0
   yearly: false
   monthly: false
   daily: false
+
+# Chinese technical reading estimate; raw Markdown and code are included.
+symbols_count_time:
+  awl: 1
+  wpm: 400

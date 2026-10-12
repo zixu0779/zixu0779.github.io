@@ -1,0 +1,66 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const vm = require('node:vm');
+const code = fs.readFileSync('source/js/site-ui.js', 'utf8');
+const classes = () => {
+  const values = new Set();
+  return { contains: x => values.has(x), toggle: (x, on) => on ? values.add(x) : values.delete(x), remove: x => values.delete(x) };
+};
+const avatar = { classList: classes() };
+const image = { complete: false, naturalWidth: 0, classList: classes(), closest: () => avatar };
+const avatarCode = code.slice(code.indexOf('  const updateAvatar ='), code.indexOf("  for (const type of ['load'"));
+const avatarContext = { image };
+vm.createContext(avatarContext);
+vm.runInContext(avatarCode + '\nupdateAvatar(image);', avatarContext);
+assert(avatar.classList.contains('avatar-placeholder'), 'pending images retain the initials');
+image.complete = true; image.naturalWidth = 80;
+vm.runInContext('updateAvatar(image)', avatarContext);
+assert(image.classList.contains('avatar-loaded'));
+assert(!avatar.classList.contains('avatar-placeholder'));
+image.naturalWidth = 0;
+vm.runInContext('updateAvatar(image)', avatarContext);
+assert(avatar.classList.contains('avatar-placeholder'), 'failed images retain the same placeholder');
+const listeners = {}, properties = {};
+let hovered = false;
+const menu = { matches: () => hovered, dataset: {}, classList: classes(), style: { setProperty: (key, value) => properties[key] = value }, contains: () => true, getBoundingClientRect: () => ({ left: 10, top: 20 }), addEventListener: (name, fn) => listeners[name] = fn };
+const link = { parentElement: { classList: classes() }, getBoundingClientRect: () => ({ left: 30, top: 70, width: 154, height: 48 }) };
+const menuCode = code.slice(code.indexOf('    const sidebarMenu ='), code.indexOf('    // The theme copies'));
+vm.runInNewContext(menuCode, { document: { querySelector: () => menu }, requestAnimationFrame: fn => fn() });
+listeners.pointerover({ target: { closest: () => link } });
+assert(menu.classList.contains('hover-visible'));
+assert.equal(properties['--hover-y'], '50px');
+assert(!listeners.pointerout, 'crossing an item boundary does not hide the shared highlight');
+hovered = true;
+listeners.pointerleave();
+assert(menu.classList.contains('hover-visible'));
+hovered = false;
+listeners.pointerleave();
+assert(!menu.classList.contains('hover-visible'));
+const about = fs.readFileSync('public/about/index.html', 'utf8');
+assert(about.includes('about-modules'));
+assert.equal(about.includes('class="reward"'), require('js-yaml').load(fs.readFileSync('_config.shokaX.yml', 'utf8')).reward.enable);
+assert(about.includes('about-body page wrap'));
+assert(about.includes('dateModified'));
+assert(friendsBodyCompatible());
+function friendsBodyCompatible() { return fs.readFileSync('public/friends/index.html', 'utf8').includes('friend-links page wrap'); }
+assert(!about.includes('许可协议。转载请注明出处'));
+assert.equal((about.match(/class="about-extra /g) || []).length, 2);
+const friends = fs.readFileSync('public/friends/index.html', 'utf8');
+assert.equal((friends.match(/class="avatar-initial"/g) || []).length, 3);
+assert(friends.includes('如未提供颜色，将参考站点主色调选择配色。'));
+console.log('Pending/loaded/failed avatars, shared hover highlight and independent about modules verified');
+
+const root = { scrollHeight: 3000, clientHeight: 1000, scrollTop: 0 }, progress = { textContent: '' };
+const progressCode = code.slice(code.indexOf('  const updateProgress ='), code.indexOf('  const updateCategoryLines ='));
+const progressContext = { document: { scrollingElement: root, querySelector: () => progress } };
+vm.createContext(progressContext);
+vm.runInContext(progressCode, progressContext);
+for (const [offset, expected] of [[0, '0%'], [1000, '50%'], [1990, '99%'], [1999, '99%'], [2000, '100%'], [2200, '100%']]) {
+  root.scrollTop = offset;
+  vm.runInContext('updateProgress()', progressContext);
+  assert.equal(progress.textContent, expected);
+}
+root.scrollHeight = 4000;
+vm.runInContext('updateProgress()', progressContext);
+assert.equal(progress.textContent, '73%', 'progress responds to late-loaded page content');
+console.log('Whole-page progress reaches 100 only at the bottom');

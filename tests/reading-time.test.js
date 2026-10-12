@@ -1,0 +1,15 @@
+const assert = require('node:assert/strict');
+const { minutesFor, formatTime, totalMinutes } = require('../scripts/reading-time');
+assert.equal(minutesFor({_content:'中'.repeat(400)}), 1);
+assert.equal(minutesFor({_content:'中'.repeat(401)}), 2);
+assert.equal(minutesFor({_content:' \n\t中 '.repeat(400)}), 1);
+assert.equal(minutesFor({_content:'😀'.repeat(400)}), 1);
+assert.equal(minutesFor({_content:'# 标题\n```js\n' + 'x'.repeat(399) + '\n```'}), 2, 'Markdown marks and code count');
+assert.equal(minutesFor({_content:'中'.repeat(800)}, 200), 4);
+assert.equal(minutesFor({content:'<p>中</p>'}), 1);
+const site = {posts:[{_content:'中'.repeat(401)},{_content:'中'.repeat(1)}]};
+assert.equal(totalMinutes(site,400),3,'total is exactly the sum of displayed article estimates');
+assert.equal(formatTime(60),'1:00');
+assert.equal(formatTime(125),'2:05');
+assert.equal(formatTime(2,'分钟'),'2 分钟');
+console.log('Chinese character estimate, Markdown/code inclusion and matching article/footer totals verified');
