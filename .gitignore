@@ -7,3 +7,10 @@ public/
 .deploy*/
 _multiconfig.yml
 shokaxTemp/
+
+# Local environment and generated secondary site
+.env
+.env.*
+!.env.example
+/en-site/
+/shokax-can/
