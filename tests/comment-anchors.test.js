@@ -1,7 +1,17 @@
 const assert = require('node:assert/strict');
 const vm = require('node:vm');
 const fs = require('node:fs');
-const { fixHashLookup } = require('../scripts/comment-anchors');
+const { fixHashLookup, fixRecentExcerpt } = require('../scripts/comment-anchors');
+const excerpt = 'item.orig.length>50?item.orig.substring(0,50)+"...":item.orig';
+const patchedExcerpt = fixRecentExcerpt(excerpt);
+assert.equal(fixRecentExcerpt(patchedExcerpt), patchedExcerpt);
+for (const item of [{orig:'Old Markdown'}, {comment:'Rendered text'}, {comment:''}]) {
+  const expected = item.orig ?? item.comment;
+  const result = vm.runInNewContext(patchedExcerpt, {item, DOMParser: class {
+    parseFromString(text) { return {body:{textContent:text}}; }
+  }});
+  assert.equal(result, expected);
+}
 assert.equal(fixHashLookup('target=document.querySelector(decodeURI(anchor))'), 'target=document.getElementById(decodeURIComponent(anchor.slice(1)))');
 assert.equal(fixHashLookup('document.querySelector(".other")'), 'document.querySelector(".other")');
 const calls=[], section={contains:target=>target?.comment}, copyright={scrollIntoView:()=>calls.push('load')}, target={comment:true,isConnected:true,scrollIntoView:()=>calls.push('target')};
