@@ -16,6 +16,7 @@
     "@algolia/client-search": "^5.19.0",
     "@waline/client": "^3.5.1",
     "algoliasearch": "^5.18.0",
+    "dompurify": "3.4.17",
     "esbuild": "^0.24.2",
     "hexo": "^7.3.0",
     "hexo-algoliasearch": "^2.0.1",

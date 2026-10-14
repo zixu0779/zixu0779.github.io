@@ -4,8 +4,13 @@
   document.addEventListener('copy', event => {
     if (event.target.closest?.('.post.block')) event.stopPropagation();
   }, true);
-  let commentCorrection;
   const commentTarget = () => document.getElementById('comments') || document.getElementById('new-comment')?.parentElement;
+  const scrollToComments = target => {
+    if (reducedMotion()) target.scrollIntoView({ behavior: 'instant', block: 'start' });
+    else if (window.shokaXPageScroll) window.shokaXPageScroll(target);
+    else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  const loadComments = section => window.shokaXCommentSection === section ? window.shokaXLoadComments() : null;
   const updateAvatar = image => {
     const avatar = image.closest('[data-avatar-fallback]');
     if (!avatar) return;
@@ -46,22 +51,27 @@
     const id = location.hash.slice(1);
     if (!/^[a-f0-9]{24}$/i.test(id)) { commentAnchor = null; return; }
     const key = location.pathname + location.hash;
-    if (commentAnchor?.key !== key) commentAnchor = { key, loading: false, found: false };
-    if (commentAnchor.found) return;
     const section = document.getElementById('comments');
     if (!section) return;
+    if (commentAnchor?.key !== key || commentAnchor.section !== section) commentAnchor = { key, section, loading: false, found: false };
+    if (commentAnchor.found) return;
     const target = document.getElementById(id);
     if (target && section.contains(target)) {
       commentAnchor.found = true;
-      target.scrollIntoView({ behavior: 'instant', block: 'center' });
-      // Correct the theme's later initial-position animation, only for this navigation.
-      setTimeout(() => { if (location.pathname + location.hash === key && target.isConnected) target.scrollIntoView({ behavior: 'instant', block: 'center' }); }, 700);
+      const anchor = commentAnchor;
+      const ready = window.shokaXPrepareCommentAnchor?.(target) || Promise.resolve();
+      ready.then(() => {
+        if (commentAnchor === anchor && location.pathname + location.hash === key && target.isConnected) scrollToComments(target);
+      }).catch(error => { if (commentAnchor === anchor) commentAnchor.found = false; console.error('Comment position failed', error); });
     } else if (!commentAnchor.loading) {
+      const loading = loadComments(section);
+      if (!loading) return;
       commentAnchor.loading = true;
-      (document.getElementById('copyright') || section).scrollIntoView({ behavior: 'instant', block: 'center' });
+      loading.catch(error => { if (commentAnchor?.key === key) commentAnchor.loading = false; console.error('Comments failed to load', error); });
     }
   };
   window.addEventListener('hashchange', locateComment);
+  window.addEventListener('shokax:comments-ready', locateComment);
   document.addEventListener('click', event => {
     const link = event.target.closest('#new-comment a');
     if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -69,7 +79,7 @@
     if (url.origin !== location.origin || url.pathname !== location.pathname || !/^#[a-f0-9]{24}$/i.test(url.hash)) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    location.hash = url.hash;
+    history.pushState(null, '', url.hash);
     commentAnchor = null;
     locateComment();
   }, true);
@@ -226,12 +236,8 @@
     event.preventDefault();
     const comments = commentTarget();
     if (!comments) return;
-    clearTimeout(commentCorrection);
-    comments.scrollIntoView({ behavior: reducedMotion() ? 'instant' : 'smooth', block: 'start' });
-    // Lazy-loaded article images can shift the destination during the scroll.
-    commentCorrection = setTimeout(() => {
-      if (comments.isConnected) comments.scrollIntoView({ behavior: 'instant', block: 'start' });
-    }, 700);
+    loadComments(comments)?.catch(error => console.error('Comments failed to load', error));
+    scrollToComments(comments);
   }, true);
   document.addEventListener('keydown', event => {
     if (event.target.matches('#tool .chat, #tool .back-to-top, #tool .contents, #rightNav .search, .social .unlinked') && ['Enter', ' '].includes(event.key)) {
