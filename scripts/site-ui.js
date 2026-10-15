@@ -20,6 +20,10 @@ hexo.extend.filter.register('before_generate', () => {
 // Keep customization outside the installed theme so dependency updates preserve it.
 hexo.extend.filter.register('theme_inject', injects => {
   const emptySocial = Object.entries(hexo.theme.config.social || {}).filter(([, value]) => !value.split('||')[0].trim()).map(([name, value]) => ({ name, icon: value.split('||')[1].trim() }));
+  const { getVendorLink } = require('hexo-theme-shokax/scripts/utils');
+  const vendors = hexo.theme.config.vendors;
+  const viewer = { js: getVendorLink(hexo, vendors.async_js.fancybox), css: getVendorLink(hexo, vendors.css.fancybox) };
+  injects.bodyEnd.raw('image-viewer', `<script src="/js/image-viewer.js" data-vendors="${escapeHTML(JSON.stringify(viewer))}" defer></script>`);
   injects.bodyEnd.raw('site-ui', `<script src="/js/search-match.js" defer></script><script src="/js/site-ui.js" data-empty-social="${escapeHTML(JSON.stringify(emptySocial))}" defer></script>`);
 });
 

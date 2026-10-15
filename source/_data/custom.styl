@@ -660,3 +660,12 @@ main { background: var(--body-bg-shadow); }
 #footer .count .stat-icon .ic { font-size: inherit; line-height: 1; }
 #footer .count .stat-icon svg { display: block; width: 100%; height: 100%; }
 #footer .count .post-meta-divider { margin: 0; }
+.md img[width][height] { height: auto; }
+
+/* Keep screenshot geometry identical before and after lazy image decoding. */
+.post .md img[style*="--article-image-width"]:not(.emoji):not(.vemoji):not(.links img):not(.gallery img) {
+  width: unquote('min(100%, var(--article-image-width))');
+  height: auto;
+  aspect-ratio: var(--article-image-ratio);
+  object-fit: contain;
+}
