@@ -15,6 +15,9 @@ for (const item of [{orig:'Old Markdown'}, {comment:'Rendered text'}, {comment:'
 }
 assert.equal(fixHashLookup('target=document.querySelector(decodeURI(anchor))'), 'target=document.getElementById(decodeURIComponent(anchor.slice(1)))');
 assert.equal(fixHashLookup('document.querySelector(".other")'), 'document.querySelector(".other")');
+const emptyToc = fixHashLookup('decodeURI(link.getAttribute("href").replace("#", ""))');
+assert.doesNotThrow(() => vm.runInNewContext(emptyToc, {link:{getAttribute:()=>null}}));
+assert.equal(vm.runInNewContext(emptyToc, {link:{getAttribute:()=>"#section"}}), 'section');
 const preview=fixPreviewSecurity('return parser.parse(emoji(text,map))}');
 assert.ok(preview.includes('sanitizeWalineHTML(parser.parse(emoji(text,map)))'));
 assert.equal(fixPreviewSecurity(preview),preview);
