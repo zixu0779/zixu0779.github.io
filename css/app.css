@@ -7723,6 +7723,15 @@ main {
 #footer .count .post-meta-divider {
   margin: 0;
 }
+.md img[width][height] {
+  height: auto;
+}
+.post .md img[style*="--article-image-width"]:not(.emoji):not(.vemoji):not(.links img):not(.gallery img) {
+  width: min(100%, var(--article-image-width));
+  height: auto;
+  aspect-ratio: var(--article-image-ratio);
+  object-fit: contain;
+}
 @-moz-keyframes unavailable-shake {
   25%, 75% {
     transform: rotate(-12deg);
