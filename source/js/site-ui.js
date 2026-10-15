@@ -5,10 +5,52 @@
     if (event.target.closest?.('.post.block')) event.stopPropagation();
   }, true);
   const commentTarget = () => document.getElementById('comments') || document.getElementById('new-comment')?.parentElement;
-  const scrollToComments = target => {
-    if (reducedMotion()) target.scrollIntoView({ behavior: 'instant', block: 'start' });
-    else if (window.shokaXPageScroll) window.shokaXPageScroll(target);
-    else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  let cancelCommentScroll = () => {};
+  const scrollToComments = (resolveTarget, section = commentTarget()) => {
+    cancelCommentScroll();
+    const root = document.scrollingElement;
+    const key = location.pathname + location.hash;
+    const from = root.scrollTop, start = performance.now();
+    const oldBehavior = root.style.scrollBehavior, oldAnchor = root.style.overflowAnchor;
+    root.style.scrollBehavior = 'auto';
+    root.style.overflowAnchor = 'none';
+    let frame, previousTime = start, previousTop, stableSince = start, preparedTarget;
+    const cancel = event => {
+      if (event?.type === 'keydown' && !['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(event.key)) return;
+      cancelAnimationFrame(frame);
+      for (const type of ['wheel', 'touchstart', 'pointerdown', 'keydown']) window.removeEventListener(type, cancel);
+      root.style.scrollBehavior = oldBehavior;
+      root.style.overflowAnchor = oldAnchor;
+      cancelCommentScroll = () => {};
+    };
+    cancelCommentScroll = cancel;
+    for (const type of ['wheel', 'touchstart', 'pointerdown', 'keydown']) window.addEventListener(type, cancel, { passive: true });
+    const tick = now => {
+      if (!section?.isConnected || location.pathname + location.hash !== key) { cancel(); return; }
+      const target = typeof resolveTarget === 'function' ? resolveTarget() : resolveTarget;
+      if (window.shokaXPrepareCommentAnchor && preparedTarget !== target) {
+        preparedTarget = target;
+        window.shokaXPrepareCommentAnchor(target).catch(console.error);
+      }
+      const navHeight = document.getElementById('nav')?.getBoundingClientRect().height || 0;
+      const top = Math.max(0, Math.min(root.scrollHeight - root.clientHeight,
+        target.getBoundingClientRect().top + root.scrollTop - navHeight));
+      const progress = Math.min(1, (now - start) / 500);
+      const eased = progress < .5 ? 2 * progress ** 2 : 1 - (-2 * progress + 2) ** 2 / 2;
+      // Start immediately with the theme's easing; follow late layout shifts without another jump.
+      root.scrollTop = reducedMotion() ? top : progress < 1 ? from + (top - from) * eased
+        : root.scrollTop + (top - root.scrollTop) * (1 - Math.exp(-(now - previousTime) / 80));
+      if (previousTop === undefined || Math.abs(top - previousTop) > .5 || Math.abs(root.scrollTop - top) > 1) stableSince = now;
+      previousTop = top;
+      previousTime = now;
+      const ready = section.id !== 'comments' || (section.querySelector('.wl-cards') && !section.querySelector('.wl-cards ~ .wl-loading'));
+      const imagesReady = Array.from(document.querySelectorAll('main img')).every(image =>
+        !(target.contains(image) || (image.compareDocumentPosition(target) & Node.DOCUMENT_POSITION_FOLLOWING)) ||
+        (image.complete && !image.dataset.src && !image.dataset.srcset));
+      if ((progress === 1 && ready && imagesReady && now - stableSince > 350) || now - start > 8000) { cancel(); return; }
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
   };
   const loadComments = section => window.shokaXCommentSection === section ? window.shokaXLoadComments() : null;
   const updateAvatar = image => {
@@ -49,21 +91,23 @@
   let commentAnchor;
   const locateComment = () => {
     const id = location.hash.slice(1);
-    if (!/^[a-f0-9]{24}$/i.test(id)) { commentAnchor = null; return; }
+    if (!/^[a-f0-9]{24}$/i.test(id)) {
+      if (commentAnchor) cancelCommentScroll();
+      commentAnchor = null;
+      return;
+    }
     const key = location.pathname + location.hash;
     const section = document.getElementById('comments');
     if (!section) return;
-    if (commentAnchor?.key !== key || commentAnchor.section !== section) commentAnchor = { key, section, loading: false, found: false };
-    if (commentAnchor.found) return;
-    const target = document.getElementById(id);
-    if (target && section.contains(target)) {
-      commentAnchor.found = true;
-      const anchor = commentAnchor;
-      const ready = window.shokaXPrepareCommentAnchor?.(target) || Promise.resolve();
-      ready.then(() => {
-        if (commentAnchor === anchor && location.pathname + location.hash === key && target.isConnected) scrollToComments(target);
-      }).catch(error => { if (commentAnchor === anchor) commentAnchor.found = false; console.error('Comment position failed', error); });
-    } else if (!commentAnchor.loading) {
+    if (commentAnchor?.key !== key || commentAnchor.section !== section) commentAnchor = { key, section, loading: false, started: false };
+    if (!commentAnchor.started) {
+      commentAnchor.started = true;
+      scrollToComments(() => {
+        const target = document.getElementById(id);
+        return target && section.contains(target) ? target : section;
+      }, section);
+    }
+    if (!commentAnchor.loading) {
       const loading = loadComments(section);
       if (!loading) return;
       commentAnchor.loading = true;
