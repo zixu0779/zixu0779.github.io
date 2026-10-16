@@ -134,20 +134,20 @@
     });
     document.querySelectorAll('.category-group details:not([data-ready])').forEach(details => {
       details.dataset.ready = 'true';
-      let page = 0, animation;
+      let page = 0, animation, fade;
       const content = details.querySelector('.category-content');
       const rows = Array.from(details.querySelectorAll('.category-full .item.normal'));
       const pages = Math.ceil(rows.length / 5);
       const update = () => {
         rows.forEach((row, index) => { row.hidden = Math.floor(index / 5) !== page; });
-        details.querySelector('.category-pagination').hidden = pages <= 1;
-        details.querySelector('.category-pagination .page-number').textContent = `${page + 1} / ${pages}`;
-        details.querySelector('[data-category-page="-1"]').disabled = page === 0;
-        details.querySelector('[data-category-page="1"]').disabled = page === pages - 1;
+        details.querySelectorAll('[data-pagination-page]').forEach(nav => {
+          nav.hidden = Number(nav.dataset.paginationPage) !== page;
+        });
       };
       const transition = (change, close = false) => {
         const from = details.open ? content.getBoundingClientRect().height : 0;
         animation?.cancel();
+        fade?.cancel();
         details.open = true;
         change();
         const to = close ? 0 : content.getBoundingClientRect().height;
@@ -165,11 +165,18 @@
           return;
         }
         const button = event.target.closest('[data-category-page]');
-        if (!button || button.disabled) return;
-        transition(() => {
-          page = Math.max(0, Math.min(pages - 1, page + Number(button.dataset.categoryPage)));
-          update();
-        });
+        if (!button) return;
+        event.preventDefault();
+        if (fade?.playState === 'running') return;
+        const nextPage = Math.max(0, Math.min(pages - 1, Number(button.dataset.categoryPage) - 1));
+        if (nextPage === page) return;
+        const changePage = () => {
+          transition(() => { page = nextPage; update(); });
+          fade = content.animate([{ opacity: 0 }, { opacity: 1 }], { duration: reducedMotion() ? 0 : 180, easing: 'ease-out' });
+        };
+        if (reducedMotion()) { changePage(); return; }
+        fade = content.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 100, easing: 'ease-in', fill: 'forwards' });
+        fade.onfinish = changePage;
       });
       update();
       categorySize.observe(details.closest('.category-group').parentElement);
