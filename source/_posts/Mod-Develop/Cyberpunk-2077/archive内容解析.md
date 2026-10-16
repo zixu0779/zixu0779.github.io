@@ -21,7 +21,7 @@ cover:
 
 通过 WolvenKit 可以查看图片的内容，比如 expansion_logo.xbm，如下所示：
 
-![image-20241105231302174](https://res.cloudinary.com/sycamore/image/upload/v1730808788/Typera/2024/11/2c0934a8e3cdb50eaedad5bc5a2c17f0.png)
+![image-20241105231302174](https://res.cloudinary.com/sycamore/image/upload/v1792084631/Typora/2024/11/2c0934a8e3cdb50eaedad5bc5a2c17f0.png)
 
 ## inkatlas
 
@@ -29,11 +29,11 @@ cover:
 
 比如 expansion_logo.xbm 对应的 expansion_logo.inkatlas，内容如下：
 
-![image-20241105231444965](https://res.cloudinary.com/sycamore/image/upload/v1730808890/Typera/2024/11/90a3c1b209806070d39ecdf04f3cd021.png)
+![image-20241105231444965](https://res.cloudinary.com/sycamore/image/upload/v1792084631/Typora/2024/11/90a3c1b209806070d39ecdf04f3cd021.png)
 
 再次展开这个 3：logo，并和 4：logo_EN 的数据进行对比，如下：
 
-![image-20241105231603201](https://res.cloudinary.com/sycamore/image/upload/v1730808968/Typera/2024/11/4c4d7b17e1126d72bd67023217ae420f.png)
+![image-20241105231603201](https://res.cloudinary.com/sycamore/image/upload/v1792084623/Typora/2024/11/4c4d7b17e1126d72bd67023217ae420f.png)
 
 可以看到，其中包括的 Bottom、Left、Right、Top，对应的应该是 xbm 图片中 ”被分割“ 出来的具体图片的位置数据，这些数据被框定在 0~1 中。
 
@@ -53,23 +53,23 @@ cover:
 
 如下图所示，externalDependenciesForInternalItems 下存放的就是要用到的内部资源。libraryItems 下的就是组成动画的一些信息，ls_01，ls_02，ls_03 对应三个加载动画。
 
-![image-20241108132929030](https://res.cloudinary.com/sycamore/image/upload/v1731032972/Typera/2024/11/ed815477f0502d01327d6c8fd694ca6a.png)
+![image-20241108132929030](https://res.cloudinary.com/sycamore/image/upload/v1792084470/Typora/2024/11/ed815477f0502d01327d6c8fd694ca6a.png)
 
 展开 ls_01，以此为例说明这个 node 中的信息。
 
 关键内容在 如下图所示的 children 中，可以看到一共有 7 项，从其名称中应该可以发现一些端倪。
 
-![image-20241108133234564](https://res.cloudinary.com/sycamore/image/upload/v1731033157/Typera/2024/11/fb1bf0564b6749bc6c8d22e2dcad17f2.png)
+![image-20241108133234564](https://res.cloudinary.com/sycamore/image/upload/v1792084470/Typora/2024/11/fb1bf0564b6749bc6c8d22e2dcad17f2.png)
 
 比如 shot_01_bg 对应这段动画的背景，antena_light_1 对应一个闪烁的信号灯。它们具体代表的资源，可以进一步展开这些项目获得。
 
 以 ls_02 中的 BINK_RTW 为例，展开后可以看到对应的 videoResouce 文件。
 
-![image-20241108134111623](https://res.cloudinary.com/sycamore/image/upload/v1731033675/Typera/2024/11/9357c4afea9961b5a46f861d1ddf4906.png)
+![image-20241108134111623](https://res.cloudinary.com/sycamore/image/upload/v1792084469/Typora/2024/11/9357c4afea9961b5a46f861d1ddf4906.png)
 
 如果想知道它对应什么，就将这个 videoResource Add to Project，然后用 rad video 播放，其内容为：
 
-![image-20241108134412959](https://res.cloudinary.com/sycamore/image/upload/v1731033856/Typera/2024/11/7ecc5753dbb2a7e5f44a2e08d451b207.png)
+![image-20241108134412959](https://res.cloudinary.com/sycamore/image/upload/v1792084578/Typora/2024/11/7ecc5753dbb2a7e5f44a2e08d451b207.png)
 
 相信你还记得那个 齐格 · Q 和 NCPD 发言人。
 
@@ -85,11 +85,11 @@ cover:
 
 比如图片：loading_screen_5_after_q101\loading_screen_5_shot_01.xbm
 
-![image-20241105232833312](https://res.cloudinary.com/sycamore/image/upload/v1730809719/Typera/2024/11/ffbe63923183b7d8602c1046d1bc2b84.png)
+![image-20241105232833312](https://res.cloudinary.com/sycamore/image/upload/v1792084623/Typora/2024/11/ffbe63923183b7d8602c1046d1bc2b84.png)
 
 可以在主菜单看到同样的图片：
 
-![image-20241105233029146](https://res.cloudinary.com/sycamore/image/upload/v1730809840/Typera/2024/11/a4e7e61df94dc872b29a72dd4b9fe6ba.png)
+![image-20241105233029146](https://res.cloudinary.com/sycamore/image/upload/v1792084622/Typora/2024/11/a4e7e61df94dc872b29a72dd4b9fe6ba.png)
 
 因此，如果我要更换这个主菜单的背景图片，需要更改对应的 inkwidget 中的内容。
 

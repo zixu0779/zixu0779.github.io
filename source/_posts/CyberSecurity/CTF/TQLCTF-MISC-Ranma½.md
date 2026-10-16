@@ -4,7 +4,7 @@ date: 2022-2-22 22:36:41
 tags: [CTF,Misc,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682438327/Typera/2023/04/33bcab1c0fc91bd552a41c8dc39d23ac.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085410/Typora/2023/04/33bcab1c0fc91bd552a41c8dc39d23ac.png
 ---
 
 ## MISC
@@ -15,7 +15,7 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682438327/Typera/2023/
 #### UTF-8可变长编码
 首先一定要详细了解 UTF-8 编码，
 完整的表如下：
-![image-20230425235627337](https://res.cloudinary.com/sycamore/image/upload/v1682438191/Typera/2023/04/fdfd2d8940cbcb3dad4d6ee71124333c.png)
+![image-20230425235627337](https://res.cloudinary.com/sycamore/image/upload/v1792085422/Typora/2023/04/fdfd2d8940cbcb3dad4d6ee71124333c.png)
 
 > 图中一行的 `xxx...` 部分组合起来即为对应的 Unicode 代码
 
@@ -43,7 +43,7 @@ U+0080到U+07FF，观察表中对应行，说明它使用双字节，即 110**xx
 
 #### 解题过程
 实际上有挺多方法，用vim打开，或者用WinRAR的 “查看”打开（这个属实有点奇怪）
-![image-20230425235636085](https://res.cloudinary.com/sycamore/image/upload/v1682438200/Typera/2023/04/1771f16334a694ed24fac59a74971010.png)
+![image-20230425235636085](https://res.cloudinary.com/sycamore/image/upload/v1792085414/Typora/2023/04/1771f16334a694ed24fac59a74971010.png)
 或者可以写脚本分析：
 
 ```python
@@ -85,5 +85,5 @@ print(''.join(z))
 2. 看官方wp，（这个密钥要拿到脑洞也太大了吧。。。）
 依次列举出 UTF-8 编码文字的长度，长度为 1 的字符转换为**点**，长度为 2 的字符转换为**线**，长度为 3 的字符转换成**分隔符**，经过 **Morse** 解读获得密钥
 (￣▽￣)"
-![image-20230425235644738](https://res.cloudinary.com/sycamore/image/upload/v1682438209/Typera/2023/04/150cd961046421d365382e0994f34fba.png)
+![image-20230425235644738](https://res.cloudinary.com/sycamore/image/upload/v1792085413/Typora/2023/04/150cd961046421d365382e0994f34fba.png)
 flag：`TQLCTF{CODIN6_WOR1D}`

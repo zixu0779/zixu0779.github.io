@@ -4,7 +4,7 @@ date: 2022-2-5 12:46:27
 tags: [CTF,Crypto,Misc,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682438101/Typera/2023/04/8798b063d769d1c7172303ddd222745a.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085427/Typora/2023/04/8798b063d769d1c7172303ddd222745a.png
 ---
 
 ## Crypto
@@ -12,9 +12,9 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682438101/Typera/2023/
 ### Dancing_Line
 有点靠脑洞啊，这道crypto不讲武德 /_ \ ，不过仔细看看还是大概能猜到的~
 
-![](https://res.cloudinary.com/sycamore/image/upload/v1682437580/Typera/2023/04/d902f3ec8dfa08547fca2ab2f0d0f237.bmp)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792085582/Typora/2023/04/d902f3ec8dfa08547fca2ab2f0d0f237.bmp)
 图片上有一条线，放大可以看出，每隔一小段会有一个黑点
-![image-20230425234706530](https://res.cloudinary.com/sycamore/image/upload/v1682437729/Typera/2023/04/f02b3b2084d99f2b7639a572df5b0d8a.png)
+![image-20230425234706530](https://res.cloudinary.com/sycamore/image/upload/v1792085574/Typora/2023/04/f02b3b2084d99f2b7639a572df5b0d8a.png)
 所以，我用python PIL库写个脚本导出黑点的坐标
 
 ```python
@@ -208,51 +208,51 @@ flag.zip中的内容一样被加密，其中包含flag.jpg和README.txt
 #### 伪加密
 明文攻击后得到了去除密码的一个zip，
 解压得到flag.jpg如下：
-![hgameM10](https://res.cloudinary.com/sycamore/image/upload/v1682437720/Typera/2023/04/11a450d036a1c818089a7374c1f615a3.jpg)
+![hgameM10](https://res.cloudinary.com/sycamore/image/upload/v1792085581/Typora/2023/04/11a450d036a1c818089a7374c1f615a3.jpg)
 实际上从7z里面是能直接再点开这个flag.jpg的，可以看到里面还有一个flag.jpg (￣_,￣ )
 显然这个flag.jpg后面还藏了一个压缩包，使用binwalk分离，得到4FC5.zip
 
 虽然有点奇怪，这里7z为啥不能直接打开这个新的压缩包，但尝试之后发现这个确实是伪加密
 直接更改下图选中内容为 00 即可
-![image-20230425234814596](https://res.cloudinary.com/sycamore/image/upload/v1682437699/Typera/2023/04/63704e239d39fc6a92fc0cb525370a7b.png)
+![image-20230425234814596](https://res.cloudinary.com/sycamore/image/upload/v1792085584/Typora/2023/04/63704e239d39fc6a92fc0cb525370a7b.png)
 
 终于得到了flag：
-![image-20230425234917756](https://res.cloudinary.com/sycamore/image/upload/v1682437761/Typera/2023/04/53c11a8e13bbe5c3adfdef057ed8493c.png)
+![image-20230425234917756](https://res.cloudinary.com/sycamore/image/upload/v1792085579/Typora/2023/04/53c11a8e13bbe5c3adfdef057ed8493c.png)
 
 ### 好康的流量
 Wireshark打开，右键->追踪流->TCP流，得到base64格式的图片文件：
-![image-20230425234931156](https://res.cloudinary.com/sycamore/image/upload/v1682437776/Typera/2023/04/c529efa42a73e54e0034029e844f57ca.png)
+![image-20230425234931156](https://res.cloudinary.com/sycamore/image/upload/v1792085572/Typora/2023/04/c529efa42a73e54e0034029e844f57ca.png)
 
 [在线base64转换图片](https://www.toolnb.com/tools/base64ToImages.html)得到：
 
-![image-20230425234943176](https://res.cloudinary.com/sycamore/image/upload/v1682437788/Typera/2023/04/7299c09dac948f983d1c5126055c377d.png)
+![image-20230425234943176](https://res.cloudinary.com/sycamore/image/upload/v1792085571/Typora/2023/04/7299c09dac948f983d1c5126055c377d.png)
 
 stegsolve打开，G2得到一个条形码：
 
-![image-20230425234952577](https://res.cloudinary.com/sycamore/image/upload/v1682437796/Typera/2023/04/473ee4ccb1baae2f6d8baebff4eb969b.png)
+![image-20230425234952577](https://res.cloudinary.com/sycamore/image/upload/v1792085570/Typora/2023/04/473ee4ccb1baae2f6d8baebff4eb969b.png)
 保存后，[在线扫描图片](https://demo.dynamsoft.com/barcode-reader/)得到前半段flag `hgame{ez_1mg_`
 
 然后在Analyse->Data Extract里面，
 按下图所示操作，可以得到后半flag `Steg4n0graphy}`
-![image-20230425235001793](https://res.cloudinary.com/sycamore/image/upload/v1682437806/Typera/2023/04/c026469fb7ab3fceba720421bc3cea72.png)
+![image-20230425235001793](https://res.cloudinary.com/sycamore/image/upload/v1792085569/Typora/2023/04/c026469fb7ab3fceba720421bc3cea72.png)
 
 ### 群青(其实是幽灵东京）
 拿到.wav文件，发现属性里藏了提示：
-![image-20230425235012882](https://res.cloudinary.com/sycamore/image/upload/v1682437816/Typera/2023/04/61191b2c8ce2754adbb5f4270499d7fc.png)
+![image-20230425235012882](https://res.cloudinary.com/sycamore/image/upload/v1792085568/Typora/2023/04/61191b2c8ce2754adbb5f4270499d7fc.png)
 提示使用用SilentEye，
 直接Decode显示不正确，所以猜测要使用密码
 
 Audacity打开，查看频谱图发现：
-![image-20230425235021424](https://res.cloudinary.com/sycamore/image/upload/v1682437826/Typera/2023/04/9b37356f52ea60ba659337e1615d5527.png)
+![image-20230425235021424](https://res.cloudinary.com/sycamore/image/upload/v1792085568/Typora/2023/04/9b37356f52ea60ba659337e1615d5527.png)
 猜测大概就是key了：Yoasobi
 解密得到一串网址，貌似是一个音频文件的地址
-![image-20230425235030317](https://res.cloudinary.com/sycamore/image/upload/v1682437834/Typera/2023/04/097e85d689cebdbc315a2e1d74bf20c1.png)
+![image-20230425235030317](https://res.cloudinary.com/sycamore/image/upload/v1792085567/Typora/2023/04/097e85d689cebdbc315a2e1d74bf20c1.png)
 访问下载得音频文件S_S_T_V.wav
 
 搜索SSTV，得知：SSTV（Slow-scan television）是一种图像传输方法，主要由业余无线电操作员使用，通过单色或彩色无线电发送和接收静态图像。
 
 原本想使用RX-SSTV解码器，但是貌似我的电脑上还需要安装一个叫 Virtual Audio Cable 的虚拟声卡，实在是太麻烦了 ( ╯□╰ )
 所以我就干脆在手机上下载了 Robot36，用电脑播放音频，手机接听，最后得到这样一张图
-![image-20230425235041961](https://res.cloudinary.com/sycamore/image/upload/v1682437848/Typera/2023/04/267cd6c07e0bbbdcb3b0b57595089963.png)
+![image-20230425235041961](https://res.cloudinary.com/sycamore/image/upload/v1792085428/Typora/2023/04/267cd6c07e0bbbdcb3b0b57595089963.png)
 
 然后扫码得到 flag：`hgame{1_c4n_5ee_the_wav}`

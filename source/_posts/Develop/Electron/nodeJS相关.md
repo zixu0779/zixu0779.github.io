@@ -4,7 +4,7 @@ date: 2023-04-30 17:42:04
 tags: [Develop,node,npm,plugs]
 categories: 
  - [Develop, Electron]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682849816/Typera/2023/04/d39197fd00b4e17f12ac1a852c12fd7e.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085073/Typora/2023/04/d39197fd00b4e17f12ac1a852c12fd7e.png
 ---
 
 ## node版本控制

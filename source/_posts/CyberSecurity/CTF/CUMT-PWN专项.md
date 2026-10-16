@@ -4,7 +4,7 @@ date: 2021-11-25 23:24:22
 tags: [CTF,Pwn,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682435935/Typera/2023/04/54a2923a541fe0c86555a91b264f4221.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085624/Typora/2023/04/54a2923a541fe0c86555a91b264f4221.png
 ---
 
 ## pwn1
@@ -60,7 +60,7 @@ r.interactive()
 ```
 ## pwn4
 没开canary，但是前两个地方不能栈溢出，
-![image-20230425232110426](https://res.cloudinary.com/sycamore/image/upload/v1682436075/Typera/2023/04/dc2c87519810519185f4e3c91622b01d.png)
+![image-20230425232110426](https://res.cloudinary.com/sycamore/image/upload/v1792085622/Typora/2023/04/dc2c87519810519185f4e3c91622b01d.png)
 而又观察到v3刚好是个unsigned int8型的变量，可以利用整数溢出的漏洞，
 它的最大值位255，所以只要保证一共填了255+4 ~ +8之间的个数就行
 
@@ -128,7 +128,7 @@ r.interactive()
 ## pwn6
 堆溢出漏洞 + unsorted bin attack
 只要控制v3=4869，同时控制qword_6020C0大于0x1305，就可以了
-![image-20230425232125920](https://res.cloudinary.com/sycamore/image/upload/v1682436089/Typera/2023/04/d1aaf56f4760a578927720faa790c02a.png)
+![image-20230425232125920](https://res.cloudinary.com/sycamore/image/upload/v1792085620/Typora/2023/04/d1aaf56f4760a578927720faa790c02a.png)
 观察到v3=2对应的函数里面有堆溢出漏洞，所以可以利用堆溢出漏洞修改堆块的bk指针为qword_6020C0的地址-16
 
 ```python

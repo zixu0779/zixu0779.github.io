@@ -4,7 +4,7 @@ date: 2023-04-30 14:05:53
 tags: [Develop,Hexo,shokaX,博客主题]
 categories: 
  - [Develop, shokaX]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682846617/Typera/2023/04/577e6e5d3f3fdf4d5af4e71de5c13847.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085073/Typora/2023/04/577e6e5d3f3fdf4d5af4e71de5c13847.png
 ---
 
 [shokaX]{.label}主题基于[shoka]{.label}主题进行二次开发，据说是因为原主题停止更新...
@@ -83,7 +83,7 @@ placeholder与valine系统配置不同，我是在waline官方文档 [从 Valine
 `algolia`必须参考官方文档进行配置，需要**注意**的是：
 
 1.   `algolia`的配置应该是在`_config.yml`文件中的，我也不知道为啥要在`config`里：
-     ![image-20230430151055652](https://res.cloudinary.com/sycamore/image/upload/v1682840599/Typera/2023/04/c825437e5c42bd869ff137173c375d20.png)
+     ![image-20230430151055652](https://res.cloudinary.com/sycamore/image/upload/v1792085079/Typora/2023/04/c825437e5c42bd869ff137173c375d20.png)
      也许是一定得这样？
 2.   记得要运行`hexo algolia`将数据更新到index中
 
@@ -111,7 +111,7 @@ placeholder与valine系统配置不同，我是在waline官方文档 [从 Valine
 
 全局搜索`meting`应该就能看到（因为是基于 [meting-api](https://github.com/injahow/meting-api) 这个项目的）
 
-![image-20230430160205536](https://res.cloudinary.com/sycamore/image/upload/v1682841729/Typera/2023/04/f4f07901036b72746edf40bb804de698.png)
+![image-20230430160205536](https://res.cloudinary.com/sycamore/image/upload/v1792085079/Typora/2023/04/f4f07901036b72746edf40bb804de698.png)
 
 上图中的代码是经过更改的，原来有问题的地方是在：`/meting/api?server=`，把`api`删掉就行了
 
@@ -121,7 +121,7 @@ shoka主题下，离开和进入博客页面时，浏览器TAB标签的内容会
 
 修改这些内容的方式是更改主题目录的`language`文件夹下的文件，以`en.yml`为例：
 
-![image-20230430162513720](https://res.cloudinary.com/sycamore/image/upload/v1682843117/Typera/2023/04/d75d58621c39e3eec92653408e01f7fa.png)
+![image-20230430162513720](https://res.cloudinary.com/sycamore/image/upload/v1792085077/Typora/2023/04/d75d58621c39e3eec92653408e01f7fa.png)
 
 修改这两行文字就行。
 
@@ -173,12 +173,12 @@ shoka主题下，离开和进入博客页面时，浏览器TAB标签的内容会
      记得重新生成一下在线链接。
 2.   然后回到hexo中，配置文件中的`iconfont`下面加一个`iconfont_plus`的配置，名字随意，看着改就行
 3.   然后找到主题目录下的`source/css/`文件夹，创建一个叫做`_iconfont_plus.styl`的文件，文件的内容就是你的`iconfont`项目在线链接的最后部分：
-     ![image-20230430165324891](https://res.cloudinary.com/sycamore/image/upload/v1682844808/Typera/2023/04/8cc09958217b38bce3b8f9affe55f60e.png)
+     ![image-20230430165324891](https://res.cloudinary.com/sycamore/image/upload/v1792085076/Typora/2023/04/8cc09958217b38bce3b8f9affe55f60e.png)
 4.   找到主题目录下的`scripts/generaters/config.js`文件，如下位置添加一个`'iconfont_plus'`：
-     ![image-20230430165616689](https://res.cloudinary.com/sycamore/image/upload/v1682844981/Typera/2023/04/338e079adcf6f44d6edfc2c6ae9b54d4.png)
+     ![image-20230430165616689](https://res.cloudinary.com/sycamore/image/upload/v1792085076/Typora/2023/04/338e079adcf6f44d6edfc2c6ae9b54d4.png)
      （加了这个之后，就可以在主题目录之外修改了，根目录下增加文件`source/_data/iconfont_plus.styl`，但**也可以不加**)
 5.   找到主题目录下的`source/css/_variables.styl`文件，增加：
-     ![image-20230430170136594](https://res.cloudinary.com/sycamore/image/upload/v1682845300/Typera/2023/04/0c5218d4823d0c93f8b4d04589599140.png)
+     ![image-20230430170136594](https://res.cloudinary.com/sycamore/image/upload/v1792085074/Typora/2023/04/0c5218d4823d0c93f8b4d04589599140.png)
 6.   接下来修改同文件夹下的`app.styl`文件，这一步将`iconfont`项目的`css`文件`import`进了主文件
      添加代码：
 

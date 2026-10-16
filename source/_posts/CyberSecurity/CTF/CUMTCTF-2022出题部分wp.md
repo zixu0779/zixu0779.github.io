@@ -4,7 +4,7 @@ date: 2022-6-8 12:04:04
 tags: [CTF,Pwn,Crypto,Misc,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682435935/Typera/2023/04/54a2923a541fe0c86555a91b264f4221.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085624/Typora/2023/04/54a2923a541fe0c86555a91b264f4221.png
 ---
 
 ## PWN
@@ -13,29 +13,29 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682435935/Typera/2023/
 
 这题就不说了吧，连上啥都有，我连要用到的命令解释都给了~
 
-![image-20230426013827815](https://res.cloudinary.com/sycamore/image/upload/v1682444312/Typera/2023/04/6c7177a450f396a3cc1df92db2cec62b.png)
+![image-20230426013827815](https://res.cloudinary.com/sycamore/image/upload/v1792085216/Typora/2023/04/6c7177a450f396a3cc1df92db2cec62b.png)
 ### ret2text
 看一下保护：
-![image-20230426013852620](https://res.cloudinary.com/sycamore/image/upload/v1682444337/Typera/2023/04/8810580d090cd91812198696d7ddb02d.png)
+![image-20230426013852620](https://res.cloudinary.com/sycamore/image/upload/v1792085215/Typora/2023/04/8810580d090cd91812198696d7ddb02d.png)
 主函数：
-![image-20230426013952537](https://res.cloudinary.com/sycamore/image/upload/v1682444396/Typera/2023/04/b70fb5e227640f018d72822fc557ad7e.png)
+![image-20230426013952537](https://res.cloudinary.com/sycamore/image/upload/v1792085213/Typora/2023/04/b70fb5e227640f018d72822fc557ad7e.png)
 后门函数：
-![image-20230426013957304](https://res.cloudinary.com/sycamore/image/upload/v1682444400/Typera/2023/04/217429008da529ab0c39ef4f51553b97.png)
+![image-20230426013957304](https://res.cloudinary.com/sycamore/image/upload/v1792085211/Typora/2023/04/217429008da529ab0c39ef4f51553b97.png)
 
 栈溢出就行，一张好图理解一下：
-![image-20230426014002698](https://res.cloudinary.com/sycamore/image/upload/v1682444407/Typera/2023/04/f1fddeaa3a59bd82ab8dbb7032f73399.png)
+![image-20230426014002698](https://res.cloudinary.com/sycamore/image/upload/v1792085211/Typora/2023/04/f1fddeaa3a59bd82ab8dbb7032f73399.png)
 
 思路：用 ‘a' 覆盖 buf 一直到覆盖上ebp，然后将 ret(返回地址) 的地方写入为后门函数的地址。
 
 双击左侧栏的backdoor函数，右侧能找到函数地址如图：
-![image-20230426014006566](https://res.cloudinary.com/sycamore/image/upload/v1682444409/Typera/2023/04/0462346171ca0ff7f93c6db0364f57de.png)
+![image-20230426014006566](https://res.cloudinary.com/sycamore/image/upload/v1792085207/Typora/2023/04/0462346171ca0ff7f93c6db0364f57de.png)
 
 直接照思路这么写，能打通本地，但是会打不通远程，因为栈帧没有平衡（hint），这时候中间插个 retn 的 gadget 就能解决。
 
 随便找个retn的地址
 这个就能用：
 
-最后，脚本如下（环境没关，可以继续打远程）：![image-20230426014010146](https://res.cloudinary.com/sycamore/image/upload/v1682444413/Typera/2023/04/d5ad6da67403e757b9bc721f47816524.png)
+最后，脚本如下（环境没关，可以继续打远程）：![image-20230426014010146](https://res.cloudinary.com/sycamore/image/upload/v1792085204/Typora/2023/04/d5ad6da67403e757b9bc721f47816524.png)
 
 ```python
 from pwn import *
@@ -163,7 +163,7 @@ opt算法内存状态为：
 因为左右声道藏的内容不太一样，所以不能直接相加...
 
 用 Audacity 打开两个音频，放大查看如下（还是挺明显的吧）：
-![image-20230426014027631](https://res.cloudinary.com/sycamore/image/upload/v1682444431/Typera/2023/04/58af7c321f6bb65d3a0870493389096c.png)
+![image-20230426014027631](https://res.cloudinary.com/sycamore/image/upload/v1792085209/Typora/2023/04/58af7c321f6bb65d3a0870493389096c.png)
 所以，得到摩斯的方法：out的左声道 - 原音频左声道，可得前半部分flag，out的右声道 + 原音频右声道，可得后半部分flag
 
 至于怎么加怎么减，我是使用 python 写的脚本，当然还有其他方法（比如有个同学使用的 Au，我是真没想到可以这么解），
@@ -205,7 +205,7 @@ stegsolve打开，LSB隐写能看到提示信息：
 解开后，获得音频文件flag.wav，可以听出来是SSTV  （。＾▽＾）
 
 最后，使用 robot36 解码SSTV音频，可以解出图片如下：
-![image-20230426014034071](https://res.cloudinary.com/sycamore/image/upload/v1682444438/Typera/2023/04/d80937655349012b4803de6fadc1e8de.png)
+![image-20230426014034071](https://res.cloudinary.com/sycamore/image/upload/v1792085201/Typora/2023/04/d80937655349012b4803de6fadc1e8de.png)
 （robot36 为安卓端软件)
 
 扫码得到 flag
@@ -213,13 +213,13 @@ stegsolve打开，LSB隐写能看到提示信息：
 ### 12_bubu_cli
 nc 81.68.81.111 2333
 输出如下：
-![image-20230426014040530](https://res.cloudinary.com/sycamore/image/upload/v1682444445/Typera/2023/04/9aacfad409013817db6c5378063a2777.png)
+![image-20230426014040530](https://res.cloudinary.com/sycamore/image/upload/v1792085207/Typora/2023/04/9aacfad409013817db6c5378063a2777.png)
 
 先仔细观察一下输出的东西，在命令行里，我们可以发现，输出的是一些带颜色的数字 9，这些数字 9 组成了一张张的图片。（应该能看出来是几张图片，对吧）
 
 然后我们把输出的内容保存到文本文件里查看：nc 81.68.81.111 2333 > 1.txt
 大致内容如下：
-![image-20230426014048819](https://res.cloudinary.com/sycamore/image/upload/v1682444454/Typera/2023/04/8032d3085f735ce7f02fb11e33c5ca60.png)
+![image-20230426014048819](https://res.cloudinary.com/sycamore/image/upload/v1792085201/Typora/2023/04/8032d3085f735ce7f02fb11e33c5ca60.png)
 
 可以看到，`<0x1b>[`（即 `\x1b[`）将文本分割成了很多组，这就是 ANSI 转义字符。
 
@@ -267,10 +267,10 @@ for frame in farmes:
 ```
 
 现在我们仔细观察一下获得的29张图片：
-![image-20230426014102173](https://res.cloudinary.com/sycamore/image/upload/v1682444466/Typera/2023/04/fb1417256ebdb703f6b023d21836f2bf.png)
+![image-20230426014102173](https://res.cloudinary.com/sycamore/image/upload/v1792085192/Typora/2023/04/fb1417256ebdb703f6b023d21836f2bf.png)
 
 放大细看，可以发现，大部分图片上都有几个随机出现白点：
-![image-20230426014119100](https://res.cloudinary.com/sycamore/image/upload/v1682444483/Typera/2023/04/02f03d1a519726d4487be9f6f0e3ea8d.png)
+![image-20230426014119100](https://res.cloudinary.com/sycamore/image/upload/v1792085192/Typora/2023/04/02f03d1a519726d4487be9f6f0e3ea8d.png)
 
 无论你是用 ps 还是 画图 或者是其他什么工具查看这些白点的像素，你都会发现它们的RGB为（233,233,233）
 
@@ -291,4 +291,4 @@ for name in range(0,29):
 flag_img.save('flag.png')
 ```
 获得的图片如下：
-![cumtctf2022wp14](https://res.cloudinary.com/sycamore/image/upload/v1682444530/Typera/2023/04/0abbeb74a9829e5975738dce464003bf.png)
+![cumtctf2022wp14](https://res.cloudinary.com/sycamore/image/upload/v1792085192/Typora/2023/04/0abbeb74a9829e5975738dce464003bf.png)

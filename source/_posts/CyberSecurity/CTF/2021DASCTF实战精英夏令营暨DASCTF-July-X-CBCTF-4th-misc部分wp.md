@@ -4,7 +4,7 @@ date: 2021-11-26 18:20:21
 tags: [CTF,Misc,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682434776/Typera/2023/04/e4f4c5ecbc0fc45c6bbe9fd3ced0996e.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085639/Typora/2023/04/e4f4c5ecbc0fc45c6bbe9fd3ced0996e.png
 ---
 
 :::warning

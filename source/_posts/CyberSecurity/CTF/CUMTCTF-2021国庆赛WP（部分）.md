@@ -4,7 +4,7 @@ date: 2021-11-22 23:44:13
 tags: [CTF,Pwn,Misc,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682435935/Typera/2023/04/54a2923a541fe0c86555a91b264f4221.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085624/Typora/2023/04/54a2923a541fe0c86555a91b264f4221.png
 ---
 
 ## PWN
@@ -15,7 +15,7 @@ nc 连上 直接cat flag
 
 ### pwn2
 经典栈溢出
-![image-20230425230815230](https://res.cloudinary.com/sycamore/image/upload/v1682435298/Typera/2023/04/2d25d53292a7b5602fd11b9e1127bcf1.png)
+![image-20230425230815230](https://res.cloudinary.com/sycamore/image/upload/v1792085632/Typora/2023/04/2d25d53292a7b5602fd11b9e1127bcf1.png)
 
 ```python
 from pwn import *
@@ -34,11 +34,11 @@ r.interactive()
 开了NX保护，没开金丝雀
 
 
-![image-20230425230949625](https://res.cloudinary.com/sycamore/image/upload/v1682435393/Typera/2023/04/0ac847eebeec27d62e811700f99b5b71.png)有个echo flag，感觉像是那么回事，实际上没用,
+![image-20230425230949625](https://res.cloudinary.com/sycamore/image/upload/v1792085624/Typora/2023/04/0ac847eebeec27d62e811700f99b5b71.png)有个echo flag，感觉像是那么回事，实际上没用,
 
 所以还是得通过system函数来搞
 
-![image-20230425230831039](https://res.cloudinary.com/sycamore/image/upload/v1682435314/Typera/2023/04/b3a274b13eede296b71c54165bc95d53.png)
+![image-20230425230831039](https://res.cloudinary.com/sycamore/image/upload/v1792085633/Typora/2023/04/b3a274b13eede296b71c54165bc95d53.png)
 
 这里s大小是0x28，所以只能溢出0x8字节，不够写太长的，但是这里可以读两次，所以思路是第一次泄露ebp地址，第二次写入system(‘/bin/sh’)，然后用leave;ret栈劫持s，执行system('/bin/sh')
 
@@ -148,7 +148,7 @@ unsorted bin attack，修改magic的值为unsorted bin的地址，可以使magic
 
 然后打算修改一下system指令的字符串，发现这个字符串被存在rodata，只读
 
-![image-20230425230855187](https://res.cloudinary.com/sycamore/image/upload/v1682435338/Typera/2023/04/4c2f5f1d77fee1973ed990605f1b4cee.png)
+![image-20230425230855187](https://res.cloudinary.com/sycamore/image/upload/v1792085632/Typora/2023/04/4c2f5f1d77fee1973ed990605f1b4cee.png)
 
 
 只能重新搞
@@ -268,7 +268,7 @@ base16解密：cumtctf{it_is_crypto?}
 
 得到信息：
 
-![image-20230425230905993](https://res.cloudinary.com/sycamore/image/upload/v1682435349/Typera/2023/04/6761b9a34806e510c91173b2704cebfa.png)
+![image-20230425230905993](https://res.cloudinary.com/sycamore/image/upload/v1792085626/Typora/2023/04/6761b9a34806e510c91173b2704cebfa.png)
 
 
 然后去搜一下飞机票二维码的数据信息

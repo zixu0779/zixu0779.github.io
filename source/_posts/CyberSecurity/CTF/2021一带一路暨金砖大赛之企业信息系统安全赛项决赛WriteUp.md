@@ -4,7 +4,7 @@ date: 2022-6-20 19:21:28
 tags: [CTF,Web,Misc,Crypto,Re,Pwn]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682445106/Typera/2023/04/81bd849f0c69ea614831384a2cb8e277.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085096/Typora/2023/04/81bd849f0c69ea614831384a2cb8e277.png
 ---
 
 本周三（2022/6/8）我们队伍（**中国矿业大学02队**）代表中国矿业大学参加了 `2021一带一路暨金砖大赛之企业信息系统安全赛项` 的决赛，也顺利地以 **1700/2000** 分拿到了CTF的第一名。
@@ -18,17 +18,17 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682445106/Typera/2023/
 
 http://101.133.134.12:8001/
 
-![image-20220608125508509](https://res.cloudinary.com/sycamore/image/upload/v1682444670/Typera/2023/04/7cc93168358cebd281d36f75a99776e0.png)
+![image-20220608125508509](https://res.cloudinary.com/sycamore/image/upload/v1792085140/Typora/2023/04/7cc93168358cebd281d36f75a99776e0.png)
 
 一个界面就一直点气球,游戏结束也没见往外发包,就直接看js文件,找到存放flag的php
 
-![image-20220608125456098](https://res.cloudinary.com/sycamore/image/upload/v1682444663/Typera/2023/04/16f5828c9e0cfdae068d122fef90351c.png)
+![image-20220608125456098](https://res.cloudinary.com/sycamore/image/upload/v1792085187/Typora/2023/04/16f5828c9e0cfdae068d122fef90351c.png)
 
-![image-20220609223446550](https://res.cloudinary.com/sycamore/image/upload/v1682444663/Typera/2023/04/a428fdb8fa9752169a008288a92d1b8b.png)
+![image-20220609223446550](https://res.cloudinary.com/sycamore/image/upload/v1792085184/Typora/2023/04/a428fdb8fa9752169a008288a92d1b8b.png)
 
 访问flag.php会跳转到404，F12监控一下流量就行
 
-![image-20220609223614556](https://res.cloudinary.com/sycamore/image/upload/v1682444664/Typera/2023/04/3ad71e6932bcc48f3adcdf7778e35ca0.png)
+![image-20220609223614556](https://res.cloudinary.com/sycamore/image/upload/v1792085183/Typora/2023/04/3ad71e6932bcc48f3adcdf7778e35ca0.png)
 
 flag:88E3773E766EE1FFD98F3FEBE7D876DB
 
@@ -38,7 +38,7 @@ flag:88E3773E766EE1FFD98F3FEBE7D876DB
 
 http://101.133.134.12:8002/
 
-![image-20220608090837625](https://res.cloudinary.com/sycamore/image/upload/v1682444665/Typera/2023/04/6188997a808503d88da1f67d3c493704.png)
+![image-20220608090837625](https://res.cloudinary.com/sycamore/image/upload/v1792085176/Typora/2023/04/6188997a808503d88da1f67d3c493704.png)
 
 SQL注入,过滤空格和for,union,`,`,for,空格 ,*等关键字，最关键的是查表，information没法用了，找个替代表即可
 
@@ -116,13 +116,13 @@ http://101.133.134.12:8003/
 
 谜语了可以说是,弄了半天坐大牢不知道干什么，赛后看师傅们说还是SQL，蚌埠住了，万万没想到会出两道SQL
 
-![image-20220609221731113](https://res.cloudinary.com/sycamore/image/upload/v1682444664/Typera/2023/04/39f4ca5dcdc6510260cb32462e4fc610.png)
+![image-20220609221731113](https://res.cloudinary.com/sycamore/image/upload/v1792085183/Typora/2023/04/39f4ca5dcdc6510260cb32462e4fc610.png)
 
 ### web4 
 
 http://101.133.134.12:8004/
 
-![image-20220609221821224](https://res.cloudinary.com/sycamore/image/upload/v1682444663/Typera/2023/04/2cbdf0994890977a091df5ca11120743.png)
+![image-20220609221821224](https://res.cloudinary.com/sycamore/image/upload/v1792085187/Typora/2023/04/2cbdf0994890977a091df5ca11120743.png)
 
 扫一下可以看到源码备份的index.php.bak,得到下面源码
 
@@ -163,11 +163,11 @@ FDA095FC516DA9AE2A15AB135BFF8C80
 
 http://101.133.134.12:8005/
 
-![image-20220609221148060](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/45b7a99411b7284e79ecc93b545cba46.png)
+![image-20220609221148060](https://res.cloudinary.com/sycamore/image/upload/v1792085153/Typora/2023/04/45b7a99411b7284e79ecc93b545cba46.png)
 
 控制面板显示是个tabib框架,但是上网找相关漏洞没有任何发现,网站的页面到处点也没发现可利用点,文件上传和新建数据什么的实际上不会发包执行,但是在日历版块有异常,访问会返回下面这句话但是
 
-![image-20220609211231533](https://res.cloudinary.com/sycamore/image/upload/v1682444665/Typera/2023/04/dfcdddcfc40379b8f4ed863db11fc3bd.png)
+![image-20220609211231533](https://res.cloudinary.com/sycamore/image/upload/v1792085177/Typora/2023/04/dfcdddcfc40379b8f4ed863db11fc3bd.png)
 
 猜测问题是出在这里,但是不知道漏洞点在哪里,最后开了个扫描发现一个console接口,进去发现是一个Flask后台,想到计算Pin码但是并不可行,最后发现在日历接口有SSTI,使用SSTI获取/flag
 
@@ -188,11 +188,11 @@ http://101.133.134.12:8005/{{''[request.values.c][request.values.m][-1][request.
 
 http://101.133.134.12:8006/
 
-![image-20220609222553452](https://res.cloudinary.com/sycamore/image/upload/v1682444665/Typera/2023/04/86078170c086e4be0e3c19618dfdbd0f.png)
+![image-20220609222553452](https://res.cloudinary.com/sycamore/image/upload/v1792085180/Typora/2023/04/86078170c086e4be0e3c19618dfdbd0f.png)
 
-![image-20220609222805556](https://res.cloudinary.com/sycamore/image/upload/v1682444666/Typera/2023/04/40d9dc8e7b8a4958999cf8472e8e3a44.png)
+![image-20220609222805556](https://res.cloudinary.com/sycamore/image/upload/v1792085169/Typora/2023/04/40d9dc8e7b8a4958999cf8472e8e3a44.png)
 
-![image-20220609222758667](https://res.cloudinary.com/sycamore/image/upload/v1682444666/Typera/2023/04/e667aae1d40eb237c602fe151a73a56c.png)
+![image-20220609222758667](https://res.cloudinary.com/sycamore/image/upload/v1792085172/Typora/2023/04/e667aae1d40eb237c602fe151a73a56c.png)
 
 
 
@@ -205,7 +205,7 @@ http://101.133.134.12:8006/
 ### misc1
 给的文件后缀名是 .bat，010打开发现，实际上应该是个ppt（有很明显的PowerPoint字符），
 更改后缀名为 ppt 之后，wps 打开，发现需要密码。
-![image-20230426014555010](https://res.cloudinary.com/sycamore/image/upload/v1682444758/Typera/2023/04/8a2cd7f40020deec0fb07a490c84beb6.png)
+![image-20230426014555010](https://res.cloudinary.com/sycamore/image/upload/v1792085131/Typora/2023/04/8a2cd7f40020deec0fb07a490c84beb6.png)
 
 在用 notepad 查看的时候，翻阅过程中突然看到提示：密码为4位纯数字
 
@@ -251,7 +251,7 @@ for i in passw:
 binwalk分离，得到了很多文件，依次打开，查看文件内容，
 其中一个文件：3BD12，
 打开后获得一串base64：
-![image-20230426014548136](https://res.cloudinary.com/sycamore/image/upload/v1682444751/Typera/2023/04/768eee297663a9e32fc4fc496cac6f97.png)
+![image-20230426014548136](https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/768eee297663a9e32fc4fc496cac6f97.png)
 
 两次 base64 解码后，就能得到flag
 
@@ -259,18 +259,18 @@ binwalk分离，得到了很多文件，依次打开，查看文件内容，
 打开听了一下，感觉像SSTV（今年 Misc 考这个的还真不少...），
 安卓端使用 robot36 解码，
 获得图片如下：
-![image-20230426014542237](https://res.cloudinary.com/sycamore/image/upload/v1682444746/Typera/2023/04/f51ed89d71155cbcda0bfc8f6e732d98.png)
+![image-20230426014542237](https://res.cloudinary.com/sycamore/image/upload/v1792085133/Typora/2023/04/f51ed89d71155cbcda0bfc8f6e732d98.png)
 
 ### misc4
 010打开后文件末尾看到提示为：lsb
-![image-20230426014535850](https://res.cloudinary.com/sycamore/image/upload/v1682444738/Typera/2023/04/a0b423aba3dce71da97e7ff584b46211.png)
+![image-20230426014535850](https://res.cloudinary.com/sycamore/image/upload/v1792085133/Typora/2023/04/a0b423aba3dce71da97e7ff584b46211.png)
 
 stegsolve打开后查看通道，发现 R G B 的0通道都有异常，
 提取数据得到一张 jfif 图片如下，
-![image-20230426014529631](https://res.cloudinary.com/sycamore/image/upload/v1682444733/Typera/2023/04/1f50a00f8fc8a07fc7bab3299c06a3cd.png)
+![image-20230426014529631](https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/1f50a00f8fc8a07fc7bab3299c06a3cd.png)
 
 010打开新图片，发现文件中间的base64，解码得到flag
-![image-20230426014522816](https://res.cloudinary.com/sycamore/image/upload/v1682444726/Typera/2023/04/6a15b005d94435c94b76898f2f6b43c5.png)
+![image-20230426014522816](https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/6a15b005d94435c94b76898f2f6b43c5.png)
 
 ## CRYPTO
 ### Crypto1
@@ -279,7 +279,7 @@ stegsolve打开后查看通道，发现 R G B 的0通道都有异常，
 
 base64解密后得到密文K5WTCNDBIZXXUZCHGFHWC22VO5LVO4CDMFCTCNSVKRHGCUSHJV5FI22SJNQUM4CIKJKFET2SGFVXUV2WMRHGKVTMLBJVIQSOMFVVK6CUGBTXOUCRHU6Q====，base64最多有两个=号并且其全为大写，故是base32编码，之后又经过两层base64解码。
 
-![image-20220608110331959](https://res.cloudinary.com/sycamore/image/upload/v1682444666/Typera/2023/04/cdefdc67d556d6eab98241c52fffe5c3.png)
+![image-20220608110331959](https://res.cloudinary.com/sycamore/image/upload/v1792085173/Typora/2023/04/cdefdc67d556d6eab98241c52fffe5c3.png)
 
 ```python
 import base64
@@ -313,11 +313,11 @@ for i in range(128):
 
 打印结果如下
 
-![image-20220608110941375](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/95583e673986ca8fb15a052c62d8b6d8.png)
+![image-20220608110941375](https://res.cloudinary.com/sycamore/image/upload/v1792085150/Typora/2023/04/95583e673986ca8fb15a052c62d8b6d8.png)
 
 在shfit的偏移为119时发现一个可疑的明文信息，尝试base64解密。
 
-![image-20220608111119812](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/c1f50a879e27e33a64a8e8f5b722b870.png)
+![image-20220608111119812](https://res.cloudinary.com/sycamore/image/upload/v1792085161/Typora/2023/04/c1f50a879e27e33a64a8e8f5b722b870.png)
 
 发现两次解密后即为flag，完整代码如下。
 
@@ -343,7 +343,7 @@ RSA公钥加密，题目附件中包括c、n、e，但是e比较小且是偶数�
 
 等待一段时间后n被成功分解，如下图。
 
-![image-20220608111541593](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/11e61701c1ca00d8a3f8593f77dadbf6.png)
+![image-20220608111541593](https://res.cloudinary.com/sycamore/image/upload/v1792085150/Typora/2023/04/11e61701c1ca00d8a3f8593f77dadbf6.png)
 
 得到p和q后就可以求私钥，但是(e,phi)=4,故无逆元，那么根据m^e mod n 可以变为 (m^4)^(e/4)这样e/4和phi便互素,但是这样c^d mod n后得到的为m^4 mod n，直接用iroot尝试开4次方，最后转为字符即发现flag。
 
@@ -381,7 +381,7 @@ keyword = getKeyword(7)
 
 百度得知加密步骤如下。
 
-![image-20220608114533949](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/015954e81f3f5c183a376d48e8cebdf3.png)
+![image-20220608114533949](https://res.cloudinary.com/sycamore/image/upload/v1792085160/Typora/2023/04/015954e81f3f5c183a376d48e8cebdf3.png)
 
 上图是5X5的ADFGX而本题是ADFGVX是前者的进阶版本，所以key是6x6的矩阵，并且置换之后通过key来进行移位加密。
 
@@ -436,7 +436,7 @@ def encipher_sortind(self,string):
 
 可以手动测试
 
-![image-20220608125424031](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/2dcc4036c7d355c33b91d57185d4293f.png)
+![image-20220608125424031](https://res.cloudinary.com/sycamore/image/upload/v1792085153/Typora/2023/04/2dcc4036c7d355c33b91d57185d4293f.png)
 
 这样的话这个ind可以被爆破，因为keyword长度为7那么ind的排序为7\*6\*5*4\*3\*2 = 5040种可能，并且其中移位置换后解密不能出现数字或相同字母，爆破即可,解密脚本如下。
 
@@ -493,7 +493,7 @@ ADFGVX参考链接: https://blog.csdn.net/euzen/article/details/119085350
 ## RE
 ### RE1
 
-![image-20220608101847626](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/7c2d39d2c6227afa277042cf00152b28.png)
+![image-20220608101847626](https://res.cloudinary.com/sycamore/image/upload/v1792085144/Typora/2023/04/7c2d39d2c6227afa277042cf00152b28.png)
 
 GO语言逆向题，flag直接和输入比对，可以在main_mian函数的窗口看到flag，或string+F12搜索flag即可。
 
@@ -503,27 +503,27 @@ flag{02f4fd5497119e238350002c5dbe1341}
 
 首先shfit+F12在strings窗口看到有关flag的明文字符，交叉引用定位check函数。
 
-![image-20220608102221703](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/9b5fe8265403314329b3c674044bb68b.png)
+![image-20220608102221703](https://res.cloudinary.com/sycamore/image/upload/v1792085156/Typora/2023/04/9b5fe8265403314329b3c674044bb68b.png)
 
 可见被去了符号，可以根据明文信息判断printf等系统函数或者结合IDA自带的Lumina恢复符号(不过效果不是很明显)。
 
-![image-20220608102354592](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/da8d38b07b5e7cf03c41a567f48d5153.png)
+![image-20220608102354592](https://res.cloudinary.com/sycamore/image/upload/v1792085157/Typora/2023/04/da8d38b07b5e7cf03c41a567f48d5153.png)
 
 根据反编译代码结构大致猜测是对输入明文进行了异或处理(或其他更多操作)，可以结合调试来判断，构造输入为flag{aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa}。
 
-![image-20220608103006635](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/8f3cf2b4c05deabfe371be3385cfd607.png)
+![image-20220608103006635](https://res.cloudinary.com/sycamore/image/upload/v1792085159/Typora/2023/04/8f3cf2b4c05deabfe371be3385cfd607.png)
 
 V5首先指向输入附近，继续单步发现v9指向输入字符串的首部指针，V10指向尾部指针。
 
-![image-20220608103326614](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/909ed8188b35431bcc1e4bb5116a0d4a.png)
+![image-20220608103326614](https://res.cloudinary.com/sycamore/image/upload/v1792085153/Typora/2023/04/909ed8188b35431bcc1e4bb5116a0d4a.png)
 
 之后通过首位指针来让整个字符串异或7，并保存v6的结构体内(v6应该是个结构体，其地址处的第二个指针指向加密后的结果)。最终将加密结果与&unk_7FF6EFEE78D0指向的结构体中的密文比对。
 
-![image-20220608103527434](https://res.cloudinary.com/sycamore/image/upload/v1682444666/Typera/2023/04/65edca9055c4a728e1d318e7368d47f7.png)
+![image-20220608103527434](https://res.cloudinary.com/sycamore/image/upload/v1792085166/Typora/2023/04/65edca9055c4a728e1d318e7368d47f7.png)
 
 密文在其指向地址的第二个指针。
 
-![image-20220608103552293](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/a0381cbf6ff1dc1230b451116c3934e0.png)
+![image-20220608103552293](https://res.cloudinary.com/sycamore/image/upload/v1792085163/Typora/2023/04/a0381cbf6ff1dc1230b451116c3934e0.png)
 
 综上，提取出密文异或即可。
 
@@ -539,11 +539,11 @@ print(bytes(s))
 
 拖入IDA，观察main函数逻辑。
 
-![image-20220608104456550](https://res.cloudinary.com/sycamore/image/upload/v1682444666/Typera/2023/04/7f7e210fc34a6bc3fcfb1bb2d1cd4b34.png)
+![image-20220608104456550](https://res.cloudinary.com/sycamore/image/upload/v1792085173/Typora/2023/04/7f7e210fc34a6bc3fcfb1bb2d1cd4b34.png)
 
 首先是输入32位数据存入buffer，之后无论如何都会进入LABLE_5并且将输入2个一组作为16进制数据存入v21，并且计算出总字节数的长度len，对len进行>>3，也就是8个一组。
 
-![image-20220608105103276](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/995c29f2976872b6b957bee05684239a.png)
+![image-20220608105103276](https://res.cloudinary.com/sycamore/image/upload/v1792085157/Typora/2023/04/995c29f2976872b6b957bee05684239a.png)
 
 之后8个一组内进行上述加密，根据其结构可以判断出是魔改的Tea加密，还原算法如下。
 
@@ -603,7 +603,7 @@ int main() {
 
 以下是俩个格式化字符串漏洞的位置。
 
-![image-20220608113001740](https://res.cloudinary.com/sycamore/image/upload/v1682444666/Typera/2023/04/a60c1fa88d00bafbe95816ea1a206fbd.png)
+![image-20220608113001740](https://res.cloudinary.com/sycamore/image/upload/v1792085181/Typora/2023/04/a60c1fa88d00bafbe95816ea1a206fbd.png)
 
 第一次运行：
 
@@ -707,7 +707,7 @@ p.interactive()
 ```
 
 
-![image-20220608114145159](https://res.cloudinary.com/sycamore/image/upload/v1682444669/Typera/2023/04/d26beea959cbaa17cbecb1d5b70d5514.png)
+![image-20220608114145159](https://res.cloudinary.com/sycamore/image/upload/v1792085140/Typora/2023/04/d26beea959cbaa17cbecb1d5b70d5514.png)
 
 ### orw_h2
 
@@ -715,7 +715,7 @@ libc 2.31 下的经典菜单堆题。
 
 漏洞很简单，free 掉堆块的时候没有清空指针，是一个很直接的 **UAF**：
 
-![image-20220608113201143](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/57e330134d62778bbe29225751d63f8d.png)
+![image-20220608113201143](https://res.cloudinary.com/sycamore/image/upload/v1792085164/Typora/2023/04/57e330134d62778bbe29225751d63f8d.png)
 
 思路：
 
@@ -869,7 +869,7 @@ p.interactive()
 
 简单的 kernel 题，给了任意地址写。
 
-![image-20220608114038284](https://res.cloudinary.com/sycamore/image/upload/v1682444667/Typera/2023/04/b7beb5832ebd13347106f73a5efab408.png)
+![image-20220608114038284](https://res.cloudinary.com/sycamore/image/upload/v1792085150/Typora/2023/04/b7beb5832ebd13347106f73a5efab408.png)
 
 那么劫持 **modprobe_path** 为我们自己的恶意 sh 文件路径，复制文件更改权限，就可以读 flag。
 
@@ -960,7 +960,7 @@ p.interactive()
 
 截图证明顺利的读到 **flag** 。
 
-![image-20220608113858776](https://res.cloudinary.com/sycamore/image/upload/v1682444669/Typera/2023/04/ec5895eb753ca0112ace1beac830a20a.png)
+![image-20220608113858776](https://res.cloudinary.com/sycamore/image/upload/v1792085141/Typora/2023/04/ec5895eb753ca0112ace1beac830a20a.png)
 
 ### 参考链接
 [【NOTES.0x03】Linux Kernel Pwn II：Basic Exploit to Kernel Pwn in CTF - arttnba3's blog](https://arttnba3.cn/2021/03/03/NOTE-0X03-LINUX-KERNEL-PWN-PART-II/)

@@ -4,7 +4,7 @@ date: 2021-11-29 23:02:55
 tags: [CTF,Misc,Python]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682437178/Typera/2023/04/c5a9db9e102c912faba686513f8d522c.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085585/Typora/2023/04/c5a9db9e102c912faba686513f8d522c.png
 ---
 
 ## Misc
@@ -26,4 +26,4 @@ cv_color = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
 cv2.imwrite('img.png', cv_color)
 ```
 再用stegsolve看一下通道就可以了
-![image-20230425232822379](https://res.cloudinary.com/sycamore/image/upload/v1682436506/Typera/2023/04/0c489cb73329a1ef49146321f8fde3bd.png)
+![image-20230425232822379](https://res.cloudinary.com/sycamore/image/upload/v1792085617/Typora/2023/04/0c489cb73329a1ef49146321f8fde3bd.png)

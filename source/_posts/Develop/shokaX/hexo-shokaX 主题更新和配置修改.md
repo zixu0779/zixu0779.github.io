@@ -4,7 +4,7 @@ date: 2025-01-20 12:05:53
 tags: [Develop,Hexo,shokaX,博客主题]
 categories: 
  - [Develop, shokaX]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682846617/Typera/2023/04/577e6e5d3f3fdf4d5af4e71de5c13847.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085073/Typora/2023/04/577e6e5d3f3fdf4d5af4e71de5c13847.png
 ---
 
 Shoka-X 主题做了很多更新，所以趁有空更新一下主题。

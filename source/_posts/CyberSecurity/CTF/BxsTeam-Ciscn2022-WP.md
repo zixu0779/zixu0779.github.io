@@ -4,7 +4,7 @@ date: 2022-6-20 19:23:14
 tags: [CTF,Web,Misc,Crypto,Re,Pwn]
 categories: 
  - [CyberSecurity,CTF]
-cover: https://res.cloudinary.com/sycamore/image/upload/v1682445189/Typera/2023/04/3cefa989c163e2c70c942cacb0d2b9a5.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792085087/Typora/2023/04/3cefa989c163e2c70c942cacb0d2b9a5.png
 ---
 
 ## web
@@ -13,7 +13,7 @@ cover: https://res.cloudinary.com/sycamore/image/upload/v1682445189/Typera/2023/
 
 http://192.168.166.147:58005/flag
 
-![image-20220619093945836](https://res.cloudinary.com/sycamore/image/upload/v1682444986/Typera/2023/04/fdc13e831337fd37296da62226314d5c.png)
+![image-20220619093945836](https://res.cloudinary.com/sycamore/image/upload/v1792085111/Typora/2023/04/fdc13e831337fd37296da62226314d5c.png)
 
 flag{61ee5435b6f59d42329ac2644d887dc2}
 
@@ -25,17 +25,17 @@ http://192.168.166.147:58003
 
 打开题目就跳转到腾讯网页面,F12流量监控也没找到题目正常的返回数据,就用了Burp代理
 
-![image-20220619194519069](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/71b04071868e94c14ab68545511866d3.png)
+![image-20220619194519069](https://res.cloudinary.com/sycamore/image/upload/v1792085112/Typora/2023/04/71b04071868e94c14ab68545511866d3.png)
 
 打开Burp看到流量发往了www.qq.com,手动修改了一下流量目的地址和请求头host
 
-![image-20220619194841691](https://res.cloudinary.com/sycamore/image/upload/v1682444983/Typera/2023/04/404af43648ff7e40324818cb9d0a9580.png)
+![image-20220619194841691](https://res.cloudinary.com/sycamore/image/upload/v1792085127/Typora/2023/04/404af43648ff7e40324818cb9d0a9580.png)
 
-![image-20220619195032081](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/6196e0859e1cc306b89e66254f983d62.png)
+![image-20220619195032081](https://res.cloudinary.com/sycamore/image/upload/v1792085116/Typora/2023/04/6196e0859e1cc306b89e66254f983d62.png)
 
 可以看到这回一个提供文件上传接口的地方,访问一下`upload.php`可以得到源码,但一些字符被html编码
 
-![image-20220619195647524](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/128a44607394d2e48e0b6fa71a7ac246.png)
+![image-20220619195647524](https://res.cloudinary.com/sycamore/image/upload/v1792085112/Typora/2023/04/128a44607394d2e48e0b6fa71a7ac246.png)
 
 到本地写html页面访问即可得到源码:
 
@@ -232,23 +232,23 @@ include("phar://./phar.gif/f1ag.txt");
 </html>
 ```
 
-![image-20220619202551241](https://res.cloudinary.com/sycamore/image/upload/v1682444983/Typera/2023/04/928bc6b5a4b37ece34945ec48f050563.png)
+![image-20220619202551241](https://res.cloudinary.com/sycamore/image/upload/v1792085130/Typora/2023/04/928bc6b5a4b37ece34945ec48f050563.png)
 
 上传文件后自动跳转到题目的`/upload.php`下面,得到文件上传地址
 
-![image-20220619202710848](https://res.cloudinary.com/sycamore/image/upload/v1682444983/Typera/2023/04/8604d2a808d2a95033b7e47354f02a32.png)
+![image-20220619202710848](https://res.cloudinary.com/sycamore/image/upload/v1792085127/Typora/2023/04/8604d2a808d2a95033b7e47354f02a32.png)
 
 然后使用phar协议加载这个文件地址即可触发反序列化
 
 http://192.168.166.147:58003/upload.php?img=phar://./storage/ae08a63f.gif
 
-![image-20220619203123372](https://res.cloudinary.com/sycamore/image/upload/v1682444983/Typera/2023/04/857640a3f076370e147a02fa7830303b.png)
+![image-20220619203123372](https://res.cloudinary.com/sycamore/image/upload/v1792085130/Typora/2023/04/857640a3f076370e147a02fa7830303b.png)
 
 最终会因为反序列化调用`SoapClient`访问/flag.php而将flag写入flag.txt,但是因为我们的文件格式并不是gif所以并不会满足if条件而输出`go away hacker`但是问题不大,此时去访问flag.txt即可得到flag
 
 http://192.168.166.147:58003/flag.txt
 
-![image-20220619203336153](https://res.cloudinary.com/sycamore/image/upload/v1682444984/Typera/2023/04/111191a5c9016190e8b5bcab43d52be6.png)
+![image-20220619203336153](https://res.cloudinary.com/sycamore/image/upload/v1792085127/Typora/2023/04/111191a5c9016190e8b5bcab43d52be6.png)
 
 ## 
 
@@ -274,17 +274,17 @@ pikalang解密网站：https://www.dcode.fr/pikalang-language
 是一个内存镜像文件，同时获得内存的操作系统类型及版本
 
 使用 AXIOM 分析内存镜像文件，镜像配置文件直接选择 `Win10x64_14393`：
-![image-20230426015056726](https://res.cloudinary.com/sycamore/image/upload/v1682445061/Typera/2023/04/e34c8c2bc8f3779902c6fc3ef8d6d26f.png)
+![image-20230426015056726](https://res.cloudinary.com/sycamore/image/upload/v1792085091/Typora/2023/04/e34c8c2bc8f3779902c6fc3ef8d6d26f.png)
 
 
 
 AXIOM 分析完毕后，先好好地翻一翻，看看都有啥。
 使用痕迹 --> 操作系统 --> Windows 时间线活动，能找到不少 VeraCrypt 的运行痕迹：
-![image-20230426015040521](https://res.cloudinary.com/sycamore/image/upload/v1682445044/Typera/2023/04/3c5e8d2335b4749ed416a8374458b0d1.png)
+![image-20230426015040521](https://res.cloudinary.com/sycamore/image/upload/v1792085091/Typora/2023/04/3c5e8d2335b4749ed416a8374458b0d1.png)
 
 使用痕迹 --> web 相关，对日期做降序排序之后，能看到不少文件记录，
 值得注意的有：几个虚拟磁盘文件，很可疑的flag.txt.txt，BitLocker 恢复密钥，decrypt.png，secret.zip
-![image-20230426015035954](https://res.cloudinary.com/sycamore/image/upload/v1682445040/Typera/2023/04/858e96afc434419d85425864be03a11b.png)
+![image-20230426015035954](https://res.cloudinary.com/sycamore/image/upload/v1792085095/Typora/2023/04/858e96afc434419d85425864be03a11b.png)
 使用痕迹 --> 加密，能看到5个 BitLocker 恢复密钥文件，其中四个恢复密钥部分内容完整，且包含有三个不同的恢复密钥，如下：
 `109703-115929-085558-382888-715638-661716-466774-220858`
 `172612-531773-032945-133364-584639-681373-481602-511291`
@@ -295,20 +295,20 @@ web 相关中得到的几个可以文件，应该与挂载之后的步骤有关�
 几个 BitLocker 恢复密钥，应该是需要我们使用恢复密钥，解开后面得到的某个文件。
 
 结合所给的提示：键盘密码，发现该文件的文件名很有特点，其轨迹如下：
-![image-20230426015029743](https://res.cloudinary.com/sycamore/image/upload/v1682445035/Typera/2023/04/e5efed00ab6006e2ec2efbfeb24d0dbf.png)
+![image-20230426015029743](https://res.cloudinary.com/sycamore/image/upload/v1792085095/Typora/2023/04/e5efed00ab6006e2ec2efbfeb24d0dbf.png)
 
 可以看出，应该是 TZ，推测挂载需使用的密码应该就是这个。
 成功将磁盘文件挂载到本地后，得到一个虚拟磁盘文件：`encrypt.vhd`
 
 打开 DiskGenius，磁盘 --> 打开虚拟磁盘文件，选择上一步得到的文件，
 是使用 BitLocker 加密的：
-![image-20230426015024693](https://res.cloudinary.com/sycamore/image/upload/v1682445028/Typera/2023/04/f84d4415570a55914af21382e4c88d08.png)
+![image-20230426015024693](https://res.cloudinary.com/sycamore/image/upload/v1792085105/Typora/2023/04/f84d4415570a55914af21382e4c88d08.png)
 
 依次尝试之前获得的三个恢复密钥，可以成功解开，获得 `decrypt.png`和`secret.zip`：
-![image-20230426015019970](https://res.cloudinary.com/sycamore/image/upload/v1682445027/Typera/2023/04/6a6c5ab814e6d331f41a18998a8a6ff8.png)
+![image-20230426015019970](https://res.cloudinary.com/sycamore/image/upload/v1792085105/Typora/2023/04/6a6c5ab814e6d331f41a18998a8a6ff8.png)
 
 其中，`secret.zip`被加密，结合文件名推测`decrypt,png`应该包含密码。
-![image-20230426015015401](https://res.cloudinary.com/sycamore/image/upload/v1682445026/Typera/2023/04/70720bc6a39d9eab22e5f340a1829e4c.png)
+![image-20230426015015401](https://res.cloudinary.com/sycamore/image/upload/v1792085105/Typora/2023/04/70720bc6a39d9eab22e5f340a1829e4c.png)
 
 文字提示：致敬 babydisk，可以联想到初赛的那道题，查看 wp 后获得关键词**螺旋**。
 尝试后得到密码为：从右上角开始，按顺时针旋转的顺序列出偏旁：`⼃⼇⼋⼏⼎⼍⼌⼈⼄⼀⼁⼂⼆⼊⼉⼅`
@@ -316,7 +316,7 @@ web 相关中得到的几个可以文件，应该与挂载之后的步骤有关�
 （必须注意字符的问题，手打出来的偏旁，可能因为输入法的原因，无论如何也解不出来）
 
 解得 flag.txt 内容如下：
-![image-20230426015010492](https://res.cloudinary.com/sycamore/image/upload/v1682445014/Typera/2023/04/3a481abbd31dbb4dba5468a45f209de5.png)
+![image-20230426015010492](https://res.cloudinary.com/sycamore/image/upload/v1792085108/Typora/2023/04/3a481abbd31dbb4dba5468a45f209de5.png)
 
 用脚本解密：
 ```python
@@ -434,7 +434,7 @@ print('\n'.join([''.join([chr(c) for c in x]) for x in msg]))
 
 得到对应输出
 
-![](https://res.cloudinary.com/sycamore/image/upload/v1682444984/Typera/2023/04/fe48ad2860db212c649751149211d71d.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792085124/Typora/2023/04/fe48ad2860db212c649751149211d71d.png)
 
 可见能看到明文信息，从最后一串下手，可以猜出是 e  were neither up nor down. OK ，根据明文与密文异或求出key。
 
@@ -451,7 +451,7 @@ print(chr(int('25',16)^ord('e')))
 
 还有一位没有还原，可以结合第一句话是倒数第四句话they来推测，拿到正确的key，之后key与所有密文异或。
 
-![image-20220619211840330](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/ff1f317976f4a27903d448b1ab4c8a29.png)
+![image-20220619211840330](https://res.cloudinary.com/sycamore/image/upload/v1792085124/Typora/2023/04/ff1f317976f4a27903d448b1ab4c8a29.png)
 
 还原出的key作为压缩包解密，第二关给了一个字典和一个加salt的hash，hash无法逆求所以只能是爆破将字典的字符按照对应的salt依次爆破。
 
@@ -515,23 +515,23 @@ android逆向，jadx打开，查看main1Activity，其中主要函数如下
 首先check了flag的格式和长度，checkFmt用于确定输入无大写，之后调用了stringFromJNI即native层函数,故主要逻辑在so文件，先解压apk，ida加载x86的so文件，首先查看导出表，发现该函数是静态注册的，修改一下参数如下。
 
 
-![image-20220619201210787](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/35f672f500d43444bd5231a0a8c258b7.png)
+![image-20220619201210787](https://res.cloudinary.com/sycamore/image/upload/v1792085123/Typora/2023/04/35f672f500d43444bd5231a0a8c258b7.png)
 
 首先判断传入内容是否为32位，之后跟进sub_D1FE5640函数对flag的内容进行check。
 
-![image-20220619201406417](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/106131f536b262650aa3b590534a0514.png)
+![image-20220619201406417](https://res.cloudinary.com/sycamore/image/upload/v1792085116/Typora/2023/04/106131f536b262650aa3b590534a0514.png)
 
 这一步是读取序列化文件tmp，用于之后加密使用,紧接着通过sscanf将输入两个一组转为16进制存入一个数组，32为输入为仅为16进制的字符。
 
-![image-20220619201917396](https://res.cloudinary.com/sycamore/image/upload/v1682444984/Typera/2023/04/04108af78a95bd369ca3ba2f1a87376d.png)
+![image-20220619201917396](https://res.cloudinary.com/sycamore/image/upload/v1792085124/Typora/2023/04/04108af78a95bd369ca3ba2f1a87376d.png)
 
 之后是调用了`com/risid/test/AESEncrypt`对象中的encrypt方法，并且通过`SetByteArrayRegion`函数实现JNI向java层传参数，jadx中可以找到encrypt方法的定义。
 
-![image-20220619202135278](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/cbb3b62057a98ec580c35b63d77d89f9.png)
+![image-20220619202135278](https://res.cloudinary.com/sycamore/image/upload/v1792085112/Typora/2023/04/cbb3b62057a98ec580c35b63d77d89f9.png)
 
 JNI传给该函数的参数content是sscanf后存入的数组，iv则是"0123456789abcdef"，第三个参数则是从tmp中解析的对象，可见上述操作主要实现了AES的CBC加密，主要解密密文的前16个字节，已经拿到了iv还缺少key。
 
-![image-20220619203245330](https://res.cloudinary.com/sycamore/image/upload/v1682444984/Typera/2023/04/2cb8a1e069fa00e3c92f1926f902ca6e.png)
+![image-20220619203245330](https://res.cloudinary.com/sycamore/image/upload/v1792085127/Typora/2023/04/2cb8a1e069fa00e3c92f1926f902ca6e.png)
 
 key可以在`com/risid/test`包中的`AESGenerator`类中找到，用python尝试解密即可。
 
@@ -553,11 +553,11 @@ re签到题，exeinfo查壳，64位无壳elf文件，ida64载入。
 
 `flag`：flag{061cc4091400c082234a57034ed05cf2}
 
-![image-20220619204320327](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/c61d07c934a61164fc0d92c28ff9d3ad.png)
+![image-20220619204320327](https://res.cloudinary.com/sycamore/image/upload/v1792085116/Typora/2023/04/c61d07c934a61164fc0d92c28ff9d3ad.png)
 
 findcrypt插件搜索，发现AES的sbox，并且main函数逻辑比较清晰。
 
-![image-20220619204531962](https://res.cloudinary.com/sycamore/image/upload/v1682444985/Typera/2023/04/f8cec6059657af8083a6574724aef7e0.png)
+![image-20220619204531962](https://res.cloudinary.com/sycamore/image/upload/v1792085115/Typora/2023/04/f8cec6059657af8083a6574724aef7e0.png)
 
 v5是AES秘钥，ptr是扩展秘钥，秘钥是32位，sub_1DC5是秘钥扩展，sub_2181则是分两个16字节进行加密，AES ECB模式，直接解密即可拿到flag。
 
@@ -574,7 +574,7 @@ print(aes.decrypt(c))
 ## PWN
 ### duck
 
-![image-20220619194732802](https://res.cloudinary.com/sycamore/image/upload/v1682444986/Typera/2023/04/b330caffb4d582c144c2e06d22eb3057.png)
+![image-20220619194732802](https://res.cloudinary.com/sycamore/image/upload/v1792085108/Typora/2023/04/b330caffb4d582c144c2e06d22eb3057.png)
 
 **flag{693edf4763ef4cdd4f152794028b7f5e}**
 
@@ -700,7 +700,7 @@ p.interactive()
 
 ### bigduck
 
-![image-20220619194814107](https://res.cloudinary.com/sycamore/image/upload/v1682444987/Typera/2023/04/fd8d10ea967cd9e8e58b8c6e824fdcd2.png)
+![image-20220619194814107](https://res.cloudinary.com/sycamore/image/upload/v1792085108/Typora/2023/04/fd8d10ea967cd9e8e58b8c6e824fdcd2.png)
 
 **flag{afae47ead2452a4b5ba629ec88635a51}**
 
@@ -864,7 +864,7 @@ p.interactive()
 
 ### blue
 
-![image-20220619194659319](https://res.cloudinary.com/sycamore/image/upload/v1682444986/Typera/2023/04/8e1ce7b9cbee53accfec12b7b98f925a.png)
+![image-20220619194659319](https://res.cloudinary.com/sycamore/image/upload/v1792085109/Typora/2023/04/8e1ce7b9cbee53accfec12b7b98f925a.png)
 
 **flag{8c65b8bd2169f2cf662ae9e324aaef66}**
 
