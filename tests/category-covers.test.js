@@ -7,7 +7,7 @@ let generator;
 vm.runInNewContext(fs.readFileSync('scripts/category-covers.js', 'utf8'), {
   require,
   hexo: {
-    extend: { filter: { register: (_, callback) => callback() }, generator: { get: () => () => [{ data: { catlist: [] } }], register: (_, fn) => { generator = fn; } } },
+    extend: { filter: { register: (_, callback) => callback() }, generator: { get: () => async () => [{ data: { catlist: [] } }], register: (_, fn) => { generator = fn; } } },
     theme: { config: { category_covers: { Diary: 'https://example.com/diary.jpg' } }, setView: (_, value) => { template = value; } }
   }
 });
@@ -24,6 +24,7 @@ console.log('Category cover URL override and local fallback verified');
 
 const collection = { length: 0, sort() { return this; }, limit() { return this; }, toArray() { return []; } };
 const cat = { _id: 'diary', slug: 'Diary', posts: collection };
-const routes = generator({ categories: { forEach: fn => fn(cat), find: () => collection } });
-assert.equal(routes[0].data.catlist[0], cat);
-console.log('Configured category remains visible without a local cover');
+generator({ categories: { forEach: fn => fn(cat), find: () => collection } }).then(routes => {
+  assert.equal(routes[0].data.catlist[0], cat);
+  console.log('Configured category remains visible without a local cover');
+}).catch(error => { console.error(error); process.exitCode = 1; });

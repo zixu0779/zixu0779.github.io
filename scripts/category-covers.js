@@ -5,8 +5,8 @@ let indexWrapped = false;
 hexo.extend.filter.register('before_generate', () => {
   if (!indexWrapped) {
     const generate = hexo.extend.generator.get('index');
-    hexo.extend.generator.register('index', function (locals) {
-      const routes = generate.call(this, locals);
+    hexo.extend.generator.register('index', async function (locals) {
+      const routes = await generate.call(this, locals);
       const categories = locals.categories;
       for (const route of routes) {
         const cards = route.data?.catlist;
