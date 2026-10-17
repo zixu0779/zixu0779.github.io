@@ -69,6 +69,12 @@ default_category: uncategorized
 category_map:
   Mod Develop: Mod-Develop
   Cyberpunk 2077: Cyberpunk-2077
+  软件开发: Develop
+  游戏 Mod: Mod-Develop
+  赛博朋克 2077: Cyberpunk-2077
+  生活记录: Diary
+  网络安全: CyberSecurity
+  人工智能: AI
 tag_map:
 
 # Metadata elements
