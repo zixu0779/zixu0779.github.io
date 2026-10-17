@@ -21,9 +21,13 @@ assert.equal(opens, 1, 'direct encoded hash opens the target');
 handlers.hashchange(); assert.equal(opens, 1, 'refresh does not reopen a manually closed target');
 details = { ...details }; handlers.hashchange(); assert.equal(opens, 2, 'PJAX replacement is opened');
 let prevented = false;
-clicks[0]({ target: { closest: () => ({ href: location.origin + location.pathname + location.hash }) }, button: 0,
+clicks[0]({ target: { closest: () => ({ hasAttribute: () => false, href: location.origin + location.pathname + location.hash }) }, button: 0,
   preventDefault() { prevented = true; }, stopImmediatePropagation() {} });
 assert(prevented); assert.equal(opens, 3, 'clicking the same hash can reopen the target');
+clicks[0]({ target: { closest: () => ({ hasAttribute: name => name === 'data-category-page', href: location.origin + location.pathname + location.hash }) }, button: 0,
+  preventDefault() { assert.fail('category navigation must not consume pagination clicks'); },
+  stopImmediatePropagation() { assert.fail('pagination handler must receive the click'); } });
+assert.equal(opens, 3, 'pagination does not reopen the category or reset its page');
 location.hash = '#category-Develop-parent'; handlers.hashchange(); assert.equal(opens, 3, 'parent links do not open unrelated groups');
 location.hash = '#category-%'; handlers.hashchange(); assert.equal(opens, 3, 'malformed hashes are ignored');
 console.log('Latest-post category ordering and direct/PJAX/same-hash category navigation verified');
