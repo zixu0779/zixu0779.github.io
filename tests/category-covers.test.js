@@ -5,7 +5,7 @@ const pug = require('node:module').createRequire(require.resolve('hexo-renderer-
 let template;
 let generator;
 vm.runInNewContext(fs.readFileSync('scripts/category-covers.js', 'utf8'), {
-  require,
+  require: require('node:module').createRequire(require('node:path').resolve('scripts/category-covers.js')),
   hexo: {
     extend: { filter: { register: (_, callback) => callback() }, generator: { get: () => async () => [{ data: { catlist: [] } }], register: (_, fn) => { generator = fn; } } },
     theme: { config: { category_covers: { Diary: 'https://example.com/diary.jpg' } }, setView: (_, value) => { template = value; } }

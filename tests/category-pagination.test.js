@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const helpers = {};
 vm.runInNewContext(fs.readFileSync('scripts/category-directory.js', 'utf8'), {
-  require, hexo: { extend: { helper: { register: (name, fn) => helpers[name] = fn }, filter: { register() {} } } }
+  require: require('node:module').createRequire(require('node:path').resolve('scripts/category-directory.js')), hexo: { extend: { helper: { register: (name, fn) => helpers[name] = fn }, filter: { register() {} } } }
 });
 const paginator = require('hexo/dist/plugins/helper/paginator').default || require('hexo/dist/plugins/helper/paginator');
 const context = { page: {}, config: { url: 'http://localhost:4001', root: '/', pagination_dir: 'page' }, __: key => key };

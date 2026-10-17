@@ -1,5 +1,6 @@
 const { readFileSync } = require('node:fs');
 const { dirname, join } = require('node:path');
+const categoryOrder = require('../lib/category-order');
 let indexWrapped = false;
 
 hexo.extend.filter.register('before_generate', () => {
@@ -18,10 +19,15 @@ hexo.extend.filter.register('before_generate', () => {
           if (top !== cat) cat.top = top;
           const children = categories.find({ parent: cat._id });
           cat.child = children.length;
-          cat.subs = children.length ? children.sort({ name: 1 }).limit(6).toArray() : [];
+          cat.subs = children.length ? children.toArray().sort(categoryOrder).slice(0, 6) : [];
           const posts = children.length ? cat.posts.sort({ title: 1 }).filter(post => post.categories.last()._id === cat._id) : cat.posts.sort({ title: 1 });
           cat.subs.push(...posts.limit(Math.max(0, 6 - cat.subs.length)).toArray());
           cards.push(cat);
+        });
+        cards.sort(categoryOrder);
+        cards.forEach(card => {
+          const children = categories.find({ parent: card._id }).toArray().sort(categoryOrder);
+          if (children.length) card.subs = [...children.slice(0, 6), ...card.subs.filter(sub => !sub.posts)].slice(0, 6);
         });
       }
       return routes;

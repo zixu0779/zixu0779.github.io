@@ -1,4 +1,5 @@
 const { escapeHTML } = require('hexo-util');
+const categoryOrder = require('../lib/category-order');
 const anchor = category => 'category-' + category.path.replace(/^categories\//, '').replace(/\/$/, '').replace(/\//g, '-');
 hexo.extend.filter.register('before_generate', () => hexo.extend.generator.register('category', () => []));
 // Both the theme and the expandable directory use Hexo's paginator and theme options.
@@ -18,7 +19,7 @@ hexo.extend.helper.register('archive_row', function (post, format = 'MM-DD', sho
   return `<article class="item normal" itemscope itemtype="http://schema.org/Article"><div class="meta"><time itemprop="dateCreated" datetime="${post.date.toISOString()}">${this.date(post.date, format)}</time>${showCategory && category ? `<a href="${this.url_for(category.path)}">${escapeHTML(category.name)}</a>` : ''}</div><div class="title"><a href="${this.url_for(post.path)}" itemprop="url"><span itemprop="name">${escapeHTML(post.title)}</span></a></div></article>`;
 });
 hexo.extend.helper.register('category_directory', function () {
-  const categories = this.site.categories.toArray().sort((a, b) => a.name.localeCompare(b.name, 'en'));
+  const categories = this.site.categories.toArray().sort(categoryOrder);
   const row = post => this.archive_row(post, 'YYYY-MM-DD', false);
   const group = (category, posts, hideTitle = false) => {
     if (!posts.length) return '';

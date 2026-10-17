@@ -4,7 +4,7 @@ const vm = require('node:vm');
 const code = fs.readFileSync('source/js/site-ui.js', 'utf8');
 const rows = Array.from({length:12}, () => ({hidden:false}));
 const listeners = {}, animations = [], nav = {dataset:{paginationPage:0}}, navs = [nav, {dataset:{paginationPage:1}}, {dataset:{paginationPage:2}}];
-let reduceMotion = false;
+let reduceMotion = false, scrolls = 0;
 const content = {
   getBoundingClientRect: () => ({height: rows.filter(row=>!row.hidden).length*50 + (navs.some(nav=>!nav.hidden)?60:0)}),
   animate: (frames, options) => {const animation = {frames,options,playState:'running',cancel(){this.playState='idle';}}; animations.push(animation); return animation;}
@@ -12,7 +12,7 @@ const content = {
 const details = {dataset:{},open:false,querySelectorAll:selector=>selector==='[data-pagination-page]'?navs:rows,closest:()=>({parentElement:{}}),addEventListener:(name,fn)=>listeners[name]=fn,
   querySelector:selector=>selector==='.category-content'?content:null};
 vm.runInNewContext(code.slice(code.indexOf("    document.querySelectorAll('.category-group details"),code.indexOf('    const topButton')), {
- document:{querySelectorAll:selector=>selector.includes('not([data-ready])')?[details]:[]},reducedMotion:()=>reduceMotion,categorySize:{observe(){}},scheduleLayout(){},Event
+ document:{querySelectorAll:selector=>selector.includes('not([data-ready])')?[details]:[]},reducedMotion:()=>reduceMotion,categorySize:{observe(){}},scheduleLayout(){},locateCategory(){},categoryAnchor:details,scrollToTarget(){scrolls++;},Event
 });
 const finish = animation => { animation.playState = 'finished'; animation.onfinish?.(); };
 const summary = () => listeners.click({target:{closest:selector=>selector==='summary'?{}:null},preventDefault(){}});
@@ -50,3 +50,10 @@ paginate(2);
 assert.deepEqual(navs.map(nav=>nav.hidden),[true,false,true], 'reduced motion switches immediately');
 assert.equal(animations.at(-1).options.duration, 0);
 console.log('Opening, pagination contraction and closing reuse the same height animation');
+
+details.isConnected = true;
+listeners['category:open']();
+assert.equal(scrolls, 1, 'anchor scroll starts without waiting for expansion to finish');
+assert.equal(details.open, true);
+assert.equal(details.dataset.expanded, 'true');
+assert.deepEqual(navs.map(nav=>nav.hidden), [false,true,true], 'anchor navigation resets pagination to page one');

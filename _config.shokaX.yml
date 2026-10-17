@@ -287,8 +287,8 @@ post:
 
 # 文章是否失效
 outime:
-  enable: false
-  days: 90 # 超过 90 天文章失效
+  enable: true
+  days: 90 # 保留主题配置；当前按更新年份早于当前年份判断
 
 reward:
   # If true, reward will be displayed in every article by default.
@@ -421,6 +421,8 @@ hitokoto: true
 
 # 分类卡片封面：键为分类路径；支持完整 URL，未配置时使用原 cover.jpg。
 category_covers:
+  AI: "https://res.cloudinary.com/sycamore/image/upload/v1792216276/Covers/a52f34c1f306520174b3bdbc613f9ec5.webp"
+  Mod-Develop: "https://res.cloudinary.com/sycamore/image/upload/v1792128370/Covers/cyberpunk-2077.jpg"
   Diary: "https://res.cloudinary.com/sycamore/image/upload/v1792084999/Covers/diary.jpg"
   CyberSecurity: "https://res.cloudinary.com/sycamore/image/upload/v1792128360/Covers/cybersecurity.jpg"
   Develop: "https://res.cloudinary.com/sycamore/image/upload/v1792128365/Covers/develop.png"

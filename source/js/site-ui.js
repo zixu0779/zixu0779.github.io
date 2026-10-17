@@ -6,7 +6,7 @@
   }, true);
   const commentTarget = () => document.getElementById('comments') || document.getElementById('new-comment')?.parentElement;
   let cancelCommentScroll = () => {};
-  const scrollToComments = (resolveTarget, section = commentTarget()) => {
+  const scrollToTarget = (resolveTarget, section = commentTarget()) => {
     cancelCommentScroll();
     const root = document.scrollingElement;
     const key = location.pathname + location.hash;
@@ -28,7 +28,7 @@
     const tick = now => {
       if (!section?.isConnected || location.pathname + location.hash !== key) { cancel(); return; }
       const target = typeof resolveTarget === 'function' ? resolveTarget() : resolveTarget;
-      if (window.shokaXPrepareCommentAnchor && preparedTarget !== target) {
+      if (section.id === 'comments' && window.shokaXPrepareCommentAnchor && preparedTarget !== target) {
         preparedTarget = target;
         window.shokaXPrepareCommentAnchor(target).catch(console.error);
       }
@@ -102,7 +102,7 @@
     if (commentAnchor?.key !== key || commentAnchor.section !== section) commentAnchor = { key, section, loading: false, started: false };
     if (!commentAnchor.started) {
       commentAnchor.started = true;
-      scrollToComments(() => {
+      scrollToTarget(() => {
         const target = document.getElementById(id);
         return target && section.contains(target) ? target : section;
       }, section);
@@ -116,6 +116,32 @@
   };
   window.addEventListener('hashchange', locateComment);
   window.addEventListener('shokax:comments-ready', locateComment);
+  let categoryAnchor;
+  const locateCategory = () => {
+    let id;
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+    const group = document.getElementById(id);
+    if (!group?.matches('.category-group')) { categoryAnchor = null; return; }
+    const details = group.querySelector('details');
+    if (!details?.dataset.ready || categoryAnchor === details) return;
+    categoryAnchor = details;
+    details.dispatchEvent(new Event('category:open'));
+  };
+  window.addEventListener('hashchange', locateCategory);
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const url = new URL(link.href);
+    if (url.origin !== location.origin || url.pathname !== location.pathname || !url.hash.startsWith('#category-')) return;
+    let group;
+    try { group = document.getElementById(decodeURIComponent(url.hash.slice(1))); } catch { return; }
+    if (!group?.matches('.category-group')) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    if (location.hash !== url.hash) history.pushState(null, '', url.hash);
+    categoryAnchor = null;
+    locateCategory();
+  }, true);
   document.addEventListener('click', event => {
     const link = event.target.closest('#new-comment a');
     if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -156,6 +182,16 @@
         animation.onfinish = () => { if (close) details.open = false; scheduleLayout(); };
       };
       details.addEventListener('category:close', () => transition(() => {}, true));
+      details.addEventListener('category:open', () => {
+        document.querySelectorAll('.category-group details[data-expanded="true"]').forEach(other => {
+          if (other !== details) other.dispatchEvent(new Event('category:close'));
+        });
+        transition(() => { page = 0; update(); });
+        if (details.isConnected && categoryAnchor === details) {
+          const group = details.closest('.category-group');
+          scrollToTarget(group, group);
+        }
+      });
       details.addEventListener('click', event => {
         if (event.target.closest('summary')) {
           event.preventDefault();
@@ -181,6 +217,7 @@
       update();
       categorySize.observe(details.closest('.category-group').parentElement);
     });
+    locateCategory();
     const topButton = document.querySelector('#tool .back-to-top');
     if (topButton && !topButton.querySelector('.page-scroll-progress')) {
       const label = document.createElement('span');
@@ -288,7 +325,7 @@
     const comments = commentTarget();
     if (!comments) return;
     loadComments(comments)?.catch(error => console.error('Comments failed to load', error));
-    scrollToComments(comments);
+    scrollToTarget(comments);
   }, true);
   document.addEventListener('keydown', event => {
     if (event.target.matches('#tool .chat, #tool .back-to-top, #tool .contents, #rightNav .search, .social .unlinked') && ['Enter', ' '].includes(event.key)) {
