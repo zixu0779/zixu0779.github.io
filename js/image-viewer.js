@@ -6,10 +6,14 @@
     const images = document.querySelectorAll('.post.block .md img:not(.emoji):not(.vemoji)');
     if (!images.length) return;
     images.forEach(image => {
-      if (image.closest('a')) return;
+      const existing = image.closest('a');
+      if (existing) {
+        if (image.dataset.originalSrc && existing.classList.contains('fancybox')) existing.href = image.dataset.originalSrc;
+        return;
+      }
       const link = document.createElement('a');
       link.className = 'fancybox';
-      link.href = image.dataset.src || image.src;
+      link.href = image.dataset.originalSrc || image.dataset.src || image.src;
       link.dataset.fancybox = 'article';
       if (image.title) link.dataset.caption = image.title;
       image.before(link);
@@ -29,6 +33,11 @@
       console.warn('Image viewer unavailable; original-image links remain usable.', error);
     });
   };
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a.fancybox');
+    const original = link?.querySelector('img[data-original-src]')?.dataset.originalSrc;
+    if (original) link.href = original;
+  }, true);
   document.addEventListener('DOMContentLoaded', init);
   window.addEventListener('pjax:success', init);
 })();

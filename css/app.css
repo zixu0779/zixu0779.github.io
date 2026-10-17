@@ -6334,6 +6334,9 @@ span.label {
 .overview .author .image {
   max-width: 9rem;
 }
+:root[data-theme="dark"] .overview .author .image {
+  content: url("/assets/Z1gg7x_SilverDragon_Blue_512.webp");
+}
 :root[data-theme="dark"] .overview .author .name {
   margin-top: 0.75rem;
 }
@@ -7179,24 +7182,6 @@ html {
   font-size: 1.125rem;
   line-height: 1.5;
 }
-.category-pagination {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 0.75rem;
-}
-.category-pagination button {
-  border: 0;
-  border-radius: 0.5rem;
-  padding: 0.4rem 0.7rem;
-  background: var(--menu-hover);
-  color: var(--text-color);
-  cursor: pointer;
-}
-.category-pagination button:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
 .links .image {
   overflow: hidden;
 }
@@ -7606,10 +7591,7 @@ main {
 .category-directory .item.normal[hidden] {
   display: none;
 }
-.category-directory .category-pagination {
-  margin: 0.5rem 0 1rem 1.875rem;
-}
-.category-directory .category-pagination[hidden] {
+.category-directory .category-content .pagination[hidden] {
   display: none;
 }
 #tool#tool .back-to-top > span:not(.page-scroll-progress) {
@@ -7636,44 +7618,46 @@ main {
 .category-directory {
   overflow-anchor: none;
 }
+.category-group,
+.category-parent {
+  scroll-margin-top: 5rem;
+}
 .category-directory .category-content {
   padding: 0;
   margin: 0;
   overflow: hidden;
   animation: none;
 }
+.category-directory .pagination .inner {
+  display: inline-block;
+  position: relative;
+}
+.category-directory .pagination .inner > .prev,
+.category-directory .pagination .inner > .next {
+  position: absolute;
+  top: 0;
+  margin: 0;
+}
+.category-directory .pagination .inner > .prev {
+  right: 100%;
+}
+.category-directory .pagination .inner > .next {
+  left: 100%;
+}
 .category-directory .category-content .pagination {
   display: block;
-  width: auto;
-  padding: 0.5rem 0 1rem;
-  margin: 0 0 0 1.875rem;
+  padding: 0.35rem 1.875rem;
+  margin: 0;
   text-align: left;
 }
-.category-directory .pagination button {
-  border: 0;
-  background: transparent;
-  color: var(--primary-color);
-  font: inherit;
-  cursor: pointer;
+.category-directory .pagination .inner {
+  margin-left: 2.5rem;
 }
-.category-directory .pagination button:not(:disabled):hover {
-  background: linear-gradient(to right, var(--color-pink), var(--color-orange));
-  color: #fff;
-}
-.category-directory .pagination button:disabled {
-  opacity: 1;
-  background: var(--grey-2);
-  color: var(--grey-5);
-  cursor: default;
-}
-.category-directory .pagination button:disabled:hover {
-  background: var(--grey-2);
-  box-shadow: none;
-  color: var(--grey-5);
-}
-:root[data-theme="dark"] .category-directory .pagination button:disabled {
-  background: #40323d;
-  color: #bfb1bb;
+.category-directory .pagination .inner > .prev,
+.category-directory .pagination .inner > .next {
+  width: 2.5rem;
+  padding: 0;
+  text-align: center;
 }
 .nyx-player.panel,
 .nyx-player.nyx-minibar {
@@ -7731,6 +7715,21 @@ main {
   height: auto;
   aspect-ratio: var(--article-image-ratio);
   object-fit: contain;
+}
+.cards .cover > img.optimized-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+#imgs .optimized-hero:not(.ready) > .item {
+  animation: none;
+  opacity: 0;
+}
+#imgs .optimized-hero:not(.ready) > .item:first-child {
+  opacity: 1;
 }
 @-moz-keyframes unavailable-shake {
   25%, 75% {
