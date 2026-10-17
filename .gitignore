@@ -18,3 +18,6 @@ shokaxTemp/
 # Python helper caches
 __pycache__/
 *.py[cod]
+
+# Private database backups
+.local-backups/
