@@ -27,19 +27,19 @@ updated: 2025-01-21 14:58:19.686
 **实现：**
 1. 使用 **Xshell** 的 工具 -> 新建用户密钥生成向导，完成**ssh公钥、私钥**的生成：![image-20230426010853712](https://res.cloudinary.com/sycamore/image/upload/v1792085337/Typora/2023/04/0c7400e842c42ccbcd324c9147cf6c24.png)
 （填入密码)
-<br>
+
 2. 保存生成的公钥文件（id_rsa_2048.pub），传到**目标服务器**上，![image-20230426010925673](https://res.cloudinary.com/sycamore/image/upload/v1792085337/Typora/2023/04/8a2edc41bc3463490d0617bcbbd9acd1.png)
-<br>
+
 3. 寻找 **authorized_keys** 文件，命令`find -name authorized_keys`，
 如果没有，就通过命令`touch /root/.ssh/authorized_keys`创建。
-<br>
+
 4. 命令`ssh-keygen -t rsa`开启免密登录功能，
-<br>
+
 5. 通过命令`cat 公钥路径 >> /root/.ssh/authorized_keys`把公钥写入到**authorized_keys**，完成注册
-<br>
+
 6. 修改文件权限`chmod 600 ~/.ssh/authorized_keys`
 `chmod 700 ~/.ssh`
-<br>
+
 
 
 

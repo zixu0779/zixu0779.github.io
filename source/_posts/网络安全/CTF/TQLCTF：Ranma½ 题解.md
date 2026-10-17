@@ -77,7 +77,7 @@ for i in range(len(y)):
 print(''.join(z))
 ```
 得到：
-> KGR/QRI 10646-1 zswtqgg d tnxcs tsdtofbrx osk ndnzhl gna Ietygfviy Idoilfvsu Arz (QQJ) hkkqk maikaglvusv ubyp cw ekg krzyj'o kitwkbj alypsdd.  Wjs rzvmebrwoa duwcuosu pqecgqamo cw ekg IFA, uussmpu, ysum aup qfxschljyk swks pcbb khxnsee drdoqpgpwfyv cbg xeupctzou, oql gneg ylv nsg bb zds upygzrxzkjh fq XVT-8, wpr uxxvnw qt wpvy isdz. XVT-8 kif zds tsdtofbrxegktf qt szryafmtqi hkm sahz LD-DUQLQ egjuv, auqjllvtc qfxschljvrehp hlvv iqyk omjehog, sieyafj lqf cwprx ocwezcfh bugp fvwb qb XA-NYYWZ gdniha oap oip wtoqacgnsee wq cwprx rocfhu. HTTPZB{QFOLP6_KRZ1Q}
+> KGR/QRI 10646-1 zswtqgg d tnxcs tsdtofbrx osk ndnzhl gna Ietygfviy Idoilfvsu Arz (QQJ) hkkqk maikaglvusv ubyp cw ekg krzyj'o kitwkbj alypsdd.  Wjs rzvmebrwoa duwcuosu pqecgqamo cw ekg IFA, uussmpu, ysum aup qfxschljyk swks pcbb khxnsee drdoqpgpwfyv cbg xeupctzou, oql gneg ylv nsg bb zds upygzrxzkjh fq XVT-8, wpr uxxvnw qt wpvy isdz. XVT-8 kif zds tsdtofbrxegktf qt szryafmtqi hkm sahz LD-DUQLQ egjuv, auqjllvtc qfxschljvrehp hlvv iqyk omjehog, sieyafj lqf cwprx ocwezcfh bugp fvwb qb XA-NYYWZ gdniha oap oip wtoqacgnsee wq cwprx rocfhu. `HTTPZB{QFOLP6_KRZ1Q}`
 
 观察猜测是维吉尼亚加密，
 1. 直接爆破 [在线网址](https://www.dcode.fr/vigenere-cipher) ：

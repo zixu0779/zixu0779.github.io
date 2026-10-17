@@ -16,11 +16,11 @@ http://192.168.166.147:58005/flag
 
 ![image-20220619093945836](https://res.cloudinary.com/sycamore/image/upload/v1792085111/Typora/2023/04/fdc13e831337fd37296da62226314d5c.png)
 
-flag{61ee5435b6f59d42329ac2644d887dc2}
+`flag{61ee5435b6f59d42329ac2644d887dc2}`
 
 ### 2.ezphp
 
-WEB手用QQ就能做题，提交flag格式：flag{xxxx}，该题环境的ip为:web-模板机get_ip的ip，端口为：58003 
+WEB手用QQ就能做题，提交flag格式：`flag{xxxx}`，该题环境的ip为:web-模板机get_ip的ip，端口为：58003
 
 http://192.168.166.147:58003
 
@@ -256,7 +256,7 @@ http://192.168.166.147:58003/flag.txt
 ## MISC
 
 ### pika
-`flag`：flag{d6246d1f41fad032ee30193f3af15408}
+`flag`：`flag{d6246d1f41fad032ee30193f3af15408}`
 lsb隐写，RGB0通道有异常，导出为一个txt文件。
 内容如下：
 > cGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGlrYSBwaXBpIHBpIHBpcGkgcGkgcGkgcGkgcGlwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaXBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpY2h1IHBpY2h1IHBpY2h1IHBpY2h1IGthIGNodSBwaXBpIHBpcGkgcGlwaSBwaXBpIHBpIHBpIHBpa2FjaHUgcGkgcGkgcGkgcGkgcGkgcGkgcGlrYWNodSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBwaWthY2h1IHBpIHBpIHBpIHBpIHBpIHBpIHBpa2FjaHUgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGkgcGlrYWNodSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBrYSBwaWthY2h1IHBpY2h1IGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIGthIHBpa2FjaHUga2Ega2Ega2Ega2EgcGlrYWNodSBwaSBwaSBwaWthY2h1IHBpIHBpIHBpa2FjaHUgcGlwaSBwaWthY2h1IHBpY2h1IGthIGthIGthIGthIGthIHBpa2FjaHUgcGlwaSBwaSBwaSBwaWthY2h1IHBpY2h1IHBpIHBpIHBpIHBpa2FjaHUga2Ega2Ega2EgcGlrYWNodSBwaXBpIHBpa2FjaHUga2Ega2Ega2Ega2Ega2EgcGlrYWNodSBwaSBwaSBwaSBwaWthY2h1IHBpY2h1IGthIHBpa2FjaHUgcGkgcGkgcGkgcGlrYWNodSBrYSBwaWthY2h1IHBpcGkgcGkgcGlrYWNodSBwaWthY2h1IHBpY2h1IHBpIHBpa2FjaHUga2Ega2Ega2EgcGlrYWNodSBwaSBwaWthY2h1IHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpa2FjaHUga2Ega2Ega2Ega2Ega2Ega2EgcGlrYWNodSBwaXBpIHBpIHBpa2FjaHUgcGljaHUgcGlrYWNodSBwaXBpIGthIGthIGthIGthIGthIHBpa2FjaHUgcGkgcGkgcGkgcGkgcGkgcGlrYWNodSBwaWNodSBrYSBrYSBwaWthY2h1IHBpIHBpIHBpIHBpIHBpa2FjaHUga2EgcGlrYWNodSBrYSBrYSBrYSBrYSBwaWthY2h1IHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpIHBpa2FjaHUgcGlwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaSBwaWthY2h1IA==
@@ -357,7 +357,7 @@ if __name__ == "__main__":
 
 ## CRYPTO
 ### eazy
-`flag`: flag{a9462922e5da8ef93d213c33168881c5}
+`flag`: `flag{a9462922e5da8ef93d213c33168881c5}`
 
 打开后得到base64，解密得到：
 svciqytf10r3ln!nule7
@@ -387,7 +387,7 @@ flagish1p0yev3ryda7!，
 然后 h1p0yev3ryda7! 进行md5 32(小写) 加密，得到flag
 
 ### RunFaster
-`flag`: flag{0ed7bc5c61e32c10e082abd2b5589a22}
+`flag`: `flag{0ed7bc5c61e32c10e082abd2b5589a22}`
 
 下载题目后查看ciphertext.txt，发下里面是整齐的16进制串，题目无其他提示，转成字符后无实意。不过之前比赛遇到过类似的题目，是OTP一次密码，这样确实也符合题目RunFaster，参考[Many-Time-Pad 攻击](https://www.ruanx.net/many-time-pad/)，修改脚本逆求key。
 
@@ -480,13 +480,13 @@ print(str)
 #flag{0ed7bc5c61e32c10e082abd2b5589a22}
 ```
 
-直接将得到的字符包上flag提交不对，长度不对，其余flag的内容均为32位16进制，所以尝试flag{md5(heefaonhinr)}，: ) 提交正确。
+直接将得到的字符包上flag提交不对，长度不对，其余flag的内容均为32位16进制，所以尝试`flag{md5(heefaonhinr)}`，: ) 提交正确。
 
 ## RE
 
 ### crackme2
 
-`flag`: flag{50c418de67942e713517e900dbd12183}
+`flag`: `flag{50c418de67942e713517e900dbd12183}`
 
 android逆向，jadx打开，查看main1Activity，其中主要函数如下
 ```java
@@ -552,7 +552,7 @@ for i in range(16):
 
 re签到题，exeinfo查壳，64位无壳elf文件，ida64载入。
 
-`flag`：flag{061cc4091400c082234a57034ed05cf2}
+`flag`：`flag{061cc4091400c082234a57034ed05cf2}`
 
 ![image-20220619204320327](https://res.cloudinary.com/sycamore/image/upload/v1792085116/Typora/2023/04/c61d07c934a61164fc0d92c28ff9d3ad.png)
 
@@ -577,7 +577,7 @@ print(aes.decrypt(c))
 
 ![image-20220619194732802](https://res.cloudinary.com/sycamore/image/upload/v1792085108/Typora/2023/04/b330caffb4d582c144c2e06d22eb3057.png)
 
-**flag{693edf4763ef4cdd4f152794028b7f5e}**
+**`flag{693edf4763ef4cdd4f152794028b7f5e}`**
 
 libc 2.34 下的 pwn 题，给的漏洞比较基础就是 **UAF**，同时给了 Edit 功能，我们可以很简单的 getshell。
 
@@ -703,7 +703,7 @@ p.interactive()
 
 ![image-20220619194814107](https://res.cloudinary.com/sycamore/image/upload/v1792085108/Typora/2023/04/fd8d10ea967cd9e8e58b8c6e824fdcd2.png)
 
-**flag{afae47ead2452a4b5ba629ec88635a51}**
+**`flag{afae47ead2452a4b5ba629ec88635a51}`**
 
 libc 2.33 下开了沙盒的堆题，其他部分和上题一样。
 
@@ -867,7 +867,7 @@ p.interactive()
 
 ![image-20220619194659319](https://res.cloudinary.com/sycamore/image/upload/v1792085109/Typora/2023/04/8e1ce7b9cbee53accfec12b7b98f925a.png)
 
-**flag{8c65b8bd2169f2cf662ae9e324aaef66}**
+**`flag{8c65b8bd2169f2cf662ae9e324aaef66}`**
 
 Ubuntu GLIBC 2.31-0ubuntu9.8 的堆题，IO jumps 段不可写，没有办法按传统思路走。
 

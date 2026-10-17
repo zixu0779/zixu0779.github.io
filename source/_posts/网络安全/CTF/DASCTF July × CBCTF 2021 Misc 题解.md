@@ -234,7 +234,7 @@ for i in range(11):
 ![拼接后的 DataMatrix](https://res.cloudinary.com/sycamore/image/upload/v1792227475/Typora/2021/11/11cb06fe78395ad52ed1e355.png)
 
 网上搜一下，貌似是DataMatrix，扫出flag
->DASCTF{6bb73086aeb764b5727529d82b084cce}
+>`DASCTF{6bb73086aeb764b5727529d82b084cce}`
 
 ------------
 ## Misc-Nuclear wastewater
@@ -253,7 +253,7 @@ for i in range(3):
 ```
 得到这个
 
-> Ys>UEJht#?ppeEFtstR#~:hi~tR:@s@YRteK#e@KsR&E&:eR:Eht/#iKtteYKhYKYhhhihhKtC2tt:HVEesY&#@Rj!seRi:eitEtKsetKtEE:hh#h#eYKYihhYK(Kt@iSY$KY/@pRsEetsip:~h@eeEs!E&&::EsEEei#/iYe#/ieKKt//iKYhh
+> `Ys>UEJht#?ppeEFtstR#~:hi~tR:@s@YRteK#e@KsR&E&:eR:Eht/#iKtteYKhYKYhhhihhKtC2tt:HVEesY&#@Rj!seRi:eitEtKsetKtEE:hh#h#eYKYihhYK(Kt@iSY$KY/@pRsEetsip:~h@eeEs!E&&::EsEEei#/iYe#/ieKKt//iKYhh`
 
 发现很多重复的字符，想到使用词频分析看一下
 ```python
@@ -285,12 +285,12 @@ print(Counter(f))
 搜了一下Citrix CTX1，大概是某种加密，
 终归还是了解的太少了
 
-搜索发现 [CyberChef](https://cyberchef.org/) 可以进行解密	§(*￣▽￣*)§
+搜索发现 [CyberChef](https://cyberchef.org/) 可以进行解密	§(\*￣▽￣\*)§
 ![CyberChef 第一次 CTX1 解码](https://res.cloudinary.com/sycamore/image/upload/v1792227532/Typora/2021/11/071bc71e6a45cfbb2a507f37.jpg)
 
 ![CyberChef 第二次 CTX1 解码](https://res.cloudinary.com/sycamore/image/upload/v1792227536/Typora/2021/11/ed451e769ca6407f871a4461.jpg)
 解两次得到flag：
->flag{98047de9ce5aaa4c0031fb55e9dfac70}
+>`flag{98047de9ce5aaa4c0031fb55e9dfac70}`
 
 ------------
 到这里，misc就结束啦！ (oﾟvﾟ)ノ

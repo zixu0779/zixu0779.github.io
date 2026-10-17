@@ -1,4 +1,5 @@
 ---
+math: true
 title: "HGAME 2022 第一周题解"
 date: 2022-2-5 12:46:27
 tags: ["Crypto", "Misc", "Python"]

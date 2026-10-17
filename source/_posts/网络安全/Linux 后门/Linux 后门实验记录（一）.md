@@ -78,7 +78,7 @@ updated: 2025-01-21 14:58:19.686
 linux 在 passwd 中存储了用户的信息，但是 passwd 文件允许**所有用户读取**，所以若是用户密码也存放在 passwd 中，将导致用户密码**泄露**。
 因此 Linux 将密码信息**单独存放**到 shadow 文件中。shadow **只有 root 用户**拥有读权限，其他用户**没有任何权限**，从而保证用户密码的安全性。
 
-但是，如果获得shadow文件**（/etc/shadow）**，你会看到里面的密码是这样的：
+但是，如果获得shadow文件（`/etc/shadow`），你会看到里面的密码是这样的：
 ![image-20230426005115328](https://res.cloudinary.com/sycamore/image/upload/v1792085379/Typora/2023/04/ee471def5fbcc8ec8666e76bd4403e8d.png)当然是密码的hash值，不会让你直接看到的密码的明文
 
 但是，对于那些薄弱的密码，我们可以通过 **John the Ripper** 弱口令扫描工具（Kali 自带）进行破解。使用方法如下
@@ -115,7 +115,7 @@ whoami 为 root
 在Linux中执行某些程序时，执行前要先对启动它的用户进行认证，比如我们经常使用的 **su**命令。
 但是，实际工作时，我们常常得用**不同的认证机制**去认证不同程序的账号口令，这就会导致一个主机上有多个**不同的认证系统**，这显然是不合理的。
 所以就有了**PAM机制**。**PAM** 可以说是一套**API**，使管理员可以随意地选择程序的认证方式。
-PAM使用目录**/etc/pam.d/**下的配置文件，即对应着不同的认证方式。程序调用目录下相应的配置文件，从而调用本地的认证模块（**/lib/security/**）。
+PAM使用目录`/etc/pam.d/`下的配置文件，即对应着不同的认证方式。程序调用目录下相应的配置文件，从而调用本地的认证模块（`/lib/security/`）。
 
 ### 后门思路：
 我们**登录**的时候，也是用PAM模块来验证我们的密码是否正确的。
@@ -182,14 +182,14 @@ make
 更改文件的路径为 Linux-PAM-1.4.0/modules/pam_unix/support.c，如下图：![image-20230426005205935](https://res.cloudinary.com/sycamore/image/upload/v1792085368/Typora/2023/04/206c7138eeede30e24a10e586daa7fcc.png)
 重新编译覆盖之后，ssh远程登录，查看日志：![image-20230426005213331](https://res.cloudinary.com/sycamore/image/upload/v1792085368/Typora/2023/04/0a3b87fb36dbc9ad01b198b4b7497f9a.png)
 可以看到，第三条就和第一条一样了。
-<br>
+
 - 若是管理员查看**文件修改的时间**：
 可以用 touch -r 命令修改新文件的时间：
 `touch pam_unix.so -r /tmp/pam_unix.so.bak`（改为备份文件的时间）
 修改前后用`stat pam_unix.so*`命令查看结果如下所示：![image-20230426005217672](https://res.cloudinary.com/sycamore/image/upload/v1792085367/Typora/2023/04/63ec0bad9935885af21524b174d934d7.png)
 （仅更改了两项，可能还是会被管理员察觉，但是通过 -t 可以设定档案的时间记录)
 
-<br>
+
 **效果2：记录通过ssh登录的用户密码：**
 
 同样修改解压目录下的`/modules/pam_unix/pam_unix_auth.c`文件：
@@ -212,11 +212,11 @@ make
 软链接，就是一个指向另一个档案位置的，特殊的档案。
 软连接以路径的形式存在。类似于Windows操作系统中的**快捷方式**。
 
-- 若ssh配置中**开启了PAM身份验证机制**，PAM模块会搜寻相关设定文件（一般在**/etc/pam.d/**）。
-而在**/etc/pam.d/su**文件中启用了**pam_rootok.so**模块。
+- 若ssh配置中**开启了PAM身份验证机制**，PAM模块会搜寻相关设定文件（一般在`/etc/pam.d/`）。
+而在`/etc/pam.d/su`文件中启用了`pam_rootok.so`模块。
 该模块可以使root用户直接通过身份认证，**不需要**输入密码。
-- 当我们指定的端口的软链接文件为 **/路径/su** 的时候，若从该端口**连接ssh**，**PAM**就会去路径`/etc/pam.d/`下找到对应的配置文件，即**/etc/pam.d/su**，
-然后使用 **su** 中启用的**pam_rootok.so**模块，实现无密登录。
+- 当我们指定的端口的软链接文件为 **/路径/su** 的时候，若从该端口**连接ssh**，**PAM**就会去路径`/etc/pam.d/`下找到对应的配置文件，即`/etc/pam.d/su`，
+然后使用 **su** 中启用的`pam_rootok.so`模块，实现无密登录。
 
 
 ### 创建root账户
@@ -240,7 +240,7 @@ make
 
 
 ### 创建其它账户
-PAM中事先是没有供其他用户免密登录的配置文件的，所以，要事先使用下面的命令，用 echo 把引号内的内容保存到`/etc/pam.d/用户名`的文件里面，让以你的用户名为文件名的配置文件使用**pam_rootok.so**模块。
+PAM中事先是没有供其他用户免密登录的配置文件的，所以，要事先使用下面的命令，用 echo 把引号内的内容保存到`/etc/pam.d/用户名`的文件里面，让以你的用户名为文件名的配置文件使用`pam_rootok.so`模块。
 ```
 echo " 
  #%PAM-1.0

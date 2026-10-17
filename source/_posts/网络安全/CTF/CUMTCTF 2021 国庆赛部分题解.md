@@ -261,7 +261,7 @@ for n in all_n:
 
 得到这个：63756D746374667B69745F69735F63727970746F3F7D
 
-base16解密：cumtctf{it_is_crypto?}
+base16解密：`cumtctf{it_is_crypto?}`
 ### 社工？
 大意了，WANG/JIA中间的斜杠还要保留
 
@@ -276,4 +276,4 @@ base16解密：cumtctf{it_is_crypto?}
 
 M1就是旅客姓名
 
-flag : cumtctf{WANG/JIA}
+flag : `cumtctf{WANG/JIA}`
