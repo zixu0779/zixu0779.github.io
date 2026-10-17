@@ -41,5 +41,5 @@ hexo.extend.filter.register('before_generate', () => {
   const configured = "url_for((theme.category_covers || {})[item.slug] || theme.statics + item.slug + '/cover.jpg')";
   const index = readFileSync(join(layout, 'index.pug'), 'utf8');
   if (!index.includes('include _mixin/card.pug')) throw new Error('ShokaX category card include changed');
-  hexo.theme.setView('index.pug', index.replace('include _mixin/card.pug', card.replace(original, configured)));
+  hexo.theme.setView('index.pug', index.replace('include _mixin/card.pug', card.replace(original, configured).replace('div(class="cover" data-background-image!=cover ? cover:"")', 'div(class="cover")\n            != optimized_cover_image(cover)')));
 });

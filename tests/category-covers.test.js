@@ -15,11 +15,11 @@ const mixin = template.slice(template.indexOf('mixin CardRender'), template.inde
 const render = pug.compile(mixin + '\n+CardRender(item)');
 const locals = {
   item: { slug: 'Diary', name: 'Diary', subs: [], length: 0, path: '/categories/Diary/' },
-  url_for: value => value, _url: () => '', _p: () => '', theme: { statics: '/' }
+  optimized_cover_image: url => `<img src="${url}">`, url_for: value => value, _url: () => '', _p: () => '', theme: { statics: '/' }
 };
-assert.match(render(locals), /data-background-image="\/Diary\/cover.jpg"/);
+assert.match(render(locals), /src="\/Diary\/cover.jpg"/);
 locals.theme.category_covers = { Diary: 'https://example.com/Covers/diary.jpg' };
-assert.match(render(locals), /data-background-image="https:\/\/example.com\/Covers\/diary.jpg"/);
+assert.match(render(locals), /src="https:\/\/example.com\/Covers\/diary.jpg"/);
 console.log('Category cover URL override and local fallback verified');
 
 const collection = { length: 0, sort() { return this; }, limit() { return this; }, toArray() { return []; } };
