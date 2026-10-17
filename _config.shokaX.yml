@@ -419,10 +419,8 @@ hitokoto: true
 # shokax/layout/_mixin/widgets.pug: 随机文章数量
 # shokax/source/js/_app/components/comments.ts & tcomments.ts: 评论数量
 
-# 分类卡片封面：键为分类路径；支持完整 URL，未配置时使用原 cover.jpg。
+# 首页精选分类及封面：每项同时指定精选分类路径和封面 URL。
 category_covers:
-  AI: "https://res.cloudinary.com/sycamore/image/upload/v1792216276/Covers/a52f34c1f306520174b3bdbc613f9ec5.webp"
-  Mod-Develop: "https://res.cloudinary.com/sycamore/image/upload/v1792128370/Covers/cyberpunk-2077.jpg"
   Diary: "https://res.cloudinary.com/sycamore/image/upload/v1792084999/Covers/diary.jpg"
   CyberSecurity: "https://res.cloudinary.com/sycamore/image/upload/v1792128360/Covers/cybersecurity.jpg"
   Develop: "https://res.cloudinary.com/sycamore/image/upload/v1792128365/Covers/develop.png"
