@@ -31,7 +31,7 @@
   },
   "https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js": {
     "local": "/vendor/busuanzi-2.3.0.js",
-    "kind": "sandbox",
+    "kind": "js",
     "integrity": "sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S"
   }
 }

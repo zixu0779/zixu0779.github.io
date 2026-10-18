@@ -6,7 +6,7 @@
   window.blogLoadVendor = (url) => {
     if (pending.has(url)) return pending.get(url);
     const asset = assets[url];
-    if (!asset || asset.kind === 'sandbox') return Promise.reject(new Error('Unregistered vendor: ' + url));
+    if (!asset || !['js', 'css'].includes(asset.kind)) return Promise.reject(new Error('Unregistered vendor: ' + url));
     const fetchVerified = async source => {
       const response = await fetch(source, { integrity: asset.integrity, credentials: 'omit', signal: AbortSignal.timeout(6000) });
       if (!response.ok) throw new Error('Vendor HTTP ' + response.status);

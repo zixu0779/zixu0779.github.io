@@ -9,9 +9,11 @@ require('../scripts/vendor-security');
 filters.before_generate();
 assert.throws(()=>filters['after_render:html']('<head></head><script src="https://unknown.invalid/a.js"></script>'),/Unregistered/);
 const page=filters['after_render:html']('<head></head><script src="https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js"></script><script src="/js/siteInit.js?v=0.4.17"></script>');
-assert.match(page,/sandbox="allow-scripts"/);assert.ok(!page.includes('allow-same-origin'));
+assert.ok(!page.includes('iframe') && !page.includes('statistics-frame'));
+assert.match(page,/window.blogLoadVendor\("https:\/\/unpkg.com/);
+assert.ok(!page.includes('Promise.all'), 'statistics must not block theme initialization');
 assert.match(page,/await window.blogVendorReady;await import/);
-assert.ok(generators['statistics-sandbox']().data.includes('Number.isSafeInteger'));
+assert.equal(generators['statistics-sandbox'], undefined);
 (async()=>{
  const url=Object.keys(assets)[1];
  for(const failure of [false,true]){
@@ -27,5 +29,5 @@ assert.ok(generators['statistics-sandbox']().data.includes('Number.isSafeInteger
   assert.deepEqual(requests,failure?[url,assets[url].local]:[url]);
   await assert.rejects(context.window.blogLoadVendor('https://unknown.invalid/a.js'),/Unregistered/);
  }
- console.log('Vendor hashes, rejection, sandbox isolation contract and single-flight fallback verified');
+ console.log('Vendor hashes, rejection, nonblocking statistics and single-flight fallback verified');
 })().catch(e=>{console.error(e);process.exitCode=1;});
