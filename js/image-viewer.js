@@ -20,15 +20,7 @@
       link.append(image);
     });
     // Reuse the theme's configured Fancybox assets; keep original-image links if loading fails.
-    loading ||= Promise.all(Object.entries(vendors).map(([kind, vendor]) => new Promise((resolve, reject) => {
-      const asset = document.createElement(kind === 'css' ? 'link' : 'script');
-      if (kind === 'css') { asset.rel = 'stylesheet'; asset.href = vendor.url; }
-      else asset.src = vendor.url;
-      if (vendor.sri) { asset.integrity = vendor.sri; asset.crossOrigin = 'anonymous'; }
-      asset.onload = resolve;
-      asset.onerror = reject;
-      document.head.append(asset);
-    }))).then(() => { jQuery.fancybox.defaults.hash = false; }).catch(error => {
+    loading ||= window.blogVendorReady.then(() => Promise.all(Object.values(vendors).map(vendor => window.blogLoadVendor(vendor.url)))).then(() => { jQuery.fancybox.defaults.hash = false; }).catch(error => {
       loading = null;
       console.warn('Image viewer unavailable; original-image links remain usable.', error);
     });

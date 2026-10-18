@@ -6852,8 +6852,8 @@ main:has(.friend-module) #quick .percent {
 }
 .timeline .item.normal {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-wrap: nowrap;
+  align-items: baseline;
   padding: 0.625rem 1.875rem;
 }
 .timeline .item.normal::before {
@@ -6867,6 +6867,7 @@ main:has(.friend-module) #quick .percent {
   background: var(--color-blue);
 }
 .timeline .item.normal .meta {
+  flex-shrink: 0;
   display: inline;
   font-size: 0.75rem;
   margin-right: 0.625rem;
@@ -6875,7 +6876,10 @@ main:has(.friend-module) #quick .percent {
   color: var(--grey-5);
 }
 .timeline .item.normal .title {
-  display: inline;
+  line-height: 1.5;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .timeline .item.normal .title a {
   color: var(--primary-color);
