@@ -7032,28 +7032,11 @@ main:has(.friend-module) #quick .percent {
   }
 }
 html {
-  background: var(--grey-1);
+  background: var(--grey-2);
   color-scheme: light;
-  scrollbar-color: #b47790 var(--grey-1);
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  scrollbar-color: #897383 var(--grey-1);
-}
-::-webkit-scrollbar {
-  width: 10px;
-  background: var(--grey-1);
-}
-::-webkit-scrollbar-track {
-  background: var(--grey-1);
-}
-::-webkit-scrollbar-thumb {
-  background: #b47790;
-  border: 2px solid var(--grey-1);
-  border-radius: 8px;
-}
-:root[data-theme="dark"]::-webkit-scrollbar-thumb {
-  background: #897383;
 }
 .timeline .item,
 .collapse .item {
@@ -7224,6 +7207,30 @@ html {
     padding-top: 2rem;
     box-sizing: border-box;
   }
+  #sidebar:has(.tab) > .inner {
+    padding-top: 1rem;
+  }
+  #sidebar.desktop-docked .tab {
+    transform: translateY(max(0px, calc(var(--sidebar-nav-clearance, 0px) - 1rem)));
+    transition: transform 0.2s ease-in-out;
+  }
+}
+@media (min-width: 992px) {
+  #sidebar.desktop-docked .panels {
+    transform: translateY(var(--sidebar-content-offset, 0px));
+    transition: transform 0.2s ease-in-out;
+  }
+  #sidebar.desktop-docked .panels > .inner {
+    transition: max-height 0.2s ease-in-out;
+  }
+}
+@media (min-width: 992px) and (prefers-reduced-motion: reduce) {
+  #nav,
+  #sidebar.desktop-docked .tab,
+  #sidebar.desktop-docked .panels,
+  #sidebar.desktop-docked .panels > .inner {
+    transition: none;
+  }
 }
 .friend-steps .friend-note {
   margin-top: 0.5rem;
@@ -7299,23 +7306,45 @@ main {
 #container:not(:has(.friend-module)) #footer .widgets {
   background: transparent;
 }
-#sidebar .panels > .inner {
+html {
+  --scrollbar-thumb: #b47790;
+}
+:root[data-theme="dark"] {
+  --scrollbar-thumb: #897383;
+}
+html,
+body.loaded {
   scrollbar-width: auto;
-  scrollbar-color: auto;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+html::-webkit-scrollbar,
+body.loaded::-webkit-scrollbar {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+html::-webkit-scrollbar-track,
+body.loaded::-webkit-scrollbar-track {
+  background: transparent;
+}
+html::-webkit-scrollbar-thumb,
+body.loaded::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 8px;
+}
+#sidebar .panels > .inner {
+  scrollbar-width: none;
 }
 #sidebar .panels > .inner::-webkit-scrollbar {
-  display: block;
-  width: 6px;
-  height: 6px;
-  background: transparent;
+  display: none;
 }
-#sidebar .panels > .inner::-webkit-scrollbar-track {
-  background: transparent;
-}
-#sidebar .panels > .inner::-webkit-scrollbar-thumb {
-  background: var(--site-accent);
-  border: 0;
-  border-radius: 6px;
+@media (min-width: 992px) and (max-height: 680px) {
+  #sidebar .overview .menu .item:not(:last-child) {
+    margin-bottom: 0.375rem;
+  }
 }
 #sidebar .overview .menu {
   padding: 0.375rem 1.25rem 0;
@@ -7361,6 +7390,20 @@ main {
   #sidebar .tab {
     position: relative;
     z-index: 2;
+  }
+  #sidebar:has(.tab) .panels > .inner,
+  :root[data-theme="dark"] #sidebar:has(.tab) .panels > .inner {
+    padding-top: 3.625rem;
+    margin-top: -3.625rem;
+  }
+  #sidebar .tab {
+    background: transparent;
+    box-shadow: none;
+    pointer-events: none;
+  }
+  #sidebar .tab .item {
+    pointer-events: auto;
+    background-color: var(--grey-3);
   }
 }
 #main:not(:has(.friend-module)):not(:has(.about-page)),
