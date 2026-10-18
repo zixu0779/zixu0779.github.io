@@ -458,9 +458,12 @@
     const quick = sidebar.querySelector('#quick');
     const desktop = matchMedia('(min-width: 992px)');
     const holder = sidebar.querySelector(':scope > .inner');
+    const nav = document.getElementById('nav');
     let frame;
     const updateSidebar = () => {
       if (!desktop.matches) {
+        holder.style.removeProperty('--sidebar-nav-clearance');
+        holder.style.removeProperty('--sidebar-content-offset');
         sidebar.classList.remove('desktop-docked');
         sidebar.style.minHeight = '';
         holder.style.height = '';
@@ -468,6 +471,10 @@
         scroller.style.overflow = '';
         return;
       }
+      const shouldDock = document.querySelector('main').getBoundingClientRect().top <= 0;
+      const avoidNav = shouldDock && holder.querySelector('.tab') && nav.matches('.show.up');
+      holder.style.setProperty('--sidebar-nav-clearance', avoidNav ? nav.offsetHeight + 8 + 'px' : '0px');
+      sidebar.classList.toggle('desktop-docked', shouldDock);
       const panelsStyle = getComputedStyle(sidebar.querySelector('.panels'));
       const padding = parseFloat(panelsStyle.paddingTop) + parseFloat(panelsStyle.paddingBottom);
       // Measure real panels, not the stretched scrolling viewport.
@@ -475,10 +482,12 @@
         .filter(panel => getComputedStyle(panel).display !== 'none')
         .reduce((height, panel) => height + panel.offsetHeight, 0);
       const tabHeight = holder.querySelector('.tab')?.offsetHeight || 0;
-      const topSpace = parseFloat(getComputedStyle(holder).paddingTop) || 0;
-      const available = Math.max(0, innerHeight - quick.offsetHeight - tabHeight - padding - topSpace);
-      const shouldDock = document.querySelector('main').getBoundingClientRect().top <= 0;
-      sidebar.classList.toggle('desktop-docked', shouldDock);
+      // Overview stays fixed; text panels follow the tabs and reserve their bottom space.
+      const topSpace = (tabHeight ? 1 : 2) * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const followsTabs = sidebar.querySelector('.tab .contents.active, .tab .related.active');
+      const contentOffset = avoidNav && followsTabs ? Math.max(0, nav.offsetHeight + 8 - topSpace) : 0;
+      holder.style.setProperty('--sidebar-content-offset', contentOffset + 'px');
+      const available = Math.max(0, innerHeight - quick.offsetHeight - tabHeight - padding - topSpace - contentOffset);
       sidebar.style.minHeight = naturalHeight + padding + tabHeight + topSpace + quick.offsetHeight + 'px';
       holder.style.height = shouldDock ? innerHeight + 'px' : '';
       const needsScroll = shouldDock && naturalHeight > available;
@@ -493,6 +502,9 @@
     };
     window.addEventListener('scroll', scheduleSidebar, { passive: true });
     window.addEventListener('resize', scheduleSidebar);
+    new MutationObserver(scheduleSidebar).observe(nav, { attributes: true, attributeFilter: ['class'] });
+    const tabs = holder.querySelector('.tab');
+    if (tabs) new MutationObserver(scheduleSidebar).observe(tabs, { attributes: true, subtree: true, attributeFilter: ['class'] });
     const sidebarSize = new ResizeObserver(scheduleSidebar);
     sidebar.querySelectorAll('.panel').forEach(panel => sidebarSize.observe(panel));
     // Native scroll chaining passes subsequent wheel events to the page at either edge.

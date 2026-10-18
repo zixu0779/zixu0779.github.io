@@ -2,16 +2,20 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 assert(fs.statSync('public/css/app.css').size > 0, 'preview stylesheet must not be empty');
+assert(fs.readFileSync('public/css/app.css', 'utf8').includes('--sidebar-nav-clearance'), 'generated CSS must include navigation clearance');
 const code = fs.readFileSync('source/js/site-ui.js', 'utf8');
 const body = code.slice(code.indexOf('    const updateSidebar = () => {'), code.indexOf('    const scheduleSidebar ='));
 const classes = new Set();
-const holder = { style: {}, querySelector: () => null };
+const holder = { style: { setProperty(key, value) { this[key] = value; }, removeProperty(key) { delete this[key]; } }, querySelector: () => null };
 const panel = { offsetHeight: 400 };
 const scroller = { children: [panel], style: {}, scrollTop: 0 };
 let mainTop = 100;
-const sidebar = { style: {}, querySelector: () => ({}), classList: { remove: x => classes.delete(x), toggle: (x, enabled) => enabled ? classes.add(x) : classes.delete(x) } };
+let navVisible = false;
+let followsTabs = false;
+const sidebar = { style: {}, querySelector: selector => selector.startsWith('.tab ') ? followsTabs : {}, classList: { remove: x => classes.delete(x), toggle: (x, enabled) => enabled ? classes.add(x) : classes.delete(x) } };
 const context = { sidebar, holder, scroller, quick: { offsetHeight: 40 }, desktop: { matches: true }, innerHeight: 600,
-  getComputedStyle: element => element === panel ? { display: 'block' } : { paddingTop: element === holder || element === scroller ? '32' : '10', paddingBottom: '0' },
+  nav: { matches: () => navVisible, offsetHeight: 50 },
+  getComputedStyle: element => element === panel ? { display: 'block' } : { fontSize: '16px', paddingTop: element === holder ? '32' : element === scroller ? '32' : '10', paddingBottom: '0' },
   document: { querySelector: selector => { assert.equal(selector, 'main'); return { getBoundingClientRect: () => ({ top: mainTop }) }; } } };
 vm.createContext(context);
 vm.runInContext(body + '\nglobalThis.update = updateSidebar;', context);
@@ -43,5 +47,15 @@ context.update();
 assert.equal(scroller.style.overflow, 'visible', 'tab and overview fit without internal scrolling');
 context.innerHeight = 540;
 context.update();
-assert.equal(scroller.style.maxHeight, '442px', 'the scrolling viewport reserves the real tab row');
+assert.equal(scroller.style.maxHeight, '458px', 'the scrolling viewport reserves the real tab row');
+navVisible = true; context.update();
+assert.equal(holder.style['--sidebar-nav-clearance'], '58px');
+assert.equal(scroller.style.maxHeight, '458px', 'navigation does not shrink the content viewport');
+followsTabs = true; context.update();
+assert.equal(holder.style['--sidebar-content-offset'], '42px');
+assert.equal(scroller.style.maxHeight, '416px', 'text panels reserve the movement below navigation');
+navVisible = false; context.update();
+assert.equal(holder.style['--sidebar-nav-clearance'], '0px');
+assert.equal(scroller.style.maxHeight, '458px', 'hidden navigation restores the original tab height');
+
 console.log('Sidebar fits, tab row, overflow, docking and unclipped layout verified');

@@ -434,12 +434,8 @@ main:has(.friend-module) #quick .percent { display: none; }
   :root[data-theme="dark"] #sidebar .panels > .inner { padding-top: 0; }
   :root[data-theme="dark"] #sidebar .panels { padding-top: 2.25rem; }
 }
-html { background: var(--grey-1); color-scheme: light; scrollbar-color: #b47790 var(--grey-1); }
-:root[data-theme="dark"] { color-scheme: dark; scrollbar-color: #897383 var(--grey-1); }
-::-webkit-scrollbar { width: 10px; background: var(--grey-1); }
-::-webkit-scrollbar-track { background: var(--grey-1); }
-::-webkit-scrollbar-thumb { background: #b47790; border: 2px solid var(--grey-1); border-radius: 8px; }
-:root[data-theme="dark"]::-webkit-scrollbar-thumb { background: #897383; }
+html { background: var(--grey-2); color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
 .timeline .item, .collapse .item { --timeline-center: 2rem; }
 .timeline .item.section, .collapse .item.section { --timeline-center: 2.09375rem; }
 .timeline .item.normal, .collapse .item.normal { --timeline-center: 1.625rem; }
@@ -498,6 +494,18 @@ html { background: var(--grey-1); color-scheme: light; scrollbar-color: #b47790 
 :root { --site-accent: #d47e9a; }
 @media(min-width:992px) {
   #sidebar > .inner { padding-top: 2rem; box-sizing: border-box; }
+  #sidebar:has(.tab) > .inner { padding-top: 1rem; }
+  #sidebar.desktop-docked .tab {
+    transform: translateY(unquote('max(0px, calc(var(--sidebar-nav-clearance, 0px) - 1rem))'));
+    transition: transform .2s ease-in-out;
+  }
+}
+@media(min-width:992px) {
+  #sidebar.desktop-docked .panels { transform: translateY(var(--sidebar-content-offset, 0px)); transition: transform .2s ease-in-out; }
+  #sidebar.desktop-docked .panels > .inner { transition: max-height .2s ease-in-out; }
+}
+@media(min-width:992px) and (prefers-reduced-motion: reduce) {
+  #nav, #sidebar.desktop-docked .tab, #sidebar.desktop-docked .panels, #sidebar.desktop-docked .panels > .inner { transition: none; }
 }
 .friend-steps .friend-note { margin-top: .5rem; color: var(--grey-5); font-size: .85rem; line-height: 1.7; }
 
@@ -524,14 +532,29 @@ main { background: var(--body-bg-shadow); }
 #sidebar #quick li.percent { display: none; }
 #container:not(:has(.friend-module)) #footer .widgets { background: transparent; }
 
-/* Sidebar scrollbars use one scoped style in both overview and article panels. */
-#sidebar .panels > .inner {
+/* Preserve the deployed native scrollbar appearance; blend tracks into the page. */
+html { --scrollbar-thumb: #b47790; }
+:root[data-theme="dark"] { --scrollbar-thumb: #897383; }
+html, body.loaded {
   scrollbar-width: auto;
-  scrollbar-color: auto;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
-#sidebar .panels > .inner::-webkit-scrollbar { display: block; width: 6px; height: 6px; background: transparent; }
-#sidebar .panels > .inner::-webkit-scrollbar-track { background: transparent; }
-#sidebar .panels > .inner::-webkit-scrollbar-thumb { background: var(--site-accent); border: 0; border-radius: 6px; }
+/* Fallback for browsers without scrollbar-color. */
+html, body.loaded {
+  &::-webkit-scrollbar { display: block; width: 10px; height: 10px; background: transparent; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    background-clip: padding-box;
+    border: 2px solid transparent;
+    border-radius: 8px;
+  }
+}
+#sidebar .panels > .inner { scrollbar-width: none; }
+#sidebar .panels > .inner::-webkit-scrollbar { display: none; }
+@media(min-width:992px) and (max-height:680px) {
+  #sidebar .overview .menu .item:not(:last-child) { margin-bottom: .375rem; }
+}
 
 #sidebar .overview .menu { padding: .375rem 1.25rem 0; }
 #sidebar .overview .menu .item:last-child { margin-bottom: 0; }
@@ -562,6 +585,14 @@ main { background: var(--body-bg-shadow); }
     box-sizing: border-box;
   }
   #sidebar .tab { position: relative; z-index: 2; }
+  /* Let content pass behind the individual floating buttons, including their gaps. */
+  #sidebar:has(.tab) .panels > .inner,
+  :root[data-theme="dark"] #sidebar:has(.tab) .panels > .inner {
+    padding-top: 3.625rem;
+    margin-top: -3.625rem;
+  }
+  #sidebar .tab { background: transparent; box-shadow: none; pointer-events: none; }
+  #sidebar .tab .item { pointer-events: auto; background-color: var(--grey-3); }
 }
 
 
