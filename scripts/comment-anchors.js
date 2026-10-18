@@ -25,9 +25,23 @@ const fixCommentNavigation = source => source
   .replace(/let ([\w$]+)=document\.getElementById\("copyright"\);if\(\1\)\{let ([\w$]+)=new IntersectionObserver\([\s\S]*?;\2\.observe\(\1\)\}/g, block => {
     const module = block.match(/import\(("\.\/comments-[^"]+\.js")\)/)?.[1];
     if (!module) return block;
-    return `let commentSection=document.getElementById("comments");if(commentSection){let loading;window.shokaXCommentSection=commentSection;let load=window.shokaXLoadComments=()=>loading??=(import(${module}).then(({walinePageview,walineComment})=>{if(commentSection.isConnected){walinePageview();walineComment()}}).catch(error=>{loading=null;throw error}));window.dispatchEvent(new Event("shokax:comments-ready"));let observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting))load().then(()=>observer.disconnect()).catch(console.error)},{rootMargin:window.innerHeight+"px 0px",threshold:0});observer.observe(commentSection)}`;
+    return `let commentSection=document.getElementById("comments");if(commentSection){let loading;window.shokaXCommentSection=commentSection;let load=window.shokaXLoadComments=()=>loading??=(import(${module}).then(({walinePageview,walineComment})=>{if(commentSection.isConnected){walinePageview();walineComment()}}).catch(error=>{loading=null;throw error}));window.dispatchEvent(new Event("shokax:comments-ready"));let observer=new IntersectionObserver(entries=>{if(entries.some(entry=>entry.isIntersecting))load().then(()=>observer.disconnect()).catch(console.error)},{rootMargin:2*window.innerHeight+"px 0px",threshold:0});observer.observe(commentSection)}`;
   });
+// Validate across all generated chunks, including already-patched incremental builds.
+function validateCommentPatches(sources, walineEnabled) {
+  const required = [['document.getElementById(decodeURIComponent(', 2], ['.getAttribute("href")?.replace(', 3], ['window.shokaXPageScroll=', 1], ['if(!/^#[a-f0-9]{24}$/i.test(location.hash))', 1]];
+  if (walineEnabled) required.push(...['window.shokaXLoadComments=', 'rootMargin:2*window.innerHeight+"px 0px"', 'sanitizeWalineHTML(', '.orig??='].map(marker => [marker, 1]));
+  for (const [marker, expected] of required) {
+    const count = sources.reduce((sum, source) => sum + source.split(marker).length - 1, 0);
+    if (count !== expected) throw new Error(`Comment patch ${marker}: expected ${expected} generated match, found ${count}; review theme compatibility.`);
+  }
+}
 if (typeof hexo !== 'undefined') {
+hexo.extend.filter.register('theme_inject', injects => {
+  if (!hexo.theme.config.waline?.enable) return;
+  const origin = new URL(hexo.theme.config.waline.serverURL).origin;
+  injects.head.raw('waline-preconnect', `<link rel="preconnect" href="${require('hexo-util').escapeHTML(origin)}" crossorigin>`);
+});
 hexo.extend.generator.register('comment-tools', () => ({
   path: 'js/comment-tools.js',
   data: require('esbuild').buildSync({
@@ -36,13 +50,16 @@ hexo.extend.generator.register('comment-tools', () => ({
   }).outputFiles[0].text
 }));
 hexo.extend.filter.register('after_generate', async () => {
+  const pending = new Map();
   for (const path of hexo.route.list().filter(path => /^js\/.*\.js$/.test(path))) {
     let source = '';
     for await (const chunk of hexo.route.get(path)) source += chunk;
     let patched = fixCommentNavigation(fixRecentExcerpt(fixHashLookup(source)));
     if (/^js\/comments-[\w-]+\.js$/.test(path)) patched = fixPreviewSecurity(patched);
-    if (patched !== source) hexo.route.set(path, patched);
+    pending.set(path, patched);
   }
+  validateCommentPatches([...pending].filter(([path]) => /^js\/(?:siteInit\.js|(?:chunk|comments|tcomments)-[\w-]+\.js)$/.test(path)).map(([, source]) => source), hexo.theme.config.waline?.enable);
+  for (const [path, source] of pending) hexo.route.set(path, source);
 });
 }
-module.exports = { fixHashLookup, fixRecentExcerpt, fixCommentNavigation, fixPreviewSecurity };
+module.exports = { validateCommentPatches, fixHashLookup, fixRecentExcerpt, fixCommentNavigation, fixPreviewSecurity };

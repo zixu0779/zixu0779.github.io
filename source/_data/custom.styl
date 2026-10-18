@@ -319,8 +319,8 @@ main:has(.friend-module) #quick .percent { display: none; }
 /* Normal item styles */
 .timeline .item.normal {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  flex-wrap: nowrap;
+  align-items: baseline;
   padding: 0.625rem 1.875rem;
 }
 
@@ -337,6 +337,7 @@ main:has(.friend-module) #quick .percent { display: none; }
 }
 
 .timeline .item.normal .meta {
+  flex-shrink: 0;
   display: inline;
   font-size: 0.75rem;
   margin-right: 0.625rem;
@@ -347,7 +348,10 @@ main:has(.friend-module) #quick .percent { display: none; }
 }
 
 .timeline .item.normal .title {
-  display: inline;
+  line-height: 1.5;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .timeline .item.normal .title a {

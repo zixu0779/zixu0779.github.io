@@ -22,11 +22,13 @@ const preview=fixPreviewSecurity('return parser.parse(emoji(text,map))}');
 assert.ok(preview.includes('sanitizeWalineHTML(parser.parse(emoji(text,map)))'));
 assert.equal(fixPreviewSecurity(preview),preview);
 assert.throws(()=>fixPreviewSecurity('changed parser'),/preview parser changed/);
+const html=require('hexo-util').unescapeHTML(fs.readFileSync('public/about/index.html','utf8'));
+assert.equal((html.match(/<link rel="preconnect" href="https:\/\/waline.sycamore.top" crossorigin>/g)||[]).length,1,'one anonymous cross-origin connection hint, without fetching comments');
 const code=fs.readFileSync('source/js/site-ui.js','utf8');
 const theme=fs.readFileSync('public/js/siteInit.js','utf8');
 const fixed=fixCommentNavigation(theme);
 assert.ok(fixed.includes('window.shokaXLoadComments='));
-assert.ok(fixed.includes('rootMargin:window.innerHeight+"px 0px"'));
+assert.ok(fixed.includes('rootMargin:2*window.innerHeight+"px 0px"'));
 assert.ok(fixed.includes('if(!/^#[a-f0-9]{24}$/i.test(location.hash))'));
 assert.equal(fixCommentNavigation(fixed),fixed);
 const scrollChunks=fs.readdirSync('public/js').filter(name => /^chunk-.*\.js$/.test(name)).map(name => fs.readFileSync('public/js/'+name,'utf8')).filter(source => source.includes('window.shokaXPageScroll='));
@@ -39,7 +41,7 @@ assert.ok(!code.includes('commentCorrection') && !code.includes('}, 700)'),'no d
   const loaderCode=fixed.match(/let commentSection=document.getElementById\("comments"\);if\(commentSection\)\{[\s\S]*?observer\.observe\(commentSection\)\}/)[0].replace(/import\("[^"]+"\)/,'fakeImport()');
   let imports=0, initialized=0, callback, fail=true;
   const loader={window:{innerHeight:800,dispatchEvent:()=>{}},Event:class {},console:{error:()=>{}},document:{getElementById:()=>({isConnected:true})},IntersectionObserver:class {
-    constructor(fn,options){callback=fn;assert.equal(options.rootMargin,'800px 0px');}
+    constructor(fn,options){callback=fn;assert.equal(options.rootMargin,'1600px 0px');}
     observe(){} disconnect(){}
   },fakeImport:()=>{imports++;return fail?Promise.reject(new Error('offline')):Promise.resolve({walinePageview:()=>{},walineComment:()=>initialized++});}};
   vm.runInNewContext(loaderCode,loader);

@@ -1,3 +1,4 @@
+const checkedReplace = require('../lib/checked-replace');
 const { readFileSync } = require('node:fs');
 const { dirname, join } = require('node:path');
 const categoryOrder = require('../lib/category-order');
@@ -41,5 +42,7 @@ hexo.extend.filter.register('before_generate', () => {
   const configured = "url_for((theme.category_covers || {})[item.slug] || theme.statics + item.slug + '/cover.jpg')";
   const index = readFileSync(join(layout, 'index.pug'), 'utf8');
   if (!index.includes('include _mixin/card.pug')) throw new Error('ShokaX category card include changed');
-  hexo.theme.setView('index.pug', index.replace('include _mixin/card.pug', card.replace(original, configured).replace('div(class="cover" data-background-image!=cover ? cover:"")', 'div(class="cover")\n            != optimized_cover_image(cover)')));
+  const configuredCard = checkedReplace(card, original, configured, 'category cover URL');
+  const optimizedCard = checkedReplace(configuredCard, 'div(class="cover" data-background-image!=cover ? cover:"")', 'div(class="cover")\n            != optimized_cover_image(cover)', 'category cover image');
+  hexo.theme.setView('index.pug', checkedReplace(index, 'include _mixin/card.pug', optimizedCard, 'category card include'));
 });

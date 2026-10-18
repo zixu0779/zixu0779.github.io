@@ -1,3 +1,4 @@
+const checkedReplace = require('../lib/checked-replace');
 const { readFileSync } = require('node:fs');
 const { join, dirname } = require('node:path');
 const { stripHTML, unescapeHTML, escapeHTML } = require('hexo-util');
@@ -5,10 +6,13 @@ const { stripHTML, unescapeHTML, escapeHTML } = require('hexo-util');
 hexo.extend.filter.register('before_generate', () => {
   // Reuse the theme's Markdown body, metadata and reward; omit only article-only sections.
   const postView = readFileSync(join(dirname(require.resolve('hexo-theme-shokax/package.json')), 'layout/_partials/post/post.pug'), 'utf8');
-  hexo.theme.setView('standalone-post.pug', postView
-    .replace('if theme.reward.enable', 'if theme.reward.enable && standaloneReward')
-    .replace("        if theme.creative_commons.license\n            != partial('_partials/post/copyright.pug')", '')
-    .replace("    != shokax_inject('postBodyEnd')", ''));
+  let standalone = postView;
+  for (const [before, after] of [
+    ['if theme.reward.enable', 'if theme.reward.enable && standaloneReward'],
+    ["        if theme.creative_commons.license\n            != partial('_partials/post/copyright.pug')", ''],
+    ["    != shokax_inject('postBodyEnd')", '']
+  ]) standalone = checkedReplace(standalone, before, after, 'standalone-post: ' + before);
+  hexo.theme.setView('standalone-post.pug', standalone);
 
   hexo.theme.setView('_partials/post/reward.pug', readFileSync(join(hexo.source_dir, '_layouts/reward.pug'), 'utf8'));
   for (const name of ['page', 'archive']) hexo.theme.setView(name + '.pug', readFileSync(join(hexo.source_dir, '_layouts/' + name + '.pug'), 'utf8'));
