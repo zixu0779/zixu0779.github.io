@@ -1,0 +1,37 @@
+{
+  "https://s4.zstatic.net/ajax/libs/pace/1.2.4/pace.min.js": {
+    "local": "/vendor/pace-1.2.4.js",
+    "integrity": "sha384-k6YtvFUEIuEFBdrLKJ3YAUbBki333tj1CSUisai5Cswsg9wcLNaPzsTHDswp4Az8",
+    "kind": "js"
+  },
+  "https://s4.zstatic.net/ajax/libs/jquery/3.5.1/jquery.min.js": {
+    "local": "/vendor/jquery-3.5.1.js",
+    "integrity": "sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2",
+    "kind": "js"
+  },
+  "https://s4.zstatic.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js": {
+    "local": "/vendor/fancybox-3.5.7.js",
+    "integrity": "sha384-Zm+UU4tdcfAm29vg+MTbfu//q5B/lInMbMCr4T8c9rQFyOv6PlfQYpB5wItcXWe7",
+    "kind": "js"
+  },
+  "https://s4.zstatic.net/ajax/libs/justifiedGallery/3.8.1/js/jquery.justifiedGallery.min.js": {
+    "local": "/vendor/justifiedGallery-3.8.1.js",
+    "integrity": "sha384-TOxsBplaL96/QDWPIUg+ye3v89qSE3s22XNtJMmCeZEep3cVDmXy1zEfZvVv+y2m",
+    "kind": "js"
+  },
+  "https://s4.zstatic.net/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js": {
+    "local": "/vendor/copy_tex-0.16.9.js",
+    "integrity": "sha384-ww/583aHhxWkz5DEVn6OKtNiIaLi2iBRNZXfJRiY1Ai7tnJ9UXpEsyvOITVpTl4A",
+    "kind": "js"
+  },
+  "https://s4.zstatic.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css": {
+    "local": "/vendor/fancybox-3.5.7.css",
+    "integrity": "sha384-Q8BgkilbsFGYNNiDqJm69hvDS7NCJWOodvfK/cwTyQD4VQA0qKzuPpvqNER1UC0F",
+    "kind": "css"
+  },
+  "https://unpkg.com/busuanzi@2.3.0/bsz.pure.mini.js": {
+    "local": "/vendor/busuanzi-2.3.0.js",
+    "kind": "sandbox",
+    "integrity": "sha384-0M75wtSkhjIInv4coYlaJU83+OypaRCIq2SukQVQX04eGTCBXJDuWAbJet56id+S"
+  }
+}
