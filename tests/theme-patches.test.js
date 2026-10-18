@@ -34,4 +34,18 @@ for (const category of [true, false]) {
   });
   assert.equal(scrolls, category ? 0 : 1, 'theme leaves category scrolling to site-ui');
 }
-console.log('Theme year threshold, original day counts and category scroll ownership verified');
+const initSource = fs.readFileSync('node_modules/hexo-theme-shokax/source/js/_app/pjax/siteInit.ts', 'utf8');
+const readyInit = initSource.slice(initSource.indexOf("if (document.readyState === 'loading')"), initSource.indexOf("console.log('%c Theme"));
+for (const readyState of ['loading', 'interactive', 'complete']) {
+  let calls = 0;
+  let listener;
+  vm.runInNewContext(readyInit, {
+    document: { readyState }, siteInit: () => calls++,
+    window: { addEventListener(event, callback, options) {
+      assert.equal(event, 'DOMContentLoaded'); assert.equal(options.once, true); listener = callback;
+    } }
+  });
+  assert.equal(calls, readyState === 'loading' ? 0 : 1);
+  if (listener) { listener(); assert.equal(calls, 1); }
+}
+console.log('Theme notices, category scroll ownership and delayed initialization verified');

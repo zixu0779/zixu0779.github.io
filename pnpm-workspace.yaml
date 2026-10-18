@@ -1,0 +1,8 @@
+# Pin audited transitive dependencies; review before removing these overrides.
+overrides:
+  "esbuild@<0.25.0": "0.25.12"
+  "markdown-it@<14.3.1": "14.3.1"
+  "tar-fs@3": "3.1.3"
+  "ws@8": "8.22.0"
+  "seroval": "1.6.9"
+  "seroval-plugins": "1.6.9"
