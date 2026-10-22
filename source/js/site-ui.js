@@ -153,7 +153,69 @@
     commentAnchor = null;
     locateComment();
   }, true);
+  const placeToolbar = () => {
+    const tool = document.getElementById('tool');
+    if (!tool || tool.querySelector('.tool-toggle')) return;
+    const toggle = document.createElement('button');
+    toggle.className = 'tool-toggle';
+    toggle.type = 'button';
+    let updatePlayer = () => {};
+    const setOpen = open => {
+      tool.classList.toggle('mobile-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? '收起工具栏' : '展开工具栏');
+      toggle.innerHTML = open
+        ? '<svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18"><path d="M4 4l10 10M14 4L4 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+        : '⋯';
+      updatePlayer();
+    };
+    setOpen(false);
+    toggle.addEventListener('click', () => setOpen(!tool.classList.contains('mobile-open')));
+    tool.append(toggle);
+    let panel;
+    const playerSize = new ResizeObserver(() => updatePlayer());
+    updatePlayer = () => {
+      if (!panel || !matchMedia('(max-width: 991px)').matches) return;
+      const style = getComputedStyle(tool);
+      const controls = tool.classList.contains('mobile-open')
+        ? [...tool.querySelectorAll('.back-to-top, .chat, .player button, .tool-toggle')]
+        : [toggle];
+      const height = controls.filter(el => getComputedStyle(el).display !== 'none')
+        .reduce((sum, el) => sum + Math.max(el.scrollHeight, parseFloat(style.getPropertyValue('--tool-button-size')) || 34), 0)
+        + parseFloat(style.paddingTop) + parseFloat(style.paddingBottom) + 2;
+      const bottom = height + parseFloat(style.bottom) + 12;
+      const naturalHeight = Math.max(panel.scrollHeight + 2, panel.offsetHeight);
+      const above = naturalHeight + bottom + 16 <= window.innerHeight;
+      panel.style.setProperty('--player-above-bottom', `${bottom}px`);
+      panel.classList.toggle('mobile-above', above);
+    };
+    const bindPlayer = () => {
+      const next = document.querySelector('.nyx-player.panel');
+      if (next === panel) return;
+      playerSize.disconnect();
+      panel = next;
+      if (panel) {
+        playerSize.observe(panel);
+        updatePlayer();
+      }
+    };
+    new MutationObserver(bindPlayer).observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('resize', updatePlayer);
+    bindPlayer();
+    document.addEventListener('click', event => {
+      if (!tool.contains(event.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && tool.classList.contains('mobile-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    window.addEventListener('pjax:success', () => setOpen(false));
+    window.matchMedia('(max-width: 991px)').addEventListener('change', () => setOpen(false));
+  };
   const refresh = () => {
+    placeToolbar();
     locateComment();
     document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {
       updateAvatar(image);
@@ -469,8 +531,10 @@
         holder.style.height = '';
         scroller.style.maxHeight = '';
         scroller.style.overflow = '';
+        scroller.style.overscrollBehaviorY = 'contain';
         return;
       }
+      scroller.style.overscrollBehaviorY = 'auto';
       const shouldDock = document.querySelector('main').getBoundingClientRect().top <= 0;
       const avoidNav = shouldDock && holder.querySelector('.tab') && nav.matches('.show.up');
       holder.style.setProperty('--sidebar-nav-clearance', avoidNav ? nav.offsetHeight + 8 + 'px' : '0px');
