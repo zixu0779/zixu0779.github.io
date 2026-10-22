@@ -18,12 +18,14 @@ function notice(updated, published = '2020-01-01T12:00:00') {
   return html;
 }
 assert.equal(notice('2025-12-31T12:00:00'), '2020年1月1日/1', 'previous calendar year shows even after only one day');
-assert.equal(notice('2026-01-01T00:00:00'), undefined);
-assert.equal(notice('2027-01-01T00:00:00'), undefined);
+assert.equal(notice('2026-01-01T00:00:00'), '2020年1月1日/0', 'current-year updates do not hide old publications');
+assert.equal(notice('2026-01-01T00:00:00', '2026-01-01T00:00:00'), undefined, 'current-year publications stay hidden');
+assert.equal(notice(undefined, '2027-01-01T00:00:00'), undefined, 'future publications stay hidden');
 assert.equal(notice(undefined), '2020年1月1日/2192', 'no update time retains publication fallback');
 assert.equal(notice('2025-12-31T12:00:00', '2020-01-02T00:30:00+08:00'), '2020年1月2日/1', 'publication date retains the article timezone');
 now = new Date('2026-10-17T12:00:00');
-assert.equal(notice('2026-01-01T12:00:00'), undefined, 'same-year updates stay hidden even after 90 days');
+assert.equal(notice('2026-01-01T12:00:00', '2026-01-01T12:00:00'), undefined, 'same-year publications stay hidden even after 90 days');
+assert.equal(notice('2026-10-17T12:00:00'), '2020年1月1日/0', 'an update today retains the publication-based notice');
 const position = compile('const positionInit' + read('tools').split('export const positionInit')[1].split('/*')[0]);
 for (const category of [true, false]) {
   let scrolls = 0;

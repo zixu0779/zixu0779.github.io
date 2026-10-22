@@ -25,7 +25,8 @@ hexo.extend.filter.register('before_generate', () => {
           cat.subs.push(...posts.limit(Math.max(0, 6 - cat.subs.length)).toArray());
           cards.push(cat);
         });
-        cards.sort(categoryOrder);
+        const featuredOrder = Object.keys(hexo.theme.config.category_covers || {});
+        cards.sort((a, b) => featuredOrder.indexOf(a.slug) - featuredOrder.indexOf(b.slug));
         cards.forEach(card => {
           const children = categories.find({ parent: card._id }).toArray().sort(categoryOrder);
           if (children.length) card.subs = [...children.slice(0, 6), ...card.subs.filter(sub => !sub.posts)].slice(0, 6);

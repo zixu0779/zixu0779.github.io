@@ -35,7 +35,7 @@ hexo.extend.helper.register('category_directory', function () {
   const render = (category, root = false) => {
     const children = categories.filter(item => item.parent === category._id);
     const childPosts = new Set(children.flatMap(item => item.posts.toArray().map(post => post._id)));
-    const own = category.posts.sort('-date').toArray().filter(post => !childPosts.has(post._id));
+    const own = category.posts.toArray().sort((a, b) => Number(b.updated || b.date) - Number(a.updated || a.date)).filter(post => !childPosts.has(post._id));
     return group(category, own, root && !children.length) + children.map(child => render(child)).join('');
   };
   return `<div class="category-directory timeline">${categories.filter(item => !item.parent).map(category => `<section><h2 class="category-parent item header" id="${anchor(category)}-parent">${escapeHTML(category.name)} <small>（${category.posts.length}）</small></h2>${render(category, true)}</section>`).join('')}</div>`;

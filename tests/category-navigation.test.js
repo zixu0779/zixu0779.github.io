@@ -6,6 +6,8 @@ const category = (name, dates) => ({ name, posts: { toArray: () => dates.map(dat
 const categories = [category('旧', ['2021-01-01']), category('含新文章', ['2020-01-01', '2025-01-01']), category('中间', ['2023-01-01'])];
 assert.deepEqual(categories.sort(categoryOrder).map(c => c.name), ['含新文章', '中间', '旧']);
 assert.equal(categoryOrder(category('空', []), category('空', [])), 0);
+const recentlyUpdated = { name: '刚更新的旧文章', posts: { toArray: () => [{ date: new Date('2020-01-01'), updated: new Date('2026-01-01') }] } };
+assert(categoryOrder(recentlyUpdated, category('新发布', ['2025-01-01'])) < 0, 'updated time takes precedence over publication time');
 
 const code = fs.readFileSync('source/js/site-ui.js', 'utf8');
 const handlers = {}, clicks = [];
