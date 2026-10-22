@@ -1,6 +1,6 @@
 const { escapeHTML, unescapeHTML } = require('hexo-util');
 const attr = (tag, name) => tag.match(new RegExp(`\\s${name}=["']([^"']*)["']`, 'i'))?.[1];
-const cloudImage = url => /^https:\/\/res\.cloudinary\.com\/sycamore\/image\/upload\/v\d+\/.+\.(?:png|jpe?g|webp|bmp)(?:[?#].*)?$/i.test(url);
+const cloudImage = url => /^https:\/\/res\.cloudinary\.com\/sycamore\/image\/upload\/(?:v\d+\/)?.+\.(?:png|jpe?g|webp|bmp)(?:[?#].*)?$/i.test(url);
 const derived = (url, width, quality = 'best') => url.replace('/image/upload/', `/image/upload/f_auto,q_auto:${quality},c_limit,w_${width}/`);
 function optimizePostImages(html) {
   return html.replace(/<article\b[^>]*\bclass="[^"]*\bpost\b[^"]*"[^>]*>[\s\S]*?<\/article>/gi, article => article.replace(/<img\b[^>]*>/gi, tag => {

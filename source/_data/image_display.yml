@@ -1,5 +1,6 @@
 # Reviewed article-image display widths in CSS pixels. Original files and aspect ratios stay unchanged.
-# Text screenshots: readable body-sized text; dense interfaces: more detail; small/puzzle images: preserve legibility.
+# Text screenshots: compare the main text visually with the rendered body text before choosing a width.
+# Reviewed 2026-10-19: recent article screenshots calibrated against 16px body text; full interfaces remain constrained by the content column.
 
 # CyberSecurity/CTF/2021一带一路暨金砖大赛之企业信息系统安全赛项决赛WriteUp.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792085140/Typora/2023/04/7cc93168358cebd281d36f75a99776e0.png": 640
@@ -14,12 +15,12 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792085180/Typora/2023/04/86078170c086e4be0e3c19618dfdbd0f.png": 700
 "https://res.cloudinary.com/sycamore/image/upload/v1792085169/Typora/2023/04/40d9dc8e7b8a4958999cf8472e8e3a44.png": 800
 "https://res.cloudinary.com/sycamore/image/upload/v1792085172/Typora/2023/04/e667aae1d40eb237c602fe151a73a56c.png": 640
-"https://res.cloudinary.com/sycamore/image/upload/v1792085131/Typora/2023/04/8a2cd7f40020deec0fb07a490c84beb6.png": 480
-"https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/768eee297663a9e32fc4fc496cac6f97.png": 300
+"https://res.cloudinary.com/sycamore/image/upload/v1792085131/Typora/2023/04/8a2cd7f40020deec0fb07a490c84beb6.png": 420
+"https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/768eee297663a9e32fc4fc496cac6f97.png": 220
 "https://res.cloudinary.com/sycamore/image/upload/v1792085133/Typora/2023/04/f51ed89d71155cbcda0bfc8f6e732d98.png": 300
-"https://res.cloudinary.com/sycamore/image/upload/v1792085133/Typora/2023/04/a0b423aba3dce71da97e7ff584b46211.png": 280
+"https://res.cloudinary.com/sycamore/image/upload/v1792085133/Typora/2023/04/a0b423aba3dce71da97e7ff584b46211.png": 200
 "https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/1f50a00f8fc8a07fc7bab3299c06a3cd.png": 440
-"https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/6a15b005d94435c94b76898f2f6b43c5.png": 300
+"https://res.cloudinary.com/sycamore/image/upload/v1792085136/Typora/2023/04/6a15b005d94435c94b76898f2f6b43c5.png": 220
 "https://res.cloudinary.com/sycamore/image/upload/v1792085173/Typora/2023/04/cdefdc67d556d6eab98241c52fffe5c3.png": 960
 "https://res.cloudinary.com/sycamore/image/upload/v1792085150/Typora/2023/04/95583e673986ca8fb15a052c62d8b6d8.png": 780
 "https://res.cloudinary.com/sycamore/image/upload/v1792085161/Typora/2023/04/c1f50a879e27e33a64a8e8f5b722b870.png": 780
@@ -93,19 +94,19 @@
 
 # CyberSecurity/CTF/CUMTCTF-2021国庆赛WP（部分）.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792085632/Typora/2023/04/2d25d53292a7b5602fd11b9e1127bcf1.png": 499
-"https://res.cloudinary.com/sycamore/image/upload/v1792085624/Typora/2023/04/0ac847eebeec27d62e811700f99b5b71.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/v1792085624/Typora/2023/04/0ac847eebeec27d62e811700f99b5b71.png": 520
 "https://res.cloudinary.com/sycamore/image/upload/v1792085633/Typora/2023/04/b3a274b13eede296b71c54165bc95d53.png": 260
-"https://res.cloudinary.com/sycamore/image/upload/v1792085632/Typora/2023/04/4c2f5f1d77fee1973ed990605f1b4cee.png": 780
-"https://res.cloudinary.com/sycamore/image/upload/v1792085626/Typora/2023/04/6761b9a34806e510c91173b2704cebfa.png": 340
+"https://res.cloudinary.com/sycamore/image/upload/v1792085632/Typora/2023/04/4c2f5f1d77fee1973ed990605f1b4cee.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/v1792085626/Typora/2023/04/6761b9a34806e510c91173b2704cebfa.png": 300
 
 # CyberSecurity/CTF/CUMTCTF-2022出题部分wp.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792085216/Typora/2023/04/6c7177a450f396a3cc1df92db2cec62b.png": 800
-"https://res.cloudinary.com/sycamore/image/upload/v1792085215/Typora/2023/04/8810580d090cd91812198696d7ddb02d.png": 500
+"https://res.cloudinary.com/sycamore/image/upload/v1792085215/Typora/2023/04/8810580d090cd91812198696d7ddb02d.png": 400
 "https://res.cloudinary.com/sycamore/image/upload/v1792085213/Typora/2023/04/b70fb5e227640f018d72822fc557ad7e.png": 540
 "https://res.cloudinary.com/sycamore/image/upload/v1792085211/Typora/2023/04/217429008da529ab0c39ef4f51553b97.png": 240
 "https://res.cloudinary.com/sycamore/image/upload/v1792085211/Typora/2023/04/f1fddeaa3a59bd82ab8dbb7032f73399.png": 600
-"https://res.cloudinary.com/sycamore/image/upload/v1792085207/Typora/2023/04/0462346171ca0ff7f93c6db0364f57de.png": 320
-"https://res.cloudinary.com/sycamore/image/upload/v1792085204/Typora/2023/04/d5ad6da67403e757b9bc721f47816524.png": 400
+"https://res.cloudinary.com/sycamore/image/upload/v1792085207/Typora/2023/04/0462346171ca0ff7f93c6db0364f57de.png": 280
+"https://res.cloudinary.com/sycamore/image/upload/v1792085204/Typora/2023/04/d5ad6da67403e757b9bc721f47816524.png": 340
 "https://res.cloudinary.com/sycamore/image/upload/v1792085209/Typora/2023/04/58af7c321f6bb65d3a0870493389096c.png": 640
 "https://res.cloudinary.com/sycamore/image/upload/v1792085201/Typora/2023/04/d80937655349012b4803de6fadc1e8de.png": 327
 "https://res.cloudinary.com/sycamore/image/upload/v1792085207/Typora/2023/04/9aacfad409013817db6c5378063a2777.png": 960
@@ -132,8 +133,8 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792085596/Typora/2023/04/47a2223d0102f0f858b27c6b0cc851ae.png": 760
 "https://res.cloudinary.com/sycamore/image/upload/v1792085594/Typora/2023/04/6e8ff45b5b28216617a2427f50628c81.png": 760
 "https://res.cloudinary.com/sycamore/image/upload/v1792085599/Typora/2023/04/4dcc2553fda4e522e344eccb3f71b8fd.png": 420
-"https://res.cloudinary.com/sycamore/image/upload/v1792085593/Typora/2023/04/560f7380f89320b8d0bfa86942368be9.png": 680
-"https://res.cloudinary.com/sycamore/image/upload/v1792085598/Typora/2023/04/0d185944b3f9a89c3f0cebb68e2e1cdd.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/v1792085593/Typora/2023/04/560f7380f89320b8d0bfa86942368be9.png": 520
+"https://res.cloudinary.com/sycamore/image/upload/v1792085598/Typora/2023/04/0d185944b3f9a89c3f0cebb68e2e1cdd.png": 440
 
 # CyberSecurity/CTF/TQLCTF-MISC-Ranma½.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792085422/Typora/2023/04/fdfd2d8940cbcb3dad4d6ee71124333c.png": 760
@@ -149,10 +150,10 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792085388/Typora/2023/04/2523b36be81cd6a668b416a6bbf6ca66.png": 700
 "https://res.cloudinary.com/sycamore/image/upload/v1792085388/Typora/2023/04/8c6aa69ccdebdd7b75bfaddbc6d434d4.png": 380
 "https://res.cloudinary.com/sycamore/image/upload/v1792085556/Typora/2023/04/198980bd4423bb1cd26fcb757cbea990.png": 300
-"https://res.cloudinary.com/sycamore/image/upload/v1792085385/Typora/2023/04/fd0d61d6e7b7879eb2ea1d5f0de03dd5.png": 240
+"https://res.cloudinary.com/sycamore/image/upload/v1792085385/Typora/2023/04/fd0d61d6e7b7879eb2ea1d5f0de03dd5.png": 200
 "https://res.cloudinary.com/sycamore/image/upload/v1792085385/Typora/2023/04/d70b4faf22b9b537f1bbe6bb7f20d1f3.png": 420
 "https://res.cloudinary.com/sycamore/image/upload/v1792085379/Typora/2023/04/ee471def5fbcc8ec8666e76bd4403e8d.png": 780
-"https://res.cloudinary.com/sycamore/image/upload/v1792085392/Typora/2023/04/7f3bd66ffe0223053f8eec312efe1e52.png": 280
+"https://res.cloudinary.com/sycamore/image/upload/v1792085392/Typora/2023/04/7f3bd66ffe0223053f8eec312efe1e52.png": 240
 "https://res.cloudinary.com/sycamore/image/upload/v1792085375/Typora/2023/04/34fdc632b2e79b17065c6ee808b2095f.png": 780
 "https://res.cloudinary.com/sycamore/image/upload/v1792085376/Typora/2023/04/8fa2af1fefbe5dab45f472a0e29e89b9.png": 600
 "https://res.cloudinary.com/sycamore/image/upload/v1792085376/Typora/2023/04/69c6d32a187e72672948a797b8239c8a.png": 920
@@ -189,34 +190,34 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792085340/Typora/2023/04/2c2e815f13d049741cd9371ace771daa.png": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792084998/Typora/2023/12/4a6d04ee3788a771e9fe642e64fa8104.png": 840
 "https://res.cloudinary.com/sycamore/image/upload/v1792085339/Typora/2023/04/8b2780434593170f1b8173cf9fa13836.png": 780
-"https://res.cloudinary.com/sycamore/image/upload/v1792085338/Typora/2023/04/80d816c18312f780f743c4b82696c43f.png": 420
+"https://res.cloudinary.com/sycamore/image/upload/v1792085338/Typora/2023/04/80d816c18312f780f743c4b82696c43f.png": 360
 
 # CyberSecurity/木马/frp-搭建公网-Metasploit.md
-"https://res.cloudinary.com/sycamore/image/upload/v1792085325/Typora/2023/04/65c0edabf7c4cf7b431c9f10ff94bc05.png": 840
-"https://res.cloudinary.com/sycamore/image/upload/v1792085323/Typora/2023/04/d8b546285137f60d42fef4a27a06d821.png": 780
+"https://res.cloudinary.com/sycamore/image/upload/v1792085325/Typora/2023/04/65c0edabf7c4cf7b431c9f10ff94bc05.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/v1792085323/Typora/2023/04/d8b546285137f60d42fef4a27a06d821.png": 900
 "https://res.cloudinary.com/sycamore/image/upload/v1792085323/Typora/2023/04/4063a698f14734b0fb54a92974122ba5.png": 500
-"https://res.cloudinary.com/sycamore/image/upload/v1792085317/Typora/2023/04/f776553aeca109b5eef6a7e0d3d6bacd.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/v1792085317/Typora/2023/04/f776553aeca109b5eef6a7e0d3d6bacd.png": 640
 "https://res.cloudinary.com/sycamore/image/upload/v1792085315/Typora/2023/04/02f8cca9459920e2f031c95fec4c172e.png": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792085315/Typora/2023/04/692976286e5ddec8cd744326a1c3a54d.png": 660
 "https://res.cloudinary.com/sycamore/image/upload/v1792085307/Typora/2023/04/2144e375ff1aca162bb41868d050259f.png": 600
-"https://res.cloudinary.com/sycamore/image/upload/v1792085306/Typora/2023/04/6e79855b87a38703bd5b740419dc6e65.png": 680
-"https://res.cloudinary.com/sycamore/image/upload/v1792085306/Typora/2023/04/52501488b9125c9518e2190783a8fcf4.png": 840
-"https://res.cloudinary.com/sycamore/image/upload/v1792085303/Typora/2023/04/891e33c279efacbf48adee134034f971.png": 720
-"https://res.cloudinary.com/sycamore/image/upload/v1792085303/Typora/2023/04/fe85e7d6d6e0e5955c77ff87a4ea5abe.png": 720
-"https://res.cloudinary.com/sycamore/image/upload/v1792085303/Typora/2023/04/7eed7e40069de144ddcfb74725077325.png": 760
+"https://res.cloudinary.com/sycamore/image/upload/v1792470140/Typora/2026/10/20/frp-systemd-annotation.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/v1792085306/Typora/2023/04/52501488b9125c9518e2190783a8fcf4.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/v1792470145/Typora/2026/10/20/frp-xshell-port-annotation.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/v1792470151/Typora/2026/10/20/frp-xshell-login-annotation.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/v1792085303/Typora/2023/04/7eed7e40069de144ddcfb74725077325.png": 720
 "https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/75402a4aa7e5b6970ffb51313c0a847f.png": 500
-"https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/f72e4363a982738b25b5976722ab8948.png": 740
-"https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/79c8bcdd330dc38041cee9fa333d9bb8.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/f72e4363a982738b25b5976722ab8948.png": 700
+"https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/79c8bcdd330dc38041cee9fa333d9bb8.png": 460
 "https://res.cloudinary.com/sycamore/image/upload/v1792085296/Typora/2023/04/553d087d53826c0f6f0bc2edf848b2b0.png": 720
-"https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/204ea56873200eb9b2507252955adb2a.png": 760
+"https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/204ea56873200eb9b2507252955adb2a.png": 720
 
 # CyberSecurity/木马/免杀捆绑工具shellter的安装及使用.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792085290/Typora/2023/04/0c4297a033272d1212d9cb86e4daf005.png": 800
-"https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/272fa29e9da9d004a3cf25b87079f7de.png": 800
-"https://res.cloudinary.com/sycamore/image/upload/v1792085286/Typora/2023/04/0ac54c6f74fda57f2a51ac0b8bde409f.png": 800
-"https://res.cloudinary.com/sycamore/image/upload/v1792085284/Typora/2023/04/073c31195d0c78a68e8b3c2fecbc8531.png": 600
-"https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/396417290b20f351cc3c1d96669a3c4e.png": 800
-"https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/0169aba2f4b7dfa0ba83b3304994339f.png": 740
+"https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/272fa29e9da9d004a3cf25b87079f7de.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/v1792085286/Typora/2023/04/0ac54c6f74fda57f2a51ac0b8bde409f.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/v1792085284/Typora/2023/04/073c31195d0c78a68e8b3c2fecbc8531.png": 520
+"https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/396417290b20f351cc3c1d96669a3c4e.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/0169aba2f4b7dfa0ba83b3304994339f.png": 700
 "https://res.cloudinary.com/sycamore/image/upload/v1792085276/Typora/2023/04/9b58fed5ce217d4b84967579f2522d55.png": 820
 "https://res.cloudinary.com/sycamore/image/upload/v1792085276/Typora/2023/04/4eff497abdd31d7be53e51e0d88f75f7.png": 800
 "https://res.cloudinary.com/sycamore/image/upload/v1792085272/Typora/2023/04/69719cbb27c9df97660f0c6405be89c7.png": 720
@@ -227,29 +228,29 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792085219/Typora/2023/04/074dea0aeb65e3cf991579314a98284c.png": 480
 "https://res.cloudinary.com/sycamore/image/upload/v1792085224/Typora/2023/04/f52bbdd3389beb7c7a9e9da72e220e40.png": 520
 "https://res.cloudinary.com/sycamore/image/upload/v1792085224/Typora/2023/04/9284a9b2e6290d96a8b65313b24f91a3.png": 720
-"https://res.cloudinary.com/sycamore/image/upload/v1792085225/Typora/2023/04/8d5285fdf9ee6db10ebba4ce645ad92c.png": 260
+"https://res.cloudinary.com/sycamore/image/upload/v1792085225/Typora/2023/04/8d5285fdf9ee6db10ebba4ce645ad92c.png": 220
 "https://res.cloudinary.com/sycamore/image/upload/v1792085228/Typora/2023/04/a9c9ebe071eae7546dacb18ebc0bb277.png": 360
 "https://res.cloudinary.com/sycamore/image/upload/v1792085231/Typora/2023/04/8854676b35906672629c5fc26ad8a02f.png": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792085231/Typora/2023/04/c693896f2e2fa73809cee178b0f6533b.png": 540
 "https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/6fb9f5e48c00f60ba91673a9f6c734eb.png": 840
-"https://res.cloudinary.com/sycamore/image/upload/v1792085234/Typora/2023/04/97eb1b3565e6f8745bf100a9b5ee31ed.png": 780
+"https://res.cloudinary.com/sycamore/image/upload/v1792085234/Typora/2023/04/97eb1b3565e6f8745bf100a9b5ee31ed.png": 600
 "https://res.cloudinary.com/sycamore/image/upload/v1792085234/Typora/2023/04/66bf859ff6c462a364624b51a215fd64.png": 780
 "https://res.cloudinary.com/sycamore/image/upload/v1792085235/Typora/2023/04/01742775f569ce91fa25a5f8f25ed544.png": 660
 "https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/92211d839dd171dc8f115e037f1e07eb.png": 540
 "https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/566b0ca11a943f96d0bf550e848d84d4.png": 640
-"https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/6a8db3c08c0188c7b0a9b1d25fed3c50.png": 240
+"https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/6a8db3c08c0188c7b0a9b1d25fed3c50.png": 200
 "https://res.cloudinary.com/sycamore/image/upload/v1792085246/Typora/2023/04/bf591833811a31c67bcfb2741ab7ca30.png": 660
 "https://res.cloudinary.com/sycamore/image/upload/v1792085246/Typora/2023/04/1fe57f518c02b5c5651dc8fbfe3269c7.png": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792085247/Typora/2023/04/5d329939a4e8d82c53c712f4b54adb09.png": 640
-"https://res.cloudinary.com/sycamore/image/upload/v1792085254/Typora/2023/04/f6ffc230be89565c17383bbe1e8262a3.png": 440
+"https://res.cloudinary.com/sycamore/image/upload/v1792085254/Typora/2023/04/f6ffc230be89565c17383bbe1e8262a3.png": 380
 "https://res.cloudinary.com/sycamore/image/upload/v1792085255/Typora/2023/04/00614ff7b3a1a2dfdfbad02dc0df8be1.png": 840
 "https://res.cloudinary.com/sycamore/image/upload/v1792085255/Typora/2023/04/7b31e1aa07c5c4bdcbd9e6cafad1655a.png": 760
 "https://res.cloudinary.com/sycamore/image/upload/v1792085257/Typora/2023/04/db443fe2827a018ce3cb046f63793326.png": 540
-"https://res.cloudinary.com/sycamore/image/upload/v1792085258/Typora/2023/04/d3d507d38eb37d836868b42d5f90db17.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/v1792085258/Typora/2023/04/d3d507d38eb37d836868b42d5f90db17.png": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792085258/Typora/2023/04/ff1cae7c81c0b04929f2c86b0e788c9e.png": 540
-"https://res.cloudinary.com/sycamore/image/upload/v1792085261/Typora/2023/04/6826b2f0cec7b82a3677a2e1e86de378.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/v1792085261/Typora/2023/04/6826b2f0cec7b82a3677a2e1e86de378.png": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792085262/Typora/2023/04/fdd3929e8cec1fc5e67af1614f47d9b4.png": 480
-"https://res.cloudinary.com/sycamore/image/upload/v1792085268/Typora/2023/04/c830f507fd2cc729beb4e10b7a5d18cd.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/v1792085268/Typora/2023/04/c830f507fd2cc729beb4e10b7a5d18cd.png": 560
 
 # Develop/shokaX/hexo-shokaX 主题更新和配置修改.md
 "https://res.cloudinary.com/sycamore/image/upload/v1737283099/Typora/2025/01/428e3f65a6f441f57d07c85941282c63.png": 400
@@ -310,7 +311,7 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792085401/Typora/2023/04/48cfe8124c9d3306a048a7112bec67fd.png": 400
 "https://res.cloudinary.com/sycamore/image/upload/v1792085401/Typora/2023/04/92b5e30160b6461906f1c86ecd48e578.png": 800
 
-# Mod-Develop/Cyberpunk-2077/Ciri Main Menu Background.md
+# 游戏工坊/游戏 Mod/希里主菜单背景 Mod 修复记录.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792084610/Typora/2024/11/c42fe5caab097e56ca6115aa25028bde.png": 640
 "https://res.cloudinary.com/sycamore/image/upload/v1792084592/Typora/2024/11/5d8a49a1184590d333259cd53e8847dd.png": 840
 "https://res.cloudinary.com/sycamore/image/upload/v1792084591/Typora/2024/11/f508d2dcb910791026ac4f0cf9bfa3e5.png": 502
@@ -333,7 +334,7 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792084463/Typora/2024/11/bc72ba01656cc7c37368d1101c3c08b9.png": 672
 "https://res.cloudinary.com/sycamore/image/upload/v1792084463/Typora/2024/11/6da47409fffe611ec5d5bc039388b64a.png": 640
 
-# Mod-Develop/Cyberpunk-2077/archive内容解析.md
+# 游戏工坊/游戏 Mod/赛博朋克 2077 界面资源分析.md
 "https://res.cloudinary.com/sycamore/image/upload/v1792084631/Typora/2024/11/2c0934a8e3cdb50eaedad5bc5a2c17f0.png": 880
 "https://res.cloudinary.com/sycamore/image/upload/v1792084631/Typora/2024/11/90a3c1b209806070d39ecdf04f3cd021.png": 800
 "https://res.cloudinary.com/sycamore/image/upload/v1792084623/Typora/2024/11/4c4d7b17e1126d72bd67023217ae420f.png": 407
@@ -343,12 +344,198 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1792084578/Typora/2024/11/7ecc5753dbb2a7e5f44a2e08d451b207.png": 232
 
 # 网络安全/CTF/DASCTF July × CBCTF 2021 Misc 题解.md
-"https://res.cloudinary.com/sycamore/image/upload/v1792227455/Typora/2021/11/bddeddcfb73adbb1cd588aba.png": 560
-"https://res.cloudinary.com/sycamore/image/upload/v1792227459/Typora/2021/11/a7aac50b91830bb4b814ac81.png": 500
-"https://res.cloudinary.com/sycamore/image/upload/v1792227467/Typora/2021/11/ed7bd1fb78a9d006921e429c.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/v1792227455/Typora/2021/11/bddeddcfb73adbb1cd588aba.png": 400
+"https://res.cloudinary.com/sycamore/image/upload/v1792227459/Typora/2021/11/a7aac50b91830bb4b814ac81.png": 400
+"https://res.cloudinary.com/sycamore/image/upload/v1792227467/Typora/2021/11/ed7bd1fb78a9d006921e429c.png": 540
 "https://res.cloudinary.com/sycamore/image/upload/v1792227472/Typora/2021/11/b50b073253eeb15ed0441fab.png": 800
 "https://res.cloudinary.com/sycamore/image/upload/v1792227475/Typora/2021/11/11cb06fe78395ad52ed1e355.png": 249
 "https://res.cloudinary.com/sycamore/image/upload/v1792227481/Typora/2021/11/ce0e3f6f11396dd265a8d361.png": 900
 "https://res.cloudinary.com/sycamore/image/upload/v1792227486/Typora/2021/11/5a8cff6cc774f6d8852d4755.jpg": 560
 "https://res.cloudinary.com/sycamore/image/upload/v1792227532/Typora/2021/11/071bc71e6a45cfbb2a507f37.jpg": 1100
 "https://res.cloudinary.com/sycamore/image/upload/v1792227536/Typora/2021/11/ed451e769ca6407f871a4461.jpg": 1100
+
+# 2026-10-18 旧博客迁入：逐图检查后的正文显示宽度
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/785874ea60c0b6e6be9cdde24faa5826.jpg": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7cfa5360d7b0fbbd1484efcf487e7624.jpg": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/255076c34fe294441cc723a9c262a40a.jpg": 160
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8a4f73d87359bda7f9e20dde80425052.jpg": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/df332927842a389d463ca0e299138c61.jpg": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/aecfba482a467d67e2d2004619c9a70b.jpg": 440
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9e4497561eff3b65ad747bb8c116c72b.jpg": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/25f52eb6201ae5c4cc420f4fa7a003c7.jpg": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f1b914c920047bb0a7bd957461f031e1.jpg": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/dd27498eb41b9bfa860692909a9f12c7.jpg": 720
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d6ee6b510dc9b40534bd09b4b59d69e1.jpg": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a402df1a20b236ddcbcf1eee3e254813.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ee9e095803026b6734c0a8c908209e6f.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/511e5615a8474f12b4de12e701c32d67.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/2711dc66462686c032f9aaa47489fe83.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/3d4b0b74cf92beadd8ecd4dfd9f9907c.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/79cd91f5f023cbad0cc14f46c39d0119.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/2d63a7f739e8266cde13b950dfe93f9b.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7bf93978563fcf67505a8dc94ac19443.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/df74a7f1e325b85e1e40d39e1520b6d9.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/cc110976411f12bcacdd0c9fa001c7d6.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/0759d1a59a1f52034cc9405a21936f9c.png": 300
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/5d4bcd7102648ae38c3565ddc0802b9c.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d6ab80b4096b31d9e8277a1d2d17e15d.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c59203c3a6958a3352bb21e94c16cb71.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/fd165b4e941f29eb2b73528b4c890149.png": 300
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/fde917c65af6fc2e96f68686e71cfeb5.png": 320
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a6c609c7898331e555c1e1a2e217fd26.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4bc901d11c40cdadad0e5a26b4113a8f.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ec0e3b63c1b6407381f5fc198204b88b.png": 740
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/03de79df0a7a5f15066393d8b3fdc732.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/44ad2149c5ece1467cd8f0dee447a105.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/bf8774117739cb26e9767cc0b5a1f9f5.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c72106aee3f1d8b7ac9a24d572b59b36.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/97fccc2c2ee041cbd1e6feb5cacbf47d.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4a17b7f6085ed11e25581ad4af01ad96.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8900184ed3d063762a64a4307d9111e0.png": 340
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/bc8a0d69bbf2c5972d1bb2864e8e36f7.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b9b89bd1217d73b778ed9998579495a1.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4df9b42ebee9eaabbcb36648bf74c92f.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/85e02df271638fd1989e8a7752781b12.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ffc77fe74d47807af977dda33fb112cc.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a7b3b4540b951dd6e24aa42d637bcb38.jpg": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/fdb159438670ee67f8f60c7986e260c9.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/732bbc1c86ae1a240189d78f76323dde.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9f57f4f5c20651c0c7345d6525ab8705.png": 320
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f6dc889e5b91bffc0f7c7a09001cd10a.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/73142fdc9301d5fc842da5723fd1884d.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/53ac1d29ff5046b17161e7d8c8686b21.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c978f6c017b98d82eef567df860c9033.png": 400
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4bb7d478563dee6ac3eba031d54bcd80.png": 580
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/27e06d25f47f9fa092c86337b9ff76e7.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ba138c24863acc2f766c9dc2c97e4e7c.png": 520
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c67cd9c3eca856dcf7b9afffe42ce04b.png": 799
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9518839fc213f5938b8332abff0dc02b.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/5db950f7def8f35c953c8b3c4a42d881.png": 440
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/797cdb56de4efbdd991810b2c51b8bc9.png": 540
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/664d1586ebe92c056b2f6942ec1da5db.png": 540
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/1c360a3a308086b1e217dc746532a859.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/cfee97b9944dbec5002894eb353bc189.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/fae7cf18234e155a74fa9d3acb0bcb1d.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c4f0dc2b49eaa529a837a52443102b74.png": 400
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/409c36c79d3f79d5fc923038d1cae855.png": 300
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/97933ab1b93b6f58c9bf98de5a695e25.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/27bb09d7fbc23a99fdad2bb17465de90.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7344a093df7c3d0378f6ad0272d2da46.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9fbc42a80baf094cf36a2a1ee0faa1a0.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a8266fa96d0098dd1d0ebf67c259dbc3.png": 680
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9d7cf0dc62e194752ce64acff268a0f4.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/3b78e80e548be7f2ffd94ad11df0b24f.png": 460
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/139f37b41fb83453846760f2e9d7f95f.png": 380
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/0c6bb7564a7959d634afe58301666b43.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/0c8795cbb61aa3496c107f37ec56c38c.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4a53a9e9813aec7a05d218b75e3e8667.png": 420
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a8613435610b1698b6f64c749d906a24.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/cf59190da10a0138614a134e7cfb9a25.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a051de4369b412a3cdfb32ef6896ab0a.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/63ce694dc5f2b1428595f2fc187ad1b9.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c4aed9b3c78629168582da06c5028d62.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7241038b0f9c1810e40eca0d9e61063f.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/849b4af650d6a33c3e897cf93adf25b6.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d71056d7226535c865c84cfb32993188.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/e103c81a48ea89479a4c58bdadff4e51.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7f0e2aeede30e9e7bef278cd799999d6.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/96b3372363059f03c69026e1df16a6a4.png": 280
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/2498a6600d64e23cb30890f4774f5ed7.png": 400
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b42c72c3269992563814f5085e0d7c0c.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ad67bc3965d7e26632fc679eb4b830fd.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a13290b8e8e00b19358fbf1a09101eb6.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/487dc56353077dac03f1a549065a0410.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/733b5d4ef353b9436e8e4fc75ccbb569.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8ba32cc228e050ff54b5daa5b41e357a.png": 700
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d86af85d7896e644d181c9f1373a6a16.png": 500
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/cf3013572443782af0cc280791d0a5f8.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/73a799a15a695318a344898afe732f73.png": 600
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a6dc5cf7a829a5a6097d237405661fca.png": 200
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/72468c0ebb118510e769b5b84090330a.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/34cc060cd5b5566b1e3199248a5d1b9d.png": 760
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f735c3f744f1c15416e9ed316c072c5e.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/56ff26d1b92b96426325dc707626d147.png": 620
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/06946af30cebfad1df042a0913409994.png": 780
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/071576989e4ab50a87b4319ab34c6adc.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/04a9e7185976fdfa19a6a6f9dec41af1.png": 210
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/791dff305a14ba82d730664438c3b2eb.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/2d57c74687e7f7757dedc6cfedff53cc.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ff2d6147b7583139faac82d6b193eeec.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d3a8942d2ad0b317c0cc62648ee8bf92.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/338edd4301cc6cad326035c9a4221cc5.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/2982c11f8bc33629ed97c7027051ecaa.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f5cdc00ac398b079aef715e9cef1d33d.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/41f08312d8479a1167c27196098b1ca3.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/863b1258fb1e625aad5724a82baee5c5.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/896f6935d4351cef18cdd1d971bd7487.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ffcf4d54df07765c493a15ef76f6b25b.png": 620
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/e0b203eb588dda997504fb10073d24db.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/0e49cc6f9b7014e5ed99939012d6ccf9.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c63c3401280590e3a29245e4d714e38a.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b8e71588df1d8b52f1a3daf9d281e353.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7b98b25772ebdc03a9bedc22257cb105.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/3db95d71ff0acde6daa635e63380e18b.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/faa285dbc5a0c474b52248c6449a25e3.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f656802af2a999811f4fe02887b4a46d.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b3954036aa9224ddccd91c871f7f8893.png": 520
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9ae5db46573b558302c65d16791c0254.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/2d1c0f84cbcffce42beae398d2f623e9.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b46ec91f451c4de9a831ed9b69d5cc9a.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/e3b151d1971b81e2e763891ea9ecefb4.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ced00a4b004c06e9f2356edb2e01e04c.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9358882fffe07ef3c3e3db876afad89e.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/36bc8abb1ec174ec21129bf9f854bd61.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c27217ec83ab6a9f50cd4ca7f0d53139.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a92c22729e15e0585a84fcc1e112af53.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/e265ff58617284810bf17a32bce6bbd7.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/49ad0d1c6d3225352afa5ffe27df5cb8.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/79379495f2c29c73d95616821a42be72.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ef8ab28424e1d5ed8eeea5da6f67beb4.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/36ce50208b3996f9bd5bfd12b269f631.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b0b344d889e9ed50d264020b11e91652.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/5c4d2bf7216b5cd6b0facab1e8b32042.png": 240
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ebe9183361ebaa64b1883c682fcceb0a.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/93fa30be4fd2c90586fd8398de98f860.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8d800153bd7c05d5b2e4de02c56a62b3.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/16521e8e61d7c81778006964901e788e.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b0dfd354358bcc12ad69813bef2d5a6a.png": 640
+
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f10a491d66c5e04a1016ecd31a49031e.png": 170
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f7b3d6d129125031066cacd9ce5c10dd.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/615423cb09e8cc30df25f514104b5c75.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/0e4dd4073edf1a7203edba702b455177.png": 360
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7dddf1a4ef202599c19e5fa23cd21420.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/bdeb3214ab871b166ca35420068d8e0c.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/e134b0d8d04f3207fd43c1e482c58593.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a38bb7c8e6dffdb214fc552c161ec014.png": 480
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/0e1c4286c2cb31e9e631e93a9c8d54fc.png": 540
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8e5854aa74837703492c041e50623116.png": 540
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d61ef3630797bf07569662996c7a5799.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/765abe5446678f53520039688ba854cc.png": 560
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4309f3c1ed612bc24c6245b64c6b0fff.png": 960
+"https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/1fba97d8fa5d61327fc9bb7f07b7e139.png": 560
+
+# 用过的博客主题：官方展示图和实站截图；原图保留用于放大。
+"https://res.cloudinary.com/sycamore/image/upload/v1792411086/Typora/2026/10/18/theme-showcase-sakura.jpg": 800
+"https://res.cloudinary.com/sycamore/image/upload/v1792411094/Typora/2026/10/18/theme-showcase-sakurairo.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/v1792411023/Typora/2026/10/18/theme-showcase-ashe.jpg": 820
+"https://res.cloudinary.com/sycamore/image/upload/v1792411018/Typora/2026/10/18/theme-showcase-argon.jpg": 880
+"https://res.cloudinary.com/sycamore/image/upload/v1792411081/Typora/2026/10/18/theme-showcase-joe.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/v1792411103/Typora/2026/10/18/theme-showcase-shokax.png": 900
+"https://res.cloudinary.com/sycamore/image/upload/v1792411028/Typora/2026/10/18/theme-showcase-butterfly.jpg": 900
+
+# EasyBe configuration reproductions
+"https://res.cloudinary.com/sycamore/image/upload/v1792409007/Typora/2026/10/19/easybe-example-header.png": 800
+"https://res.cloudinary.com/sycamore/image/upload/v1792409011/Typora/2026/10/19/easybe-custom-loading.png": 480
+
+# 把 Electron 窗口嵌入桌面：仓库原始界面截图
+"https://res.cloudinary.com/sycamore/image/upload/v1792495537/Typora/2026/10/20/sentences-desktop-original.png": 400
+
+# Git 与 GitHub 项目管理：README 实际截图与关系示意图
+"https://res.cloudinary.com/sycamore/image/upload/v1792502116/Typora/2026/10/20/git-github-readme-overview.png": 620
+"https://res.cloudinary.com/sycamore/image/upload/v1792502125/Typora/2026/10/20/git-github-merge-rebase.png": 640
+"https://res.cloudinary.com/sycamore/image/upload/v1792502131/Typora/2026/10/20/git-github-fork-remotes.png": 640
+
+# Git 与 GitHub 项目管理：OneDrop 实际 CI 运行截图
+
+"https://res.cloudinary.com/sycamore/image/upload/v1792566179/Typora/2026/10/21/git-github-onedrop-ci-dark.png": 480
