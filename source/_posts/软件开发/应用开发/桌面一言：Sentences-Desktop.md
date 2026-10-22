@@ -3,8 +3,8 @@ title: "桌面一言：Sentences-Desktop"
 date: 2023-04-30 17:35:33
 tags: ["Electron", "JavaScript", "Hitokoto"]
 categories:
-  - ["软件开发", "桌面应用"]
-updated: 2026-10-17 02:12:20.372
+  - ["软件开发", "应用开发"]
+updated: 2026-10-20 19:30:03
 ---
 
 项目地址：[Sentences-Desktop](https://github.com/noneSycamore/Sentences-Desktop)
@@ -31,6 +31,8 @@ Sentences-Desktop 是一个放在 Windows 桌面上的句子小窗口，默认�
 - `src/js/setting.js`：读取设置，处理滑动条和开关，再通过 IPC 通知主进程。
 
 主窗口使用了无边框、透明背景和隐藏任务栏入口的配置，再调用 `electron-addtodesktop` 的 `attach(mainWindow)` 将窗口附到桌面。这里不只是把网页背景设成透明，桌面窗口本身也需要对应的配置。
+
+`electron-addtodesktop` 就是为这个功能编写的原生扩展。我把窗口句柄的传递、桌面层级的处理和 npm 包的编写整理在了[《把 Electron 窗口嵌入桌面》](/软件开发/应用开发/把%20Electron%20窗口嵌入桌面/)中。
 
 设置窗口则单独载入 `src/setting.html`。如果它已经存在，就显示已有窗口；关闭时将引用清空，下次再创建。另外程序使用单实例锁，重复启动时会聚焦现有主窗口。
 

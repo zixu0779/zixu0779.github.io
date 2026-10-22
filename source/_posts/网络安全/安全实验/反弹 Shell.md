@@ -93,7 +93,7 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 另外，Debian 中，部分版本可能默认**没开** bash 的 网络重定向 选项，
 
 对于这种情况，我们只能：加上`--enable-net-redirections` **重新编译 bash**
-详见我的另一篇文章：[【从源码重新编译 Bash：重定向功能】]()
+详见我的另一篇文章：[重新编译 Bash：网络重定向](/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/Linux/%E9%87%8D%E6%96%B0%E7%BC%96%E8%AF%91%20Bash%EF%BC%9A%E7%BD%91%E7%BB%9C%E9%87%8D%E5%AE%9A%E5%90%91/)
 
 
 ### 命令：

@@ -133,7 +133,7 @@ r.sendline(p2)
 r.interactive()
 ```
 爆破好慢...
-CUMTCTF{5305918b-e080-4f2d-b9b1-8a6f3ed727d5
+`CUMTCTF{5305918b-e080-4f2d-b9b1-8a6f3ed727d5`
 ### pwn4
 edit的地方有个堆溢出漏洞
 

@@ -1,9 +1,9 @@
 ---
 title: "希里主菜单背景 Mod 修复记录"
 date: 2024-11-05 22:56:23
-tags: ["WolvenKit", "主菜单", "Mod 修复"]
+tags: ["WolvenKit", "主菜单", "Mod 修复", "赛博朋克 2077"]
 categories:
-  - ["游戏 Mod", "赛博朋克 2077"]
+  - ["游戏工坊", "游戏 Mod"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216275/Covers/3d3d0f08411e144047e5d8272d659746.png
 updated: 2025-01-21 14:58:19.693
 ---
