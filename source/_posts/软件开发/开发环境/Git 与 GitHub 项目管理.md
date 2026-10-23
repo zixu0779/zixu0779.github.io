@@ -1,7 +1,7 @@
 ---
 title: Git 与 GitHub 项目管理
-date: 2026-10-20 21:27:18
-updated: 2026-10-21 00:03:58
+date: 2026-05-21 21:27:18
+updated: 2026-05-21 21:27:18
 categories: [["软件开发", "开发环境"]]
 tags: ["Git", "GitHub", "GitHub Actions", "CI/CD", "Git LFS"]
 ---
@@ -262,8 +262,8 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: '24'
           cache: npm

@@ -1,11 +1,11 @@
 ---
 title: "CUMT Pwn 专项练习记录"
-date: 2021-11-25 23:24:22
+date: 2021-12-05 23:24:22
 tags: ["Pwn", "栈溢出", "ret2libc"]
 categories:
   - ["网络安全", "CTF"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216235/Covers/54a2923a541fe0c86555a91b264f4221.png
-updated: 2025-01-21 14:58:19.683
+updated: 2021-12-05 23:24:22
 ---
 
 ## pwn1

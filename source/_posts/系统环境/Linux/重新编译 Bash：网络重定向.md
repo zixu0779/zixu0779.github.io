@@ -1,10 +1,10 @@
 ---
 title: 重新编译 Bash：网络重定向
-date: 2022-04-20 13:09:20
+date: 2025-04-20 13:09:20
 tags: ["Bash", "Linux", "源码编译", "网络重定向"]
 categories: [["系统环境", "Linux"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/3ea0ff03af3b42b348eeb0416d6a28d1.jpg
-updated: 2026-10-20 13:48:12
+updated: 2026-05-23 18:47:26
 ---
 
 我尝试从源码重新编译 Bash，下面记录了下载、编译和切换 Shell 的过程。

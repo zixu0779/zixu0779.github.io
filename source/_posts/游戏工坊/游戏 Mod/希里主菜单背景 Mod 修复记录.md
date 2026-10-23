@@ -1,11 +1,11 @@
 ---
 title: "希里主菜单背景 Mod 修复记录"
-date: 2024-11-05 22:56:23
+date: 2025-08-20 22:42:31
 tags: ["WolvenKit", "主菜单", "Mod 修复", "赛博朋克 2077"]
 categories:
   - ["游戏工坊", "游戏 Mod"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216275/Covers/3d3d0f08411e144047e5d8272d659746.png
-updated: 2025-01-21 14:58:19.693
+updated: 2025-08-20 22:42:31
 ---
 
 我试图在 2.0+ 版本中修复 mod: [Ciri in Night City - Main Menu Background Replacer](https://www.nexusmods.com/cyberpunk2077/mods/2541)，添加对往日之影 Logo 的支持。
@@ -51,7 +51,7 @@ Buid -> Pack Project，会在项目文件夹下打包为 zip 压缩包，这就�
 
 # 分析原 Mod
 
-最好先阅读：[archive 内容解析](/%E6%B8%B8%E6%88%8F%20Mod/%E8%B5%9B%E5%8D%9A%E6%9C%8B%E5%85%8B%202077/%E8%B5%9B%E5%8D%9A%E6%9C%8B%E5%85%8B%202077%20%E7%95%8C%E9%9D%A2%E8%B5%84%E6%BA%90%E5%88%86%E6%9E%90/)
+最好先阅读：[赛博朋克 2077 界面资源分析](/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%20Mod/%E8%B5%9B%E5%8D%9A%E6%9C%8B%E5%85%8B%202077%20%E7%95%8C%E9%9D%A2%E8%B5%84%E6%BA%90%E5%88%86%E6%9E%90/)
 
 我的分析过程其实绕了很大的弯子，有兴趣可以看一下。
 
@@ -177,7 +177,7 @@ short_01_assets.xbm 如下，应该能理解我的意思：
 
 之所以加载动画会丢失，究其原因是原 Mod 直接将每一个对应文件夹（loading_screen_5_after_q101）下的 inkwidget，都替换成了 initial_loading_screen.inkwidget。
 
-这显然会导致很多问题，loading_screen_5_after_q101.inkwidget 是和加载动画相关的关键文件（具体参考 [archive 内容解析 #inkwidget](/%E6%B8%B8%E6%88%8F%20Mod/%E8%B5%9B%E5%8D%9A%E6%9C%8B%E5%85%8B%202077/%E8%B5%9B%E5%8D%9A%E6%9C%8B%E5%85%8B%202077%20%E7%95%8C%E9%9D%A2%E8%B5%84%E6%BA%90%E5%88%86%E6%9E%90/#inkwidget)）。
+这显然会导致很多问题，loading_screen_5_after_q101.inkwidget 是和加载动画相关的关键文件（具体参考 [赛博朋克 2077 界面资源分析 #inkwidget](/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%20Mod/%E8%B5%9B%E5%8D%9A%E6%9C%8B%E5%85%8B%202077%20%E7%95%8C%E9%9D%A2%E8%B5%84%E6%BA%90%E5%88%86%E6%9E%90/#inkwidget)）。
 
 从下面那张对比图可以看出，loading_screen_5_after_q101.inkwidget 下对应的三个加载动画资源，ls_01，ls_02，ls_03 在 initial_loading_screen.inkwidget 中都没有了，只剩下 main_menu 和 loading_screen。
 

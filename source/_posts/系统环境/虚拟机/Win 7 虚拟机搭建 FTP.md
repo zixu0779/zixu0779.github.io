@@ -1,7 +1,7 @@
 ---
 title: Win 7 虚拟机搭建 FTP
-updated: 2026-10-20 01:26:19
-date: 2022-04-09 21:13:52
+updated: 2025-09-18 21:42:15
+date: 2022-08-21 21:17:46
 tags: ["3CDaemon", "FTP", "文件传输"]
 categories: [["系统环境", "虚拟机"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/65ded4aab38ef01f86a17c06e881f706.jpg

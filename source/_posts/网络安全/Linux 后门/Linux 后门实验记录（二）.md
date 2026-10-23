@@ -1,11 +1,11 @@
 ---
 title: "Linux 后门实验记录（二）"
-date: 2022-4-2 23:36:35
+date: 2024-12-15 23:36:35
 tags: ["Linux", "权限维持", "SSH", "计划任务"]
 categories:
   - ["网络安全", "Linux 后门"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216256/Covers/7e00f34b8462535fcbd72b5a18b714e9.png
-updated: 2025-01-21 14:58:19.686
+updated: 2026-01-11 21:19:43
 ---
 
 :::primary
@@ -60,7 +60,7 @@ crontab是用来定期执行程序的命令，
 `/bin/bash --noprofile -i`：开一个Shell。
 其实就是利用 Bash **反弹**一个**Shell**到指定的攻击者IP
 
-（ubuntu默认**没开**bash的网络重定向选项，需要加上`–enable-net-redirections`重新编译bash）
+这里需要 Bash 支持网络重定向，是否支持取决于所用 Bash 的编译配置。
 
 **隐藏：**
 但是这样的一个后门，管理员直接执行`crontab -l`就能看到我们设定的定时任务。

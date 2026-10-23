@@ -4,7 +4,7 @@ date: 2023-04-30 14:05:53
 tags: ["Hexo", "ShokaX", "主题定制"]
 categories: [["博客搭建", "主题修改"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216269/Covers/577e6e5d3f3fdf4d5af4e71de5c13847.png
-updated: 2025-01-21 14:58:19.689
+updated: 2023-04-30 14:05:53
 ---
 
 [shokaX]{.label}主题基于[shoka]{.label}主题进行二次开发，据说是因为原主题停止更新...
@@ -54,7 +54,7 @@ menu:
 ```
 
 :::default
-关于自定义icon的添加，`shoka`的配置文档中有提供一种解决方法，但建议参考我后面的解决方案 [[这里]](/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/ShokaX%20%E4%B8%BB%E9%A2%98%E4%BF%AE%E6%94%B9%E8%AE%B0%E5%BD%95/#iconfont%E5%9B%BE%E6%A0%87%E5%BA%93%E6%B7%BB%E5%8A%A0)
+关于自定义icon的添加，`shoka`的配置文档中有提供一种解决方法，但建议参考我后面的解决方案 [[这里]](#iconfont图标库添加)
 :::
 
 ### 评论系统

@@ -1,7 +1,7 @@
 ---
 title: Win 11 虚拟机安装记录
-date: 2022-04-10 18:35:51
-updated: 2026-10-20 10:11:50
+date: 2025-02-16 18:35:51
+updated: 2025-11-09 16:24:53
 tags: ["Windows", "VMware", "虚拟机"]
 categories: [["系统环境", "虚拟机"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/25793f68127f486bbbaa7d5bb6499ce4.jpg

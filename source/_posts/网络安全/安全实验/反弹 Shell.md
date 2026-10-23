@@ -1,11 +1,11 @@
 ---
 title: "反弹 Shell"
-date: 2022-4-23 21:48:27
+date: 2025-06-15 21:48:27
 tags: ["Linux", "反弹 Shell", "Bash", "Netcat"]
 categories:
   - ["网络安全", "安全实验"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216262/Covers/8396c8e41d46ca6906805f4eb5ef890b.png
-updated: 2025-01-21 14:58:19.688
+updated: 2025-06-15 21:48:27
 ---
 
 # 什么是反弹shell？

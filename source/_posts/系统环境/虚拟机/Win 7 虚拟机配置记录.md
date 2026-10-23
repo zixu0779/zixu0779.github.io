@@ -1,7 +1,7 @@
 ---
 title: Win 7 虚拟机配置记录
-date: 2022-04-09 18:10:52
-updated: 2026-10-20 00:41:43
+date: 2022-08-14 18:10:52
+updated: 2025-09-14 23:06:28
 tags: ["Windows", "VMware", "SSH", "共享文件夹"]
 categories: [["系统环境", "虚拟机"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/63228774434ce50625d92068912c6ef0.jpg

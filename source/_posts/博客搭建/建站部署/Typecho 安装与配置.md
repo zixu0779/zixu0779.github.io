@@ -1,7 +1,7 @@
 ---
 title: Typecho 安装与配置
-date: 2022-03-14 22:38:44
-updated: 2026-10-19 14:40:02
+date: 2022-11-13 22:38:44
+updated: 2026-04-19 14:40:02
 tags: ["Typecho", "宝塔", "云服务器"]
 categories: [["博客搭建", "建站部署"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9130289fab8c8fd13edb68a0aee26b93.png

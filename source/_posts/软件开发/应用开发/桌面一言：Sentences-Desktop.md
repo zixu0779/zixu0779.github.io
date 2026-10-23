@@ -1,10 +1,10 @@
 ---
 title: "桌面一言：Sentences-Desktop"
-date: 2023-04-30 17:35:33
+date: 2023-04-23 17:35:33
 tags: ["Electron", "JavaScript", "Hitokoto"]
 categories:
   - ["软件开发", "应用开发"]
-updated: 2026-10-20 19:30:03
+updated: 2026-09-08 21:16:34
 ---
 
 项目地址：[Sentences-Desktop](https://github.com/noneSycamore/Sentences-Desktop)

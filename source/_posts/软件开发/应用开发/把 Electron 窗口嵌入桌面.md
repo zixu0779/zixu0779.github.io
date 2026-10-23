@@ -1,7 +1,7 @@
 ---
 title: 把 Electron 窗口嵌入桌面
-date: 2026-10-20 19:30:03
-updated: 2026-10-20 20:27:22
+date: 2024-05-19 19:30:03
+updated: 2026-09-05 20:27:22
 categories: [["软件开发", "应用开发"]]
 tags: ["Electron", "Node.js", "C++", "npm", "Windows"]
 ---

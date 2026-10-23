@@ -1,11 +1,11 @@
 ---
 title: "使用 frp 搭建 Metasploit 公网实验环境"
-date: 2022-4-18 20:18:36
+date: 2023-02-12 20:18:36
 tags: ["frp", "Metasploit", "内网穿透"]
 categories:
   - ["网络安全", "安全实验"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216255/Covers/87d91c5d20cc130aa72fe99c74a9e8c2.png
-updated: 2026-10-20 12:36:09
+updated: 2026-08-23 20:36:09
 ---
 
 本文记录在云服务器和 Kali 虚拟机之间配置 frp 的过程，先测试 SSH 连接，再记录 Metasploit 实验中的转发配置。

@@ -1,11 +1,11 @@
 ---
 title: "Linux 后门实验记录（一）"
-date: 2022-4-2 23:35:57
+date: 2024-10-13 23:35:57
 tags: ["Linux", "权限维持", "PAM", "SSH"]
 categories:
   - ["网络安全", "Linux 后门"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216256/Covers/7e00f34b8462535fcbd72b5a18b714e9.png
-updated: 2025-01-21 14:58:19.686
+updated: 2024-10-13 23:35:57
 ---
 
 :::primary

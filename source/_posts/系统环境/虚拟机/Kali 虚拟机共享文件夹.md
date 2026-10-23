@@ -1,7 +1,7 @@
 ---
 title: Kali 虚拟机共享文件夹
-date: 2022-04-09 15:53:08
-updated: 2026-10-19 22:26:47
+date: 2023-09-17 15:53:08
+updated: 2026-03-02 19:38:46
 tags: ["Kali", "VMware", "共享文件夹"]
 categories: [["系统环境", "虚拟机"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d264247e34cfddb13d09c3a03d792b0e.png
@@ -11,7 +11,7 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d264247e3
 <!-- more -->
 
 :::info
-本文记录的是 2022 年在 VMware 中为 Kali 配置共享文件夹的过程，截图中的主机为 Windows。除 VMware 设置外，下面的命令都在 Kali 虚拟机内执行；截图使用 root 账户，普通账户执行时需要加上文中的 `sudo`。
+本文记录的是在 VMware 中为 Kali 配置共享文件夹的过程，截图中的主机为 Windows。除 VMware 设置外，下面的命令都在 Kali 虚拟机内执行；截图使用 root 账户，普通账户执行时需要加上文中的 `sudo`。
 :::
 
 ## 步骤

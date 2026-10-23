@@ -1,7 +1,7 @@
 ---
 title: Linux 后门实验环境搭建
-date: 2022-03-21 21:36:37
-updated: 2026-10-19 21:00:24
+date: 2024-09-15 21:36:37
+updated: 2025-11-23 20:46:32
 tags: ["Linux", "Kali", "VMware", "SSH"]
 categories: [["网络安全", "Linux 后门"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f6bc736975fca644e150849c3e662711.png

@@ -1,7 +1,7 @@
 ---
 title: EasyBe 主题修改记录
-date: 2022-03-15 00:08:40
-updated: 2026-10-19 18:32:20
+date: 2023-01-15 00:08:40
+updated: 2026-08-16 18:32:20
 tags: ["Typecho", "EasyBe", "主题定制"]
 categories: [["博客搭建", "主题修改"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a766ea43fafdaf2231d9b0686c1a16a6.png

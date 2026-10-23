@@ -1,11 +1,11 @@
 ---
 title: "Shellter 安装与使用"
-date: 2022-4-16 18:10:24
+date: 2022-10-16 18:10:24
 tags: ["Shellter", "Metasploit", "免杀"]
 categories:
   - ["网络安全", "安全实验"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216256/Covers/d9bcdac19a99f14fe88a3ed9e829d637.png
-updated: 2026-10-20 10:53:55
+updated: 2026-05-09 22:31:48
 ---
 
 Shellter 使用动态 shellcode 注入的方式修改程序。本文记录它的安装、操作过程，以及在 Win 7 虚拟机中的检测结果。
