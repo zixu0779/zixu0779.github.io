@@ -1886,5 +1886,45 @@
   "https://res.cloudinary.com/sycamore/image/upload/v1792696730/Typora/2025/06/c830f507fd2cc729beb4e10b7a5d18cd.png": [
     1061,
     916
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753525/Typora/2026/10/23/zsh-baseline-clean.png": [
+    1000,
+    132
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753527/Typora/2026/10/23/zsh-battery-clean.png": [
+    1000,
+    92
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753529/Typora/2026/10/23/zsh-git-dirty-fixed-clean.png": [
+    1000,
+    92
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753532/Typora/2026/10/23/zsh-identity-clean.png": [
+    1000,
+    92
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753534/Typora/2026/10/23/zsh-path-full-clean.png": [
+    1000,
+    92
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753536/Typora/2026/10/23/zsh-plugins-highlight-clean.png": [
+    1000,
+    172
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753537/Typora/2026/10/23/zsh-plugins-suggest-clean.png": [
+    1000,
+    132
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753539/Typora/2026/10/23/zsh-python-clean.png": [
+    1000,
+    92
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753541/Typora/2026/10/23/zsh-right-time-clean.png": [
+    1000,
+    92
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1792753544/Typora/2026/10/23/zsh-theme-config-clean.png": [
+    1450,
+    926
   ]
 }
