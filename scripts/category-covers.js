@@ -8,7 +8,18 @@ hexo.extend.filter.register('before_generate', () => {
   if (!indexWrapped) {
     const generate = hexo.extend.generator.get('index');
     hexo.extend.generator.register('index', async function (locals) {
-      const routes = await generate.call(this, locals);
+      // Filter only the homepage feed; categories, archives and search retain these posts.
+      const posts = locals.posts.filter(post => !post.categories.toArray().some(category => category.parent && category.name === '日常琐记'));
+      const routes = await generate.call(this, { ...locals, posts });
+      const featured = post => post.categories.toArray().some(category => !category.parent && ['软件开发', '游戏工坊', '博客搭建'].includes(category.name));
+      const feedRoutes = routes.filter(route => route.data?.__index);
+      const ordered = feedRoutes.flatMap(route => route.data.posts.toArray()).sort((a, b) => Number(featured(b)) - Number(featured(a)) || Number(b.date) - Number(a.date));
+      let offset = 0;
+      for (const route of feedRoutes) {
+        const count = route.data.posts.length;
+        route.data.posts = new route.data.posts.constructor(ordered.slice(offset, offset + count));
+        offset += count;
+      }
       const categories = locals.categories;
       for (const route of routes) {
         const cards = route.data?.catlist;
