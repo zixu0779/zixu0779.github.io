@@ -15,6 +15,8 @@
       link.className = 'fancybox';
       link.href = image.dataset.originalSrc || image.dataset.src || image.src;
       link.dataset.fancybox = 'article';
+      // ShokaX PJAX skips links already marked as handled; images belong to the viewer.
+      link.dataset.pjaxState = 'image';
       if (image.title) link.dataset.caption = image.title;
       image.before(link);
       link.append(image);
