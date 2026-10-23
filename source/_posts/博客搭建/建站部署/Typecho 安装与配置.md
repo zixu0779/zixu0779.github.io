@@ -4,7 +4,7 @@ date: 2022-11-13 22:38:44
 updated: 2026-04-19 14:40:02
 tags: ["Typecho", "宝塔", "云服务器"]
 categories: [["博客搭建", "建站部署"]]
-cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9130289fab8c8fd13edb68a0aee26b93.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792696432/Typora/2026/04/9130289fab8c8fd13edb68a0aee26b93.png
 ---
 闲暇之余，我在一个子域名下安装了 Typecho，顺便记录一下安装过程，以及主题、插件的安装方式。
 
@@ -38,15 +38,15 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9130289fa
 
 在宝塔面板的文件管理中，进入**网站根目录**，点击“上传”，选择下载好的压缩包，再点击“开始上传”。
 
-![在宝塔文件管理中上传 Typecho 安装包](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b9b89bd1217d73b778ed9998579495a1.png)
+![在宝塔文件管理中上传 Typecho 安装包](https://res.cloudinary.com/sycamore/image/upload/v1792696432/Typora/2026/04/b9b89bd1217d73b778ed9998579495a1.png)
 
 上传完毕后解压，会解压出一个 `build` 文件夹：
 
-![旧版安装包解压后的 build 文件夹](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4df9b42ebee9eaabbcb36648bf74c92f.png)
+![旧版安装包解压后的 build 文件夹](https://res.cloudinary.com/sycamore/image/upload/v1792696432/Typora/2026/04/4df9b42ebee9eaabbcb36648bf74c92f.png)
 
 进入 `build` 文件夹，全选里面的文件和目录，点击“剪切”，再回到网站根目录粘贴。
 
-![将 build 内的程序文件移到网站根目录](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/85e02df271638fd1989e8a7752781b12.png)
+![将 build 内的程序文件移到网站根目录](https://res.cloudinary.com/sycamore/image/upload/v1792696432/Typora/2026/04/85e02df271638fd1989e8a7752781b12.png)
 
 这里要确认的是，`index.php` 和 `admin`、`usr` 等目录直接放在网站根目录下。
 
@@ -56,11 +56,11 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9130289fa
 
 访问之前填过的域名地址，正常情况下会进入安装引导页面：
 
-![Typecho 安装引导页面](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ffc77fe74d47807af977dda33fb112cc.png)
+![Typecho 安装引导页面](https://res.cloudinary.com/sycamore/image/upload/v1792696436/Typora/2026/04/ffc77fe74d47807af977dda33fb112cc.png)
 
 如果页面提示服务器环境不符合要求，先按提示处理。没有问题后，点击“我准备好了，开始下一步”。
 
-![填写数据库信息和管理员账号](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a7b3b4540b951dd6e24aa42d637bcb38.jpg)
+![填写数据库信息和管理员账号](https://res.cloudinary.com/sycamore/image/upload/v1792696436/Typora/2026/04/a7b3b4540b951dd6e24aa42d637bcb38.jpg)
 
 下一步，填写数据库信息。这里使用 MySQL，数据库适配器也要选择对应的类型。
 
@@ -76,7 +76,7 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9130289fa
 
 填写好了之后，点击“确认，开始安装”。看到下面的页面，就说明安装成功了。
 
-![Typecho 安装成功页面](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/fdb159438670ee67f8f60c7986e260c9.png)
+![Typecho 安装成功页面](https://res.cloudinary.com/sycamore/image/upload/v1792696436/Typora/2026/04/fdb159438670ee67f8f60c7986e260c9.png)
 
 ## Typecho基本配置
 

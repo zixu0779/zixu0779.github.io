@@ -27,4 +27,4 @@ cv_color = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
 cv2.imwrite('img.png', cv_color)
 ```
 再用stegsolve看一下通道就可以了
-![image-20230425232822379](https://res.cloudinary.com/sycamore/image/upload/v1792085617/Typora/2023/04/0c489cb73329a1ef49146321f8fde3bd.png)
+![image-20260912232822379](https://res.cloudinary.com/sycamore/image/upload/v1792696489/Typora/2026/09/0c489cb73329a1ef49146321f8fde3bd.png)

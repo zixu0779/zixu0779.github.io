@@ -194,15 +194,15 @@ sh.interactive()
 
 然而实际上只要把g0和g1通道的两张图异或一下就可以了，就用stegsolve里的Image Combiner的功能
 
-![前半 flag 与 QIM 提示](https://res.cloudinary.com/sycamore/image/upload/v1792227455/Typora/2021/11/bddeddcfb73adbb1cd588aba.png)
+![前半 flag 与 QIM 提示](https://res.cloudinary.com/sycamore/image/upload/v1792696543/Typora/2026/09/bddeddcfb73adbb1cd588aba.png)
 
 前半flag加第一条提示 ↑
 
-![Red 0 通道中的第二条提示](https://res.cloudinary.com/sycamore/image/upload/v1792227459/Typora/2021/11/a7aac50b91830bb4b814ac81.png)
+![Red 0 通道中的第二条提示](https://res.cloudinary.com/sycamore/image/upload/v1792696547/Typora/2026/09/a7aac50b91830bb4b814ac81.png)
 
 第二条提示 ↑
 
-![Green 0 与 Green 1 异或得到后半 flag](https://res.cloudinary.com/sycamore/image/upload/v1792227467/Typora/2021/11/ed7bd1fb78a9d006921e429c.png)
+![Green 0 与 Green 1 异或得到后半 flag](https://res.cloudinary.com/sycamore/image/upload/v1792696548/Typora/2026/09/ed7bd1fb78a9d006921e429c.png)
 
 后半个flag ↑
 
@@ -228,10 +228,10 @@ for i in range(11):
 
 ```
 然后就拿到11张图片 ↓
-![11 张差异帧](https://res.cloudinary.com/sycamore/image/upload/v1792227472/Typora/2021/11/b50b073253eeb15ed0441fab.png)
+![11 张差异帧](https://res.cloudinary.com/sycamore/image/upload/v1792696547/Typora/2026/09/b50b073253eeb15ed0441fab.png)
 
 手动拼接?	↓
-![拼接后的 DataMatrix](https://res.cloudinary.com/sycamore/image/upload/v1792227475/Typora/2021/11/11cb06fe78395ad52ed1e355.png)
+![拼接后的 DataMatrix](https://res.cloudinary.com/sycamore/image/upload/v1792696547/Typora/2026/09/11cb06fe78395ad52ed1e355.png)
 
 网上搜一下，貌似是DataMatrix，扫出flag
 >`DASCTF{6bb73086aeb764b5727529d82b084cce}`
@@ -261,7 +261,7 @@ from collections import Counter
 f = 'Ys>UEJht#?ppeEFtstR#~:hi~tR:@s@YRteK#e@KsR&E&:eR:Eht/#iKtteYKhYKYhhhihhKtC2tt:HVEesY&#@Rj!seRi:eitEtKsetKtEE:hh#h#eYKYihhYK(Kt@iSY$KY/@pRsEetsip:~h@eeEs!E&&::EsEEei#/iYe#/ieKKt//iKYhh'
 print(Counter(f))
 ```
-![词频分析的控制台输出](https://res.cloudinary.com/sycamore/image/upload/v1792227481/Typora/2021/11/ce0e3f6f11396dd265a8d361.png)
+![词频分析的控制台输出](https://res.cloudinary.com/sycamore/image/upload/v1792696551/Typora/2026/09/ce0e3f6f11396dd265a8d361.png)
 
 得到：`theKEYis:#R@/&p~!>UJ?FC2HVj(S$`
 初步尝试，发现这个不太对，密码错误。。。
@@ -274,7 +274,7 @@ print(Counter(f))
 果然我还是太天真了，还以为能直接拿到flag...
 瞅瞅内码，然后看到了这个：
 
-![Hex Fiend 查看 flag.txt 内码](https://res.cloudinary.com/sycamore/image/upload/v1792227486/Typora/2021/11/5a8cff6cc774f6d8852d4755.jpg)
+![Hex Fiend 查看 flag.txt 内码](https://res.cloudinary.com/sycamore/image/upload/v1792696551/Typora/2026/09/5a8cff6cc774f6d8852d4755.jpg)
 
 哦吼，还有个零宽？
 包含U+200C U+200D U+200E，[网址](https://330k.github.io/misc_tools/unicode_steganography.html)
@@ -286,9 +286,9 @@ print(Counter(f))
 终归还是了解的太少了
 
 搜索发现 [CyberChef](https://cyberchef.org/) 可以进行解密	§(\*￣▽￣\*)§
-![CyberChef 第一次 CTX1 解码](https://res.cloudinary.com/sycamore/image/upload/v1792227532/Typora/2021/11/071bc71e6a45cfbb2a507f37.jpg)
+![CyberChef 第一次 CTX1 解码](https://res.cloudinary.com/sycamore/image/upload/v1792696551/Typora/2026/09/071bc71e6a45cfbb2a507f37.jpg)
 
-![CyberChef 第二次 CTX1 解码](https://res.cloudinary.com/sycamore/image/upload/v1792227536/Typora/2021/11/ed451e769ca6407f871a4461.jpg)
+![CyberChef 第二次 CTX1 解码](https://res.cloudinary.com/sycamore/image/upload/v1792696552/Typora/2026/09/ed451e769ca6407f871a4461.jpg)
 解两次得到flag：
 >`flag{98047de9ce5aaa4c0031fb55e9dfac70}`
 

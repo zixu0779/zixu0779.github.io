@@ -78,7 +78,7 @@ pnpm dlx hexo s
 加入项目之后，将 shoka 项目中的图标全部添加至自己的项目，然后将 `_config.yml` 中的 iconfont 设置替换为项目的在线链接中的字符串：`//at.alicdn.com/t/c/font_<string>.css`。
 
 往自己的项目中添加完图标后，访问在线链接 `http://at.alicdn.com/t/c/font_<string>.css`，找到要添加的图标：
-![image-20250119183816870](https://res.cloudinary.com/sycamore/image/upload/v1737283099/Typora/2025/01/428e3f65a6f441f57d07c85941282c63.png)
+![image-20250120183816870](https://res.cloudinary.com/sycamore/image/upload/v1737283099/Typora/2025/01/428e3f65a6f441f57d07c85941282c63.png)
 
 复制文件 `themes/shokax/source/css/_iconfont.styl`，到 `source/_data` 文件夹下，在最后加上要添加的图标对应的代码
 

@@ -53,12 +53,12 @@ while(k<56):
 	k=k+1
 ```
 所以我们得到了56张图片，emm...中间有两张是，五彩斑斓的，肯定有问题，
-![SM1](https://res.cloudinary.com/sycamore/image/upload/v1792085607/Typora/2023/04/1fe97ece1c8993cbf990893b9dd0679d.png)![SM2](https://res.cloudinary.com/sycamore/image/upload/v1792085604/Typora/2023/04/eea64334d4a3ac700d91945121083752.png)
+![SM1](https://res.cloudinary.com/sycamore/image/upload/v1792696489/Typora/2022/01/1fe97ece1c8993cbf990893b9dd0679d.png)![SM2](https://res.cloudinary.com/sycamore/image/upload/v1792696491/Typora/2022/01/eea64334d4a3ac700d91945121083752.png)
 
 #### 第二张图
 在Lu1u的提示下，原来这里面还有个网址，进入(https://mp.weixin.qq.com/s/E_iDJBkVEC4jZanzvqnWCA0)
 在最后找到了一张fumo的图片
-![SM3](https://res.cloudinary.com/sycamore/image/upload/v1792085604/Typora/2023/04/3ca22b531d34b89abc0f97bc0c306804.png)
+![SM3](https://res.cloudinary.com/sycamore/image/upload/v1792696493/Typora/2022/01/3ca22b531d34b89abc0f97bc0c306804.png)
 放大发现了一个间隔为9的点阵，因为感觉这些点的颜色和上面得到的那两张图挺像的，所以想到继续可以把这些点提出来合成一张图片
 
 ```python
@@ -84,7 +84,7 @@ while i<w:
 	ni=ni+1
 img0.show()
 ```
-![SM4](https://res.cloudinary.com/sycamore/image/upload/v1792085609/Typora/2023/04/244e58d3d0b2a5daf7ee5837e5d8beb1.png)
+![SM4](https://res.cloudinary.com/sycamore/image/upload/v1792696493/Typora/2022/01/244e58d3d0b2a5daf7ee5837e5d8beb1.png)
 ####  XOR
 前面得到的两张图均为133x50，而第二张图100x133，这不是巧了，
 前两张张图加在一起，跟后面的那张长宽一样，再结合题目fumo_xor_cli
@@ -93,9 +93,9 @@ emm... XOR啊
 先观察一下四个角的像素点，把那两张图旋转一下，拼在一起
 最后使用stegsolve异或一下就可以了
 可能是因为拼图做的太糙了，所以异或出来的图有亿点不太对劲
-![SM5](https://res.cloudinary.com/sycamore/image/upload/v1792085602/Typora/2023/04/a7cb74294bd4da8aa2f732cbc86f4c4b.bmp)
+![SM5](https://res.cloudinary.com/sycamore/image/upload/v1792696494/Typora/2022/01/a7cb74294bd4da8aa2f732cbc86f4c4b.bmp)
 ps处理了一下总算好看了
-![SM6](https://res.cloudinary.com/sycamore/image/upload/v1792085600/Typora/2023/04/8898d7e36e8d29377d803605af7967da.png)
+![SM6](https://res.cloudinary.com/sycamore/image/upload/v1792696497/Typora/2022/01/8898d7e36e8d29377d803605af7967da.png)
 
 ### in_the_vaporwaves（1.17/1.18）
 
@@ -106,7 +106,7 @@ ps处理了一下总算好看了
 
 通过Audacity打开c.wav，播放的时候稍微有点杂音，但听不出有什么不太对的地方 (/▽＼)
 放大来看，可以看出左右声道的波形貌似正好上下相反：
-![image-20230425233447828](https://res.cloudinary.com/sycamore/image/upload/v1792085600/Typora/2023/04/942c468dbd87e4787052099f715283e8.png)
+![image-20220130233447828](https://res.cloudinary.com/sycamore/image/upload/v1792696499/Typora/2022/01/942c468dbd87e4787052099f715283e8.png)
 
 #### ①使用Wave库
 使用python的Wave库将左右声道加起来，导出为一个a.wav的文件
@@ -153,11 +153,11 @@ with wave.open("c.wav",'rb') as c:
 ```
 但是，实际运行的时候，我发现这个脚本貌似有点问题...
 如果直接套用运行出来的音频长这样：
-![image-20230425233457628](https://res.cloudinary.com/sycamore/image/upload/v1792085597/Typora/2023/04/c6b92eaad52ca5f54cbb80e1c01191cc.png)
+![image-20220130233457628](https://res.cloudinary.com/sycamore/image/upload/v1792696498/Typora/2022/01/c6b92eaad52ca5f54cbb80e1c01191cc.png)
 然后我仔细检查发现，官方wp的量化位数设成了1，改成2就可以了... (。_。)
 （着实花了我好久，还以为是我自己写错了）
 出来的a.wav如下图
-![image-20230425233505802](https://res.cloudinary.com/sycamore/image/upload/v1792085596/Typora/2023/04/47a2223d0102f0f858b27c6b0cc851ae.png)
+![image-20220130233505802](https://res.cloudinary.com/sycamore/image/upload/v1792696503/Typora/2022/01/47a2223d0102f0f858b27c6b0cc851ae.png)
 
 但是，这脚本运行的时间也太长了吧，**[Finished in 262.9s]**  (￣▽￣)"
 所以我又找到了一个比较快捷的方法：
@@ -168,7 +168,7 @@ with wave.open("c.wav",'rb') as c:
 获得a.wav文件。
 
 这次得到的a.wav是这样的：
-![image-20230425233516666](https://res.cloudinary.com/sycamore/image/upload/v1792085594/Typora/2023/04/6e8ff45b5b28216617a2427f50628c81.png)
+![image-20220130233516666](https://res.cloudinary.com/sycamore/image/upload/v1792696500/Typora/2022/01/6e8ff45b5b28216617a2427f50628c81.png)
 差别不大~
 这就是比较常规的摩斯密码了，转换后得到flag
 
@@ -232,7 +232,7 @@ print (Str)
 
 连上远程，需要leak的数据长度为22，
 IDA查看cJSON_PWN：
-![image-20230425233526169](https://res.cloudinary.com/sycamore/image/upload/v1792085599/Typora/2023/04/4dcc2553fda4e522e344eccb3f71b8fd.png)
+![image-20220130233526169](https://res.cloudinary.com/sycamore/image/upload/v1792696502/Typora/2022/01/4dcc2553fda4e522e344eccb3f71b8fd.png)
 内存结构还是比较清楚的
 按定义顺序，先是buf，然后是v5，最后是v6(存要leak的数据的地方)
 两次循环，每次buf、v5，写入数据长14，结尾均有\x00
@@ -241,9 +241,9 @@ IDA查看cJSON_PWN：
 #### 漏洞点
 一共应该有两个漏洞点，可以从给的so文件中查看，
 - 处理 /* 的时候，会不断遍历中间的字符直到遇到 \x00 ~~（或 */ ）~~，可能造成越界
-![image-20230425233533907](https://res.cloudinary.com/sycamore/image/upload/v1792085593/Typora/2023/04/560f7380f89320b8d0bfa86942368be9.png)
+![image-20220130233533907](https://res.cloudinary.com/sycamore/image/upload/v1792696506/Typora/2022/01/560f7380f89320b8d0bfa86942368be9.png)
 - 处理 " 的时候，如果遇到 \ ，会越过两个字符
-![image-20230425233541340](https://res.cloudinary.com/sycamore/image/upload/v1792085598/Typora/2023/04/0d185944b3f9a89c3f0cebb68e2e1cdd.png)
+![image-20220130233541340](https://res.cloudinary.com/sycamore/image/upload/v1792696504/Typora/2022/01/0d185944b3f9a89c3f0cebb68e2e1cdd.png)
 
 其中，第一个漏洞会将遍历到的字符舍去，所以后续的字符会填充到遍历过的字符位置上（包括/*），而第二个漏洞只会越过 \ 后的两个字符，中间遍历的字符将会保留。
 

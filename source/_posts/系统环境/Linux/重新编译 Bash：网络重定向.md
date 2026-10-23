@@ -3,7 +3,7 @@ title: 重新编译 Bash：网络重定向
 date: 2025-04-20 13:09:20
 tags: ["Bash", "Linux", "源码编译", "网络重定向"]
 categories: [["系统环境", "Linux"]]
-cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/3ea0ff03af3b42b348eeb0416d6a28d1.jpg
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792696313/Typora/2026/05/3ea0ff03af3b42b348eeb0416d6a28d1.jpg
 updated: 2026-05-23 18:47:26
 ---
 
@@ -21,7 +21,7 @@ updated: 2026-05-23 18:47:26
 ```bash
 echo "$SHELL"
 ```
-![账号配置的登录 Shell 为 zsh](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a6dc5cf7a829a5a6097d237405661fca.png)
+![账号配置的登录 Shell 为 zsh](https://res.cloudinary.com/sycamore/image/upload/v1792696314/Typora/2026/05/a6dc5cf7a829a5a6097d237405661fca.png)
 
 `$SHELL` 通常保存登录 Shell 的路径，图中可以看到本环境默认使用 zsh，但通常来说，系统也会默认安装 Bash。
 
@@ -33,7 +33,7 @@ bash --version
 
 这里使用的是 Bash 5.1.16：
 
-![预装的 Bash 版本为 5.1.16](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/72468c0ebb118510e769b5b84090330a.png)
+![预装的 Bash 版本为 5.1.16](https://res.cloudinary.com/sycamore/image/upload/v1792696316/Typora/2026/05/72468c0ebb118510e769b5b84090330a.png)
 
 ## 下载安装 Bash
 
@@ -47,7 +47,7 @@ bash --version
 wget https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz
 ```
 
-![下载 Bash 5.1.16 源码包](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/34cc060cd5b5566b1e3199248a5d1b9d.png)
+![下载 Bash 5.1.16 源码包](https://res.cloudinary.com/sycamore/image/upload/v1792696325/Typora/2026/05/34cc060cd5b5566b1e3199248a5d1b9d.png)
 
 ### 解压
 
@@ -59,7 +59,7 @@ tar -zxvf bash-5.1.16.tar.gz
 
 解压后，当前目录中会生成 `bash-5.1.16` 文件夹：
 
-![解压后的源码目录](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f735c3f744f1c15416e9ed316c072c5e.png)
+![解压后的源码目录](https://res.cloudinary.com/sycamore/image/upload/v1792696318/Typora/2026/05/f735c3f744f1c15416e9ed316c072c5e.png)
 
 进入这个目录：
 
@@ -77,7 +77,7 @@ cd bash-5.1.16
 
 `--prefix` 指定安装目录。这里将 Bash 安装到 `/usr/local/bash`，不会直接替换系统原有的 Bash。
 
-![指定安装目录和网络重定向编译选项](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/56ff26d1b92b96426325dc707626d147.png)
+![指定安装目录和网络重定向编译选项](https://res.cloudinary.com/sycamore/image/upload/v1792696325/Typora/2026/05/56ff26d1b92b96426325dc707626d147.png)
 
 ### 编译与安装
 
@@ -87,7 +87,7 @@ cd bash-5.1.16
 make
 ```
 
-![编译 Bash 源码](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/06946af30cebfad1df042a0913409994.png)
+![编译 Bash 源码](https://res.cloudinary.com/sycamore/image/upload/v1792696320/Typora/2026/05/06946af30cebfad1df042a0913409994.png)
 
 编译通过后，再安装到前面指定的目录：
 
@@ -97,7 +97,7 @@ sudo make install
 
 截图中使用的是 root 账号，所以直接执行了 `make install`。
 
-![将编译结果安装到指定目录](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/071576989e4ab50a87b4319ab34c6adc.png)
+![将编译结果安装到指定目录](https://res.cloudinary.com/sycamore/image/upload/v1792696323/Typora/2026/05/071576989e4ab50a87b4319ab34c6adc.png)
 
 ## 更换使用
 
@@ -121,4 +121,4 @@ chsh -s /usr/local/bash/bin/bash
 
 退出账号并重新登录后生效，不必为此重启整台机器。重新登录后，执行 `echo "$SHELL"` 查看配置的路径：
 
-![登录 Shell 已改为新安装的 Bash](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/04a9e7185976fdfa19a6a6f9dec41af1.png)
+![登录 Shell 已改为新安装的 Bash](https://res.cloudinary.com/sycamore/image/upload/v1792696330/Typora/2026/05/04a9e7185976fdfa19a6a6f9dec41af1.png)

@@ -22,7 +22,7 @@ Git 负责记录版本，GitHub 则提供仓库托管、问题讨论和代码审
 
 以我的一个仓库为例（[DungeonTavern](https://github.com/zixu0779/DungeonTavern/blob/main/README.zh-CN.md)），开头先说明项目内容并提供文档入口，接着用场景图展示实际界面，再介绍已有功能。需要运行项目时，可以继续查看后面的启动说明。README 不必把所有设计细节都塞进去，长篇说明可以单独放到文档里，再从这里链接过去。仓库内的文档和图片建议使用相对路径，切换分支或下载源码后也比较方便。
 
-![DungeonTavern README 中的项目介绍、文档入口与场景展示](https://res.cloudinary.com/sycamore/image/upload/v1792502116/Typora/2026/10/20/git-github-readme-overview.png)
+![DungeonTavern README 中的项目介绍、文档入口与场景展示](https://res.cloudinary.com/sycamore/image/upload/v1792696402/Typora/2026/05/git-github-readme-overview.png)
 
 ### 说明使用和贡献方式
 
@@ -106,7 +106,7 @@ merge 的限制，是仓库约定不允许产生合并提交。rebase 的主要�
 
 后面[选择 PR 合并方式](#选择合并方式)这一节中，也涉及 merge 和 rebase，两处使用的原理相通，但操作的阶段和目标不同。
 
-![Merge 与 Rebase 同步后的提交关系示意](https://res.cloudinary.com/sycamore/image/upload/v1792502125/Typora/2026/10/20/git-github-merge-rebase.png)
+![Merge 与 Rebase 同步后的提交关系示意](https://res.cloudinary.com/sycamore/image/upload/v1792696402/Typora/2026/05/git-github-merge-rebase.png)
 
 遇到冲突时，先修改冲突文件，再用 `git add` 标记已解决。
 修复冲突后，merge 可以继续提交；rebase 使用 `git rebase --continue`。
@@ -281,7 +281,7 @@ jobs:
 
 下图是我的 [OneDrop](https://github.com/zixu0779/OneDrop/actions/runs/37260378409/job/111606161262) 项目中，一次实际 CI 运行的部分步骤列表，包含格式检查、TypeScript 编译、测试和两个构建目标。它比上面的最小示例多了项目自身需要的检查。
 
-![OneDrop CI 成功运行的任务步骤](https://res.cloudinary.com/sycamore/image/upload/v1792566179/Typora/2026/10/21/git-github-onedrop-ci-dark.png)
+![OneDrop CI 成功运行的任务步骤](https://res.cloudinary.com/sycamore/image/upload/v1792696403/Typora/2026/05/git-github-onedrop-ci-dark.png)
 
 ### 缓存、产物与发布
 
@@ -349,7 +349,7 @@ git switch -c fix/category-wrap
 
 同步完成后，在新建的工作分支中修改，推送到自己 Fork 的 `origin`，再向原项目要求的目标分支创建 PR。
 
-![Fork 协作中的本地仓库、origin 与 upstream](https://res.cloudinary.com/sycamore/image/upload/v1792502131/Typora/2026/10/20/git-github-fork-remotes.png)
+![Fork 协作中的本地仓库、origin 与 upstream](https://res.cloudinary.com/sycamore/image/upload/v1792696404/Typora/2026/05/git-github-fork-remotes.png)
 
 提交前先看原项目的贡献说明，确认目标分支、测试要求以及是否需要先讨论 Issue。
 自己的习惯可以调整，但项目已经约定的流程需要遵守。

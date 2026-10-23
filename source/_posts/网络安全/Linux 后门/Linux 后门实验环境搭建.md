@@ -4,7 +4,7 @@ date: 2024-09-15 21:36:37
 updated: 2025-11-23 20:46:32
 tags: ["Linux", "Kali", "VMware", "SSH"]
 categories: [["网络安全", "Linux 后门"]]
-cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f6bc736975fca644e150849c3e662711.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792696473/Typora/2025/11/f6bc736975fca644e150849c3e662711.png
 ---
 这次用 Kali Linux 虚拟机作为实验服务器，在 Windows 主机上通过 Xshell 建立 SSH 连接，为后面的 Linux 后门实验准备环境。这里先记录连接过程，以及我遇到的几个问题。
 
@@ -29,13 +29,13 @@ Xshell 的安装过程这里不展开，可以从 [NetSarang 官网](https://www
 
 打开 Xshell，选择“文件 → 新建”，创建一个 SSH 会话：
 
-![Xshell 新建 SSH 会话的设置窗口](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/ec0e3b63c1b6407381f5fc198204b88b.png)
+![Xshell 新建 SSH 会话的设置窗口](https://res.cloudinary.com/sycamore/image/upload/v1792696473/Typora/2025/11/ec0e3b63c1b6407381f5fc198204b88b.png)
 
 会话名称可以自己填写，协议选择 **SSH**。如果没有修改 SSH 服务的监听端口，端口号就填 **22**；主机地址则填写 Kali 虚拟机的 IP。
 
 启动虚拟机，在终端中输入 `ip addr` 查看网卡地址。下面是我使用 `ifconfig` 得到的结果；如果系统没有安装这个命令，使用 `ip addr` 即可。
 
-![Kali 虚拟机的网卡与 IP 地址](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/03de79df0a7a5f15066393d8b3fdc732.png)
+![Kali 虚拟机的网卡与 IP 地址](https://res.cloudinary.com/sycamore/image/upload/v1792696474/Typora/2025/11/03de79df0a7a5f15066393d8b3fdc732.png)
 
 图中的地址是 **192.168.158.128**，把它填进会话的主机地址一栏。这个地址要以自己虚拟机的实际地址为准，不要填回环地址 `127.0.0.1`。
 
@@ -43,7 +43,7 @@ Xshell 的安装过程这里不展开，可以从 [NetSarang 官网](https://www
 
 创建完会话后，我还没有顺利连上，Xshell 显示了连接失败：
 
-![Xshell 连接失败提示](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/44ad2149c5ece1467cd8f0dee447a105.png)
+![Xshell 连接失败提示](https://res.cloudinary.com/sycamore/image/upload/v1792696474/Typora/2025/11/44ad2149c5ece1467cd8f0dee447a105.png)
 
 服务没有启动、网络不通和认证失败是不同的问题，下面是排查的记录。
 
@@ -59,7 +59,7 @@ sudo systemctl status ssh
 
 这是使用 `service ssh status` 查看状态的截图，显示 `active (running)` 说明服务正在运行。
 
-![SSH 服务运行状态](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/bf8774117739cb26e9767cc0b5a1f9f5.png)
+![SSH 服务运行状态](https://res.cloudinary.com/sycamore/image/upload/v1792696477/Typora/2025/11/bf8774117739cb26e9767cc0b5a1f9f5.png)
 
 如果希望虚拟机开机后自动启动 SSH，可以执行：
 
@@ -73,7 +73,7 @@ sudo systemctl enable ssh
 
 如果服务已经启动，Xshell 仍然连不上，可以先在 Windows 主机上 ping 虚拟机的 IP，看看网络是否能通：
 
-![Windows 主机 ping Kali 虚拟机失败](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/c72106aee3f1d8b7ac9a24d572b59b36.png)
+![Windows 主机 ping Kali 虚拟机失败](https://res.cloudinary.com/sycamore/image/upload/v1792696477/Typora/2025/11/c72106aee3f1d8b7ac9a24d572b59b36.png)
 
 ping 不通不一定就是 SSH 的问题，也可能是地址、虚拟网卡或防火墙的设置。我遇到的是 VMnet8 的连接问题。
 
@@ -81,7 +81,7 @@ ping 不通不一定就是 SSH 的问题，也可能是地址、虚拟网卡或�
 
 如果已经勾选，可以先取消勾选并应用，再重新勾选并应用，重新启用宿主机与虚拟网络的连接。
 
-![VMnet8 的主机虚拟适配器设置](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/97fccc2c2ee041cbd1e6feb5cacbf47d.png)
+![VMnet8 的主机虚拟适配器设置](https://res.cloudinary.com/sycamore/image/upload/v1792696477/Typora/2025/11/97fccc2c2ee041cbd1e6feb5cacbf47d.png)
 
 这样处理后就能连上了。不过重启电脑后还得再做一遍，确实有点麻烦 (￣_￣|||)
 
@@ -93,13 +93,13 @@ ping 不通不一定就是 SSH 的问题，也可能是地址、虚拟网卡或�
 
 网络连通后，我又遇到了另一个提示：
 
-![Xshell 提示 SSH 服务器拒绝密码](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/4a17b7f6085ed11e25581ad4af01ad96.png)
+![Xshell 提示 SSH 服务器拒绝密码](https://res.cloudinary.com/sycamore/image/upload/v1792696478/Typora/2025/11/4a17b7f6085ed11e25581ad4af01ad96.png)
 
 这里使用 `root` 登录，提示“SSH 服务器拒绝了密码，请再试一次”。确认用户名和密码无误后，还需要检查账户状态和服务端的认证设置。
 
 我修改了服务端的 `/etc/ssh/sshd_config`，配置如下：
 
-![修改后的 sshd_config 配置，包含 PermitRootLogin yes](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8900184ed3d063762a64a4307d9111e0.png)
+![修改后的 sshd_config 配置，包含 PermitRootLogin yes](https://res.cloudinary.com/sycamore/image/upload/v1792696481/Typora/2025/11/8900184ed3d063762a64a4307d9111e0.png)
 
 图中的 `PermitRootLogin yes` 允许 root 登录。普通账户无需修改这一项，其他配置也只需按需要调整，不必全部取消注释。各项含义可以查看 [OpenSSH 配置手册](https://man.openbsd.org/sshd_config)。
 
@@ -114,4 +114,4 @@ sudo systemctl restart ssh
 
 重新连接 Xshell，成功！
 
-![Xshell 成功连接 Kali 虚拟机](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/bc8a0d69bbf2c5972d1bb2864e8e36f7.png)
+![Xshell 成功连接 Kali 虚拟机](https://res.cloudinary.com/sycamore/image/upload/v1792696482/Typora/2025/11/bc8a0d69bbf2c5972d1bb2864e8e36f7.png)

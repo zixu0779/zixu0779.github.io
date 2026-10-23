@@ -21,7 +21,7 @@ tags: ["Electron", "Node.js", "C++", "npm", "Windows"]
 这个实现选择的层级会遮挡桌面图标，同时保留窗口的鼠标交互。
 如果只是想把内容作为壁纸放在图标后面，就不能直接照搬这个层级。但如果选择壁纸的层级，就做不到与窗口的交互了。
 
-![桌面一言窗口界面](https://res.cloudinary.com/sycamore/image/upload/v1792495537/Typora/2026/10/20/sentences-desktop-original.png)
+![桌面一言窗口界面](https://res.cloudinary.com/sycamore/image/upload/v1792696407/Typora/2026/09/sentences-desktop-original.png)
 
 ## 从 JavaScript 传入窗口句柄
 

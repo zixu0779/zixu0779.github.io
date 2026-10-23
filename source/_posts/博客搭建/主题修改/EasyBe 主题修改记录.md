@@ -4,7 +4,7 @@ date: 2023-01-15 00:08:40
 updated: 2026-08-16 18:32:20
 tags: ["Typecho", "EasyBe", "主题定制"]
 categories: [["博客搭建", "主题修改"]]
-cover: https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/a766ea43fafdaf2231d9b0686c1a16a6.png
+cover: https://res.cloudinary.com/sycamore/image/upload/v1792696407/Typora/2026/08/a766ea43fafdaf2231d9b0686c1a16a6.png
 ---
 安装了 Typecho 之后，我尝试了 EasyBe 主题，又改了些配置。
 
@@ -29,8 +29,8 @@ Typecho 的安装过程见[《Typecho 安装与配置》](/博客搭建/建站�
 之前尝试的几个 Typecho 主题，启用后都有一个基础的页面，所以这次直接给我看懵了。后来才想到，可能还要在“设置外观”里补上配置 (￣_￣|||)
 
 参考当时作者在仓库里的说明并补全配置后，页面终于正常显示了。虽然开头折腾了一下，效果还是挺满意的。
-![如图是侧边栏展开的首页封面图](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/785874ea60c0b6e6be9cdde24faa5826.jpg "如图是菜单栏展开的首页封面图")
-![如图是页脚的画面，挺精美的](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/7cfa5360d7b0fbbd1484efcf487e7624.jpg "如图是页脚的画面，挺精美的")
+![如图是侧边栏展开的首页封面图](https://res.cloudinary.com/sycamore/image/upload/v1792696408/Typora/2026/08/785874ea60c0b6e6be9cdde24faa5826.jpg "如图是菜单栏展开的首页封面图")
+![如图是页脚的画面，挺精美的](https://res.cloudinary.com/sycamore/image/upload/v1792696408/Typora/2026/08/7cfa5360d7b0fbbd1484efcf487e7624.jpg "如图是页脚的画面，挺精美的")
 
 ### 具体配置
 #### 头像、昵称、职业与居住地
@@ -245,7 +245,7 @@ ICP 备案号可以链接到[工信部备案管理系统](https://beian.miit.gov
 
 下面是这张背景图在首页封面区域的效果。
 
-![示例背景图在 EasyBe 首页封面区域的复现效果](https://res.cloudinary.com/sycamore/image/upload/v1792409007/Typora/2026/10/19/easybe-example-header.png)
+![示例背景图在 EasyBe 首页封面区域的复现效果](https://res.cloudinary.com/sycamore/image/upload/v1792696411/Typora/2026/08/easybe-example-header.png)
 
 ## 如何简单地修改
 下面先解释全局配置里的内容，再看需要修改主题文件的地方。
@@ -289,7 +289,7 @@ ICP 备案号可以链接到[工信部备案管理系统](https://beian.miit.gov
         webpageTitleFocusTimeOut  : 1000, 
         webpageIcon : "https://files.cnblogs.com/files/wangyang0210/blog_logo.gif", 
 ```
-![左侧即网站图标](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/255076c34fe294441cc723a9c262a40a.jpg "左侧的是网站图标")
+![左侧即网站图标](https://res.cloudinary.com/sycamore/image/upload/v1792696411/Typora/2026/08/255076c34fe294441cc723a9c262a40a.jpg "左侧的是网站图标")
 
 #### 进度条
 这部分我保留了主题默认配置。主题把页面滚动百分比传给进度条，**duration** 控制进度条宽度变化的过渡时间，单位是秒。示例中的 `0.2` 表示每次更新宽度时，用 0.2 秒完成过渡。
@@ -370,7 +370,7 @@ ICP 备案号可以链接到[工信部备案管理系统](https://beian.miit.gov
 
 下面是按我修改后的配置复现的效果。截图是动画中的一帧，实际运行时会来回运动。
 
-![自定义六边形 Loading 动画的复现截图](https://res.cloudinary.com/sycamore/image/upload/v1792409011/Typora/2026/10/19/easybe-custom-loading.png)
+![自定义六边形 Loading 动画的复现截图](https://res.cloudinary.com/sycamore/image/upload/v1792696412/Typora/2026/08/easybe-custom-loading.png)
 
 #### 主页封图
 页面动效我没有改，原来的效果已经很好看了。
@@ -403,7 +403,7 @@ ICP 备案号可以链接到[工信部备案管理系统](https://beian.miit.gov
             copyrightHtml: '', // 版权声明，不配置使用默认
         },
 ```
-![评论上方](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/8a4f73d87359bda7f9e20dde80425052.jpg "评论上方")
+![评论上方](https://res.cloudinary.com/sycamore/image/upload/v1792696412/Typora/2026/08/8a4f73d87359bda7f9e20dde80425052.jpg "评论上方")
 
 页脚的 **bottomBlogroll** 是友情链接，每一项按“显示名称、链接地址”的顺序填写；**bottomText** 是页脚标语。
 ```html
@@ -422,32 +422,32 @@ ICP 备案号可以链接到[工信部备案管理系统](https://beian.miit.gov
 下面的修改在“外观 → 编辑当前外观”中进行。动手前先备份对应文件，避免改错后页面打不开。
 #### 左下角歌单修改
 左下角的播放器使用网易云音乐歌单。如果想换成自己的歌单，打开 **footer.php**，找到播放器这一行，把 `data-id` 改成目标歌单的 ID。这里的 `data-server="netease"` 和 `data-type="playlist"` 分别指定了平台和歌单类型。
-![歌单id修改](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/df332927842a389d463ca0e299138c61.jpg "歌单id修改")
+![歌单id修改](https://res.cloudinary.com/sycamore/image/upload/v1792696415/Typora/2026/08/df332927842a389d463ca0e299138c61.jpg "歌单id修改")
 打开目标歌单的网页，地址中 `id=` 后面的数字就是歌单 ID，图中已经画了红线。
-![找歌单id](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/aecfba482a467d67e2d2004619c9a70b.jpg "找歌单id")
+![找歌单id](https://res.cloudinary.com/sycamore/image/upload/v1792696415/Typora/2026/08/aecfba482a467d67e2d2004619c9a70b.jpg "找歌单id")
 
 #### 脑壳疼
 文章末尾有“脑壳疼”“脑仁疼”“脑瓜疼”三个链接，点击只会提示“开发中”(/▽＼)
 
 它们写在 **post.php** 中。如果想换成自己的链接，需要修改显示文字和 `href`，并移除原来的 `onclick` 提示，否则点击时仍会弹出“开发中”。
-![脑壳疼修改](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/9e4497561eff3b65ad747bb8c116c72b.jpg "脑壳疼修改")
+![脑壳疼修改](https://res.cloudinary.com/sycamore/image/upload/v1792696416/Typora/2026/08/9e4497561eff3b65ad747bb8c116c72b.jpg "脑壳疼修改")
 我只是找到了这几处位置，没有想好放什么，所以还没有实际改过这部分。
 #### 侧边栏链接修改
 侧边栏的样式我挺喜欢。如果想改下面这些链接，需要打开 **sidebar.php**。
-![侧边栏链接展示](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/25f52eb6201ae5c4cc420f4fa7a003c7.jpg "侧边栏链接展示")
+![侧边栏链接展示](https://res.cloudinary.com/sycamore/image/upload/v1792696416/Typora/2026/08/25f52eb6201ae5c4cc420f4fa7a003c7.jpg "侧边栏链接展示")
 
 “首页”、“管理”、“添加随笔”已经分别指向对应页面，没有特别需要可以保留。其他链接修改 `href` 中的地址和标签里的显示文字即可。
 
 “联系”使用的是 QQ 会话链接，截图中 `uin=` 后的数字是 QQ 号。这套操作来自旧版 QQ 推广页面，下面两张图保留作记录：
 （目前没有重新验证客户端能否拉起会话，不能保证按此步骤设置后仍然有效）
 
-![侧边栏链接修改位置](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/f1b914c920047bb0a7bd957461f031e1.jpg "侧边栏链接修改位置")
+![侧边栏链接修改位置](https://res.cloudinary.com/sycamore/image/upload/v1792696419/Typora/2026/08/f1b914c920047bb0a7bd957461f031e1.jpg "侧边栏链接修改位置")
 
 进入 [QQ 推广页面](https://shang.qq.com/v3/index.html)，选择“推广工具 → 设置”。
-![QQ会话服务开启](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/dd27498eb41b9bfa860692909a9f12c7.jpg "QQ会话服务开启")
+![QQ会话服务开启](https://res.cloudinary.com/sycamore/image/upload/v1792696420/Typora/2026/08/dd27498eb41b9bfa860692909a9f12c7.jpg "QQ会话服务开启")
 
 页面中的“会话能力”设置如下，修改后点击“保存”。
-![QQ会话服务开启](https://res.cloudinary.com/sycamore/image/upload/Typora/2023/12/d6ee6b510dc9b40534bd09b4b59d69e1.jpg "QQ会话服务开启")
+![QQ会话服务开启](https://res.cloudinary.com/sycamore/image/upload/v1792696420/Typora/2026/08/d6ee6b510dc9b40534bd09b4b59d69e1.jpg "QQ会话服务开启")
 
 测试时不要用自己的账号与自己发起会话。能否打开会话，还要看当前 QQ 客户端和浏览器的行为，不能把当时手机端的测试方式当作唯一支持的方式。
 ## 总结

