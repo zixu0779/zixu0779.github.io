@@ -1,5 +1,6 @@
 const { escapeHTML } = require('hexo-util');
 const categoryOrder = require('../lib/category-order');
+const rootOrder = ['软件开发', '游戏工坊', '博客搭建', '网络安全', '系统环境', '人工智能', '生活记录'];
 const anchor = category => 'category-' + category.path.replace(/^categories\//, '').replace(/\/$/, '').replace(/\//g, '-');
 hexo.extend.filter.register('before_generate', () => hexo.extend.generator.register('category', () => []));
 // Both the theme and the expandable directory use Hexo's paginator and theme options.
@@ -14,13 +15,14 @@ hexo.extend.helper.register('site_pagination', function (options = {}) {
 hexo.extend.filter.register('before_generate', () => {
   hexo.theme.setView('_partials/pagination.pug', 'if page.prev || page.next\n    nav.pagination\n        .inner!= site_pagination()');
 });
-hexo.extend.helper.register('archive_row', function (post, format = 'MM-DD', showCategory = true) {
+hexo.extend.helper.register('archive_row', function (post, format = 'MM-DD', showCategory = true, showUpdated = false) {
   const category = post.categories.toArray().slice(-1)[0];
-  return `<article class="item normal" itemscope itemtype="http://schema.org/Article"><div class="meta"><time itemprop="dateCreated" datetime="${post.date.toISOString()}">${this.date(post.date, format)}</time>${showCategory && category ? `<a href="${this.url_for(category.path)}">${escapeHTML(category.name)}</a>` : ''}</div><div class="title"><a href="${this.url_for(post.path)}" itemprop="url"><span itemprop="name">${escapeHTML(post.title)}</span></a></div></article>`;
+  const date = showUpdated ? (post.updated || post.date) : post.date;
+  return `<article class="item normal" itemscope itemtype="http://schema.org/Article"><div class="meta"><time itemprop="${showUpdated ? 'dateModified' : 'dateCreated'}" datetime="${date.toISOString()}">${showUpdated ? '更新于 ' : ''}${this.date(date, format)}</time>${showCategory && category ? `<a href="${this.url_for(category.path)}">${escapeHTML(category.name)}</a>` : ''}</div><div class="title"><a href="${this.url_for(post.path)}" itemprop="url"><span itemprop="name">${escapeHTML(post.title)}</span></a></div></article>`;
 });
 hexo.extend.helper.register('category_directory', function () {
   const categories = this.site.categories.toArray().sort(categoryOrder);
-  const row = post => this.archive_row(post, 'YYYY-MM-DD', false);
+  const row = post => this.archive_row(post, 'YYYY-MM-DD', false, true);
   const group = (category, posts, hideTitle = false) => {
     if (!posts.length) return '';
     const title = hideTitle ? '文章' : escapeHTML(category.name);
@@ -38,7 +40,7 @@ hexo.extend.helper.register('category_directory', function () {
     const own = category.posts.toArray().sort((a, b) => Number(b.updated || b.date) - Number(a.updated || a.date)).filter(post => !childPosts.has(post._id));
     return group(category, own, root && !children.length) + children.map(child => render(child)).join('');
   };
-  return `<div class="category-directory timeline">${categories.filter(item => !item.parent).map(category => `<section><h2 class="category-parent item header" id="${anchor(category)}-parent">${escapeHTML(category.name)} <small>（${category.posts.length}）</small></h2>${render(category, true)}</section>`).join('')}</div>`;
+  return `<div class="category-directory timeline">${categories.filter(item => !item.parent).sort((a, b) => (rootOrder.includes(a.name) ? rootOrder.indexOf(a.name) : rootOrder.length) - (rootOrder.includes(b.name) ? rootOrder.indexOf(b.name) : rootOrder.length) || categoryOrder(a, b)).map(category => `<section><h2 class="category-parent item header" id="${anchor(category)}-parent">${escapeHTML(category.name)} <small>（${category.posts.length}）</small></h2>${render(category, true)}</section>`).join('')}</div>`;
 });
 // All existing category links lead to the matching section on the directory page.
 hexo.extend.filter.register('after_render:html', html => {
