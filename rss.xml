@@ -10,8 +10,8 @@
         </author>
         <description> </description>
         <language>zh-CN</language>
-        <pubDate>Wed, 28 Oct 2026 23:21:04 +0800</pubDate>
-        <lastBuildDate>Wed, 28 Oct 2026 23:21:04 +0800</lastBuildDate>
+        <pubDate>Sun, 20 Sep 2026 20:36:17 +0800</pubDate>
+        <lastBuildDate>Sun, 20 Sep 2026 20:36:17 +0800</lastBuildDate>
         <category term="CTF" />
         <category term=" Electron" />
         <category term=" Cyberpunk2077" />
@@ -25,7 +25,7 @@
             <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
             <category term="Microsoft Edge" scheme="https://www.sycamore.top/tags/Microsoft-Edge/" />
             <category term="跨设备传输" scheme="https://www.sycamore.top/tags/%E8%B7%A8%E8%AE%BE%E5%A4%87%E4%BC%A0%E8%BE%93/" />
-            <pubDate>Wed, 28 Oct 2026 23:21:04 +0800</pubDate>
+            <pubDate>Sun, 20 Sep 2026 20:36:17 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;OneDrop&lt;/a&gt; 是我做的一个跨设备传输工具，通过用户自己的 OneDrive 在设备之间传递文本和文件。&lt;br /&gt;
 本文整理一下做它的原因、各个平台的发布情况，以及后续的计划。&lt;br /&gt;
 实现细节方面的内容，就后面再补充。&lt;/p&gt;
