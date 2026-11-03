@@ -214,7 +214,20 @@
     window.addEventListener('pjax:success', () => setOpen(false));
     window.matchMedia('(max-width: 991px)').addEventListener('change', () => setOpen(false));
   };
+  // Preserve the reference theme's entrance state without importing its global runtime.
+  const authorObserver = new IntersectionObserver(entries => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) {
+        target.classList.add('fade-after');
+        authorObserver.unobserve(target);
+      }
+    });
+  }, { threshold: 0.1 });
   const refresh = () => {
+    document.querySelectorAll('.thyuu-author-modules .fade-before:not([data-observed])').forEach(card => {
+      card.dataset.observed = 'true';
+      authorObserver.observe(card);
+    });
     placeToolbar();
     locateComment();
     document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {
