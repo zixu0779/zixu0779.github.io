@@ -35,9 +35,3 @@ layout: about
 
 邮箱：[zixu0779@gmail.com](mailto:zixu0779@gmail.com)\
 聊游戏、交流开发，或者单纯打个招呼，都欢迎。
-
-
-{% raw %}
-<!-- about-extras -->
-<div class="about-extras"><section class="about-extra about-location"><header><span>我在</span><h2>杭州市</h2></header><iframe class="about-map" title="杭州市地图" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=120.08%2C30.20%2C120.23%2C30.34&amp;layer=mapnik&amp;marker=30.2741%2C120.1551"></iframe><a href="https://www.openstreetmap.org/#map=12/30.2741/120.1551" target="_blank" rel="noopener noreferrer">查看地图 ↗</a></section><section class="about-extra about-personality"><header><span>16Personalities</span><h2>人格</h2></header><div class="personality-symbol" aria-hidden="true">?</div><p>待测试</p><a href="https://www.16personalities.com/ch" target="_blank" rel="noopener noreferrer">了解自己，去测试 ↗</a></section></div>
-{% endraw %}

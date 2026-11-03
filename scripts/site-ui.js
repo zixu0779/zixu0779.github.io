@@ -17,6 +17,7 @@ hexo.extend.filter.register('before_generate', () => {
   hexo.theme.setView('_partials/post/reward.pug', readFileSync(join(hexo.source_dir, '_layouts/reward.pug'), 'utf8'));
   for (const name of ['page', 'archive']) hexo.theme.setView(name + '.pug', readFileSync(join(hexo.source_dir, '_layouts/' + name + '.pug'), 'utf8'));
   hexo.theme.setView('about.pug', readFileSync(join(hexo.source_dir, '_layouts/about.pug'), 'utf8'));
+  hexo.theme.setView('about-modules.ejs', readFileSync(join(hexo.source_dir, '_layouts/about-modules.ejs'), 'utf8'));
   hexo.theme.setView('_partials/post/copyright.pug', readFileSync(join(hexo.source_dir, '_layouts/copyright.pug'), 'utf8'));
   hexo.theme.setView('friends.pug', readFileSync(join(hexo.source_dir, '_layouts/friends.pug'), 'utf8'));
 });

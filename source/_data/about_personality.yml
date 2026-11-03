@@ -1,0 +1,13 @@
+# 2026-11-03 本人测试结果。
+# 来源：https://www.16personalities.com/profiles/b866284312c01
+demo: false
+current:
+  type: istp
+  code: ISTP-A
+  name: 鉴赏家
+  # 界面左侧：外向、远见、理性、评判、坚决。
+  # 原结果：内向 93%、现实 57%、理性 63%、展望 54%、坚决 53%。
+  traits: [7, 43, 63, 46, 53]
+# 未提供历史结果时保持 null，不显示切换入口。
+# 有历史结果时使用与 current 相同的结构。
+previous: null

@@ -44,7 +44,8 @@ assert(about.includes('dateModified'));
 assert(friendsBodyCompatible());
 function friendsBodyCompatible() { return fs.readFileSync('public/friends/index.html', 'utf8').includes('friend-links page wrap'); }
 assert(!about.includes('许可协议。转载请注明出处'));
-assert.equal((about.match(/class="about-extra /g) || []).length, 2);
+assert(about.includes('thyuu-author-modules'));
+assert.equal((about.match(/<section class="(?:place|mbti) column /g) || []).length, 2);
 const friends = fs.readFileSync('public/friends/index.html', 'utf8');
 assert.equal((friends.match(/class="avatar-initial"/g) || []).length, 3);
 assert(friends.includes('如未提供颜色，将参考站点主色调选择配色。'));
