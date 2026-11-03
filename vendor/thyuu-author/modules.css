@@ -21,10 +21,12 @@
 .thyuu-author-modules label { cursor: pointer; }
 :root[data-theme="dark"] .thyuu-author-modules { --thyuu--color-font: 0deg 0% 85%; --thyuu--color-back-white: hsl(0deg 0% 60% / .1); }
 .thyuu-author-modules .fade-before {
- opacity: 0; transform: scale(.98) translateY(1rem); transform-origin: top;
+ opacity: 1; transform: none; transform-origin: top;
  transition: .7s, transform cubic-bezier(.6,.2,.25,1) .7s, opacity .3s;
 }
-.thyuu-author-modules .fade-after { opacity: 1; transform: none; }
+.thyuu-author-modules .fade-after { animation: about-card-enter .7s cubic-bezier(.6,.2,.25,1); }
+@keyframes about-card-enter { from { opacity: 0; transform: scale(.98) translateY(1rem); } to { opacity: 1; transform: none; } }
+@keyframes about-map-enter { from { opacity: 0; scale: 3; } to { opacity: 1; scale: 1.7; } }
 .thyuu-author-modules span {
     display: block;
     font-size: 1.25em;
@@ -115,12 +117,12 @@
 .thyuu-author-modules .place.hk {--map: -20% -30%;} .thyuu-author-modules .place.mo {--map:-20% -30%;}
 .thyuu-author-modules .place #china-map {
     stroke: #fff;
-    opacity:0;
+    opacity: 1;
     position: absolute;
     width: 100%;
     inset: 0;
     margin: auto;
-    scale: 3;
+    scale: 1.7;
     aspect-ratio: 1;
     transition: opacity 1s var(--animation-on), scale 1s var(--animation-on) .5s, translate 1s var(--animation-on);
     fill: none;
@@ -131,6 +133,7 @@
 .thyuu-author-modules .place.fade-after #china-map {
     opacity: 1;
     scale: 1.7;
+    animation: about-map-enter 1.5s var(--animation-on);
 }
 .thyuu-author-modules .place:hover #china-map {
     scale: 3;
