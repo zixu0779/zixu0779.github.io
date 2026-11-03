@@ -1,6 +1,7 @@
 const checkedReplace = require('../lib/checked-replace');
 const { readFileSync } = require('node:fs');
 const { join, dirname } = require('node:path');
+const { createHash } = require('node:crypto');
 const { stripHTML, unescapeHTML, escapeHTML } = require('hexo-util');
 
 hexo.extend.filter.register('before_generate', () => {
@@ -29,7 +30,8 @@ hexo.extend.filter.register('theme_inject', injects => {
   const vendors = hexo.theme.config.vendors;
   const viewer = { js: getVendorLink(hexo, vendors.async_js.fancybox), css: getVendorLink(hexo, vendors.css.fancybox) };
   injects.bodyEnd.raw('image-viewer', `<script src="/js/image-viewer.js" data-vendors="${escapeHTML(JSON.stringify(viewer))}" defer></script>`);
-  injects.bodyEnd.raw('site-ui', `<script src="/js/search-match.js" defer></script><script src="/js/site-ui.js" data-empty-social="${escapeHTML(JSON.stringify(emptySocial))}" defer></script>`);
+  const uiVersion = createHash('sha256').update(readFileSync(join(hexo.source_dir, 'js/site-ui.js'))).digest('hex').slice(0, 12);
+  injects.bodyEnd.raw('site-ui', `<script src="/js/search-match.js" defer></script><script src="/js/site-ui.js?v=${uiVersion}" data-empty-social="${escapeHTML(JSON.stringify(emptySocial))}" defer></script>`);
 });
 
 hexo.extend.generator.register('local-search', locals => ({

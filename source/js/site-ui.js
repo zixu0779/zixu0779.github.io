@@ -590,6 +590,7 @@
     // Theme modules and PJAX can create the toolbar after DOMContentLoaded.
     new MutationObserver(refresh).observe(document.getElementById('container'), { childList: true, subtree: true });
   };
-  window.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === 'loading') window.addEventListener('DOMContentLoaded', init, { once: true });
+  else init();
   window.addEventListener('pjax:success', refresh);
 })();
