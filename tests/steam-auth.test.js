@@ -4,6 +4,8 @@ const {steamid,checkRefresh,seal,unseal,refresh}=require('../lib/steam-auth/stat
 const key=crypto.randomBytes(32).toString('base64');
 const token=(extra={})=>'test.'+Buffer.from(JSON.stringify({sub:steamid,aud:['web','mobile','derive'],exp:Math.floor(Date.now()/1000)+3600,...extra})).toString('base64url')+'.test';
 const original=token(), next=token({exp:Math.floor(Date.now()/1000)+7200});
+const clientToken=token({aud:['web','client','derive']});
+assert.equal(unseal(seal(clientToken,key),key),clientToken);
 const encrypted=seal(original,key);
 assert.equal(unseal(encrypted,key),original);
 assert(!encrypted.includes(original));

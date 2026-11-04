@@ -58,9 +58,9 @@ node lib/steam-collections.cjs classified
 
 仅只读当前账号的 Steam 合集缓存及待同步修改；合并所有非删除的静态合集，排除移除项及隐藏项。当前不支持动态合集规则，遇到它会报错而非悄悄导出不完整名单。名单与当前家庭库取交集。
 
-这份名单目前是本机导出快照，不是 GitHub Actions 自动读取云端合集。修改 Steam 分类后需重新导出、检查并发布；日常游戏数据仍按既有任务更新。将来云端合集读取验证通过后，才可替换此导出步骤。
+GitHub Actions 每天从云端下载 namespace 1，更新全部已分类静态合集的并集。上面的本机导出命令仅作为故障排查备用，日常不需要手动导出。读取或解析失败会停止本次发布，保留线上已有名单。动态合集暂不支持，遇到规则型合集会明确失败。
 
-### 展示名称与分页
+### 本地待发布的展示名称与分页
 
 `steam-display.json` 的 `titles` 按 App ID 配置中文显示名和可选 `edition`。原始同步名称不改写，标题提示保留原名；未知游戏使用同步名称。重新导出合集时保留这些名称配置。游戏列表先排序、筛选，再按每页 12 款分页；切换排序或筛选回到第一页。总游戏数与时长仍统计全部游戏库。
 
@@ -68,7 +68,7 @@ node lib/steam-collections.cjs classified
 
 已在 Steam 客户端 `sp.js` 的 `DownloadFromServer` 中确认：通过 `m_CMInterface.GetServiceTransport()` 调用 `CloudConfigStore.Download#1`，传入 namespace/version，返回 entries。来源：https://github.com/SteamTracking/SteamTracking/blob/master/ClientExtracted/steamui/sp.js 。这是已登录 CM 连接上的统一消息，不能把未认证 HTTP 探测的 404 当作没有云端接口。
 
-现有 QR 授权使用 MobileApp，令牌面向 web/mobile；客户端会话面向 web/client（steam-session 文档）。尚未取得客户端授权并验证云端返回，因此未修改生产每日任务，也未宣称合集自动同步完成。后续需要独立客户端授权、只读下载验证，以及客户端令牌续期验证，成功后再接入；失败必须保留上次有效名单。
+旧版 MobileApp 授权面向 web/mobile；现已迁移到面向 web/client 的客户端授权。一个客户端会话既读取云端合集，也生成家庭库使用的网页访问令牌。
 
 ### 客户端单凭据接入
 
@@ -76,6 +76,6 @@ node lib/steam-collections.cjs classified
 
 `client.cjs` 固定 steam-user 5.3.0，通过其 CM 消息发送接口调用 `CloudConfigStore.Download#1`；每日开启 `renewRefreshTokens`，在 refreshToken 事件中立即加密保存轮换后的凭据。工作流继续每天 08:17（上海时间）运行，保存加密恢复副本，再采集、发布。移动端旧状态保留兼容路径，迁移成功后仅使用客户端状态。
 
-已完成协议编解码（含 Steam 返回的 ByteBuffer）、合集解析、失败拒绝和加密轮换单元验证。2026-11-04 本机真实客户端会话读取 73 个已分类 App ID，家庭库验证通过；已实际请求续期，Steam 本次未签发替换 refresh token。GitHub Actions 完整运行仍需单独验证。
+已完成协议编解码（含 Steam 返回的 ByteBuffer）、合集解析、失败拒绝和加密轮换单元验证。2026-11-04 本机真实客户端会话读取 73 个已分类 App ID，家庭库验证通过；已实际请求续期，Steam 本次未签发替换 refresh token。GitHub Actions 完整运行 [41828865002](https://github.com/zixu0779/zixu0779.github.io/actions/runs/41828865002) 已成功完成登录续期、合集下载、家庭库采集和站点数据发布。真实轮换仍取决于 Steam 是否签发新 token，不能将本次未轮换说成轮换已实测。
 
-显示规则改为：先拆出版本标签并中文化，版本标签和时长同排；剩余纯英文标题只有在实际宽度不足一行时才采用配置的中文名称。窗口缩放与分页后重新判断。LAST 14 DAYS 位于列表底部，只在近两周筛选下出现。
+本地待发布的显示规则：先拆出版本标签并中文化，版本标签和时长同排；剩余纯英文标题只有在实际宽度不足一行时才采用配置的中文名称。窗口缩放与分页后重新判断。LAST 14 DAYS 位于列表底部，只在近两周筛选下出现。
