@@ -26,10 +26,10 @@
 .steam-ui .stats label { font-size:11px;display:block;color:#a3aaba;margin-top:6px }
 .steam-ui .game-art { width:100%;height:135px;object-fit:cover;border-radius:12px }
 .steam-ui .game { min-width:0 }
-.steam-ui .game h3 { margin:12px 0 4px }
-.steam-ui .game p { font-size:12px;color:#adb5c4 }
+.steam-ui .game h3 { margin:8px 0 2px }
+.steam-ui .game p { margin:0;font-size:12px;line-height:1.5;color:#adb5c4 }
 .steam-ui .games { display:grid;grid-template-columns:repeat(3,1fr);gap:22px }
-.steam-ui .bar { height:4px;background:#ffffff15;border-radius:5px;margin:12px 0 6px;overflow:hidden }
+.steam-ui .bar { height:4px;background:#ffffff15;border-radius:5px;margin:8px 0 4px;overflow:hidden }
 .steam-ui .bar i { display:block;background:#aebfd8;height:100%;width:var(--p) }
 .steam-ui .section-head { display:flex;justify-content:space-between;align-items:center;margin:30px 0 20px;gap:15px }
 .steam-ui .tabs { display:flex;gap:8px;flex-wrap:wrap }
@@ -192,3 +192,44 @@
 .steam-ui .sort-toggle:active { transform:translateY(0) scale(.98); }
 .steam-ui .sort-toggle:focus-visible { outline:2px solid #8ba6c5;outline-offset:3px; }
 @media(prefers-reduced-motion:reduce) { .steam-ui .sort-toggle,.steam-ui .sort-icon { transition:none; } }
+
+/* Keep the profile link readable above its image in both themes. */
+.steam-ui .detail-hero .primary.btn { background:var(--steam-button);color:var(--steam-button-ink);border:1px solid transparent;box-shadow:none;transition:transform .22s ease,box-shadow .22s ease,background .22s ease; }
+.steam-ui .detail-hero .primary.btn:hover { color:var(--steam-button-ink);background:color-mix(in srgb,var(--steam-button) 88%,white);box-shadow:0 6px 18px #0002;transform:translateY(-2px); }
+.steam-ui .detail-hero .primary.btn:active { transform:translateY(0);box-shadow:none; }
+.steam-ui .activity { align-items:center;padding:22px 26px;gap:28px; }
+.steam-ui .activity-total { display:flex;align-items:baseline;gap:8px;margin-top:8px; }
+.steam-ui .activity-total strong { font-size:30px;line-height:1.2;font-weight:650; }
+.steam-ui .activity-total span { color:var(--steam-muted);font-size:13px; }
+.steam-ui .activity-bars { flex:1;justify-content:space-between;max-width:320px;gap:5px;height:56px; }
+.steam-ui .activity-bars i { flex:1;max-width:15px;min-width:4px; }
+@media(max-width:650px) { .steam-ui .activity { flex-direction:row;padding:20px;gap:18px; } .steam-ui .activity-bars { max-width:210px; } }
+.steam-ui .activity > div:first-child { flex:0 0 auto; }
+.steam-ui .activity .eyebrow { white-space:nowrap; }
+.steam-ui .activity-bars { min-width:0; }
+.steam-ui .dashboard > div { min-width:0; }
+
+
+.steam-ui .game-meta {display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.steam-ui .game-edition {font-size:12px;color:var(--steam-muted);white-space:nowrap}
+.steam-ui .activity[data-steam-activity] {max-width:none;min-height:116px;margin:22px 0 0;padding:20px 24px;display:grid;grid-template-columns:1fr 1.6fr;gap:24px;align-items:center}
+.steam-ui .activity[data-steam-activity] .activity-bars {height:62px;max-width:none;width:100%}
+.steam-ui [data-steam-activity][hidden],.steam-ui .steam-pagination[hidden] {display:none}
+.steam-ui .steam-pagination {display:block;margin:32px 0;padding:20px 0}
+.steam-ui .steam-pagination .inner {display:flex;justify-content:center;align-items:center;gap:8px}
+.steam-ui .steam-pagination button {margin:0;padding:0;flex:none;font:inherit;border:0;cursor:pointer;color:var(--steam-muted);background:transparent;width:36px;height:36px;border-radius:6px;transition:color .2s,background .2s,box-shadow .2s}
+.steam-ui .steam-pagination button.page-number:hover {background:var(--steam-surface);background-image:none;color:var(--steam-ink);box-shadow:inset 0 0 0 1px var(--steam-line);transform:none}
+.steam-ui .steam-pagination button.page-number.current,.steam-ui .steam-pagination button.page-number.current:hover {background:var(--steam-accent);background-image:none;color:var(--steam-ground);box-shadow:none;transform:none}
+.steam-ui .steam-pagination button:focus-visible {outline:2px solid var(--steam-accent);outline-offset:3px}
+.steam-ui .section-head {scroll-margin-top:110px}
+@media(max-width:650px){.steam-ui .activity[data-steam-activity]{padding:18px;gap:18px;min-height:112px}.steam-ui .activity[data-steam-activity] .eyebrow{font-size:10px;letter-spacing:1.6px}}
+
+/* Lightweight text filters with a persistent selected underline. */
+.steam-ui .tabs {gap:24px;padding:0;border:0;border-radius:0;background:none;flex-wrap:nowrap}
+.steam-ui .tabs button {position:relative;display:inline-flex;align-items:baseline;gap:7px;padding:9px 0 11px;border:0;border-radius:0;background:none;color:var(--steam-ink);font-weight:500;cursor:pointer;white-space:nowrap;box-shadow:none;transition:color .18s}
+.steam-ui .tabs button span {font-size:11px;color:var(--steam-muted);font-weight:400;font-variant-numeric:tabular-nums}
+.steam-ui .tabs button::after {content:"";position:absolute;bottom:6px;left:0;width:24px;height:2px;border-radius:2px;background:var(--steam-accent);transform:scaleX(0);transform-origin:left;transition:transform .2s}
+.steam-ui .tabs button[aria-pressed=true] {background:none;color:var(--steam-ink);font-weight:650;box-shadow:none}
+.steam-ui .tabs button[aria-pressed=true]::after {transform:scaleX(1)}
+.steam-ui .tabs button:hover {background:none;color:var(--steam-accent);box-shadow:none}
+.steam-ui .tabs button:focus-visible {outline:2px solid var(--steam-accent);outline-offset:4px}

@@ -214,43 +214,81 @@
     window.addEventListener('pjax:success', () => setOpen(false));
     window.matchMedia('(max-width: 991px)').addEventListener('change', () => setOpen(false));
   };
-  // Game filters use delegation so navigation through PJAX keeps them working.
-  document.addEventListener('click', event => {
-    const button = event.target.closest('.steam-ui [data-filter]');
-    if (!button) return;
-    const section = button.closest('.steam-ui');
-    section.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-    section.querySelectorAll('.game').forEach(game => {
-      game.hidden = button.dataset.filter === 'recent' && !game.hasAttribute('data-recent');
+  const fitSteamTitles = () => {
+    const titles = [...document.querySelectorAll('.steam-ui .game:not([hidden]) h3[data-base-name]')];
+    if (!titles.length) return;
+    const ctx = document.createElement('canvas').getContext('2d');
+    // Read all geometry before changing text, avoiding one forced layout per title.
+    const updates = titles.map(title => {
+      const original = title.dataset.baseName;
+      ctx.font = getComputedStyle(title).font;
+      const english = /[a-z]/i.test(original) && !/[\u3400-\u9fff]/.test(original);
+      return [title, english && ctx.measureText(original).width > title.clientWidth + 1 ? title.dataset.chineseName : original];
     });
-    const empty = section.querySelector('.steam-empty');
-    if (empty) empty.hidden = [...section.querySelectorAll('.game')].some(game => !game.hidden);
-  });
+    updates.forEach(([title, text]) => { if (title.textContent !== text) title.textContent = text; });
+  };
+  window.addEventListener('resize', fitSteamTitles);
+  document.fonts?.ready.then(fitSteamTitles);
+  // Keep filtering, sorting and pagination together, including after PJAX navigation.
   document.addEventListener('click', event => {
-    const button = event.target.closest('.steam-ui [data-steam-sort]');
+    const button = event.target.closest('.steam-ui [data-filter], .steam-ui [data-steam-sort], .steam-ui [data-steam-page]');
     if (!button) return;
-    const grid = button.closest('.steam-ui').querySelector('.games');
+    const section = button.closest('.steam-ui'), grid = section.querySelector('.games');
     const cards = [...grid.children];
-    const before = new Map(cards.map(card => [card, card.getBoundingClientRect()]));
+    const before = new Map(cards.filter(card => !card.hidden).map(card => [card, card.getBoundingClientRect()]));
     cards.forEach(card => card.getAnimations().forEach(animation => animation.cancel()));
-    const mode = button.dataset.steamSort === 'recent' ? 'hours' : 'recent';
-    button.dataset.steamSort = mode;
-    const label = mode === 'hours' ? '累计时长' : '最近游玩';
-    button.querySelector('.sort-label').textContent = label;
-    button.setAttribute('aria-label', `当前按${label}排序，点击切换为${mode === 'hours' ? '最近游玩' : '累计时长'}`);
-    const key = mode === 'hours' ? 'minutes' : 'lastPlayed';
+    if (button.hasAttribute('data-filter')) section.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    const sort = section.querySelector('[data-steam-sort]');
+    if (button === sort) {
+      const mode = sort.dataset.steamSort === 'recent' ? 'hours' : 'recent';
+      sort.dataset.steamSort = mode;
+      const label = mode === 'hours' ? '累计时长' : '最近游玩';
+      sort.querySelector('.sort-label').textContent = label;
+      sort.setAttribute('aria-label', `当前按${label}排序，点击切换为${mode === 'hours' ? '最近游玩' : '累计时长'}`);
+    }
+    const key = sort.dataset.steamSort === 'hours' ? 'minutes' : 'lastPlayed';
     const secondary = key === 'minutes' ? 'lastPlayed' : 'minutes';
-    cards.sort((a,b) => Number(b.dataset[key])-Number(a.dataset[key]) || Number(b.dataset[secondary])-Number(a.dataset[secondary]) || Number(a.dataset.appid)-Number(b.dataset.appid)).forEach(card => grid.appendChild(card));
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    cards.forEach(card => {
-      if (card.hidden) return;
-      const old = before.get(card), next = card.getBoundingClientRect();
-      const x = old.left-next.left, y = old.top-next.top;
-      if (x || y) card.animate([{transform:`translate(${x}px, ${y}px)`},{transform:'translate(0, 0)'}], {duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
+    if (button === sort) cards.sort((a,b) => Number(b.dataset[key])-Number(a.dataset[key]) || Number(b.dataset[secondary])-Number(a.dataset[secondary]) || Number(a.dataset.appid)-Number(b.dataset.appid)).forEach(card => grid.appendChild(card));
+    const recent = section.querySelector('[data-filter="recent"]').getAttribute('aria-pressed') === 'true';
+    const matching = cards.filter(card => !recent || card.hasAttribute('data-recent'));
+    const pages = Math.ceil(matching.length / 12);
+    const page = button.hasAttribute('data-steam-page') ? Math.max(0, Math.min(pages-1, Number(button.dataset.steamPage))) : 0;
+    grid.dataset.page = page;
+    cards.forEach(card => { card.hidden = true; });
+    matching.slice(page*12, (page+1)*12).forEach(card => { card.hidden = false; });
+    const nav = section.querySelector('.steam-pagination');
+    nav.hidden = pages <= 1;
+    const inner = nav.querySelector('.inner');
+    inner.replaceChildren();
+    const addPage = (index, label, current = false) => {
+      const item = document.createElement('button');
+      item.type = 'button'; item.className = 'page-number' + (current ? ' current' : '');
+      item.dataset.steamPage = index; item.textContent = label;
+      item.setAttribute('aria-label', `第 ${index+1} 页`);
+      if (current) item.setAttribute('aria-current', 'page');
+      inner.append(item);
+    };
+    if (page > 0) addPage(page-1, '‹');
+    let previous = -1;
+    for (let i=0;i<pages;i++) {
+      if (i!==0 && i!==pages-1 && Math.abs(i-page)>1) continue;
+      if (previous>=0 && i-previous>1) { const dots=document.createElement('span'); dots.className='space'; dots.textContent='…'; inner.append(dots); }
+      addPage(i, String(i+1), i===page); previous=i;
+    }
+    if (page < pages-1) addPage(page+1, '›');
+    section.querySelector('[data-steam-activity]').hidden = !recent;
+    fitSteamTitles();
+    section.querySelector('.steam-empty').hidden = matching.length > 0;
+    if (button.hasAttribute('data-steam-page')) section.querySelector('.section-head').scrollIntoView({block:'start',behavior:reducedMotion() ? 'instant' : 'smooth'});
+    if (reducedMotion()) return;
+    const positions = matching.slice(page*12, (page+1)*12).map(card => [card, card.getBoundingClientRect()]);
+    positions.forEach(([card, next]) => {
+      const old = before.get(card);
+      card.animate(old ? [{transform:`translate(${old.left-next.left}px, ${old.top-next.top}px)`},{transform:'translate(0,0)'}] : [{transform:'translateY(96px)'},{transform:'translateY(0)'}], {duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
     });
-    button.querySelector('.sort-label').animate([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'ease-out'});
   });
   const refresh = () => {
+    fitSteamTitles();
     placeToolbar();
     locateComment();
     document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {
