@@ -5,7 +5,7 @@ const rows=[row('favorite',{added:[1]}),row('a',{added:[1,2,3],removed:[3]}),row
 assert.deepEqual(collectionIds(rows),[1]);
 assert.deepEqual(collectionIds(rows,'favorite'),[1]);
 assert.throws(()=>collectionIds([row('dynamic',{filterSpec:{tag:1}})]));
-const snapshot={updatedAt:'2026-11-04T10:00:00Z',history:[],games:[{appid:1,minutes:60,lastPlayed:1,recentMinutes:0},{appid:2,minutes:120,lastPlayed:2,recentMinutes:0}]};
+const snapshot={updatedAt:'2026-11-04T10:00:00Z',history:[],games:[{appid:1,minutes:60,lastPlayed:3,recentMinutes:0},{appid:2,minutes:120,lastPlayed:2,recentMinutes:0}]};
 const view=require('../lib/steam-view.cjs');
 assert.equal(view(snapshot,{collectionFilter:{appids:[1]}}).games.length,1);
 assert.equal(view(snapshot,{collectionFilter:{appids:[]}}).games.length,0);
@@ -15,4 +15,9 @@ console.log('Collection exclusions, empty selection and day-only date verified')
 const selected=view(snapshot,{collectionFilter:{appids:[1]}});
 assert.equal(selected.gameCount,2,'collection filter changes displayed games only');
 assert.equal(selected.totalMinutes,180,'statistics keep the full library');
-assert.equal(selected.featured.appid,2,'about card keeps most recent game from full library');
+assert.equal(selected.featured.appid,2,'about card uses highest playtime from full library');
+const bannerSnapshot={...snapshot,featuredAppid:2,hero:'/images/steam/2-hero.jpg'};
+assert.equal(view(bannerSnapshot).hero,'/images/steam/2-hero.jpg');
+assert.equal(view({...bannerSnapshot,hero:'/images/steam/2.jpg'}).hero,null,'legacy thumbnail must never fill the about card');
+assert.equal(view({...bannerSnapshot,featuredAppid:1,hero:'/images/steam/1-hero.jpg'}).hero,null,'different game banner must not be reused');
+assert.equal(view({...bannerSnapshot,hero:null}).hero,null,'missing banner falls through to profile background');

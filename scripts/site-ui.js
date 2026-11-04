@@ -1,6 +1,6 @@
 const checkedReplace = require('../lib/checked-replace');
 const steamView = require('../lib/steam-view.cjs');
-hexo.extend.helper.register('steam_view', function () { return steamView(this.site.data.steam); });
+hexo.extend.helper.register('steam_view', function () { return steamView(this.site.data.steam, this.site.data['steam-display']); });
 const { readFileSync } = require('node:fs');
 const { join, dirname } = require('node:path');
 const { createHash } = require('node:crypto');

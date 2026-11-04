@@ -1,11 +1,11 @@
 <template id="steam-detail-start"></template>
 <% const s = steam_view(); %>
-<link rel="stylesheet" href="/css/steam.css?v=20261104-sort">
+<link rel="stylesheet" href="/css/steam.css?v=20261104-release2">
 <div class="steam-ui"><section class="steam-detail">
   <a href="/about/#about-steam" class="back">← 返回关于页卡片</a>
   <% if (s) { %>
   <div class="detail-hero" style="--steam-profile-background:url('<%= s.profileBackground || '' %>')">
-    <div><div class="eyebrow">STEAM / PLAYER DOSSIER</div><h1><%= s.name %> 的游戏档案</h1><p class="muted" style="margin-top:12px">更新于 <%= s.date %> · 每日同步</p></div>
+    <div><div class="eyebrow">STEAM / PLAYER DOSSIER</div><h1><%= s.name %> 的游戏档案</h1><p class="muted" style="margin-top:12px">更新于 <%= s.date %></p></div>
     <a class="primary btn" href="<%= s.profileURL %>" target="_blank" rel="noopener noreferrer">Steam 主页 ↗</a>
   </div>
   <div class="dashboard">
@@ -13,34 +13,39 @@
       <h3>玩家概览</h3>
       <div class="stat-box"><div class="metric"><%= s.gameCount %><small>款</small></div><span class="muted">游戏</span></div>
       <div class="stat-box"><div class="metric"><%= s.format(s.totalMinutes) %><small>h</small></div><span class="muted">累计游玩</span></div>
-      <p>偏好标签 · 时长推算</p>
+      <p>偏好标签</p>
       <% s.preferences.forEach(tag => { %><span class="tag"><%= tag %></span><% }); %>
       <% if (!s.preferences.length) { %><span class="muted">暂无足够数据</span><% } %>
+
     </aside>
     <div>
-      <div class="section-head"><h2>游戏库</h2><div class="tabs" role="group" aria-label="游戏筛选"><button aria-pressed="true" data-filter="all">全部 · <%= s.gameCount %></button><button aria-pressed="false" data-filter="recent">近两周 · <%= s.recentCount %></button></div></div>
-      <div class="steam-sort"><button type="button" class="sort-toggle" data-steam-sort="recent" aria-label="当前按最近游玩排序，点击切换为累计时长"><svg class="sort-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 4v16m-4-4 4 4 4-4M16 20V4m-4 4 4-4 4 4"/></svg><span class="sort-caption">排序</span><span class="sort-label">最近游玩</span></button></div>
+      <div class="section-head"><h2>游戏库</h2><div class="tabs" role="group" aria-label="游戏筛选"><button aria-pressed="true" data-filter="all">全部 <span><%= s.games.length %></span></button><button aria-pressed="false" data-filter="recent">近两周 <span><%= s.recentCount %></span></button></div></div>
+      <div class="steam-sort"><button type="button" class="sort-toggle" data-steam-sort="hours" aria-label="当前按累计时长排序，点击切换为最近游玩"><svg class="sort-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 4v16m-4-4 4 4 4-4M16 20V4m-4 4 4-4 4 4"/></svg><span class="sort-caption">排序</span><span class="sort-label">累计时长</span></button></div>
       <div class="games">
-        <% s.games.forEach(game => { %>
-        <article class="game" data-last-played="<%= game.lastPlayed %>" data-minutes="<%= game.minutes %>" data-appid="<%= game.appid %>" <%- game.recentMinutes > 0 ? 'data-recent' : '' %>>
+        <% [...s.games].sort((a,b)=>b.minutes-a.minutes || b.lastPlayed-a.lastPlayed || a.appid-b.appid).forEach((game, index) => { %>
+        <article <%- index >= 12 ? 'hidden' : '' %> class="game" data-last-played="<%= game.lastPlayed %>" data-minutes="<%= game.minutes %>" data-appid="<%= game.appid %>" <%- game.recentMinutes > 0 ? 'data-recent' : '' %>>
           <% if (game.image) { %><img loading="eager" decoding="async" class="game-art" src="<%= game.image %>" alt="<%= game.name %> 封面" width="460" height="215"><% } else { %><div class="game-art missing-art">暂无封面</div><% } %>
-          <h3><%= game.name %></h3><p><%= s.format(game.minutes) %> 小时<% if (game.recentMinutes > 0) { %> · 近两周 <%= s.format(game.recentMinutes) %>h<% } %></p>
+          <h3 title="<%= game.name %>" tabindex="0" data-base-name="<%= game.baseName %>" data-chinese-name="<%= game.displayName %>"><%= game.baseName %></h3><p class="game-meta"><span><%= s.format(game.minutes) %> 小时<% if (game.recentMinutes > 0) { %> · 近两周 <%= s.format(game.recentMinutes) %>h<% } %></span><% if (game.edition) { %><span class="game-edition"><%= game.edition %></span><% } %></p>
           <% if (game.achievements) { const percent = Math.round(game.achievements.unlocked / game.achievements.total * 100); %>
             <div class="bar" style="--p:<%= percent %>%"><i></i></div><p>成就 <%= game.achievements.unlocked %> / <%= game.achievements.total %> <span style="float:right"><%= percent %>%</span></p>
           <% } %>
         </article>
         <% }); %>
       </div>
+      <nav class="steam-pagination pagination" aria-label="游戏库分页" <%- s.games.length <= 12 ? 'hidden' : '' %>>
+        <div class="inner"><% for(let page=0;page<Math.ceil(s.games.length/12);page++){ %><button type="button" class="page-number <%= page===0?'current':'' %>" data-steam-page="<%= page %>" <%- page===0?'aria-current="page"':'' %>><%= page+1 %></button><% } %></div>
+      </nav>
       <p class="steam-empty muted" hidden>近两周没有公开的游玩记录。</p>
-      <div class="surface activity">
-        <div><div class="eyebrow">LAST 14 DAYS</div><h3 style="margin-top:7px">最近两周 · <%= s.format(s.recentMinutes) %> 小时</h3><p class="muted">柱状图记录每日同步间的时长增量，缺失日期留空。</p></div>
+      <div class="surface activity" data-steam-activity hidden>
+        <div><div class="eyebrow">LAST 14 DAYS</div><div class="activity-total"><strong><%= s.format(s.recentMinutes) %></strong><span>小时</span></div></div>
         <div class="activity-bars" aria-label="每日观测时长增量">
           <% s.history.forEach(day => { %><i class="<%= day.minutes === null ? 'unknown' : '' %>" style="height:<%= day.minutes === null ? 3 : Math.max(3,day.minutes / s.maxMinutes * 50) %>px" title="<%= day.date %>：<%= day.minutes === null ? '暂无记录' : s.format(day.minutes) + ' 小时' %>"></i><% }); %>
         </div>
       </div>
+
     </div>
   </div>
-  <p class="note">北京时间 <%= s.date %> 同步。偏好由已玩游戏的商店标签和时长推算，不含应用软件。每日增量是观测值，离线补记可能影响日期归属。游戏图片与主页背景来自 Steam。</p>
+
   <% } else { %><p>Steam 数据尚未同步。</p><% } %>
 </section></div>
 <template id="steam-detail-end"></template>
