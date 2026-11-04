@@ -178,3 +178,5 @@
 .steam-ui .game-art { height:auto; aspect-ratio:460 / 215; }
 .steam-ui .games { align-items:start; }
 .steam-ui .steam-empty { padding:28px 0; }
+
+.steam-ui .feature .avatar { margin:0; flex:none; object-fit:cover; }
