@@ -47,7 +47,11 @@ jobs:
           git add .github/steam-session.enc.json
           if ! git diff --cached --quiet; then
             git commit -m 'chore: renew encrypted Steam session'
-            git push origin HEAD:source
+            for attempt in 1 2 3; do
+              git push origin HEAD:source && break
+              [ "$attempt" -lt 3 ] || exit 1
+              sleep 5
+            done
           fi
       - name: Collect public Steam data
         env:
@@ -73,7 +77,11 @@ jobs:
           git add source/_data/steam.json source/images/steam
           if ! git diff --cached --quiet; then
             git commit -m 'data: sync Steam snapshot'
-            git push origin HEAD:source
+            for attempt in 1 2 3; do
+              git push origin HEAD:source && break
+              [ "$attempt" -lt 3 ] || exit 1
+              sleep 5
+            done
           fi
           cd _published
           git config user.name 'github-actions[bot]'
@@ -81,7 +89,11 @@ jobs:
           git add about/index.html steam/index.html data/steam.json images/steam css/steam.css js/site-ui.js ":(glob)**/*.html"
           if ! git diff --cached --quiet; then
             git commit -m 'deploy: update Steam activity'
-            git push origin HEAD:main
+            for attempt in 1 2 3; do
+              git push origin HEAD:main && break
+              [ "$attempt" -lt 3 ] || exit 1
+              sleep 5
+            done
           fi
       - name: Request GitHub Pages build
         env:
