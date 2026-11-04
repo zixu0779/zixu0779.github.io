@@ -1,0 +1,180 @@
+.steam-ui * { box-sizing:border-box }
+.steam-ui { margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e6e8ef;background:#222631;line-height:1.6 }
+.steam-ui button, .steam-ui a { font:inherit }
+.steam-ui button, .steam-ui a.btn { cursor:pointer }
+.steam-ui a { color:inherit;text-decoration:none }
+.steam-ui button { color:inherit;border:1px solid #ffffff24;background:#ffffff08;border-radius:9px;padding:9px 15px }
+.steam-ui button:hover, .steam-ui a.btn:hover { background:#ffffff18 }
+.steam-ui button:focus-visible, .steam-ui a:focus-visible { outline:3px solid #aebfd8;outline-offset:4px }
+.steam-ui .pill { font-size:11px;letter-spacing:1px;border:1px solid #ffffff29;border-radius:30px;padding:4px 10px }
+.steam-ui .eyebrow { color:#aebfd8;letter-spacing:3px;font-size:11px;font-weight:700 }
+.steam-ui .muted { color:#a3aaba;font-size:14px }
+.steam-ui h1, .steam-ui h2, .steam-ui h3, .steam-ui p { margin:0 }
+.steam-ui h1 { font-size:40px;letter-spacing:-1px;line-height:1.25 }
+.steam-ui h2 { font-size:24px }
+.steam-ui h3 { font-size:17px }
+.steam-ui .surface { background:#2b303d;border:1px solid #ffffff12;border-radius:20px;box-shadow:0 16px 35px #0003,0 3px 9px #0002 }
+.steam-ui .avatar { height:55px;width:55px;display:grid;place-items:center;border-radius:16px;background:#aebfd8;color:#293143;font:700 25px Georgia }
+.steam-ui .identity { display:flex;align-items:center;gap:15px }
+.steam-ui .identity h2 { font-size:23px }
+.steam-ui .dot { color:#a6c7ae }
+.steam-ui .primary { background:#aebfd8;color:#222a3a;border:none;font-weight:650 }
+.steam-ui .primary:hover { background:#c5d1e3 }
+.steam-ui .metric { font-size:28px;font-weight:650;line-height:1.3 }
+.steam-ui .metric small { font-size:12px;color:#a3aaba;font-weight:400;margin-left:5px }
+.steam-ui .stats { display:flex;gap:32px }
+.steam-ui .stats label { font-size:11px;display:block;color:#a3aaba;margin-top:6px }
+.steam-ui .game-art { width:100%;height:135px;object-fit:cover;border-radius:12px }
+.steam-ui .game { min-width:0 }
+.steam-ui .game h3 { margin:12px 0 4px }
+.steam-ui .game p { font-size:12px;color:#adb5c4 }
+.steam-ui .games { display:grid;grid-template-columns:repeat(3,1fr);gap:22px }
+.steam-ui .bar { height:4px;background:#ffffff15;border-radius:5px;margin:12px 0 6px;overflow:hidden }
+.steam-ui .bar i { display:block;background:#aebfd8;height:100%;width:var(--p) }
+.steam-ui .section-head { display:flex;justify-content:space-between;align-items:center;margin:30px 0 20px;gap:15px }
+.steam-ui .tabs { display:flex;gap:8px;flex-wrap:wrap }
+.steam-ui .tabs button { border:0;font-size:13px }
+.steam-ui .tabs button[aria-pressed=true] { background:#aebfd8;color:#263046 }
+.steam-ui .note { margin-top:30px;color:#9ba3b3;font-size:12px;border-top:1px solid #ffffff14;padding-top:18px }
+.steam-ui .back { display:inline-block;margin-bottom:24px;color:#bac9e2;font-size:13px }
+.steam-ui .tag { display:inline-block;font-size:11px;border:1px solid #ffffff24;border-radius:5px;padding:3px 8px;margin:3px 4px 3px 0 }
+@media(max-width:650px){
+.steam-ui h1 { font-size:30px }
+.steam-ui .games { grid-template-columns:1fr }
+.steam-ui .stats { gap:22px }
+.steam-ui .metric { font-size:24px }
+.steam-ui .section-head { align-items:start;flex-direction:column }
+.steam-ui .game-art { height:180px }
+}
+.steam-ui { background:#171c26 }
+.steam-ui .feature { display:block;position:relative;min-height:0;overflow:hidden;background:linear-gradient(90deg,#172030f5 0%,#172030c9 43%,#17203015 100%),var(--steam-feature-image,none) center/cover;border-radius:22px;border:1px solid #ffffff22;box-shadow:0 20px 55px #0006;transition:.3s }
+.steam-ui .feature-content { position:relative;padding:30px 34px;width:62% }
+.steam-ui .feature h2 { font-size:28px;line-height:1.25;margin:5px 0 0 }
+.steam-ui .feature p { max-width:330px;color:#bcc7da;font-size:14px }
+.steam-ui .feature-bottom { display:flex;align-items:center;justify-content:space-between;margin-top:20px }
+.steam-ui .feature .identity h2 { font-size:18px;margin:0 }
+.steam-ui .feature .stats { margin:20px 0; gap:26px; }
+@media(max-width:700px){
+.steam-ui .feature-content { padding:24px;width:100%;background:#17203055 }
+.steam-ui .feature h2 { font-size:25px }
+.steam-ui .feature { min-height:0 }
+}
+
+/* Preserve the selected B design within the blog theme. */
+.steam-ui { padding: 0; font-family: inherit; line-height: 1.6; color: #e6e8ef; background: transparent; }
+.steam-ui a { border: 0; }
+.steam-ui a::before, .steam-ui a::after { content: none; }
+.steam-ui h1, .steam-ui h2, .steam-ui h3 { color: inherit; padding: 0; border: 0; }
+.steam-ui p { margin: 0; }
+.steam-ui img { display: block; }
+.steam-ui button:disabled { opacity: .7; cursor: default; }
+.steam-ui .feature { color: #e6e8ef; box-shadow: var(--main-depth); }
+.steam-ui .steam-detail { padding: 28px; background: #171c26; border-radius: 20px; box-shadow: var(--main-depth); }
+.steam-ui .game[hidden] { display: none; }
+.about-page .about-steam { margin: 1.5rem 0; }
+@media(max-width:700px) { .steam-ui .steam-detail { padding: 20px 16px; } .steam-ui .feature-bottom { gap: 15px; flex-wrap: wrap; } }
+@media(prefers-reduced-motion:reduce) { .steam-ui *, .steam-ui *::before, .steam-ui *::after { transition: none !important; animation: none !important; } }
+.steam-ui, .steam-ui h1, .steam-ui h2, .steam-ui h3 { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+@media(min-width:701px) and (max-width:991px) { .steam-ui .games { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.steam-ui .feature .avatar { width:44px; height:44px; border-radius:12px; font-size:21px; }
+.steam-ui .feature .muted, .steam-ui .feature p { font-size:12px; }
+.steam-ui .feature .featured-game { margin-top:22px; }
+.steam-ui .feature .metric { font-size:23px; }
+.steam-ui .feature-bottom { font-size:13px; }
+
+.steam-ui .detail-hero { background:linear-gradient(90deg,#182231f5,#18223180),var(--steam-feature-image,none) center/cover;padding:38px;border-radius:20px;display:flex;justify-content:space-between;align-items:end;min-height:230px }
+
+.steam-ui .detail-hero h1 { margin-top:15px }
+
+.steam-ui .dashboard { display:grid;grid-template-columns:190px 1fr;gap:30px;margin-top:30px }
+
+.steam-ui .sidebar { border-right:1px solid #ffffff15;padding-right:25px }
+
+.steam-ui .sidebar h3 { margin-bottom:18px }
+
+.steam-ui .sidebar p { font-size:13px;color:#a6b3c8;margin:15px 0 }
+
+.steam-ui .sidebar .stat-box { padding:18px 0;border-bottom:1px solid #ffffff15 }
+
+.steam-ui .dashboard .section-head { margin-top:0 }
+
+.steam-ui .activity { margin-top:25px;padding:24px;display:flex;justify-content:space-between;gap:20px }
+
+.steam-ui .activity-bars { display:flex;align-items:end;gap:6px;height:50px }
+
+.steam-ui .activity-bars i { width:12px;background:#9bb6d7;border-radius:3px 3px 0 0 }
+
+@media(max-width:700px) {
+ .steam-ui .detail-hero { padding:25px;align-items:start;flex-direction:column;gap:20px; }
+ .steam-ui .dashboard { grid-template-columns:1fr; }
+ .steam-ui .sidebar { display:flex;align-items:start;gap:22px;border:0;flex-wrap:wrap;padding:0; }
+ .steam-ui .sidebar h3,.steam-ui .sidebar p { display:none; }
+ .steam-ui .sidebar .stat-box { padding:0;border:0; }
+ .steam-ui .activity { flex-direction:column; }
+}
+/* B layout, with surfaces and text following the site's theme. */
+.steam-ui {
+ --steam-ground:#f7f9fc; --steam-surface:#eaf0f6; --steam-ink:#263447;
+ --steam-muted:#596a7e; --steam-line:#cbd5e1; --steam-accent:#536e93;
+ --steam-button:#dce5f0; --steam-button-ink:#273c58;
+ --steam-scrim:linear-gradient(90deg,#eef3faf5 0%,#eef3fac9 43%,#eef3fa15 100%);
+ color:var(--steam-ink);
+}
+:root[data-theme="dark"] .steam-ui {
+ --steam-ground:#171c26; --steam-surface:#2b303d; --steam-ink:#e6e8ef;
+ --steam-muted:#a3aaba; --steam-line:#ffffff24; --steam-accent:#aebfd8;
+ --steam-button:#aebfd8; --steam-button-ink:#222a3a;
+ --steam-scrim:linear-gradient(90deg,#172030f5 0%,#172030c9 43%,#17203015 100%);
+}
+.steam-ui .steam-detail { background:var(--steam-ground); }
+.steam-ui .surface { background:var(--steam-surface); border-color:var(--steam-line); }
+.steam-ui .muted,.steam-ui .metric small,.steam-ui .stats label,.steam-ui .game p,.steam-ui .sidebar p,.steam-ui .note { color:var(--steam-muted); }
+.steam-ui .sidebar,.steam-ui .sidebar .stat-box,.steam-ui .note,.steam-ui .tag,.steam-ui .pill { border-color:var(--steam-line); }
+.steam-ui .eyebrow,.steam-ui .back { color:var(--steam-accent); }
+.steam-ui .bar { background:var(--steam-line); }
+.steam-ui .bar i,.steam-ui .activity-bars i { background:var(--steam-accent); }
+.steam-ui button { border-color:var(--steam-line); color:var(--steam-ink); }
+.steam-ui button:hover { background:var(--steam-surface); }
+.steam-ui .primary,.steam-ui .tabs button[aria-pressed=true] { background:var(--steam-button); color:var(--steam-button-ink); }
+.steam-ui .primary:disabled { opacity:1; }
+.steam-ui .feature { color:var(--steam-ink); background-image:var(--steam-scrim),var(--steam-feature-image,none); border-color:var(--steam-line); }
+.steam-ui .feature .muted,.steam-ui .feature p { color:var(--steam-muted); }
+.steam-ui .detail-hero { background-color:var(--steam-surface); background-image:var(--steam-scrim),var(--steam-profile-background,none); }
+@media(max-width:700px) { .steam-ui .feature-content { background:transparent; } }
+
+/* Match the homepage card's cover join and spacing above the footer. */
+#main:has(.steam-page) { margin-bottom:2.5rem; }
+.steam-page .steam-detail { border-radius:0 0 1rem 1rem; }
+:root:not([data-theme="dark"]) .steam-ui .activity {
+ background:#eff3f8; border-color:var(--steam-line); box-shadow:none;
+}
+/* Keep the resting card borderless; match the author cards on hover. */
+.steam-ui .feature { isolation:isolate; background-image:none; border-color:transparent; transition:transform .28s ease, box-shadow .28s ease; }
+.steam-ui .feature::before {
+ content:""; display:block; position:absolute; inset:0; z-index:0; pointer-events:none;
+ background:var(--steam-scrim),var(--steam-feature-image,none) center/cover;
+ transition:transform .55s cubic-bezier(.2,.65,.3,1);
+}
+.steam-ui .feature-content { z-index:1; }
+.steam-ui .feature-bottom b { display:inline-block; transition:transform .28s ease; }
+@media(hover:hover) and (pointer:fine) {
+ .steam-ui .feature:hover { transform:translateY(-3px); box-shadow:var(--main-depth), 0 0 0 2px rgb(255 255 255 / 40%); }
+ .steam-ui .feature:hover::before { transform:scale(1.035); }
+ .steam-ui .feature:hover .feature-bottom b { transform:translateX(4px); }
+}
+.steam-ui .feature:active { transform:translateY(-1px); }
+@media(prefers-reduced-motion:reduce) {
+ .steam-ui .feature,.steam-ui .feature::before,.steam-ui .feature-bottom b { transition:none; transform:none !important; }
+}
+
+.about-page .about-steam { position:relative; }
+#about-steam { position:absolute; top:-24px; left:0; width:1px; height:1px; pointer-events:none; scroll-margin-top:3.125rem; }
+
+.steam-ui .primary.btn { display:inline-block; padding:10px 15px; border-radius:9px; font-size:14px; font-weight:600; white-space:nowrap; }
+.steam-ui .sync-time { color:var(--steam-muted); font-size:11px; }
+.steam-ui .activity-bars i.unknown { background:transparent; border-bottom:2px dashed var(--steam-line); }
+.steam-ui .missing-art { display:grid; place-items:center; background:var(--steam-surface); color:var(--steam-muted); }
+.steam-ui .game-art { height:auto; aspect-ratio:460 / 215; }
+.steam-ui .games { align-items:start; }
+.steam-ui .steam-empty { padding:28px 0; }
