@@ -27,7 +27,7 @@ jobs:
           echo "NODE_PATH=$RUNNER_TEMP/steam-renderer/node_modules" >> "$GITHUB_ENV"
       - run: node tests/steam-sync.test.js && node tests/steam-family.test.js
       - run: npm ci --prefix lib/steam-auth --ignore-scripts --no-audit --no-fund
-      - run: node tests/steam-auth.test.js
+      - run: node tests/steam-auth.test.js && node tests/steam-collections.test.js && node tests/steam-client.test.js
       - name: Renew Steam login
         env:
           STEAM_TOKEN_KEY: ${{ secrets.STEAM_TOKEN_KEY }}
@@ -62,6 +62,7 @@ jobs:
           name: steam-snapshot
           path: |
             source/_data/steam.json
+            source/_data/steam-display.json
             source/images/steam/
           retention-days: 3
       - uses: actions/checkout@v4
@@ -74,7 +75,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add source/_data/steam.json source/images/steam
+          git add source/_data/steam.json source/_data/steam-display.json source/images/steam
           if ! git diff --cached --quiet; then
             git commit -m 'data: sync Steam snapshot'
             for attempt in 1 2 3; do

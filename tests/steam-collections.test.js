@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict');
+const {collectionIds}=require('../lib/steam-collections.cjs');
+const row=(id,value,is_deleted=false)=>['user-collections.'+id,{value:JSON.stringify(value),is_deleted}];
+const rows=[row('favorite',{added:[1]}),row('a',{added:[1,2,3],removed:[3]}),row('hidden',{added:[2]}),row('gone',{added:[4]},true)];
+assert.deepEqual(collectionIds(rows),[1]);
+assert.deepEqual(collectionIds(rows,'favorite'),[1]);
+assert.throws(()=>collectionIds([row('dynamic',{filterSpec:{tag:1}})]));
+const snapshot={updatedAt:'2026-11-04T10:00:00Z',history:[],games:[{appid:1,minutes:60,lastPlayed:1,recentMinutes:0},{appid:2,minutes:120,lastPlayed:2,recentMinutes:0}]};
+const view=require('../lib/steam-view.cjs');
+assert.equal(view(snapshot,{collectionFilter:{appids:[1]}}).games.length,1);
+assert.equal(view(snapshot,{collectionFilter:{appids:[]}}).games.length,0);
+assert.equal(view(snapshot).games.length,2);
+assert(!view(snapshot).date.includes(':'));
+console.log('Collection exclusions, empty selection and day-only date verified');
+const selected=view(snapshot,{collectionFilter:{appids:[1]}});
+assert.equal(selected.gameCount,2,'collection filter changes displayed games only');
+assert.equal(selected.totalMinutes,180,'statistics keep the full library');
+assert.equal(selected.featured.appid,2,'about card keeps most recent game from full library');
