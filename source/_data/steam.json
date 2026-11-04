@@ -1,7 +1,7 @@
 {
   "steamid": "76561199368056520",
   "libraryScope": "family",
-  "updatedAt": "2026-11-04T10:23:46.400Z",
+  "updatedAt": "2026-11-04T10:25:46.413Z",
   "profileURL": "https://steamcommunity.com/profiles/76561199368056520/",
   "name": "SYCAMORE",
   "avatar": "/images/steam/avatar.jpg",
@@ -2982,5 +2982,7 @@
     "4466620.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4466620/9701d60d415c55948a5a3fc141cbb74f49c73d9b/header.jpg?t=1786771936",
     "322330-hero.jpg": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/322330/library_hero.jpg"
   },
-  "warnings": []
+  "warnings": [
+    "Profile background refresh unavailable"
+  ]
 }
