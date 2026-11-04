@@ -226,6 +226,30 @@
     const empty = section.querySelector('.steam-empty');
     if (empty) empty.hidden = [...section.querySelectorAll('.game')].some(game => !game.hidden);
   });
+  document.addEventListener('click', event => {
+    const button = event.target.closest('.steam-ui [data-steam-sort]');
+    if (!button) return;
+    const grid = button.closest('.steam-ui').querySelector('.games');
+    const cards = [...grid.children];
+    const before = new Map(cards.map(card => [card, card.getBoundingClientRect()]));
+    cards.forEach(card => card.getAnimations().forEach(animation => animation.cancel()));
+    const mode = button.dataset.steamSort === 'recent' ? 'hours' : 'recent';
+    button.dataset.steamSort = mode;
+    const label = mode === 'hours' ? '累计时长' : '最近游玩';
+    button.querySelector('.sort-label').textContent = label;
+    button.setAttribute('aria-label', `当前按${label}排序，点击切换为${mode === 'hours' ? '最近游玩' : '累计时长'}`);
+    const key = mode === 'hours' ? 'minutes' : 'lastPlayed';
+    const secondary = key === 'minutes' ? 'lastPlayed' : 'minutes';
+    cards.sort((a,b) => Number(b.dataset[key])-Number(a.dataset[key]) || Number(b.dataset[secondary])-Number(a.dataset[secondary]) || Number(a.dataset.appid)-Number(b.dataset.appid)).forEach(card => grid.appendChild(card));
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    cards.forEach(card => {
+      if (card.hidden) return;
+      const old = before.get(card), next = card.getBoundingClientRect();
+      const x = old.left-next.left, y = old.top-next.top;
+      if (x || y) card.animate([{transform:`translate(${x}px, ${y}px)`},{transform:'translate(0, 0)'}], {duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
+    });
+    button.querySelector('.sort-label').animate([{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:220,easing:'ease-out'});
+  });
   const refresh = () => {
     placeToolbar();
     locateComment();
