@@ -1,6 +1,6 @@
 <template id="steam-detail-start"></template>
 <% const s = steam_view(); %>
-<link rel="stylesheet" href="/css/steam.css?v=20261104-live2">
+<link rel="stylesheet" href="/css/steam.css?v=20261104-sort">
 <div class="steam-ui"><section class="steam-detail">
   <a href="/about/#about-steam" class="back">← 返回关于页卡片</a>
   <% if (s) { %>
@@ -11,7 +11,7 @@
   <div class="dashboard">
     <aside class="sidebar">
       <h3>玩家概览</h3>
-      <div class="stat-box"><div class="metric"><%= s.gameCount %><small>款</small></div><span class="muted">游戏与应用</span></div>
+      <div class="stat-box"><div class="metric"><%= s.gameCount %><small>款</small></div><span class="muted">游戏</span></div>
       <div class="stat-box"><div class="metric"><%= s.format(s.totalMinutes) %><small>h</small></div><span class="muted">累计游玩</span></div>
       <p>偏好标签 · 时长推算</p>
       <% s.preferences.forEach(tag => { %><span class="tag"><%= tag %></span><% }); %>
@@ -19,9 +19,10 @@
     </aside>
     <div>
       <div class="section-head"><h2>游戏库</h2><div class="tabs" role="group" aria-label="游戏筛选"><button aria-pressed="true" data-filter="all">全部 · <%= s.gameCount %></button><button aria-pressed="false" data-filter="recent">近两周 · <%= s.recentCount %></button></div></div>
+      <div class="steam-sort"><button type="button" class="sort-toggle" data-steam-sort="recent" aria-label="当前按最近游玩排序，点击切换为累计时长"><svg class="sort-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M8 4v16m-4-4 4 4 4-4M16 20V4m-4 4 4-4 4 4"/></svg><span class="sort-caption">排序</span><span class="sort-label">最近游玩</span></button></div>
       <div class="games">
         <% s.games.forEach(game => { %>
-        <article class="game" <%- game.recentMinutes > 0 ? 'data-recent' : '' %>>
+        <article class="game" data-last-played="<%= game.lastPlayed %>" data-minutes="<%= game.minutes %>" data-appid="<%= game.appid %>" <%- game.recentMinutes > 0 ? 'data-recent' : '' %>>
           <% if (game.image) { %><img loading="eager" decoding="async" class="game-art" src="<%= game.image %>" alt="<%= game.name %> 封面" width="460" height="215"><% } else { %><div class="game-art missing-art">暂无封面</div><% } %>
           <h3><%= game.name %></h3><p><%= s.format(game.minutes) %> 小时<% if (game.recentMinutes > 0) { %> · 近两周 <%= s.format(game.recentMinutes) %>h<% } %></p>
           <% if (game.achievements) { const percent = Math.round(game.achievements.unlocked / game.achievements.total * 100); %>

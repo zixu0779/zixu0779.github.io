@@ -8,7 +8,7 @@ const section = { querySelector: () => null, querySelectorAll: selector => selec
 filters.forEach(button => button.closest = () => section);
 let click;
 vm.runInNewContext(source.slice(source.indexOf('  // Game filters'), source.indexOf('  const refresh =')), {
-  document: { addEventListener: (_, handler) => { click = handler; } }
+  document: { addEventListener: (type, handler) => { if(type === 'click' && !click) click = handler; } }
 });
 click({ target: { closest: () => filters[1] } });
 assert.deepEqual(games.map(game => game.hidden), [false, false, true]);
@@ -21,3 +21,15 @@ assert(about.indexOf('id="about-steam"') < about.indexOf('id="about-modules"'));
 assert(!about.includes('fade-before'));
 assert(!source.includes('authorObserver'));
 console.log('Steam filters, module order and immediate rendering: passed');
+let sortClick;
+const cards = [{dataset:{lastPlayed:'10',minutes:'50',appid:'1'},hidden:true},{dataset:{lastPlayed:'30',minutes:'10',appid:'2'}},{dataset:{lastPlayed:'20',minutes:'90',appid:'3'}}];
+cards.forEach(c=>{c.getBoundingClientRect=()=>({left:0,top:0});c.getAnimations=()=>[]});
+const grid={children:cards,appendChild(card){cards.splice(cards.indexOf(card),1);cards.push(card)}};
+const start=source.indexOf("  document.addEventListener('click', event => {",source.indexOf("if (empty) empty.hidden"));
+vm.runInNewContext(source.slice(start,source.indexOf('  const refresh =')), {document:{addEventListener:(_,handler)=>sortClick=handler},window:{matchMedia:()=>({matches:true})}});
+const button={dataset:{steamSort:'recent'},closest:()=>({querySelector:()=>grid}),querySelector:()=>({}),setAttribute:()=>{}};
+sortClick({target:{closest:()=>button}});
+assert.deepEqual(cards.map(c=>c.dataset.appid),['3','1','2']);
+assert(cards.find(c=>c.dataset.appid==='1').hidden);
+sortClick({target:{closest:()=>button}});
+assert.deepEqual(cards.map(c=>c.dataset.appid),['2','3','1']);

@@ -180,3 +180,15 @@
 .steam-ui .steam-empty { padding:28px 0; }
 
 .steam-ui .feature .avatar { margin:0; flex:none; object-fit:cover; }
+
+.steam-ui .steam-sort { display:flex;justify-content:flex-end;align-items:center;gap:10px;margin:0 0 18px;color:var(--steam-muted);font-size:13px; }
+
+.steam-ui .sort-toggle { display:inline-flex;align-items:center;gap:10px;min-height:42px;padding:9px 13px;border:1px solid var(--steam-line);border-radius:12px;background:var(--steam-surface);color:var(--steam-ink);font:inherit;cursor:pointer;transition:background .2s,box-shadow .2s,transform .2s; }
+.steam-ui .sort-caption { color:var(--steam-muted);font-size:12px; }
+.steam-ui .sort-label { min-width:4em;text-align:left;font-weight:600; }
+.steam-ui .sort-icon { color:var(--steam-muted);transition:transform .35s cubic-bezier(.22,1,.36,1); }
+.steam-ui .sort-toggle[data-steam-sort="hours"] .sort-icon { transform:rotate(180deg); }
+.steam-ui .sort-toggle:hover { box-shadow:0 4px 14px #00000012;transform:translateY(-1px); }
+.steam-ui .sort-toggle:active { transform:translateY(0) scale(.98); }
+.steam-ui .sort-toggle:focus-visible { outline:2px solid #8ba6c5;outline-offset:3px; }
+@media(prefers-reduced-motion:reduce) { .steam-ui .sort-toggle,.steam-ui .sort-icon { transition:none; } }

@@ -25,7 +25,30 @@ jobs:
         run: |
           npm install --prefix "$RUNNER_TEMP/steam-renderer" --ignore-scripts --no-audit --no-fund hexo-renderer-ejs@2.0.0
           echo "NODE_PATH=$RUNNER_TEMP/steam-renderer/node_modules" >> "$GITHUB_ENV"
-      - run: node tests/steam-sync.test.js
+      - run: node tests/steam-sync.test.js && node tests/steam-family.test.js
+      - run: npm ci --prefix lib/steam-auth --ignore-scripts --no-audit --no-fund
+      - run: node tests/steam-auth.test.js
+      - name: Renew Steam login
+        env:
+          STEAM_TOKEN_KEY: ${{ secrets.STEAM_TOKEN_KEY }}
+        run: node lib/steam-auth/refresh.cjs
+      - name: Preserve encrypted credential recovery copy
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: steam-encrypted-session
+          path: .github/steam-session.enc.json
+          include-hidden-files: true
+          retention-days: 30
+      - name: Persist renewed credential before collecting data
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .github/steam-session.enc.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: renew encrypted Steam session'
+            git push origin HEAD:source
+          fi
       - name: Collect public Steam data
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
@@ -55,7 +78,7 @@ jobs:
           cd _published
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add about/index.html steam/index.html data/steam.json images/steam css/steam.css
+          git add about/index.html steam/index.html data/steam.json images/steam css/steam.css js/site-ui.js ":(glob)**/*.html"
           if ! git diff --cached --quiet; then
             git commit -m 'deploy: update Steam activity'
             git push origin HEAD:main

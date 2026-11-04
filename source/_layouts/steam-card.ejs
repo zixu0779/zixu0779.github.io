@@ -1,6 +1,6 @@
 <template id="steam-card-start"></template>
 <% const s = steam_view(); %>
-<link rel="stylesheet" href="/css/steam.css?v=20261104-live2">
+<link rel="stylesheet" href="/css/steam.css?v=20261104-sort">
 <div class="steam-ui">
 <% if (s) { %>
   <a class="feature" href="/steam/" style="--steam-feature-image:url('<%= s.hero || s.profileBackground || '' %>')">
@@ -9,9 +9,9 @@
         <% if (s.avatar) { %><img class="avatar" src="<%= s.avatar %>" alt="" loading="eager" width="44" height="44"><% } %>
         <div><h2><%= s.name %></h2><div class="muted">Steam · <%= s.gameCount %> 款收藏</div></div>
       </div>
-      <div class="featured-game"><p><%= s.featured?.metadata?.type === 'game' ? '最近游玩' : '最近使用' %></p><h2><%= s.featured?.name || '暂无游玩记录' %></h2></div>
+      <div class="featured-game"><p>最近游玩</p><h2><%= s.featured?.name || '暂无游玩记录' %></h2></div>
       <div class="stats">
-        <div><div class="metric"><%= s.gameCount %><small>款</small></div><label>游戏与应用</label></div>
+        <div><div class="metric"><%= s.gameCount %><small>款</small></div><label>游戏</label></div>
         <div><div class="metric"><%= s.format(s.recentMinutes) %><small>h</small></div><label>近两周</label></div>
         <div><div class="metric"><%= s.format(s.totalMinutes) %><small>h</small></div><label>累计游玩</label></div>
       </div>

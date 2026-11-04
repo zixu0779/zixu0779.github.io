@@ -1,0 +1,1 @@
+{"name":"blog-steam-auth","private":true,"version":"1.0.0","dependencies":{"steam-session":"1.9.4","qrcode":"1.5.4"}}

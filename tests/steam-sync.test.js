@@ -23,3 +23,12 @@ assert.throws(()=>replaceFragment('missing','card','NEW'));
 assert.throws(()=>replaceFragment(before+before,'card','NEW'));
 const sameDay = activityHistory(previous,[{appid:1,minutes:130}],'2026-11-04T01:17:00Z');
 assert.equal(sameDay.baseline[1],100,'manual rerun must not discard increments before the next day');
+
+const library = [{appid:1,minutes:900,recentMinutes:10,lastPlayed:30,metadata:{type:'application',tags:['软件']}},{appid:2,minutes:120,recentMinutes:5,lastPlayed:20,metadata:{type:'game',tags:[]}}];
+const gameView=view({updatedAt:previous.updatedAt,games:library,history:[],featuredAppid:1,hero:'/software.jpg'});
+assert.equal(gameView.featured.appid,2);
+assert.equal(gameView.totalMinutes,120);
+assert.equal(gameView.recentMinutes,5);
+assert.equal(gameView.gameCount,1);
+assert.notEqual(gameView.hero,'/software.jpg');
+assert.equal(activityHistory({...previous,baseline:{1:800,2:100}},library,'2026-11-05T00:17:00Z').history[0].minutes,20);

@@ -1,0 +1,28 @@
+const assert=require('node:assert/strict');
+const crypto=require('node:crypto');
+const {steamid,checkRefresh,seal,unseal,refresh}=require('../lib/steam-auth/state.cjs');
+const key=crypto.randomBytes(32).toString('base64');
+const token=(extra={})=>'test.'+Buffer.from(JSON.stringify({sub:steamid,aud:['web','mobile','derive'],exp:Math.floor(Date.now()/1000)+3600,...extra})).toString('base64url')+'.test';
+const original=token(), next=token({exp:Math.floor(Date.now()/1000)+7200});
+const encrypted=seal(original,key);
+assert.equal(unseal(encrypted,key),original);
+assert(!encrypted.includes(original));
+assert.notEqual(seal(original,key),encrypted);
+assert.throws(()=>unseal(encrypted,crypto.randomBytes(32).toString('base64')));
+const corrupt=JSON.parse(encrypted);corrupt.data=Buffer.from('changed').toString('base64');
+assert.throws(()=>unseal(JSON.stringify(corrupt),key));
+assert.throws(()=>checkRefresh(token({sub:'wrong'})));
+assert.throws(()=>checkRefresh(token({aud:['web','derive']})));
+assert.throws(()=>checkRefresh(token({exp:1})));
+(async()=>{
+ let saved=false;
+ const session={refreshToken:original,accessToken:'access',async renewRefreshToken(){this.refreshToken=next;return true}};
+ assert.equal(await refresh(session,key,async value=>{assert.equal(value,next);saved=true}),'access');
+ assert(saved);
+ await assert.rejects(refresh({...session,renewRefreshToken:async()=>true},key,()=>{throw Error('disk failure')}));
+ let writes=0;
+ await refresh({refreshToken:original,accessToken:'access',renewRefreshToken:async()=>false},key,()=>writes++);
+ assert.equal(writes,0);
+ await assert.rejects(refresh({renewRefreshToken:async()=>{throw Error('revoked')}},key));
+ console.log('Encrypted state integrity, account/platform checks, rotation persistence and failure handling passed');
+})().catch(e=>{console.error(e);process.exitCode=1});
