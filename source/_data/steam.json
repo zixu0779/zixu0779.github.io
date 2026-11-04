@@ -1,21 +1,22 @@
 {
   "steamid": "76561199368056520",
-  "updatedAt": "2026-11-04T08:52:53.906Z",
+  "libraryScope": "family",
+  "updatedAt": "2026-11-04T10:23:46.400Z",
   "profileURL": "https://steamcommunity.com/profiles/76561199368056520/",
   "name": "SYCAMORE",
   "avatar": "/images/steam/avatar.jpg",
   "profileBackground": "/images/steam/profile-background.jpg",
-  "featuredAppid": 431960,
-  "hero": "/images/steam/431960-hero.jpg",
-  "gameCount": 49,
-  "totalMinutes": 57909,
+  "featuredAppid": 322330,
+  "hero": "/images/steam/322330-hero.jpg",
+  "gameCount": 125,
+  "totalMinutes": 119689,
   "recentMinutes": 0,
   "preferences": [
     "角色扮演",
-    "动作",
     "冒险",
-    "开放世界",
-    "单人"
+    "策略",
+    "动作",
+    "开放世界"
   ],
   "baseline": {
     "620": 2332,
@@ -94,7 +95,8 @@
       "achievements": {
         "unlocked": 5,
         "total": 17
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 322330,
@@ -116,7 +118,8 @@
           "开放世界"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
     },
     {
       "appid": 730,
@@ -141,7 +144,8 @@
       "achievements": {
         "unlocked": 1,
         "total": 1
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 203160,
@@ -163,7 +167,32 @@
       "achievements": {
         "unlocked": 0,
         "total": 50
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 1086940,
+      "name": "博德之门3",
+      "minutes": 35013,
+      "recentMinutes": 0,
+      "lastPlayed": 1775662635,
+      "image": "/images/steam/1086940.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "博德之门3",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/48a2fcbda8565bb45025e98fd8ebde8a7203f6a0/header.jpg?t=1777363040",
+        "tags": [
+          "冒险",
+          "角色扮演",
+          "策略"
+        ]
+      },
+      "achievements": {
+        "unlocked": 38,
+        "total": 54
+      },
+      "librarySource": "family"
     },
     {
       "appid": 1174180,
@@ -185,7 +214,58 @@
       "achievements": {
         "unlocked": 0,
         "total": 51
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 3321460,
+      "name": "红色沙漠：增强版",
+      "minutes": 8,
+      "recentMinutes": 0,
+      "lastPlayed": 1775650977,
+      "image": "/images/steam/3321460.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "红色沙漠：增强版",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3321460/72caf7e120e63fcf25b92e3b4b6477b76baffa45/header_schinese.jpg?t=1792637341",
+        "tags": [
+          "开放世界",
+          "单人",
+          "动作",
+          "探索",
+          "冒险"
+        ]
+      },
+      "achievements": {
+        "unlocked": 0,
+        "total": 41
+      },
+      "librarySource": "family"
+    },
+    {
+      "appid": 435150,
+      "name": "神界：原罪2 - 终极版",
+      "minutes": 8329,
+      "recentMinutes": 0,
+      "lastPlayed": 1775312081,
+      "image": "/images/steam/435150.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "神界：原罪2 - 终极版",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/435150/3f6ee788cb01bd65097c52399d536eb424b4876f/header.jpg?t=1765811123",
+        "tags": [
+          "冒险",
+          "角色扮演",
+          "策略"
+        ]
+      },
+      "achievements": {
+        "unlocked": 25,
+        "total": 97
+      },
+      "librarySource": "family"
     },
     {
       "appid": 2208920,
@@ -208,7 +288,31 @@
       "achievements": {
         "unlocked": 1,
         "total": 92
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 2054970,
+      "name": "Dragon's Dogma 2",
+      "minutes": 2650,
+      "recentMinutes": 0,
+      "lastPlayed": 1764684794,
+      "image": "/images/steam/2054970.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Dragon's Dogma 2",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2054970/header.jpg?t=1791504871",
+        "tags": [
+          "动作",
+          "角色扮演"
+        ]
+      },
+      "achievements": {
+        "unlocked": 11,
+        "total": 60
+      },
+      "librarySource": "family"
     },
     {
       "appid": 2623190,
@@ -229,7 +333,32 @@
       "achievements": {
         "unlocked": 0,
         "total": 60
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 3489700,
+      "name": "剑星",
+      "minutes": 354,
+      "recentMinutes": 0,
+      "lastPlayed": 1764316784,
+      "image": "/images/steam/3489700.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "剑星",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3489700/header.jpg?t=1776466244",
+        "tags": [
+          "动作",
+          "冒险",
+          "角色扮演"
+        ]
+      },
+      "achievements": {
+        "unlocked": 0,
+        "total": 45
+      },
+      "librarySource": "family"
     },
     {
       "appid": 1817070,
@@ -254,7 +383,34 @@
       "achievements": {
         "unlocked": 56,
         "total": 78
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 2001120,
+      "name": "双影奇境",
+      "minutes": 366,
+      "recentMinutes": 0,
+      "lastPlayed": 1754920235,
+      "image": "/images/steam/2001120.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "双影奇境",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/header.jpg?t=1763484567",
+        "tags": [
+          "合作",
+          "分屏",
+          "本地合作",
+          "女性主角",
+          "在线合作"
+        ]
+      },
+      "achievements": {
+        "unlocked": 1,
+        "total": 20
+      },
+      "librarySource": "family"
     },
     {
       "appid": 1603640,
@@ -279,7 +435,8 @@
       "achievements": {
         "unlocked": 4,
         "total": 30
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1817190,
@@ -304,7 +461,8 @@
       "achievements": {
         "unlocked": 50,
         "total": 50
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 356190,
@@ -327,7 +485,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 72
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 200260,
@@ -352,7 +511,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 64
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1237970,
@@ -373,7 +533,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 50
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 268500,
@@ -398,7 +559,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 88
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 241930,
@@ -417,7 +579,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 74
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1446780,
@@ -442,7 +605,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 100
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1426210,
@@ -467,7 +631,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 20
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 275850,
@@ -492,7 +657,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 27
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 208650,
@@ -514,7 +680,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 113
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 582160,
@@ -537,7 +704,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 67
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 582010,
@@ -562,7 +730,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 100
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 2358720,
@@ -587,7 +756,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 81
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1328670,
@@ -609,7 +779,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 127
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 391220,
@@ -631,7 +802,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 143
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 35140,
@@ -656,7 +828,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 47
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 289070,
@@ -681,7 +854,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 320
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1172620,
@@ -706,7 +880,8 @@
       "achievements": {
         "unlocked": 17,
         "total": 293
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 412020,
@@ -727,7 +902,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 68
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 750920,
@@ -749,7 +925,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 99
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 323190,
@@ -771,7 +948,8 @@
       "achievements": {
         "unlocked": 0,
         "total": 115
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 292030,
@@ -792,7 +970,8 @@
       "achievements": {
         "unlocked": 46,
         "total": 78
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 812140,
@@ -815,7 +994,8 @@
       "achievements": {
         "unlocked": 37,
         "total": 93
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 3097560,
@@ -837,7 +1017,8 @@
           "合作"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
     },
     {
       "appid": 911400,
@@ -859,7 +1040,30 @@
       "achievements": {
         "unlocked": 0,
         "total": 84
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 1091500,
+      "name": "赛博朋克 2077",
+      "minutes": 16047,
+      "recentMinutes": 0,
+      "lastPlayed": 1732775322,
+      "image": "/images/steam/1091500.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "赛博朋克 2077",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/33086f30470a5f4921c913561a0a5c05b583e292/header_alt_assets_9_schinese.jpg?t=1792682505",
+        "tags": [
+          "角色扮演"
+        ]
+      },
+      "achievements": {
+        "unlocked": 57,
+        "total": 57
+      },
+      "librarySource": "family"
     },
     {
       "appid": 1927740,
@@ -884,7 +1088,8 @@
       "achievements": {
         "unlocked": 16,
         "total": 16
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1927720,
@@ -909,7 +1114,8 @@
       "achievements": {
         "unlocked": 19,
         "total": 19
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 620,
@@ -934,7 +1140,8 @@
       "achievements": {
         "unlocked": 30,
         "total": 51
-      }
+      },
+      "librarySource": "own"
     },
     {
       "appid": 1623730,
@@ -959,7 +1166,93 @@
       "achievements": {
         "unlocked": 6,
         "total": 75
-      }
+      },
+      "librarySource": "own"
+    },
+    {
+      "appid": 400,
+      "name": "Portal",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/400.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Portal",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/header.jpg?t=1745368554",
+        "tags": [
+          "动作"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 17390,
+      "name": "SPORE™",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/17390.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "SPORE™",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/header.jpg?t=1777486064",
+        "tags": [
+          "动作",
+          "冒险",
+          "休闲",
+          "角色扮演",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 40700,
+      "name": "机械迷城 (Machinarium)",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/40700.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "机械迷城 (Machinarium)",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/40700/header_schinese.jpg?t=1791501193",
+        "tags": [
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 204360,
+      "name": "Castle Crashers®",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/204360.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Castle Crashers®",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/204360/header.jpg?t=1764096331",
+        "tags": [
+          "动作",
+          "冒险",
+          "休闲",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 230230,
@@ -980,7 +1273,29 @@
           "策略"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 282140,
+      "name": "SOMA",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/282140.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "SOMA",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/282140/header.jpg?t=1786607913",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 286690,
@@ -998,7 +1313,69 @@
           "动作"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 301860,
+      "name": "Submerged",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/301860.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Submerged",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/301860/header.jpg?t=1669095371",
+        "tags": [
+          "冒险"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 304430,
+      "name": "INSIDE",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/304430.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "INSIDE",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/304430/header.jpg?t=1761819581",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 327410,
+      "name": "A Bird Story",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/327410.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "A Bird Story",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/327410/header.jpg?t=1792168672",
+        "tags": [
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 373420,
@@ -1019,7 +1396,8 @@
           "策略"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
     },
     {
       "appid": 383870,
@@ -1038,7 +1416,67 @@
           "独立"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 413150,
+      "name": "Stardew Valley",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/413150.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Stardew Valley",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1786554168",
+        "tags": [
+          "独立",
+          "角色扮演",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 413410,
+      "name": "Danganronpa: Trigger Happy Havoc",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/413410.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Danganronpa: Trigger Happy Havoc",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607",
+        "tags": [
+          "冒险"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 413420,
+      "name": "Danganronpa 2: Goodbye Despair",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/413420.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Danganronpa 2: Goodbye Despair",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654",
+        "tags": [
+          "冒险"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 470220,
@@ -1056,7 +1494,30 @@
           "休闲"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 477160,
+      "name": "人类一败涂地 / Human Fall Flat",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/477160.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "人类一败涂地 / Human Fall Flat",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/477160/72ebb13093999896293a91a0ad3f9ce2501f1818/header_alt_assets_27_schinese.jpg?t=1793018738",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 489830,
@@ -1074,7 +1535,525 @@
           "角色扮演"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 501300,
+      "name": "What Remains of Edith Finch",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/501300.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "What Remains of Edith Finch",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/501300/header.jpg?t=1785424558",
+        "tags": [
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 504230,
+      "name": "Celeste",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/504230.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Celeste",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/504230/header.jpg?t=1714089525",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 555000,
+      "name": "GOAT OF DUTY",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/555000.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "GOAT OF DUTY",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/555000/header.jpg?t=1782238071",
+        "tags": [
+          "动作",
+          "抢先体验"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 570770,
+      "name": "古剑奇谭二(GuJian2)",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/570770.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "古剑奇谭二(GuJian2)",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/570770/header_schinese.jpg?t=1726190824",
+        "tags": [
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 570780,
+      "name": "古剑奇谭(GuJian)",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/570780.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "古剑奇谭(GuJian)",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/570780/header_schinese.jpg?t=1726190878",
+        "tags": [
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 606150,
+      "name": "Moonlighter",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/606150.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Moonlighter",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/606150/b6b0789b397ed98c8c5871dd2f99945a8fea0332/header.jpg?t=1793636738",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 632360,
+      "name": "雨中冒险 2",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/632360.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "雨中冒险 2",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/632360/77f4cff7fea7de8a4566d1fb76ace16967604da7/header_alt_assets_7.jpg?t=1791475448",
+        "tags": [
+          "动作",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 646570,
+      "name": "Slay the Spire",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/646570.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Slay the Spire",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/646570/header.jpg?t=1774015376",
+        "tags": [
+          "独立",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 648800,
+      "name": "Raft",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/648800.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Raft",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/648800/header.jpg?t=1727184011",
+        "tags": [
+          "冒险",
+          "独立",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 668630,
+      "name": "Tricolour Lovestory",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/668630.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Tricolour Lovestory",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/668630/header_schinese.jpg?t=1791022581",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 683320,
+      "name": "GRIS",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/683320.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "GRIS",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/683320/header.jpg?t=1759429603",
+        "tags": [
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 710920,
+      "name": "Darksiders Genesis",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/710920.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Darksiders Genesis",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/710920/header.jpg?t=1788545404",
+        "tags": [
+          "动作",
+          "冒险"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 724970,
+      "name": "神舞幻想 Faith of Danschant",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/724970.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "神舞幻想 Faith of Danschant",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/724970/header_schinese.jpg?t=1632301868",
+        "tags": [
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 728880,
+      "name": "Overcooked! 2",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/728880.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Overcooked! 2",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/728880/3ebab1a37d85815dd61b2193adf6232e13446217/header_schinese.jpg?t=1789548883",
+        "tags": [
+          "动作",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 775500,
+      "name": "绯红结系",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/775500.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "绯红结系",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/775500/header.jpg?t=1703662938",
+        "tags": [
+          "动作",
+          "冒险",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 790740,
+      "name": "滴答：双人冒险",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/790740.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "滴答：双人冒险",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/790740/header_schinese.jpg?t=1790146243",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 814370,
+      "name": "怪物圣所",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/814370.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "怪物圣所",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/814370/header.jpg?t=1780480350",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "角色扮演",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 815370,
+      "name": "绿色地狱",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/815370.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "绿色地狱",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/815370/header_schinese.jpg?t=1783077147",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 844850,
+      "name": "Tower Hunter: Erza's Trial",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/844850.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Tower Hunter: Erza's Trial",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/844850/header.jpg?t=1667443834",
+        "tags": [
+          "动作",
+          "冒险",
+          "休闲",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 920320,
+      "name": "Virgo Versus The Zodiac",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/920320.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Virgo Versus The Zodiac",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/920320/header.jpg?t=1734799264",
+        "tags": [
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 955050,
+      "name": "光明记忆",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/955050.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "光明记忆",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/955050/header_schinese.jpg?t=1734416166",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 977880,
+      "name": "风来之国 (Eastward)",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/977880.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "风来之国 (Eastward)",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/977880/header_schinese.jpg?t=1782290198",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 990080,
+      "name": "霍格沃茨之遗",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/990080.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "霍格沃茨之遗",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/990080/be2971b1023bccb04f993887d70ef4d2060262cf/header.jpg?t=1790708992",
+        "tags": [
+          "动作",
+          "冒险",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 992300,
+      "name": "嗜血印 Bloody Spell",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/992300.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "嗜血印 Bloody Spell",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/992300/header_schinese.jpg?t=1793587797",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 994280,
+      "name": "古剑奇谭三(Gujian3)",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/994280.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "古剑奇谭三(Gujian3)",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/994280/header_schinese.jpg?t=1726190820",
+        "tags": [
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 1057090,
@@ -1092,7 +2071,194 @@
           "动作"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 1089980,
+      "name": "The Henry Stickmin Collection",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1089980.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "The Henry Stickmin Collection",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1089980/header.jpg?t=1781289354",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1178830,
+      "name": "光明记忆：无限",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1178830.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "光明记忆：无限",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1178830/header_schinese.jpg?t=1734415707",
+        "tags": [
+          "动作",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1222140,
+      "name": "底特律：化身为人",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1222140.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "底特律：化身为人",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222140/header_schinese.jpg?t=1667468479",
+        "tags": [
+          "动作",
+          "冒险"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1250760,
+      "name": "海沙风云 Far Away",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1250760.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "海沙风云 Far Away",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1250760/header_schinese.jpg?t=1772681524",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1261220,
+      "name": "山的桃源乡，海的乌托邦",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1261220.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "山的桃源乡，海的乌托邦",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1261220/header.jpg?t=1752930463",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1293830,
+      "name": "极限竞速：地平线 4",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1293830.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "极限竞速：地平线 4",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1293830/header_schinese.jpg?t=1734336342",
+        "tags": [
+          "竞速"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1307580,
+      "name": "TOEM: A Photo Adventure",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1307580.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "TOEM: A Photo Adventure",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1307580/header.jpg?t=1791210023",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1321440,
+      "name": "Cassette Beasts 磁带妖怪",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1321440.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Cassette Beasts 磁带妖怪",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1321440/header_schinese.jpg?t=1789482081",
+        "tags": [
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1377360,
+      "name": "Vampires' Melody",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1377360.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Vampires' Melody",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1377360/header.jpg?t=1791974180",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 1382070,
@@ -1111,7 +2277,30 @@
           "独立"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 1402110,
+      "name": "Eternights",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1402110.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Eternights",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1402110/header.jpg?t=1759232313",
+        "tags": [
+          "动作",
+          "休闲",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 1449560,
@@ -1129,7 +2318,49 @@
           "动作"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 1462040,
+      "name": "FINAL FANTASY VII REMAKE INTERGRADE",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1462040.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "FINAL FANTASY VII REMAKE INTERGRADE",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1462040/67aebedbdfc261278fc5e3cd45b519212ac0555a/header.jpg?t=1789446715",
+        "tags": [
+          "动作",
+          "冒险",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1483870,
+      "name": "Draw & Guess - 你画我猜",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1483870.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Draw & Guess - 你画我猜",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1483870/6b1d49c6152f3b9eeaa3c59b39202c9382e6fd90/header.jpg?t=1789996291",
+        "tags": [
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 1659420,
@@ -1147,7 +2378,346 @@
           "冒险"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 1687950,
+      "name": "女神异闻录5皇家版",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1687950.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "女神异闻录5皇家版",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1687950/header_schinese.jpg?t=1783356822",
+        "tags": [
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1696440,
+      "name": "绝世好武功",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1696440.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "绝世好武功",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1696440/header_schinese.jpg?t=1784881210",
+        "tags": [
+          "独立",
+          "角色扮演",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1776970,
+      "name": "近月少女的礼仪",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1776970.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "近月少女的礼仪",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1776970/header_schinese.jpg?t=1761700355",
+        "tags": [
+          "冒险",
+          "休闲"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1801110,
+      "name": "不同的冬天",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1801110.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "不同的冬天",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1801110/header_schinese.jpg?t=1788100714",
+        "tags": [
+          "动作",
+          "冒险",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1817230,
+      "name": "Hi-Fi RUSH",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1817230.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Hi-Fi RUSH",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1817230/header.jpg?t=1764916407",
+        "tags": [
+          "动作"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1868140,
+      "name": "潜水员戴夫 DAVE THE DIVER",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1868140.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "潜水员戴夫 DAVE THE DIVER",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1868140/81bdb3bce15d27ca1b4554a642d91096e89be229/header.jpg?t=1791478061",
+        "tags": [
+          "冒险",
+          "休闲",
+          "角色扮演",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1945260,
+      "name": "果冻快递",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1945260.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "果冻快递",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1945260/header_schinese.jpg?t=1776933590",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1958220,
+      "name": "魔女之泉R",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1958220.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "魔女之泉R",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1958220/221d256cef390b4c0945707948cd47bd54863aa3/header.jpg?t=1755886509",
+        "tags": [
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 1963040,
+      "name": "山门与幻境",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/1963040.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "山门与幻境",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963040/header_schinese.jpg?t=1787904543",
+        "tags": [
+          "冒险",
+          "独立",
+          "角色扮演",
+          "模拟",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2143680,
+      "name": "梦灯花 Noctuary",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2143680.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "梦灯花 Noctuary",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2143680/header_schinese.jpg?t=1772681622",
+        "tags": [
+          "冒险",
+          "休闲",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2239150,
+      "name": "Thronefall《王权陨落》",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2239150.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Thronefall《王权陨落》",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2239150/56a72898995aa4c465c1882624565c48c502b62f/header_alt_assets_3.jpg?t=1793195829",
+        "tags": [
+          "动作",
+          "独立",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2379780,
+      "name": "Balatro",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2379780.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "Balatro",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/7a85430784e4d613cdb0547414d8cf16ffa45747/header.jpg?t=1790693638",
+        "tags": [
+          "休闲",
+          "独立",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2406360,
+      "name": "临兵驰者",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2406360.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "临兵驰者",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2406360/header_schinese.jpg?t=1764610985",
+        "tags": [
+          "动作",
+          "休闲",
+          "独立"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2510770,
+      "name": "星之终途",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2510770.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "星之终途",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2510770/header.jpg?t=1732683182",
+        "tags": [
+          "冒险",
+          "休闲",
+          "模拟"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2909400,
+      "name": "FINAL FANTASY VII REBIRTH",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2909400.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "FINAL FANTASY VII REBIRTH",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2909400/64a1006a85342c7d3e4b1e1b8e562fee2dc86578/header.jpg?t=1793774936",
+        "tags": [
+          "动作",
+          "冒险",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 2939790,
+      "name": "星之旅Lunarium",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/2939790.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "星之旅Lunarium",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2939790/a832609701560443d0255cf9d8be109567a30506/header_schinese.jpg?t=1788937291",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     },
     {
       "appid": 3159330,
@@ -1167,11 +2737,121 @@
           "角色扮演"
         ]
       },
-      "achievements": null
+      "achievements": null,
+      "librarySource": "own"
+    },
+    {
+      "appid": 3167020,
+      "name": "逃离鸭科夫",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/3167020.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "逃离鸭科夫",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3167020/header_schinese.jpg?t=1788419722",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 3350200,
+      "name": "情感反诈模拟器",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/3350200.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "情感反诈模拟器",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3350200/d2351dd420c87970ff90fdad0681bed609754c4c/header_schinese.jpg?t=1783592456",
+        "tags": [
+          "冒险",
+          "独立",
+          "角色扮演",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 3630410,
+      "name": "小女巫幸存者",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/3630410.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "小女巫幸存者",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3630410/0e3bee084dd88bd0e45c5c7ebee8284eb34d7f5d/header_schinese.jpg?t=1756047704",
+        "tags": [
+          "动作",
+          "冒险",
+          "休闲",
+          "角色扮演",
+          "策略"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 4115450,
+      "name": "影之刃零",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/4115450.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "影之刃零",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4115450/40b2044606b59e0cdd9fb89738895fea8a22067c/header_schinese.jpg?t=1793261976",
+        "tags": [
+          "动作",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
+    },
+    {
+      "appid": 4466620,
+      "name": "SiNiSistar 2",
+      "minutes": 0,
+      "recentMinutes": 0,
+      "lastPlayed": 0,
+      "image": "/images/steam/4466620.jpg",
+      "metadata": {
+        "checkedAt": "2026-11-04T10:23:46.400Z",
+        "name": "SiNiSistar 2",
+        "type": "game",
+        "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4466620/9701d60d415c55948a5a3fc141cbb74f49c73d9b/header.jpg?t=1786771936",
+        "tags": [
+          "动作",
+          "冒险",
+          "独立",
+          "角色扮演"
+        ]
+      },
+      "achievements": null,
+      "librarySource": "family"
     }
   ],
   "assetURLs": {
-    "profile-background.jpg": "https://shared.akamai.steamstatic.com/community_assets/images/items/284160/e5a2852136db190f634e21ef22a01019097497f3.jpg",
+    "profile-background.jpg": "https://shared.fastly.steamstatic.com/community_assets/images/items/284160/e5a2852136db190f634e21ef22a01019097497f3.jpg",
     "avatar.jpg": "https://avatars.steamstatic.com/2d2d47d05162adaa5ed8ef1d46b573a746d909ec_full.jpg",
     "35140.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/35140/header.jpg?t=1745966724",
     "200260.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/200260/header.jpg?t=1745964057",
@@ -1222,7 +2902,85 @@
     "2208920.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2208920/header.jpg?t=1793391396",
     "2623190.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2623190/a7cee9165bb1bfc092c390c5cff215ce0e381dfc/header.jpg?t=1786648304",
     "3159330.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3159330/header_schinese.jpg?t=1792778493",
-    "431960-hero.jpg": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/431960/library_hero.jpg"
+    "431960-hero.jpg": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/431960/library_hero.jpg",
+    "17390.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/17390/header.jpg?t=1777486064",
+    "40700.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/40700/header_schinese.jpg?t=1791501193",
+    "400.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/400/header.jpg?t=1745368554",
+    "204360.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/204360/header.jpg?t=1764096331",
+    "282140.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/282140/header.jpg?t=1786607913",
+    "301860.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/301860/header.jpg?t=1669095371",
+    "304430.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/304430/header.jpg?t=1761819581",
+    "413420.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413420/header.jpg?t=1781085654",
+    "413410.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413410/header.jpg?t=1781085607",
+    "413150.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/413150/header.jpg?t=1786554168",
+    "327410.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/327410/header.jpg?t=1792168672",
+    "501300.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/501300/header.jpg?t=1785424558",
+    "477160.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/477160/72ebb13093999896293a91a0ad3f9ce2501f1818/header_alt_assets_27_schinese.jpg?t=1793018738",
+    "504230.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/504230/header.jpg?t=1714089525",
+    "435150.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/435150/3f6ee788cb01bd65097c52399d536eb424b4876f/header.jpg?t=1765811123",
+    "555000.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/555000/header.jpg?t=1782238071",
+    "606150.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/606150/b6b0789b397ed98c8c5871dd2f99945a8fea0332/header.jpg?t=1793636738",
+    "570770.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/570770/header_schinese.jpg?t=1726190824",
+    "570780.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/570780/header_schinese.jpg?t=1726190878",
+    "632360.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/632360/77f4cff7fea7de8a4566d1fb76ace16967604da7/header_alt_assets_7.jpg?t=1791475448",
+    "646570.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/646570/header.jpg?t=1774015376",
+    "648800.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/648800/header.jpg?t=1727184011",
+    "668630.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/668630/header_schinese.jpg?t=1791022581",
+    "683320.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/683320/header.jpg?t=1759429603",
+    "710920.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/710920/header.jpg?t=1788545404",
+    "728880.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/728880/3ebab1a37d85815dd61b2193adf6232e13446217/header_schinese.jpg?t=1789548883",
+    "724970.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/724970/header_schinese.jpg?t=1632301868",
+    "775500.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/775500/header.jpg?t=1703662938",
+    "790740.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/790740/header_schinese.jpg?t=1790146243",
+    "815370.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/815370/header_schinese.jpg?t=1783077147",
+    "814370.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/814370/header.jpg?t=1780480350",
+    "844850.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/844850/header.jpg?t=1667443834",
+    "920320.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/920320/header.jpg?t=1734799264",
+    "977880.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/977880/header_schinese.jpg?t=1782290198",
+    "955050.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/955050/header_schinese.jpg?t=1734416166",
+    "990080.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/990080/be2971b1023bccb04f993887d70ef4d2060262cf/header.jpg?t=1790708992",
+    "992300.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/992300/header_schinese.jpg?t=1793587797",
+    "994280.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/994280/header_schinese.jpg?t=1726190820",
+    "1086940.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1086940/48a2fcbda8565bb45025e98fd8ebde8a7203f6a0/header.jpg?t=1777363040",
+    "1089980.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1089980/header.jpg?t=1781289354",
+    "1222140.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222140/header_schinese.jpg?t=1667468479",
+    "1178830.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1178830/header_schinese.jpg?t=1734415707",
+    "1091500.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1091500/33086f30470a5f4921c913561a0a5c05b583e292/header_alt_assets_9_schinese.jpg?t=1792682505",
+    "1293830.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1293830/header_schinese.jpg?t=1734336342",
+    "1261220.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1261220/header.jpg?t=1752930463",
+    "1307580.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1307580/header.jpg?t=1791210023",
+    "1250760.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1250760/header_schinese.jpg?t=1772681524",
+    "1321440.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1321440/header_schinese.jpg?t=1789482081",
+    "1462040.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1462040/67aebedbdfc261278fc5e3cd45b519212ac0555a/header.jpg?t=1789446715",
+    "1377360.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1377360/header.jpg?t=1791974180",
+    "1402110.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1402110/header.jpg?t=1759232313",
+    "1483870.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1483870/6b1d49c6152f3b9eeaa3c59b39202c9382e6fd90/header.jpg?t=1789996291",
+    "1776970.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1776970/header_schinese.jpg?t=1761700355",
+    "1696440.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1696440/header_schinese.jpg?t=1784881210",
+    "1687950.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1687950/header_schinese.jpg?t=1783356822",
+    "1868140.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1868140/81bdb3bce15d27ca1b4554a642d91096e89be229/header.jpg?t=1791478061",
+    "1817230.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1817230/header.jpg?t=1764916407",
+    "1801110.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1801110/header_schinese.jpg?t=1788100714",
+    "1945260.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1945260/header_schinese.jpg?t=1776933590",
+    "1958220.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1958220/221d256cef390b4c0945707948cd47bd54863aa3/header.jpg?t=1755886509",
+    "1963040.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963040/header_schinese.jpg?t=1787904543",
+    "2001120.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2001120/header.jpg?t=1763484567",
+    "2054970.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2054970/header.jpg?t=1791504871",
+    "2379780.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2379780/7a85430784e4d613cdb0547414d8cf16ffa45747/header.jpg?t=1790693638",
+    "2239150.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2239150/56a72898995aa4c465c1882624565c48c502b62f/header_alt_assets_3.jpg?t=1793195829",
+    "2143680.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2143680/header_schinese.jpg?t=1772681622",
+    "2406360.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2406360/header_schinese.jpg?t=1764610985",
+    "3167020.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3167020/header_schinese.jpg?t=1788419722",
+    "2909400.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2909400/64a1006a85342c7d3e4b1e1b8e562fee2dc86578/header.jpg?t=1793774936",
+    "2510770.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2510770/header.jpg?t=1732683182",
+    "2939790.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2939790/a832609701560443d0255cf9d8be109567a30506/header_schinese.jpg?t=1788937291",
+    "3630410.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3630410/0e3bee084dd88bd0e45c5c7ebee8284eb34d7f5d/header_schinese.jpg?t=1756047704",
+    "3350200.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3350200/d2351dd420c87970ff90fdad0681bed609754c4c/header_schinese.jpg?t=1783592456",
+    "3321460.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3321460/72caf7e120e63fcf25b92e3b4b6477b76baffa45/header_schinese.jpg?t=1792637341",
+    "3489700.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3489700/header.jpg?t=1776466244",
+    "4115450.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4115450/40b2044606b59e0cdd9fb89738895fea8a22067c/header_schinese.jpg?t=1793261976",
+    "4466620.jpg": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4466620/9701d60d415c55948a5a3fc141cbb74f49c73d9b/header.jpg?t=1786771936",
+    "322330-hero.jpg": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/322330/library_hero.jpg"
   },
   "warnings": []
 }
