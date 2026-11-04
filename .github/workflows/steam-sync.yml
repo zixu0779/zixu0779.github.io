@@ -1,8 +1,8 @@
 name: Sync Steam
 on:
   schedule:
-    # 08:17 Asia/Shanghai; GitHub may delay scheduled runs.
-    - cron: '17 0 * * *'
+    # Monday 08:17 Asia/Shanghai; GitHub may delay scheduled runs.
+    - cron: '17 0 * * 1'
   workflow_dispatch:
 permissions:
   contents: write
