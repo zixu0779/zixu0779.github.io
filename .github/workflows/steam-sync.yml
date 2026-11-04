@@ -14,8 +14,6 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    env:
-      NODE_PATH: ${{ runner.temp }}/steam-renderer/node_modules
     steps:
       - uses: actions/checkout@v4
         with:
@@ -24,7 +22,9 @@ jobs:
         with:
           node-version: 24
       - name: Install existing EJS renderer only
-        run: npm install --prefix "$RUNNER_TEMP/steam-renderer" --ignore-scripts --no-audit --no-fund hexo-renderer-ejs@2.0.0
+        run: |
+          npm install --prefix "$RUNNER_TEMP/steam-renderer" --ignore-scripts --no-audit --no-fund hexo-renderer-ejs@2.0.0
+          echo "NODE_PATH=$RUNNER_TEMP/steam-renderer/node_modules" >> "$GITHUB_ENV"
       - run: node tests/steam-sync.test.js
       - name: Collect public Steam data
         env:
