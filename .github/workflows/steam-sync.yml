@@ -1,0 +1,30 @@
+name: Sync Steam
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: steam-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: source
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Collect public Steam data
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+        run: node lib/steam-sync.cjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: steam-snapshot
+          path: |
+            source/_data/steam.json
+            source/images/steam/
+          retention-days: 3
