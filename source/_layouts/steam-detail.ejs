@@ -1,0 +1,45 @@
+<template id="steam-detail-start"></template>
+<% const s = steam_view(); %>
+<link rel="stylesheet" href="/css/steam.css?v=20261104-live">
+<div class="steam-ui"><section class="steam-detail">
+  <a href="/about/#about-steam" class="back">← 返回关于页卡片</a>
+  <% if (s) { %>
+  <div class="detail-hero" style="--steam-profile-background:url('<%= s.profileBackground || '' %>')">
+    <div><div class="eyebrow">STEAM / PLAYER DOSSIER</div><h1><%= s.name %> 的游戏档案</h1><p class="muted" style="margin-top:12px">更新于 <%= s.date %> · 每日同步</p></div>
+    <a class="primary btn" href="<%= s.profileURL %>" target="_blank" rel="noopener noreferrer">Steam 主页 ↗</a>
+  </div>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h3>玩家概览</h3>
+      <div class="stat-box"><div class="metric"><%= s.gameCount %><small>款</small></div><span class="muted">游戏与应用</span></div>
+      <div class="stat-box"><div class="metric"><%= s.format(s.totalMinutes) %><small>h</small></div><span class="muted">累计游玩</span></div>
+      <p>偏好标签 · 时长推算</p>
+      <% s.preferences.forEach(tag => { %><span class="tag"><%= tag %></span><% }); %>
+      <% if (!s.preferences.length) { %><span class="muted">暂无足够数据</span><% } %>
+    </aside>
+    <div>
+      <div class="section-head"><h2>游戏库</h2><div class="tabs" role="group" aria-label="游戏筛选"><button aria-pressed="true" data-filter="all">全部 · <%= s.gameCount %></button><button aria-pressed="false" data-filter="recent">近两周 · <%= s.recentCount %></button></div></div>
+      <div class="games">
+        <% s.games.forEach(game => { %>
+        <article class="game" <%- game.recentMinutes > 0 ? 'data-recent' : '' %>>
+          <% if (game.image) { %><img loading="eager" decoding="async" class="game-art" src="<%= game.image %>" alt="<%= game.name %> 封面" width="460" height="215"><% } else { %><div class="game-art missing-art">暂无封面</div><% } %>
+          <h3><%= game.name %></h3><p><%= s.format(game.minutes) %> 小时<% if (game.recentMinutes > 0) { %> · 近两周 <%= s.format(game.recentMinutes) %>h<% } %></p>
+          <% if (game.achievements) { const percent = Math.round(game.achievements.unlocked / game.achievements.total * 100); %>
+            <div class="bar" style="--p:<%= percent %>%"><i></i></div><p>成就 <%= game.achievements.unlocked %> / <%= game.achievements.total %> <span style="float:right"><%= percent %>%</span></p>
+          <% } %>
+        </article>
+        <% }); %>
+      </div>
+      <p class="steam-empty muted" hidden>近两周没有公开的游玩记录。</p>
+      <div class="surface activity">
+        <div><div class="eyebrow">LAST 14 DAYS</div><h3 style="margin-top:7px">最近两周 · <%= s.format(s.recentMinutes) %> 小时</h3><p class="muted">柱状图记录每日同步间的时长增量，缺失日期留空。</p></div>
+        <div class="activity-bars" aria-label="每日观测时长增量">
+          <% s.history.forEach(day => { %><i class="<%= day.minutes === null ? 'unknown' : '' %>" style="height:<%= day.minutes === null ? 3 : Math.max(3,day.minutes / s.maxMinutes * 50) %>px" title="<%= day.date %>：<%= day.minutes === null ? '暂无记录' : s.format(day.minutes) + ' 小时' %>"></i><% }); %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="note">北京时间 <%= s.date %> 同步。偏好由已玩游戏的商店标签和时长推算，不含应用软件。每日增量是观测值，离线补记可能影响日期归属。游戏图片与主页背景来自 Steam。</p>
+  <% } else { %><p>Steam 数据尚未同步。</p><% } %>
+</section></div>
+<template id="steam-detail-end"></template>

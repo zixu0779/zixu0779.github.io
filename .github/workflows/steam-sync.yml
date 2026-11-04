@@ -1,8 +1,12 @@
 name: Sync Steam
 on:
+  schedule:
+    # 08:17 Asia/Shanghai; GitHub may delay scheduled runs.
+    - cron: '17 0 * * *'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
+  pages: write
 concurrency:
   group: steam-sync
   cancel-in-progress: false
@@ -17,6 +21,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: node tests/steam-sync.test.js
       - name: Collect public Steam data
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
@@ -28,3 +35,30 @@ jobs:
             source/_data/steam.json
             source/images/steam/
           retention-days: 3
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _published
+      - name: Update Steam fragments only
+        run: node lib/steam-publish.cjs _published
+      - name: Save snapshot and publish
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add source/_data/steam.json source/images/steam
+          if ! git diff --cached --quiet; then
+            git commit -m 'data: sync Steam snapshot'
+            git push origin HEAD:source
+          fi
+          cd _published
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add about/index.html steam/index.html data/steam.json images/steam css/steam.css
+          if ! git diff --cached --quiet; then
+            git commit -m 'deploy: update Steam activity'
+            git push origin HEAD:main
+          fi
+      - name: Request GitHub Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/$GITHUB_REPOSITORY/pages/builds"

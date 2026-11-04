@@ -1,4 +1,6 @@
 const checkedReplace = require('../lib/checked-replace');
+const steamView = require('../lib/steam-view.cjs');
+hexo.extend.helper.register('steam_view', function () { return steamView(this.site.data.steam); });
 const { readFileSync } = require('node:fs');
 const { join, dirname } = require('node:path');
 const { createHash } = require('node:crypto');
@@ -17,6 +19,7 @@ hexo.extend.filter.register('before_generate', () => {
 
   hexo.theme.setView('_partials/post/reward.pug', readFileSync(join(hexo.source_dir, '_layouts/reward.pug'), 'utf8'));
   for (const name of ['page', 'archive']) hexo.theme.setView(name + '.pug', readFileSync(join(hexo.source_dir, '_layouts/' + name + '.pug'), 'utf8'));
+  for (const name of ['steam.pug', 'steam-card.ejs', 'steam-detail.ejs']) hexo.theme.setView(name, readFileSync(join(hexo.source_dir, '_layouts', name), 'utf8'));
   hexo.theme.setView('about.pug', readFileSync(join(hexo.source_dir, '_layouts/about.pug'), 'utf8'));
   hexo.theme.setView('about-modules.ejs', readFileSync(join(hexo.source_dir, '_layouts/about-modules.ejs'), 'utf8'));
   hexo.theme.setView('_partials/post/copyright.pug', readFileSync(join(hexo.source_dir, '_layouts/copyright.pug'), 'utf8'));

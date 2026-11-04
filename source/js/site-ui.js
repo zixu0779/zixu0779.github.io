@@ -214,20 +214,19 @@
     window.addEventListener('pjax:success', () => setOpen(false));
     window.matchMedia('(max-width: 991px)').addEventListener('change', () => setOpen(false));
   };
-  // Preserve the reference theme's entrance state without importing its global runtime.
-  const authorObserver = new IntersectionObserver(entries => {
-    entries.forEach(({ target, isIntersecting }) => {
-      if (isIntersecting) {
-        target.classList.add('fade-after');
-        authorObserver.unobserve(target);
-      }
+  // Game filters use delegation so navigation through PJAX keeps them working.
+  document.addEventListener('click', event => {
+    const button = event.target.closest('.steam-ui [data-filter]');
+    if (!button) return;
+    const section = button.closest('.steam-ui');
+    section.querySelectorAll('[data-filter]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    section.querySelectorAll('.game').forEach(game => {
+      game.hidden = button.dataset.filter === 'recent' && !game.hasAttribute('data-recent');
     });
-  }, { threshold: 0.1 });
+    const empty = section.querySelector('.steam-empty');
+    if (empty) empty.hidden = [...section.querySelectorAll('.game')].some(game => !game.hidden);
+  });
   const refresh = () => {
-    document.querySelectorAll('.thyuu-author-modules .fade-before:not([data-observed])').forEach(card => {
-      card.dataset.observed = 'true';
-      authorObserver.observe(card);
-    });
     placeToolbar();
     locateComment();
     document.querySelectorAll('[data-avatar-fallback] img').forEach(image => {

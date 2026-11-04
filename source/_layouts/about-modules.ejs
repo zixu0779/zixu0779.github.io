@@ -1,9 +1,9 @@
 <%# THYUU / 星度 26.7.3 author modules; see source/vendor/thyuu-author/NOTICE.txt %>
-<link rel="stylesheet" href="/vendor/thyuu-author/modules.css?v=20261103-fallback">
+<link rel="stylesheet" href="/vendor/thyuu-author/modules.css?v=20261104-eager">
 <% const personality = site.data.about_personality; const previous = personality.previous; %>
 <% if (personality.demo) { %><p class="about-demo-note">人格模块暂用参考站数据演示，非本人的测试结果。</p><% } %>
 <div class="thyuu-author-modules">
-<section class="place column fade-before  zj">
+<section class="place column  zj">
 		<svg version="1.1" id="china-map" pointer-events="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1250 700" xml:space="preserve">
 				<g style="transform: translateX(-22%);">
 					<path class="st0" d="M523,254l-1-7l-3-3l5-3l-1-3l3-5h4l3-3h2v-3l3,1l5-3l2,5l6-2v2l4-4l1-5l2-2h11l-1-1l3-1l1-3l5-1l9-6l9-3l2-4
@@ -318,13 +318,13 @@
 			<a href="https://lbs.amap.com" target="_blank" rel="noopener noreferrer">地图数据来源于高德地图</a>
 		</li>
 	</section>
-<section class="mbti column fade-before" style="<% ['current', 'previous'].forEach(key => { const result = personality[key]; if (result) result.traits.forEach((n, i) => { if (!Number.isInteger(n) || n < 0 || n > 100) throw new Error('Invalid personality percentage'); %>--<%= key %>-<%= i %>:<%= n %>;<% }); }); %>">
+<section class="mbti column" style="<% ['current', 'previous'].forEach(key => { const result = personality[key]; if (result) result.traits.forEach((n, i) => { if (!Number.isInteger(n) || n < 0 || n > 100) throw new Error('Invalid personality percentage'); %>--<%= key %>-<%= i %>:<%= n %>;<% }); }); %>">
         <% if (previous) { %><input type="checkbox" id="about-nature" class="nature-toggle" aria-label="查看上次人格结果"><% } %>
         <div class="nature">
             <% [personality.current, previous].forEach((result, index) => { if (!result) return; %>
             <div class="caption <%= index ? 'old' : 'new' %> <%= result.type %>">
-                <img alt="" aria-hidden="true" class="mbti-bg" src="/vendor/thyuu-author/<%= result.type %>.svg">
-                <img alt="" aria-hidden="true" class="mbti-mg" src="/vendor/thyuu-author/<%= result.type %>.svg">
+                <img loading="eager" alt="" aria-hidden="true" class="mbti-bg" src="/vendor/thyuu-author/<%= result.type %>.svg">
+                <img loading="eager" alt="" aria-hidden="true" class="mbti-mg" src="/vendor/thyuu-author/<%= result.type %>.svg">
                 <span class="capt"><%= result.code || result.type.toUpperCase() %> <%= result.name %></span>
                 <div class="cont"></div>
             </div>

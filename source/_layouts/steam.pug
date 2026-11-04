@@ -1,0 +1,12 @@
+extends _partials/layout.pug
+include _mixin/sidebar.pug
+
+block title
+    != page.title
+block header
+    h1(itemprop="name headline")= page.title
+block content
+    div(class="about-page steam-page")
+        != partial('steam-detail.ejs')
+block sidebar
+    +sidebarRender(false)
