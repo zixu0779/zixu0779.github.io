@@ -57,5 +57,5 @@
 
 - 未经明确授权，所有改动保留在本地，不提交、推送或发布。
 - 本地生成使用 `NODE_USE_ENV_PROXY=1 node_modules/.bin/hexo generate`；预览使用 `npm run server`。
-- 构建与发布分开执行。当前 `build.sh` 仅生成页面；发布前仍需核查实际脚本，不把构建等同于部署。
+- 构建与发布分开执行。当前 `npm run build` 仅生成页面；发布前仍需核查实际脚本，不把构建等同于部署。
 - 图片元数据与显示策略的逻辑发生变化时，运行 `node tests/image-dimensions.test.js`，并按变更范围验证相关页面。

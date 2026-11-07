@@ -8,12 +8,10 @@ public/
 _multiconfig.yml
 shokaxTemp/
 
-# Local environment and generated secondary site
+# Local environment
 .env
 .env.*
 !.env.example
-/en-site/
-/shokax-can/
 
 # Python helper caches
 __pycache__/
@@ -21,3 +19,4 @@ __pycache__/
 
 # Private database backups
 .local-backups/
+/tmp/

@@ -2,7 +2,7 @@
 """One-off fixed-folder migration. Default: read-only plan. Never deletes/overwrites.
 
 Credentials: CLOUDINARY_URL or CLOUDINARY_CLOUD_NAME/API_KEY/API_SECRET.
-Run: python3 tools/cloudinary_reorganize.py --output /tmp/cloudinary-migration
+Run: python3 lib/maintenance/cloudinary_reorganize.py --output /tmp/cloudinary-migration
 Then: same command --copy; then --rewrite (only after all copies verify).
 Reports and original local files are saved under --output, outside the repository.
 """
@@ -21,7 +21,7 @@ import urllib.error
 import urllib.parse as url
 import urllib.request as http
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 FOLDERS = {'Typera/': 'Typora/', 'typecho/': 'Wallpapers/'}
 URL_RE = re.compile(r'https?://res\.cloudinary\.com/[^\s\x22\x27<>\)]+')
 
@@ -56,7 +56,7 @@ def project_files():
     names = subprocess.check_output(['git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard'], cwd=ROOT).decode().split('\0')
     for name in sorted(set(names)):
         p = ROOT / name
-        if not name or name.startswith(('tools/', 'tests/')) or not p.is_file() or p.is_symlink():
+        if not name or name.startswith(('lib/maintenance/', 'tests/')) or not p.is_file() or p.is_symlink():
             continue
         try:
             text = p.read_bytes().decode('utf-8')

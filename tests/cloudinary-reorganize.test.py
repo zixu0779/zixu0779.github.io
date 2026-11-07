@@ -5,7 +5,7 @@ import unittest
 from unittest.mock import patch
 import os
 
-spec = importlib.util.spec_from_file_location('migration', Path(__file__).parents[1] / 'tools/cloudinary_reorganize.py')
+spec = importlib.util.spec_from_file_location('migration', Path(__file__).parents[1] / 'lib/maintenance/cloudinary_reorganize.py')
 m = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(m)
 

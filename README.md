@@ -71,9 +71,8 @@ npm run server
 │   ├── _waline/                 # 评论辅助逻辑
 │   └── js/                      # 分类、侧栏、图片等前端交互
 ├── scripts/                     # Hexo 扩展与生成阶段处理
-├── lib/                         # 主题补丁与共用逻辑
+├── lib/                         # 主题补丁、共用逻辑与维护工具
 ├── tests/                       # 回归检查
-├── tools/                       # 图片等维护工具
 ├── docs/                        # 维护文档与项目预览
 └── image-dimensions.json         # 原图宽高缓存
 ```

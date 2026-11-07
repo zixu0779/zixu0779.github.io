@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "install": "node lib/theme-patches.js",
-    "build": "NODE_USE_ENV_PROXY=1 ./build.sh",
+    "build": "NODE_USE_ENV_PROXY=1 hexo generate",
     "clean": "hexo clean && rm -rf .deploy_git",
     "deploy": "hexo deploy",
     "server": "NODE_USE_ENV_PROXY=1 hexo server"

@@ -24,13 +24,13 @@ NODE_USE_ENV_PROXY=1 node_modules/.bin/hexo generate
 npm run server
 ```
 
-依赖安装通过 `package.json` 的 `install` 脚本直接执行 `node lib/theme-patches.js`；`install.sh` 仅保留为手动执行入口。补丁按完整语句调整随机文章、最新评论数量和其他主题行为，先检查全部匹配，再写入主题文件。安装时不要禁用生命周期脚本；若已禁用，须手动执行上述 Node.js 命令。
+依赖安装通过 `package.json` 的 `install` 脚本直接执行 `node lib/theme-patches.js`。补丁按完整语句调整随机文章、最新评论数量和其他主题行为，先检查全部匹配，再写入主题文件。安装时不要禁用生命周期脚本；若已禁用，须手动执行上述 Node.js 命令。
 
 当前补丁适配 ShokaX 0.4.17，不保证未来版本直接兼容。关键模板替换和评论产物会检查匹配结果，发现不兼容时停止生成。升级后应适配报错位置并运行相关测试，再做电脑和手机端预览；匹配检查不能代替交互验证。
 
 `NODE_USE_ENV_PROXY=1` 用于让支持此选项的 Node.js 版本使用环境代理；没有设置代理时不需要另外填入地址。构建可能获取远程图片元数据，网络异常须区分超时与真实 404。
 
-当前 `build.sh` 只有 `hexo generate`，`npm run build` 调用它。`npm run deploy` 才执行发布。`npm run clean` 会同时删除 Hexo 缓存和 `.deploy_git`，不要把它当作每次预览的必要步骤。端口被占用时先识别已有服务，避免误停其他任务。
+`npm run build` 通过本项目安装的 Hexo 生成页面。`npm run deploy` 才执行发布。`npm run clean` 会同时删除 Hexo 缓存和 `.deploy_git`，不要把它当作每次预览的必要步骤。端口被占用时先识别已有服务，避免误停其他任务。
 
 ### 首次安装与原生依赖
 
@@ -72,7 +72,7 @@ pnpm install --frozen-lockfile
 | `scripts/` | Hexo 生成器、模板覆盖、资源处理和注入 |
 | `lib/theme-patches.js` | 对固定版本主题的可重复补丁；不匹配时停止而非静默跳过 |
 | `tests/` | 可直接运行的 Node.js / Python 检查 |
-| `tools/` | Cloudinary 整理等维护工具；执行前阅读其参数与影响范围 |
+| `lib/maintenance/cloudinary_reorganize.py` | Cloudinary 历史目录迁移工具。用 `python3 lib/maintenance/cloudinary_reorganize.py --help` 查看参数及影响范围 |
 | `public/`、`.deploy_git/`、`shokaxTemp/` | 生成物、部署工作区与主题临时文件，不作为维护源文件 |
 | `.local-backups/` | 私有数据库备份和迁移核验材料；已忽略，禁止上传到公开站点 |
 
