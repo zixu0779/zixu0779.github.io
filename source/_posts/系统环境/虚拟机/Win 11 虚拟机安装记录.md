@@ -1,8 +1,9 @@
 ---
+translation_id: windows-11-vm
 title: Win 11 虚拟机安装记录
 date: 2025-02-16 18:35:51
 updated: 2025-11-09 16:24:53
-tags: ["Windows", "VMware", "虚拟机"]
+tags: ["Windows", "VMware"]
 categories: [["系统环境", "虚拟机"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792696183/Typora/2025/11/25793f68127f486bbbaa7d5bb6499ce4.jpg
 ---

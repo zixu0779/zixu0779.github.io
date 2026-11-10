@@ -1,4 +1,5 @@
 ---
+translation_id: sctf-review
 title: "SCTF 题目复现记录"
 date: 2022-1-30 00:18:22
 tags: ["Pwn", "Misc", "题目复现"]

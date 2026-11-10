@@ -1,4 +1,5 @@
 ---
+translation_id: sentences-desktop
 title: "桌面一言：Sentences-Desktop"
 date: 2023-04-23 17:35:33
 tags: ["Electron", "JavaScript", "Hitokoto"]

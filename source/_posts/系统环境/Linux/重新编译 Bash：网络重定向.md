@@ -1,4 +1,5 @@
 ---
+translation_id: building-bash
 title: 重新编译 Bash：网络重定向
 date: 2025-04-20 13:09:20
 tags: ["Bash", "Linux", "源码编译", "网络重定向"]

@@ -533,3 +533,27 @@
 "https://res.cloudinary.com/sycamore/image/upload/v1793200453/Typora/2026/10/28/onedrop-recycle-bin.png": 340
 "https://res.cloudinary.com/sycamore/image/upload/v1793207916/Typora/2026/10/29/onedrop-history.png": 340
 "https://res.cloudinary.com/sycamore/image/upload/v1793209186/Typora/2026/10/29/onedrop-devices-about.png": 380
+
+# OneDrop message storage and synchronization diagrams.
+"https://res.cloudinary.com/sycamore/image/upload/v1793212421/Typora/2026/10/29/onedrop-tech-architecture.png": 760
+"https://res.cloudinary.com/sycamore/image/upload/v1793212423/Typora/2026/10/29/onedrop-tech-upload.png": 760
+"https://res.cloudinary.com/sycamore/image/upload/v1793212425/Typora/2026/10/29/onedrop-tech-conflict.png": 760
+"https://res.cloudinary.com/sycamore/image/upload/v1793212428/Typora/2026/10/29/onedrop-tech-deletion.png": 760
+
+# OneDrop authentication source excerpts.
+"https://res.cloudinary.com/sycamore/image/upload/v1793267304/Typora/2026/10/29/onedrop-tech-login-flow.png": 720
+"https://res.cloudinary.com/sycamore/image/upload/v1793267307/Typora/2026/10/29/onedrop-tech-token-refresh.png": 720
+
+"https://res.cloudinary.com/sycamore/image/upload/v1793270442/Typora/2026/10/29/onedrop-tech-thumbhash-preview.png": 180
+
+# OneDrop implementation source excerpts.
+"https://res.cloudinary.com/sycamore/image/upload/v1793271791/Typora/2026/10/29/onedrop-tech-pkce.png": 614
+"https://res.cloudinary.com/sycamore/image/upload/v1793271794/Typora/2026/10/29/onedrop-tech-chunk-size.png": 614
+"https://res.cloudinary.com/sycamore/image/upload/v1793271796/Typora/2026/10/29/onedrop-tech-pending-storage.png": 702
+"https://res.cloudinary.com/sycamore/image/upload/v1793271800/Typora/2026/10/29/onedrop-tech-download-reuse.png": 710
+"https://res.cloudinary.com/sycamore/image/upload/v1793271803/Typora/2026/10/29/onedrop-tech-message-restore.png": 744
+"https://res.cloudinary.com/sycamore/image/upload/v1793271806/Typora/2026/10/29/onedrop-tech-archive-check.png": 736
+
+"https://res.cloudinary.com/sycamore/image/upload/v1793289728/Typora/2026/10/29/onedrop-tech-message-chunk-selection.png": 668
+
+"https://res.cloudinary.com/sycamore/image/upload/v1793289744/Typora/2026/10/29/onedrop-tech-cleanup-retention.png": 710

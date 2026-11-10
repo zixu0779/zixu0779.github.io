@@ -1,5 +1,6 @@
 // Merged articles retain their published addresses without duplicate archive entries.
 hexo.extend.generator.register('merged-article-redirects', () => [
+  ['网络安全/安全实验/反弹 Shell/', '网络安全/安全实验/反弹 Shell：连接原理与实现方式/'],
   ['博客建设/建站部署/云服务器建站准备/', '博客搭建/建站部署/用宝塔搭建 WordPress/#准备工作'],
   ['人工智能/机器学习/机器学习模型的优化/', '人工智能/机器学习/机器学习杂记/#模型优化检查']
 ].map(([path, target]) => {

@@ -1,5 +1,6 @@
 ---
-title: "反弹 Shell"
+translation_id: reverse-shells
+title: "反弹 Shell：连接原理与实现方式"
 date: 2025-06-15 21:48:27
 tags: ["Linux", "反弹 Shell", "Bash", "Netcat"]
 categories:
@@ -78,7 +79,7 @@ make clean
 使用 Bash 中 **网络重定向** 的方法
 ### 准备：
 Kali Linux 中使用的 **Shell** 是 **zsh**，
-可以用命令：`echo %SHELL` 查看当前系统使用的 **Shell**：
+可以用 `echo "$SHELL"` 查看为当前用户配置的登录 **Shell**：
 ![image-20250615012919215](https://res.cloudinary.com/sycamore/image/upload/v1792696699/Typora/2025/06/8d5285fdf9ee6db10ebba4ce645ad92c.png)
 
 所以我们需要更换 Shell：

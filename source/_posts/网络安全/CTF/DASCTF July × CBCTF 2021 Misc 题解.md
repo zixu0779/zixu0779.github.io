@@ -1,4 +1,5 @@
 ---
+translation_id: dasctf-july-misc
 title: "DASCTF July × CBCTF 2021 Misc 题解"
 date: 2022-01-09 18:20:21
 tags: ["Misc", "隐写", "Python"]

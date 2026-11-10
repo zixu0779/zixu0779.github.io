@@ -1,4 +1,5 @@
 ---
+translation_id: ciscn-2022
 title: "CISCN 2022 题解（By BxsTeam）"
 date: 2022-06-26 19:23:14
 tags: ["Web", "Misc", "Crypto", "Reverse", "Pwn"]

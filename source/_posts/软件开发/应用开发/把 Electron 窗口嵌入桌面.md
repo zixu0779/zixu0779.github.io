@@ -1,4 +1,5 @@
 ---
+translation_id: embed-electron-desktop
 title: 把 Electron 窗口嵌入桌面
 date: 2024-05-19 19:30:03
 updated: 2026-09-05 20:27:22

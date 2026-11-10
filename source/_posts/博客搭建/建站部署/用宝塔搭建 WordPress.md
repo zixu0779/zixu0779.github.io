@@ -1,8 +1,9 @@
 ---
+translation_id: wordpress-bt-panel
 title: 用宝塔搭建 WordPress
 date: 2022-07-17 19:51:27
 updated: 2026-04-12 20:05:17
-tags: ["WordPress", "宝塔", "云服务器", "SSH", "域名"]
+tags: ["WordPress", "宝塔", "SSH"]
 categories: [["博客搭建", "建站部署"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792696420/Typora/2026/04/6c1cf55e7f50b9ff2de9651151f5fef1.jpg
 ---

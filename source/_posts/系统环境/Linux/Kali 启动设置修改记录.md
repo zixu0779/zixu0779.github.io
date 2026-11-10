@@ -1,8 +1,9 @@
 ---
+translation_id: kali-startup
 title: Kali 启动设置修改记录
 date: 2023-09-03 15:26:39
 updated: 2026-02-24 22:14:09
-tags: ["Kali", "Linux", "虚拟机", "GRUB", "LightDM"]
+tags: ["Kali", "Linux", "GRUB", "LightDM"]
 categories: [["系统环境", "Linux"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792696297/Typora/2026/02/b7ea9d1222bacb7781961d44117c400f.jpg
 ---

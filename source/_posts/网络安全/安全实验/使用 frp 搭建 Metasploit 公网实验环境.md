@@ -1,4 +1,5 @@
 ---
+translation_id: frp-lab
 title: "使用 frp 搭建 Metasploit 公网实验环境"
 date: 2023-02-12 20:18:36
 tags: ["frp", "Metasploit", "内网穿透"]

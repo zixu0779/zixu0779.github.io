@@ -1,7 +1,8 @@
 ---
+translation_id: cumt-challenge-design
 title: "CUMTCTF 2022 出题记录"
 date: 2022-6-8 12:04:04
-tags: ["Pwn", "Crypto", "Misc", "出题"]
+tags: ["Pwn", "Crypto", "Misc"]
 categories:
   - ["网络安全", "CTF"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216235/Covers/54a2923a541fe0c86555a91b264f4221.png

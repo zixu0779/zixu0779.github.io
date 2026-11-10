@@ -1,4 +1,5 @@
 ---
+translation_id: windows-7-vm
 title: Win 7 虚拟机配置记录
 date: 2022-08-14 18:10:52
 updated: 2025-09-14 23:06:28

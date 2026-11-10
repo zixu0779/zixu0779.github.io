@@ -1,7 +1,8 @@
 ---
+translation_id: shokax-upgrade
 title: "ShokaX 主题更新记录"
 date: 2025-01-20 12:05:53
-tags: ["Hexo", "ShokaX", "主题升级", "插件"]
+tags: ["Hexo", "ShokaX", "ShokaX插件"]
 categories: [["博客搭建", "主题修改"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216269/Covers/577e6e5d3f3fdf4d5af4e71de5c13847.png
 updated: 2025-01-20 12:05:53

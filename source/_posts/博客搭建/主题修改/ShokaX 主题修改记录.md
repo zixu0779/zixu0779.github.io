@@ -1,4 +1,5 @@
 ---
+translation_id: customising-shokax
 title: "ShokaX 主题修改记录"
 date: 2023-04-30 14:05:53
 tags: ["Hexo", "ShokaX", "主题定制"]

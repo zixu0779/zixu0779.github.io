@@ -1,4 +1,5 @@
 ---
+translation_id: easybe-customisation
 title: EasyBe 主题修改记录
 date: 2023-01-15 00:08:40
 updated: 2026-08-16 18:32:20

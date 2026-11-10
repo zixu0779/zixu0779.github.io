@@ -1,7 +1,8 @@
 ---
+translation_id: ciri-main-menu
 title: "希里主菜单背景 Mod 修复记录"
 date: 2025-08-20 22:42:31
-tags: ["WolvenKit", "主菜单", "Mod 修复", "赛博朋克 2077"]
+tags: ["WolvenKit", "Mod 修复", "赛博朋克 2077"]
 categories:
   - ["游戏工坊", "游戏 Mod"]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792216275/Covers/3d3d0f08411e144047e5d8272d659746.png
@@ -91,7 +92,7 @@ Buid -> Pack Project，会在项目文件夹下打包为 zip 压缩包，这就�
 
 ![image-20250820002427225](https://res.cloudinary.com/sycamore/image/upload/v1792696341/Typora/2025/08/a23b9f1dc9b8ff26b6639b55bb702376.png)
 
-先看右侧的原 Mod 文件，主要是文件 cp_bq_alphafaded.bk2，这就是被替换的希里背景动画。
+先看右侧的原 Mod 文件，主要是文件 cp_bg_alpha_faded.bk2，这就是被替换的希里背景动画。
 
 然后看左侧的游戏原文件，因为目前我的主菜单背景是 short01 的图片，所以不看 short02、short03 的内容：
 
@@ -125,7 +126,7 @@ short_01_assets.xbm 如下，应该能理解我的意思：
 
 ![image-20250820022045941](https://res.cloudinary.com/sycamore/image/upload/v1792696345/Typora/2025/08/99b267900fa56628ce107626801cda75.png)
 
-而我们知道，initial_loading_screen.inkwidget 中的 cp_bq_alphafaded.bk2，已经被替换为希里的背景动画了。
+而我们知道，initial_loading_screen.inkwidget 中的 cp_bg_alpha_faded.bk2，已经被替换为希里的背景动画了。
 
 因此 loading_screen_5_after_q101 对应的背景就会被替换为希里。
 
@@ -183,7 +184,7 @@ short_01_assets.xbm 如下，应该能理解我的意思：
 
 ![image-20250820132025115](https://res.cloudinary.com/sycamore/image/upload/v1792696351/Typora/2025/08/dfc871c9dcc12b9cadeb7ca35624c9e3.png)
 
-而 main_menu 对应 cp_bq_alphafaded.bk2 资源，也就是替换的希里的背景，loading_screen 则是对应另一个进入主菜单时的动画资源。
+而 main_menu 对应 cp_bg_alpha_faded.bk2 资源，也就是替换的希里的背景，loading_screen 则是对应另一个进入主菜单时的动画资源。
 
 因此，游戏找不到 ls_01，ls_02，ls_03，也就丢失了加载动画
 
@@ -195,7 +196,7 @@ short_01_assets.xbm 如下，应该能理解我的意思：
 
 然后找到游戏中的 loading_screen_5_after_q101.inkwidget 和 initial_loading_screen.inkwidget，将前者加入项目，并打开编辑，后者选择 Open without adding to project 即可。
 
-复制 initial_loading_screen.inkwidget 中的 cp_bq_alphafaded.bk2 资源，然后加入 loading_screen_5_after_q101.inkwidget 的 externalDependenciesForInternalItems 中：
+复制 initial_loading_screen.inkwidget 中的 cp_bg_alpha_faded.bk2 资源，然后加入 loading_screen_5_after_q101.inkwidget 的 externalDependenciesForInternalItems 中：
 
 ![image-20250820135807669](https://res.cloudinary.com/sycamore/image/upload/v1792696355/Typora/2025/08/a07fb28527c04bf0d6a1fac487d0e1ea.png)
 

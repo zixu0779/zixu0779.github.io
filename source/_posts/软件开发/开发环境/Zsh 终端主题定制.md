@@ -1,11 +1,12 @@
 ---
+translation_id: zsh-terminal-theme
 title: Zsh 终端主题定制
 disableNunjucks: true
 prompt_glyph: true
 date: 2026-02-18 16:19:45
 updated: 2026-10-23 16:19:45
 categories: [["软件开发", "开发环境"]]
-tags: ["Zsh", "Oh My Zsh", "终端", "主题定制"]
+tags: ["Zsh", "Oh My Zsh", "主题定制"]
 ---
 
 本文记录一下我目前自用的终端主题样式。

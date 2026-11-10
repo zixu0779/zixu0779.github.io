@@ -1,4 +1,5 @@
 ---
+translation_id: cumt-pwn
 title: "CUMT Pwn 专项练习记录"
 date: 2021-12-05 23:24:22
 tags: ["Pwn", "栈溢出", "ret2libc"]

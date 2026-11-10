@@ -1,4 +1,5 @@
 ---
+translation_id: kali-shared-folders
 title: Kali 虚拟机共享文件夹
 date: 2023-09-17 15:53:08
 updated: 2026-03-02 19:38:46

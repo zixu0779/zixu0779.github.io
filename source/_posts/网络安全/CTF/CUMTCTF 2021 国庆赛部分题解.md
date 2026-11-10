@@ -1,4 +1,5 @@
 ---
+translation_id: cumt-national-day
 title: "CUMTCTF 2021 国庆赛部分题解"
 date: 2021-11-22 23:44:13
 tags: ["Pwn", "Misc"]
@@ -133,7 +134,7 @@ r.sendline(p2)
 r.interactive()
 ```
 爆破好慢...
-`CUMTCTF{5305918b-e080-4f2d-b9b1-8a6f3ed727d5`
+`CUMTCTF{5305918b-e080-4f2d-b9b1-8a6f3ed727d5}`
 ### pwn4
 edit的地方有个堆溢出漏洞
 

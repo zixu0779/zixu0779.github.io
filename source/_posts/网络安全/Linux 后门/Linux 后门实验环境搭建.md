@@ -1,4 +1,5 @@
 ---
+translation_id: kali-lab-ssh
 title: Linux 后门实验环境搭建
 date: 2024-09-15 21:36:37
 updated: 2025-11-23 20:46:32

@@ -1,14 +1,16 @@
 ---
+translation_id: onedrop-introduction
 title: OneDrop：基于 OneDrive 的跨设备传输工具
 date: 2026-09-20 20:36:17
 updated: 2026-09-20 20:36:17
 categories: [["软件开发", "应用开发"]]
-tags: ["OneDrop", "OneDrive", "Microsoft Edge", "跨设备传输"]
+tags: ["OneDrop", "Edge插件开发", "跨设备传输"]
 ---
 
 [OneDrop](https://github.com/zixu0779/OneDrop) 是我做的一个跨设备传输工具，通过用户自己的 OneDrive 在设备之间传递文本和文件。
 本文整理一下做它的原因、各个平台的发布情况，以及后续的计划。
 实现细节方面的内容，就后面再补充。
+相关内容已经整理在《OneDrop 的消息存储与多端同步》的[上篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/)和[下篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（下）/)中。
 
 <!-- more -->
 

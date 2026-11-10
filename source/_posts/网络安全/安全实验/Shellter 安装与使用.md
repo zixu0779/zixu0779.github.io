@@ -1,4 +1,5 @@
 ---
+translation_id: shellter-lab
 title: "Shellter 安装与使用"
 date: 2022-10-16 18:10:24
 tags: ["Shellter", "Metasploit", "免杀"]

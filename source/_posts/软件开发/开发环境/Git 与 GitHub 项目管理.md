@@ -1,9 +1,10 @@
 ---
+translation_id: git-github-projects
 title: Git 与 GitHub 项目管理
 date: 2026-05-21 21:27:18
 updated: 2026-05-21 21:27:18
 categories: [["软件开发", "开发环境"]]
-tags: ["Git", "GitHub", "GitHub Actions", "CI/CD", "Git LFS"]
+tags: ["Git", "GitHub", "GitHub Actions", "Git LFS"]
 ---
 
 Git 负责记录版本，GitHub 则提供仓库托管、问题讨论和代码审查。知道如何使用它们是必备的技能。

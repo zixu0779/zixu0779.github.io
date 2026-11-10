@@ -1,8 +1,9 @@
 ---
+translation_id: win7-ftp-transfer
 title: Win 7 虚拟机搭建 FTP
 updated: 2025-09-18 21:42:15
 date: 2022-08-21 21:17:46
-tags: ["3CDaemon", "FTP", "文件传输"]
+tags: ["FTP"]
 categories: [["系统环境", "虚拟机"]]
 cover: https://res.cloudinary.com/sycamore/image/upload/v1792696285/Typora/2025/09/65ded4aab38ef01f86a17c06e881f706.jpg
 ---
