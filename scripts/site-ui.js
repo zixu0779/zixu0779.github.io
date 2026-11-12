@@ -1,5 +1,17 @@
 const checkedReplace = require('../lib/checked-replace');
 const steamView = require('../lib/steam-view.cjs');
+// Stable samples on both sides of the midpoint. Frequent tags get a narrower range.
+hexo.extend.helper.register('cloud_tags', function () {
+  return this.site.tags.toArray()
+    .map(tag => {
+      const sample = createHash('sha256').update(tag.name).digest().readUInt32BE() / 2 ** 32;
+      const spread = tag.length >= 7 ? .41 : tag.length >= 5 ? .30 : tag.length >= 3 ? .84 : 1;
+      return { tag, position: (sample - .5) * spread };
+    })
+    .sort((a, b) => a.position - b.position)
+    .map(entry => entry.tag);
+});
+
 hexo.extend.helper.register('steam_view', function () { return steamView(this.site.data.steam, this.site.data['steam-display']); });
 const { readFileSync } = require('node:fs');
 const { join, dirname } = require('node:path');

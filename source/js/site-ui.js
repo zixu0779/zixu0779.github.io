@@ -287,7 +287,61 @@
       card.animate(old ? [{transform:`translate(${old.left-next.left}px, ${old.top-next.top}px)`},{transform:'translate(0,0)'}] : [{transform:'translateY(96px)'},{transform:'translateY(0)'}], {duration:480,easing:'cubic-bezier(.22,1,.36,1)'});
     });
   });
+  // Reorder only within each wrapped row, so long translations keep their space.
+  function arrangeTagCloud(cloud) {
+    if (cloud.dataset.arranged) return;
+    cloud.dataset.arranged = 'true';
+    const tags = Array.from(cloud.children);
+    const arrange = () => {
+      for (const tag of tags) tag.style.order = '';
+      const rows = new Map();
+      for (const tag of tags) {
+        const box = tag.getBoundingClientRect();
+        const center = Math.round(box.top + box.height / 2);
+        if (!rows.has(center)) rows.set(center, []);
+        rows.get(center).push({ tag, width: box.width });
+      }
+      let order = 0;
+      for (const row of rows.values()) {
+        const gap = parseFloat(getComputedStyle(cloud).columnGap);
+        const width = row.reduce((sum, item) => sum + item.width, gap * (row.length - 1));
+        // A tag can trade places with a neighbour without every large tag taking the middle.
+        // Keep tiers 1 and 2 mixed. Let a few tier-3 tags share their edge priority.
+        const weight = item => {
+          const tier = Number(item.tag.dataset.tier);
+          return tier === 3 && tags.indexOf(item.tag) % 2 === 0 ? 2 : Math.max(2, tier);
+        };
+        for (let pass = 0; pass < row.length; pass++) {
+          let x = 0;
+          let changed = false;
+          for (let i = 0; i + 1 < row.length; i++) {
+            const left = row[i], right = row[i + 1];
+            const middle = x + (left.width + gap + right.width) / 2;
+            const bias = (middle - width / 2) / width;
+            const centerBand = Math.max(weight(left), weight(right)) >= 4 ? .035 : .15;
+            if (Math.abs(bias) > centerBand && (weight(right) - weight(left)) * bias > 0) {
+              [row[i], row[i + 1]] = [right, left];
+              changed = true;
+            }
+            x += row[i].width + gap;
+          }
+          if (!changed) break;
+        }
+        for (const { tag } of row) tag.style.order = String(order++);
+      }
+    };
+    let width = -1;
+    const observer = new ResizeObserver(() => {
+      if (!cloud.isConnected || width === cloud.clientWidth) return;
+      width = cloud.clientWidth;
+      arrange();
+    });
+    observer.observe(cloud);
+    document.fonts.ready.then(() => { if (cloud.isConnected) arrange(); });
+  }
   const refresh = () => {
+    const cloud = document.querySelector('.tag.cloud');
+    if (cloud) arrangeTagCloud(cloud);
     fitSteamTitles();
     placeToolbar();
     locateComment();
