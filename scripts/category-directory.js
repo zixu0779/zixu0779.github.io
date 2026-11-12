@@ -18,21 +18,27 @@ hexo.extend.filter.register('before_generate', () => {
 hexo.extend.helper.register('archive_row', function (post, format = 'MM-DD', showCategory = true, showUpdated = false) {
   const category = post.categories.toArray().slice(-1)[0];
   const date = showUpdated ? (post.updated || post.date) : post.date;
-  return `<article class="item normal" itemscope itemtype="http://schema.org/Article"><div class="meta"><time itemprop="${showUpdated ? 'dateModified' : 'dateCreated'}" datetime="${date.toISOString()}">${showUpdated ? '更新于 ' : ''}${this.date(date, format)}</time>${showCategory && category ? `<a href="${this.url_for(category.path)}">${escapeHTML(category.name)}</a>` : ''}</div><div class="title"><a href="${this.url_for(post.path)}" itemprop="url"><span itemprop="name">${escapeHTML(post.title)}</span></a></div></article>`;
+  return `<article class="item normal" itemscope itemtype="http://schema.org/Article"><div class="meta"><time itemprop="${showUpdated ? 'dateModified' : 'dateCreated'}" datetime="${date.toISOString()}">${this.date(date, format)}</time>${showCategory && category ? `<a href="${this.url_for(category.path)}">${escapeHTML(category.name)}</a>` : ''}</div><div class="title"><a href="${this.url_for(post.path)}" itemprop="url"><span itemprop="name">${escapeHTML(post.title)}</span></a></div></article>`;
 });
 hexo.extend.helper.register('category_directory', function () {
   const categories = this.site.categories.toArray().sort(categoryOrder);
-  const row = post => this.archive_row(post, 'YYYY-MM-DD', false, true);
+  const translations = this.page.translatedTitles;
+  const row = post => this.archive_row(translations ? {
+    categories: post.categories, date: post.date, updated: post.updated,
+    title: translations[post.source], path: require('../lib/english-routes').english(post.path)
+  } : post, 'YYYY-MM-DD', false, true);
+  const label = name => translations ? this.site_label(name) : name;
   const group = (category, posts, hideTitle = false) => {
+    if (translations) posts = posts.filter(post => translations[post.source]);
     if (!posts.length) return '';
-    const title = hideTitle ? '文章' : escapeHTML(category.name);
+    const title = hideTitle ? label('文章') : escapeHTML(label(category.name));
     const pages = Math.ceil(posts.length / 5);
     const pagination = Array.from({ length: pages > 1 ? pages : 0 }, (_, index) => {
       const links = this.site_pagination({ current: index + 1, total: pages, base: '#category-page-1', format: '#category-page-%d' })
         .replace(/href="[^"]*#category-page-(\d+)"/g, 'href="#' + anchor(category) + '" data-category-page="$1"');
       return `<nav class="category-pagination pagination" data-pagination-page="${index}"${index ? ' hidden' : ''} aria-label="${escapeHTML(category.name)}文章分页"><div class="inner">${links}</div></nav>`;
     }).join('');
-    return `<section class="category-group" id="${anchor(category)}"><details><summary class="item section"><span class="category-name">${title}</span><small>${posts.length} 篇</small></summary><div class="category-content"><div class="category-posts category-full">${posts.map(row).join('')}</div>${pagination}</div></details></section>`;
+    return `<section class="category-group" id="${anchor(category)}"><details><summary class="item section"><span class="category-name">${title}</span><small>${posts.length} ${translations ? 'posts' : '篇'}</small></summary><div class="category-content"><div class="category-posts category-full">${posts.map(row).join('')}</div>${pagination}</div></details></section>`;
   };
   const render = (category, root = false) => {
     const children = categories.filter(item => item.parent === category._id);
@@ -40,7 +46,7 @@ hexo.extend.helper.register('category_directory', function () {
     const own = category.posts.toArray().sort((a, b) => Number(b.updated || b.date) - Number(a.updated || a.date)).filter(post => !childPosts.has(post._id));
     return group(category, own, root && !children.length) + children.map(child => render(child)).join('');
   };
-  return `<div class="category-directory timeline">${categories.filter(item => !item.parent).sort((a, b) => (rootOrder.includes(a.name) ? rootOrder.indexOf(a.name) : rootOrder.length) - (rootOrder.includes(b.name) ? rootOrder.indexOf(b.name) : rootOrder.length) || categoryOrder(a, b)).map(category => `<section><h2 class="category-parent item header" id="${anchor(category)}-parent">${escapeHTML(category.name)} <small>（${category.posts.length}）</small></h2>${render(category, true)}</section>`).join('')}</div>`;
+  return `<div class="category-directory timeline">${categories.filter(item => !item.parent).sort((a, b) => (rootOrder.includes(a.name) ? rootOrder.indexOf(a.name) : rootOrder.length) - (rootOrder.includes(b.name) ? rootOrder.indexOf(b.name) : rootOrder.length) || categoryOrder(a, b)).map(category => `<section><h2 class="category-parent item header" id="${anchor(category)}-parent">${escapeHTML(label(category.name))} <small>（${category.posts.length}）</small></h2>${render(category, true)}</section>`).join('')}</div>`;
 });
 // All existing category links lead to the matching section on the directory page.
 hexo.extend.filter.register('after_render:html', html => {

@@ -22,7 +22,7 @@ block content
                 - var key = year + '-' + month
                 if key !== previous
                     - var count = posts.filter(p => date(p.date, 'YYYY-M') === key).length
-                    h3(class="item section")
+                    h3(class="item section" id=date(post.date, 'YYYY-MM'))
                         span #{year} #{__('symbol.year')}
                         small /
                         span #{month} #{__('symbol.month')}

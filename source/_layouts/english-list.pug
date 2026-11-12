@@ -1,0 +1,30 @@
+extends _partials/layout.pug
+include _mixin/sidebar.pug
+
+block title
+    = page.title
+block header
+    h1(itemprop="name headline")= page.title
+block content
+    div(class="astro-archive wrap")
+        div(class="timeline")
+            each group in page.groups
+                if group.title
+                    h3(class="item section" id=group.id)= group.title
+                each entry in group.entries
+                    article(class="item normal")
+                        if entry.date
+                            div(class="meta")
+                                time= entry.date
+                        div(class="title")
+                            a(href=entry.url)= entry.title
+        if page.links && page.links.length > 1
+            nav(class="pagination" aria-label="Pages")
+                div(class="inner")
+                    each item in page.links
+                        if item.current
+                            span(class="page-number current" aria-current="page")= item.number
+                        else
+                            a(class="page-number" href=item.url)= item.number
+block sidebar
+    +sidebarRender(false)

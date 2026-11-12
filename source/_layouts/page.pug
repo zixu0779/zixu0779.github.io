@@ -4,9 +4,9 @@ include _mixin/comment.pug
 
 block title
     if page.type === 'categories'
-        != __('title.all') + __('title.category')
+        != page.language === 'en' ? 'All categories' : __('title.all') + __('title.category')
     else if page.type === 'tags'
-        != __('title.all') + __('title.tag')
+        != page.language === 'en' ? 'All tags' : __('title.all') + __('title.tag')
     else if page.type === '404'
         != __('title.not_found')
     else
@@ -20,9 +20,9 @@ block header
             != _url(page.link, postText + postTitleIcon, {class: 'link external', itemprop: 'url'})
         else
             if page.type === 'categories'
-                != __('title.all') + __('title.category')
+                != page.language === 'en' ? 'All categories' : __('title.all') + __('title.category')
             else if page.type === 'tags'
-                != __('title.all') + __('title.tag')
+                != page.language === 'en' ? 'All tags' : __('title.all') + __('title.tag')
             else if page.type === '404'
                 != __('title.not_found')
             else

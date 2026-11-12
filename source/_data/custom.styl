@@ -57,7 +57,8 @@
 
 .overview .author { padding-top: .75rem; }
 .overview .author .image { max-width: 9rem; }
-:root[data-theme="dark"] .overview .author .image {
+:root[data-theme="dark"] .overview .author .image,
+:root[data-theme="dark"] .friend-profile img {
   content: url('/assets/Z1gg7x_SilverDragon_Blue_512.webp');
 }
 :root[data-theme="dark"] .overview .author .name { margin-top: .75rem; }
@@ -199,7 +200,6 @@
   #comments { background: var(--grey-1); border-radius: 1rem; margin-bottom: 2.5rem; box-shadow: var(--card-depth); }
   .wl-reaction { display: none; }
 }
-main:has(.friend-module) { background: var(--body-bg-shadow); }
 #main .friend-comment-anchor { height: 1px; padding: 0; margin: 0; border: 0; background: none; box-shadow: none; overflow: hidden; }
 main:has(.friend-module) #quick .percent { display: none; }
 .friend-application {
@@ -520,11 +520,11 @@ main { background: var(--body-bg-shadow); }
 #tool#tool .ic { transform: none; }
 /* Keep the negative cover layer above body/root backgrounds, inside the site. */
 #container { isolation: isolate; }
-#container:not(:has(.friend-module)) main,
-#container:not(:has(.friend-module)) #footer { background: var(--grey-2); }
+#container main,
+#container #footer { background: var(--grey-2); }
 #quick .percent { display: none; }
 #sidebar #quick li.percent { display: none; }
-#container:not(:has(.friend-module)) #footer .widgets { background: transparent; }
+#container #footer .widgets { background: transparent; }
 
 /* Preserve the deployed native scrollbar appearance; blend tracks into the page. */
 html { --scrollbar-thumb: #b47790; }

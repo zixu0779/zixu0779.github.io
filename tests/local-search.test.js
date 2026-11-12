@@ -9,6 +9,7 @@ vm.runInNewContext(fs.readFileSync('scripts/site-ui.js', 'utf8'), {
     config: { root: '/' },
     theme: { config: { social: {} } },
     extend: {
+      helper: { register() {} },
       filter: { register() {} },
       generator: { register(name, callback) { generate = callback; } }
     }

@@ -1,0 +1,55 @@
+.body.md .katex-display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (max-width: 640px) {
+  .body.md table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .body.md .katex {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    vertical-align: middle;
+  }
+}
+
+#rightNav a[hreflang] {
+  color: inherit;
+  text-shadow: inherit;
+}
+
+#sidebar .overview .menu > .item > a {
+  display: grid;
+  grid-template-columns: 1.25em var(--sidebar-label-width, 2em);
+  justify-content: center;
+  align-items: center;
+  gap: .65em;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 9.625rem;
+  margin-inline: auto;
+  padding-inline: .5rem;
+  text-align: left;
+}
+
+html[lang="en"] #sidebar .overview .menu {
+  --sidebar-label-width: 5.25em;
+}
+
+#sidebar .overview .menu > .item > a > i {
+  margin: 0;
+  text-align: center;
+}
+
+#rightNav > .item,
+#rightNav a[hreflang] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

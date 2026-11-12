@@ -1,4 +1,5 @@
 ---
+translation_id: page-about
 title: 关于我
 date: 2024-11-28 21:59:13
 layout: about

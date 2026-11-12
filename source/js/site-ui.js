@@ -300,6 +300,13 @@
       const content = details.querySelector('.category-content');
       const rows = Array.from(details.querySelectorAll('.category-full .item.normal'));
       const pages = Math.ceil(rows.length / 5);
+      const setCategoryURL = open => {
+        const url = new URL(location.href);
+        url.hash = open ? details.closest('.category-group').id : '';
+        if (open && page) url.searchParams.set('page', page + 1);
+        else url.searchParams.delete('page');
+        history.replaceState(history.state, '', url);
+      };
       const update = () => {
         rows.forEach((row, index) => { row.hidden = Math.floor(index / 5) !== page; });
         details.querySelectorAll('[data-pagination-page]').forEach(nav => {
@@ -322,7 +329,8 @@
         document.querySelectorAll('.category-group details[data-expanded="true"]').forEach(other => {
           if (other !== details) other.dispatchEvent(new Event('category:close'));
         });
-        transition(() => { page = 0; update(); });
+        const requested = Number(new URL(location.href).searchParams.get('page')) || 1;
+        transition(() => { page = Math.min(pages, Math.max(1, Math.floor(requested))) - 1; update(); });
         if (details.isConnected && categoryAnchor === details) {
           const group = details.closest('.category-group');
           scrollToTarget(group, group);
@@ -334,6 +342,7 @@
           const close = details.dataset.expanded === 'true';
           if (!close) document.querySelectorAll('.category-group details[data-expanded="true"]').forEach(other => { if (other !== details) other.dispatchEvent(new Event('category:close')); });
           transition(() => { if (!close) { page = 0; update(); } }, close);
+          setCategoryURL(!close);
           return;
         }
         const button = event.target.closest('[data-category-page]');
@@ -344,6 +353,7 @@
         if (nextPage === page) return;
         const changePage = () => {
           transition(() => { page = nextPage; update(); });
+          setCategoryURL(true);
           fade = content.animate([{ opacity: 0 }, { opacity: 1 }], { duration: reducedMotion() ? 0 : 180, easing: 'ease-out' });
         };
         if (reducedMotion()) { changePage(); return; }
@@ -380,13 +390,22 @@
     if (document.querySelector('#nav .menu .dropdown')) {
       document.querySelector('#sidebar .overview .menu .dropdown')?.remove();
       const menu = document.querySelector('#sidebar .overview .menu');
-      if (menu && !menu.querySelector('a[href="/about/"]')) {
+      const prefix = location.pathname.startsWith('/en/') ? '/en' : '';
+      if (menu && !menu.querySelector(`a[href="${prefix}/about/"]`)) {
         const item = document.createElement('li');
         item.className = 'item';
-        item.innerHTML = '<a href="/about/" rel="section"><i class="ic i-coffee"></i>关于</a>';
-        menu.querySelector('a[href="/friends/"]')?.closest('li')?.after(item);
+        item.innerHTML = `<a href="${prefix}/about/" rel="section"><i class="ic i-coffee"></i>${prefix ? 'About' : '关于'}</a>`;
+        menu.querySelector(`a[href="${prefix}/friends/"]`)?.closest('li')?.after(item);
       }
 
+    }
+    // The theme treats /en/ as a parent of every English page.
+    const currentPath = location.pathname.replace(/index\.html$/, '');
+    for (const link of document.querySelectorAll('#sidebar .overview .menu > .item > a, #nav .menu > .item:not(.title) > a[href="/en/"]')) {
+      const current = link.origin === location.origin && link.pathname === currentPath;
+      link.parentElement.classList.toggle('active', current);
+      if (current) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
     }
     const social = document.querySelector('#sidebar .social');
     const emptySocial = JSON.parse(document.querySelector('script[data-empty-social]')?.dataset.emptySocial || '[]');
@@ -420,7 +439,7 @@
     const name = document.querySelector('#sidebar .author .name');
     if (name && !name.querySelector('a')) {
       const link = document.createElement('a');
-      link.href = '/about/';
+      link.href = location.pathname.startsWith('/en/') ? '/en/about/' : '/about/';
       link.title = '关于我';
       link.setAttribute('aria-label', `${name.textContent}：关于我`);
       link.textContent = name.textContent;
@@ -476,10 +495,10 @@
       await navigator.clipboard.writeText(button.dataset.friendCopy);
       const label = button.innerHTML;
       button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
-      button.title = '已复制';
+      button.title = document.documentElement.lang === 'en' ? 'Copied' : '已复制';
       setTimeout(() => { button.innerHTML = label; }, 1500);
     } catch {
-      button.textContent = '请手动复制';
+      button.textContent = document.documentElement.lang === 'en' ? 'Please copy manually' : '请手动复制';
     }
   });
   document.addEventListener('click', event => {
@@ -520,10 +539,12 @@
     }, 900);
   });
 
+  const englishSearch = document.documentElement.lang === 'en';
+  const searchLabel = englishSearch ? 'Search the blog' : '搜索博客';
   const dialog = document.createElement('dialog');
   dialog.id = 'local-search';
-  dialog.setAttribute('aria-label', '搜索博客');
-  dialog.innerHTML = '<div class="search-header"><input type="search" aria-label="搜索关键词" placeholder="搜索文章标题、正文或标签…"><button type="button" aria-label="关闭搜索">关闭</button></div><p role="status" aria-live="polite"></p><ul></ul>';
+  dialog.setAttribute('aria-label', searchLabel);
+  dialog.innerHTML = englishSearch ? '<div class="search-header"><input type="search" aria-label="Keywords" placeholder="Search titles, text or tags…"><button type="button" aria-label="Close search">Close</button></div><p role="status" aria-live="polite"></p><ul></ul>' : '<div class="search-header"><input type="search" aria-label="搜索关键词" placeholder="搜索文章标题、正文或标签…"><button type="button" aria-label="关闭搜索">关闭</button></div><p role="status" aria-live="polite"></p><ul></ul>';
   document.body.append(dialog);
   const input = dialog.querySelector('input');
   const status = dialog.querySelector('[role="status"]');
@@ -534,10 +555,12 @@
     results.replaceChildren();
     if (!index) return;
     const words = input.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
-    if (!words.length) { status.textContent = '输入关键词开始搜索'; return; }
+    if (!words.length) { status.textContent = englishSearch ? 'Enter a search term' : '输入关键词开始搜索'; return; }
     const matches = index.map(post => ({ post, score: window.searchScore(post, input.value) }))
       .filter(result => result.score > 0).sort((a, b) => b.score - a.score).map(result => result.post);
-    status.textContent = matches.length ? `找到 ${matches.length} 篇文章，显示前 30 篇` : '没有找到相关文章，试试其他关键词';
+    status.textContent = englishSearch
+      ? (matches.length ? `Found ${matches.length} results. Showing up to 30.` : 'No matches. Try another search term.')
+      : matches.length ? `找到 ${matches.length} 篇文章，显示前 30 篇` : '没有找到相关文章，试试其他关键词';
     for (const post of matches.slice(0, 30)) {
       const item = document.createElement('li');
       const link = document.createElement('a');
@@ -554,16 +577,16 @@
     if (!dialog.open) dialog.showModal();
     input.focus();
     if (!index) {
-      status.textContent = '正在加载搜索索引…';
+      status.textContent = englishSearch ? 'Loading search index…' : '正在加载搜索索引…';
       try {
-        loading ||= fetch('/search.json').then(response => {
+        loading ||= fetch(englishSearch ? '/en/search.json' : '/search.json').then(response => {
           if (!response.ok) throw new Error('Search index unavailable');
           return response.json();
         });
         index = await loading;
       } catch {
         loading = null;
-        status.textContent = '索引加载失败，请检查网络后重新打开搜索';
+        status.textContent = englishSearch ? 'Could not load the index. Check your connection and reopen search.' : '索引加载失败，请检查网络后重新打开搜索';
         return;
       }
     }
@@ -586,7 +609,7 @@
   const init = () => {
     const search = document.querySelector('#rightNav .search');
     search?.setAttribute('role', 'button');
-    search?.setAttribute('aria-label', '搜索博客');
+    search?.setAttribute('aria-label', searchLabel);
     if (search) search.tabIndex = 0;
     refresh();
     const sidebar = document.getElementById('sidebar');

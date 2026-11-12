@@ -55,7 +55,12 @@ hexo.extend.filter.register('after_generate', async () => {
     let source = '';
     for await (const chunk of hexo.route.get(path)) source += chunk;
     let patched = fixCommentNavigation(fixRecentExcerpt(fixHashLookup(source)));
-    if (/^js\/comments-[\w-]+\.js$/.test(path)) patched = fixPreviewSecurity(patched);
+    if (/^js\/comments-[\w-]+\.js$/.test(path)) {
+      patched = fixPreviewSecurity(patched)
+        .replace(/([\w$]+)\.url\+"#"\+\1\.objectId/g, '(document.documentElement.lang==="en"?"/en":"")+$1.url+"#"+$1.objectId')
+        .replaceAll('path:window.location.pathname', 'path:((document.documentElement.lang==="en"&&document.querySelector("#rightNav [data-counterpart]")?.dataset.counterpart)||window.location.pathname.replace(/^\\/en(?=\\/)/, "") || "/")')
+        .replace(/lang:([\w$]+)\.waline\.lang,locale:\1\.waline\.locale/, 'lang:document.documentElement.lang,locale:document.documentElement.lang==="en"?{}:$1.waline.locale');
+    }
     pending.set(path, patched);
   }
   validateCommentPatches([...pending].filter(([path]) => /^js\/(?:siteInit\.js|(?:chunk|comments|tcomments)-[\w-]+\.js)$/.test(path)).map(([, source]) => source), hexo.theme.config.waline?.enable);

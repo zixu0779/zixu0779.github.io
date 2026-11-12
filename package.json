@@ -7,7 +7,7 @@
     "build": "NODE_USE_ENV_PROXY=1 hexo generate",
     "clean": "hexo clean && rm -rf .deploy_git",
     "deploy": "hexo deploy",
-    "server": "NODE_USE_ENV_PROXY=1 hexo server"
+    "server": "NODE_USE_ENV_PROXY=1 node --watch-path=en --watch-path=scripts --watch-path=lib node_modules/hexo/bin/hexo server"
   },
   "hexo": {
     "version": "7.3.0"
