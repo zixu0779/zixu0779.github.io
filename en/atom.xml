@@ -13,6 +13,74 @@
     <category term=" Electron" />
     <category term=" Cyberpunk2077" />
     <entry>
+        <id>https://www.sycamore.top/en/software-development/app-development/onedrop-platforms/</id>
+        <title>How OneDrop adapts to each platform</title>
+        <link rel="alternate" href="https://www.sycamore.top/en/software-development/app-development/onedrop-platforms/"/>
+        <content type="html">&lt;p&gt;&lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/&#34;&gt;Part one&lt;/a&gt; and &lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;part two&lt;/a&gt; cover how &lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;OneDrop&lt;/a&gt; stores and syncs messages. This post looks at what the browser extension and native iOS app share, and where they need different implementations. I’m still referring to &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3&#34;&gt;version 1.0.3&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;span id=&#34;共享代码的组织&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;sharing-the-message-model&#34; data-section=&#34;共享代码的组织&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#sharing-the-message-model&#34;&gt;#&lt;/a&gt; Sharing the message model&lt;/h2&gt;
+&lt;p&gt;All the entry points work with the same message model. If each platform implemented merging, deletion tombstones and archiving separately, an edge case would need fixing in several places. Two devices could even interpret the same cloud data differently. OneDrop puts those rules in shared packages and lets each app assemble the pieces it needs.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Directory&lt;/th&gt;
+&lt;th&gt;Responsibility&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/core&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Message, month and settings types; runtime request protocol&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/onedrive&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Graph requests, message chunks, archives, tombstones and attachments&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/web-storage&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;IndexedDB cache, pending sends and download records&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/platform&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Platform bridge interfaces and runtime dependencies&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/app-runtime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Authorisation, device, settings and download services&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/extension-runtime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Dispatching background requests and handling extension entry points&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/ui&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Shared React UI and interaction state&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apps/edge&lt;/code&gt; ,  &lt;code&gt;apps/ios&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Platform-specific assembly and native adapters&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The core types don’t need to know about React components, browser download objects or Swift plugins. The UI sends a typed  &lt;code&gt;RuntimeRequest&lt;/code&gt;  and receives a  &lt;code&gt;RuntimeResponse&lt;/code&gt; . In the extension the request travels over  &lt;code&gt;browser.runtime.sendMessage&lt;/code&gt; . A component can ask to send text, read a month or restore a message without assembling a Graph URL or an Authorization header.&lt;/p&gt;
+&lt;span id=&#34;平台能力与适配&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;platform-capabilities&#34; data-section=&#34;平台能力与适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#platform-capabilities&#34;&gt;#&lt;/a&gt; Platform capabilities&lt;/h2&gt;
+&lt;p&gt;The same page behaves differently depending on its host. Desktop browsers have a download directory and a “Show in folder” command; mobile devices tend to use the system share sheet. Even browser extension entry points differ in which APIs they expose.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;PlatformBridge&lt;/code&gt;  connects UI requests such as “save this file” to the platform implementation.  &lt;code&gt;PlatformCapabilities&lt;/code&gt;  declares the available operations:&lt;/p&gt;
+&lt;figure class=&#34;highlight typescript&#34;&gt;&lt;figcaption data-lang=&#34;typescript&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;token class-name&#34;&gt;PlatformCapabilities&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  showInFolder&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;       &lt;span class=&#34;token comment&#34;&gt;// Reveal a file in its system folder&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  saveAs&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;             &lt;span class=&#34;token comment&#34;&gt;// Save As&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  navigationDownload&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;// Download by opening the download URL&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  systemFileShare&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;    &lt;span class=&#34;token comment&#34;&gt;// Use the system file share sheet&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;Alongside  &lt;code&gt;request()&lt;/code&gt; , the bridge can look up and open downloads, prepare attachments, share files, and copy text or images. The UI offers actions according to those capabilities. On iOS Edge there’s no desktop download manager entry point, but system file sharing is available. The bridge retrieves the attachment, checks that the cached name, size and Blob agree, then prepares a shareable  &lt;code&gt;File&lt;/code&gt; .&lt;/p&gt;
+&lt;p&gt;Without a usable cache entry, the bridge reads the response stream and accumulates the number of bytes received so the UI can display progress. It gets the total from  &lt;code&gt;Content-Length&lt;/code&gt;  when available and otherwise uses the attachment size in the message. Once the stream ends, it checks the Blob size, caches the attachment in IndexedDB and constructs the  &lt;code&gt;File&lt;/code&gt; . It also checks  &lt;code&gt;navigator.canShare&lt;/code&gt;  before invoking system sharing. Preparing the file and opening the share sheet are separate steps.&lt;/p&gt;
+&lt;p&gt;That’s why the same attachment button can have a different final action. The message and DriveItem mean the same thing across platforms; the way the system receives the file differs. I don’t need to emulate a desktop API on every platform just to make the button look the same.&lt;/p&gt;
+&lt;span id=&#34;浏览器扩展入口&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;browser-extension-entry-points&#34; data-section=&#34;浏览器扩展入口&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#browser-extension-entry-points&#34;&gt;#&lt;/a&gt; Browser extension entry points&lt;/h2&gt;
+&lt;p&gt;The extension uses WXT for development and builds, React for the UI, TypeScript for application logic and Manifest V3 for the extension. Desktop, Android and iOS share the extension code. Desktop opens a side panel, Android opens a separate mobile page and iOS uses an entry point suited to its extension environment. The app layer selects the entry point and bridge, so the shared UI doesn’t need a separate copy of every page.&lt;/p&gt;
+&lt;p&gt;There’s also a compatibility path for iOS Edge. Even if the browser opens the statically declared side-panel page, the app detects the platform and loads the iOS UI and bridge. The runtime and bridge handle differences such as the missing Identity API during login and the need to share downloads through the system. Shipping one extension package doesn’t make mobile APIs behave like their desktop counterparts.&lt;/p&gt;
+&lt;span id=&#34;原生-ios-适配&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;native-ios&#34; data-section=&#34;原生-ios-适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#native-ios&#34;&gt;#&lt;/a&gt; Native iOS&lt;/h2&gt;
+&lt;p&gt;The native app uses Capacitor to host the shared React UI in a WebView, a browser view embedded in the app. Native plugins provide access to system features. For login, the  &lt;code&gt;OneDropAuth&lt;/code&gt;  Swift plugin opens the authorisation flow with  &lt;code&gt;ASWebAuthenticationSession&lt;/code&gt;  and stores and retrieves tokens through Keychain. The browser extension described in part one uses  &lt;code&gt;browser.storage.local&lt;/code&gt; ; on native iOS both the authorisation window and credential storage belong to the plugin.&lt;/p&gt;
+&lt;p&gt;The shared OneDrive code needs an access token, local state and a way to send events. The app supplies those functions at startup. That’s what dependency injection means here: the business logic calls the supplied functions without repeatedly checking which platform it’s on. The iOS entry point wires up native implementations and forwards message requests to the same shared functions. The native download plugin saves, locates and opens files while the UI continues to work with the same attachment metadata.&lt;/p&gt;
+&lt;p&gt;Device settings follow the same division. Each installation generates an anonymous UUID and stores its platform, display name and preferences in  &lt;code&gt;settings/devices/&amp;lt;device-id&amp;gt;.json&lt;/code&gt; . Removing a device from the list removes its settings document. Messages and attachments from that device have a separate lifecycle, described in &lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;part two’s deletion and cleanup flow&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;For me, OneDrop is still a little tool for passing things between my devices. Once OneDrive took over storage, the recurring questions were about state: when a send counts as complete, what another device sees, what can resume after a failure and what survives deletion. Keeping those rules shared and leaving login, downloads and entry points to each platform gives me a clear place to make the next change.&lt;/p&gt;
+</content>
+        <updated>2026-10-28T18:54:42.000Z</updated>
+    </entry>
+    <entry>
         <id>https://www.sycamore.top/en/software-development/app-development/onedrop-storage-sync-1/</id>
         <title>OneDrop storage and multi-device sync (part one)</title>
         <link rel="alternate" href="https://www.sycamore.top/en/software-development/app-development/onedrop-storage-sync-1/"/>
@@ -138,74 +206,6 @@
 &lt;figure class=&#34;highlight typescript&#34;&gt;&lt;figcaption data-lang=&#34;typescript&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;browser&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;downloads&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;onChanged&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;addListener&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;onChanged&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token comment&#34;&gt;// 注册回调后，再检查一次当前下载状态。&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;void&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;finish&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;Only a confirmed completion saves the mapping for reuse. An ordinary download interrupted with  &lt;code&gt;FILE_EXISTS&lt;/code&gt;  gets up to three attempts to find an available name. Save As leaves the failure for the user to handle. A file already saved on the user’s device remains theirs when a cloud message is removed.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;At this point messages and attachments are on OneDrive. &lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;Part two&lt;/a&gt; follows what happens when other devices read and modify them, and how archives and deleted records are maintained.&lt;/p&gt;
-</content>
-        <updated>2026-10-28T18:54:42.000Z</updated>
-    </entry>
-    <entry>
-        <id>https://www.sycamore.top/en/software-development/app-development/onedrop-platforms/</id>
-        <title>How OneDrop adapts to each platform</title>
-        <link rel="alternate" href="https://www.sycamore.top/en/software-development/app-development/onedrop-platforms/"/>
-        <content type="html">&lt;p&gt;&lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/&#34;&gt;Part one&lt;/a&gt; and &lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;part two&lt;/a&gt; cover how &lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;OneDrop&lt;/a&gt; stores and syncs messages. This post looks at what the browser extension and native iOS app share, and where they need different implementations. I’m still referring to &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3&#34;&gt;version 1.0.3&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;span id=&#34;共享代码的组织&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;sharing-the-message-model&#34; data-section=&#34;共享代码的组织&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#sharing-the-message-model&#34;&gt;#&lt;/a&gt; Sharing the message model&lt;/h2&gt;
-&lt;p&gt;All the entry points work with the same message model. If each platform implemented merging, deletion tombstones and archiving separately, an edge case would need fixing in several places. Two devices could even interpret the same cloud data differently. OneDrop puts those rules in shared packages and lets each app assemble the pieces it needs.&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Directory&lt;/th&gt;
-&lt;th&gt;Responsibility&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/core&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Message, month and settings types; runtime request protocol&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/onedrive&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Graph requests, message chunks, archives, tombstones and attachments&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/web-storage&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;IndexedDB cache, pending sends and download records&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/platform&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Platform bridge interfaces and runtime dependencies&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/app-runtime&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Authorisation, device, settings and download services&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/extension-runtime&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Dispatching background requests and handling extension entry points&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/ui&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Shared React UI and interaction state&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;apps/edge&lt;/code&gt; ,  &lt;code&gt;apps/ios&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Platform-specific assembly and native adapters&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;The core types don’t need to know about React components, browser download objects or Swift plugins. The UI sends a typed  &lt;code&gt;RuntimeRequest&lt;/code&gt;  and receives a  &lt;code&gt;RuntimeResponse&lt;/code&gt; . In the extension the request travels over  &lt;code&gt;browser.runtime.sendMessage&lt;/code&gt; . A component can ask to send text, read a month or restore a message without assembling a Graph URL or an Authorization header.&lt;/p&gt;
-&lt;span id=&#34;平台能力与适配&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;platform-capabilities&#34; data-section=&#34;平台能力与适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#platform-capabilities&#34;&gt;#&lt;/a&gt; Platform capabilities&lt;/h2&gt;
-&lt;p&gt;The same page behaves differently depending on its host. Desktop browsers have a download directory and a “Show in folder” command; mobile devices tend to use the system share sheet. Even browser extension entry points differ in which APIs they expose.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;PlatformBridge&lt;/code&gt;  connects UI requests such as “save this file” to the platform implementation.  &lt;code&gt;PlatformCapabilities&lt;/code&gt;  declares the available operations:&lt;/p&gt;
-&lt;figure class=&#34;highlight typescript&#34;&gt;&lt;figcaption data-lang=&#34;typescript&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;token class-name&#34;&gt;PlatformCapabilities&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  showInFolder&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;       &lt;span class=&#34;token comment&#34;&gt;// Reveal a file in its system folder&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  saveAs&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;             &lt;span class=&#34;token comment&#34;&gt;// Save As&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  navigationDownload&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;// Download by opening the download URL&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  systemFileShare&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;    &lt;span class=&#34;token comment&#34;&gt;// Use the system file share sheet&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;Alongside  &lt;code&gt;request()&lt;/code&gt; , the bridge can look up and open downloads, prepare attachments, share files, and copy text or images. The UI offers actions according to those capabilities. On iOS Edge there’s no desktop download manager entry point, but system file sharing is available. The bridge retrieves the attachment, checks that the cached name, size and Blob agree, then prepares a shareable  &lt;code&gt;File&lt;/code&gt; .&lt;/p&gt;
-&lt;p&gt;Without a usable cache entry, the bridge reads the response stream and accumulates the number of bytes received so the UI can display progress. It gets the total from  &lt;code&gt;Content-Length&lt;/code&gt;  when available and otherwise uses the attachment size in the message. Once the stream ends, it checks the Blob size, caches the attachment in IndexedDB and constructs the  &lt;code&gt;File&lt;/code&gt; . It also checks  &lt;code&gt;navigator.canShare&lt;/code&gt;  before invoking system sharing. Preparing the file and opening the share sheet are separate steps.&lt;/p&gt;
-&lt;p&gt;That’s why the same attachment button can have a different final action. The message and DriveItem mean the same thing across platforms; the way the system receives the file differs. I don’t need to emulate a desktop API on every platform just to make the button look the same.&lt;/p&gt;
-&lt;span id=&#34;浏览器扩展入口&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;browser-extension-entry-points&#34; data-section=&#34;浏览器扩展入口&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#browser-extension-entry-points&#34;&gt;#&lt;/a&gt; Browser extension entry points&lt;/h2&gt;
-&lt;p&gt;The extension uses WXT for development and builds, React for the UI, TypeScript for application logic and Manifest V3 for the extension. Desktop, Android and iOS share the extension code. Desktop opens a side panel, Android opens a separate mobile page and iOS uses an entry point suited to its extension environment. The app layer selects the entry point and bridge, so the shared UI doesn’t need a separate copy of every page.&lt;/p&gt;
-&lt;p&gt;There’s also a compatibility path for iOS Edge. Even if the browser opens the statically declared side-panel page, the app detects the platform and loads the iOS UI and bridge. The runtime and bridge handle differences such as the missing Identity API during login and the need to share downloads through the system. Shipping one extension package doesn’t make mobile APIs behave like their desktop counterparts.&lt;/p&gt;
-&lt;span id=&#34;原生-ios-适配&#34; aria-hidden=&#34;true&#34;&gt;&lt;/span&gt;&lt;h2 id=&#34;native-ios&#34; data-section=&#34;原生-ios-适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#native-ios&#34;&gt;#&lt;/a&gt; Native iOS&lt;/h2&gt;
-&lt;p&gt;The native app uses Capacitor to host the shared React UI in a WebView, a browser view embedded in the app. Native plugins provide access to system features. For login, the  &lt;code&gt;OneDropAuth&lt;/code&gt;  Swift plugin opens the authorisation flow with  &lt;code&gt;ASWebAuthenticationSession&lt;/code&gt;  and stores and retrieves tokens through Keychain. The browser extension described in part one uses  &lt;code&gt;browser.storage.local&lt;/code&gt; ; on native iOS both the authorisation window and credential storage belong to the plugin.&lt;/p&gt;
-&lt;p&gt;The shared OneDrive code needs an access token, local state and a way to send events. The app supplies those functions at startup. That’s what dependency injection means here: the business logic calls the supplied functions without repeatedly checking which platform it’s on. The iOS entry point wires up native implementations and forwards message requests to the same shared functions. The native download plugin saves, locates and opens files while the UI continues to work with the same attachment metadata.&lt;/p&gt;
-&lt;p&gt;Device settings follow the same division. Each installation generates an anonymous UUID and stores its platform, display name and preferences in  &lt;code&gt;settings/devices/&amp;lt;device-id&amp;gt;.json&lt;/code&gt; . Removing a device from the list removes its settings document. Messages and attachments from that device have a separate lifecycle, described in &lt;a href=&#34;/en/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;part two’s deletion and cleanup flow&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;For me, OneDrop is still a little tool for passing things between my devices. Once OneDrive took over storage, the recurring questions were about state: when a send counts as complete, what another device sees, what can resume after a failure and what survives deletion. Keeping those rules shared and leaving login, downloads and entry points to each platform gives me a clear place to make the next change.&lt;/p&gt;
 </content>
         <updated>2026-10-28T18:54:42.000Z</updated>
     </entry>
