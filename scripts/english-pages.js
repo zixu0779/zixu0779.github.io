@@ -15,7 +15,11 @@ hexo.extend.helper.register('partial', function (name, locals, options) {
 
 const translatedTitles = new Map();
 const labels = require('js-yaml').load(fs.readFileSync(path.join(hexo.base_dir, 'en/ui.yml'), 'utf8'));
-hexo.extend.filter.register('before_generate', () => englishRoutes.prepare(hexo, labels));
+hexo.extend.filter.register('before_generate', () => {
+  // Source processing can cache locals before all posts and tags are available.
+  hexo.locals.invalidate();
+  englishRoutes.prepare(hexo, labels);
+});
 hexo.extend.helper.register('site_label', function (label) {
   return this.page.language === 'en' ? labels[label] ?? label : label;
 });
@@ -119,6 +123,7 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
   if (!this.route.get(route)) return html;
   const href = '/' + encodeURI(counterpart.replace(/index\.html$/, ''));
   const label = english ? '切换到中文' : 'Read in English';
-  const link = '<li class="item"><a data-counterpart="' + href + '" href="' + href + '" hreflang="' + (english ? 'zh-CN' : 'en') + '" aria-label="' + label + '" title="' + label + '" data-no-pjax><i class="ic i-translate" aria-hidden="true"></i></a></li>';
+  // ShokaX replaces .pjax fragments on navigation, including this page-specific route.
+  const link = '<li class="item pjax"><a data-counterpart="' + href + '" href="' + href + '" hreflang="' + (english ? 'zh-CN' : 'en') + '" aria-label="' + label + '" title="' + label + '" data-no-pjax><i class="ic i-translate" aria-hidden="true"></i></a></li>';
   return html.replace('</body>', '<script src="/js/language-switch.js" defer></script></body>').replace(/(<ul\b[^>]*\bid="rightNav"[^>]*>)/, '$1' + link);
 }, 40);
