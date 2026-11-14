@@ -6334,7 +6334,8 @@ span.label {
 .overview .author .image {
   max-width: 9rem;
 }
-:root[data-theme="dark"] .overview .author .image {
+:root[data-theme="dark"] .overview .author .image,
+:root[data-theme="dark"] .friend-profile img {
   content: url("/assets/Z1gg7x_SilverDragon_Blue_512.webp");
 }
 :root[data-theme="dark"] .overview .author .name {
@@ -6659,9 +6660,6 @@ span.label {
 }
 #main:has(.friend-module) .wl-reaction {
   display: none;
-}
-main:has(.friend-module) {
-  background: var(--body-bg-shadow);
 }
 #main .friend-comment-anchor {
   height: 1px;
@@ -7269,8 +7267,8 @@ main {
 #container {
   isolation: isolate;
 }
-#container:not(:has(.friend-module)) main,
-#container:not(:has(.friend-module)) #footer {
+#container main,
+#container #footer {
   background: var(--grey-2);
 }
 #quick .percent {
@@ -7279,7 +7277,7 @@ main {
 #sidebar #quick li.percent {
   display: none;
 }
-#container:not(:has(.friend-module)) #footer .widgets {
+#container #footer .widgets {
   background: transparent;
 }
 html {

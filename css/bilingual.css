@@ -1,0 +1,85 @@
+.body.md .katex-display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.tag.cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 5px 20px;
+}
+.tag.cloud a {
+  margin: 0;
+  line-height: 1.2;
+  font-size: var(--tag-desktop);
+  color: var(--tag-light);
+}
+
+.tag.cloud [data-tier="1"] { --tag-desktop: 16px; --tag-mobile: 14px; --tag-light: #647176; --tag-dark: #adbbbb; }
+.tag.cloud [data-tier="2"] { --tag-desktop: 18px; --tag-mobile: 16px; --tag-light: #006d78; --tag-dark: #65d0cc; }
+.tag.cloud [data-tier="3"] { --tag-desktop: 20px; --tag-mobile: 18px; --tag-light: #6943aa; --tag-dark: #b7a9ff; }
+.tag.cloud [data-tier="4"] { --tag-desktop: 23px; --tag-mobile: 20px; --tag-light: #ef6e79; --tag-dark: #ff90a4; }
+.tag.cloud [data-tier="5"] { --tag-desktop: 26px; --tag-mobile: 23px; --tag-light: #f39873; --tag-dark: #ffae98; }
+.tag.cloud [data-tier="4"],
+.tag.cloud [data-tier="5"] { font-weight: 600; }
+:root[data-theme="dark"] .tag.cloud a { color: var(--tag-dark); }
+.tag.cloud a:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+@media (max-width: 640px) {
+  .tag.cloud { column-gap: 12px; }
+  .tag.cloud a {
+    font-size: var(--tag-mobile);
+    max-width: calc(100% - 12px);
+    overflow-wrap: anywhere;
+  }
+  .body.md table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .body.md .katex {
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+    vertical-align: middle;
+  }
+}
+
+#rightNav a[hreflang] {
+  color: inherit;
+  text-shadow: inherit;
+}
+
+#sidebar .overview .menu > .item > a {
+  display: grid;
+  grid-template-columns: 1.25em var(--sidebar-label-width, 2em);
+  justify-content: center;
+  align-items: center;
+  gap: .65em;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 9.625rem;
+  margin-inline: auto;
+  padding-inline: .5rem;
+  text-align: left;
+}
+
+html[lang="en"] #sidebar .overview .menu {
+  --sidebar-label-width: 5.25em;
+}
+
+#sidebar .overview .menu > .item > a > i {
+  margin: 0;
+  text-align: center;
+}
+
+#rightNav > .item,
+#rightNav a[hreflang] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
