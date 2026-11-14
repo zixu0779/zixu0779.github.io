@@ -212,4 +212,6 @@ git push origin source
 npm run deploy
 ```
 
+中文标签 `ShokaX` 和 `Shellter` 保留了两条仅大小写不同的旧地址（`/tags/shokaX/`、`/tags/shellter/`）。正式构建时请把干净的源码、`public/` 和用于暂存静态站的 Git 工作树都放在区分大小写的卷上（例如 Linux 或区分大小写的 APFS），再执行上述命令。首次切换卷时重新生成整个站点。普通 macOS 卷可继续用 `npm run server` 预览两个拼法；该卷上的静态构建只生成正式拼法，发布前检查会阻止将缺少兼容页的目录送往 GitHub Pages。
+
 如果工作区还存在未获准发布的改动，应从获准提交的干净快照构建，不能直接发布混入其他工作的 `public/`。完成后确认 GitHub Pages 部署结果，并检查线上实际页面；本地正常不代表线上已更新。私有备份、环境文件、API 凭据和浏览器测试产物不得随站点发布。

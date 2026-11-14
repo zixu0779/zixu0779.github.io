@@ -74,6 +74,8 @@ category_map:
   网络安全: CyberSecurity
   人工智能: AI
 tag_map:
+  ShokaX: ShokaX
+  Shellter: Shellter
 
 # Metadata elements
 ## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
