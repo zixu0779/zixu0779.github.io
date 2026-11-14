@@ -3,21 +3,21 @@
 <link rel="stylesheet" href="/css/steam.css?v=20261104-release2">
 <div class="steam-ui">
 <% if (s) { %>
-  <a class="feature" href="/steam/" style="--steam-feature-image:url('<%= s.hero || s.profileBackground || '' %>')">
+  <a class="feature" href="<%= page.language === 'en' ? '/en/steam/' : '/steam/' %>" style="--steam-feature-image:url('<%= s.hero || s.profileBackground || '' %>')">
     <div class="feature-content">
       <div class="identity">
         <% if (s.avatar) { %><img class="avatar" src="<%= s.avatar %>" alt="" loading="eager" width="44" height="44"><% } %>
-        <div><h2><%= s.name %></h2><div class="muted">Steam · <%= s.gameCount %> 款收藏</div></div>
+        <div><h2><%= s.name %></h2><div class="muted">Steam · <%= s.gameCount %> <%= site_label('款收藏') %></div></div>
       </div>
-      <div class="featured-game"><p>游玩最多</p><h2><%= s.featured?.name || '暂无游玩记录' %></h2></div>
+      <div class="featured-game"><p><%= site_label('游玩最多') %></p><h2><%= s.featured?.name || site_label('暂无游玩记录') %></h2></div>
       <div class="stats">
-        <div><div class="metric"><%= s.gameCount %><small>款</small></div><label>游戏</label></div>
-        <div><div class="metric"><%= s.format(s.recentMinutes) %><small>h</small></div><label>近两周</label></div>
-        <div><div class="metric"><%= s.format(s.totalMinutes) %><small>h</small></div><label>累计游玩</label></div>
+        <div><div class="metric"><%= s.gameCount %><small><%= site_label('款') %></small></div><label><%= site_label('游戏') %></label></div>
+        <div><div class="metric"><%= s.format(s.recentMinutes) %><small>h</small></div><label><%= site_label('近两周') %></label></div>
+        <div><div class="metric"><%= s.format(s.totalMinutes) %><small>h</small></div><label><%= site_label('累计游玩') %></label></div>
       </div>
-      <div class="feature-bottom"><span class="sync-time">更新于 <%= s.date %></span><b>游戏档案 ↗</b></div>
+      <div class="feature-bottom"><span class="sync-time"><%= site_label('更新于') %> <%= s.date %></span><b><%= site_label('游戏档案') %> ↗</b></div>
     </div>
   </a>
-<% } else { %><p>Steam 数据尚未同步。</p><% } %>
+<% } else { %><p><%= site_label('Steam 数据尚未同步。') %></p><% } %>
 </div>
 <template id="steam-card-end"></template>

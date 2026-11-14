@@ -242,9 +242,10 @@
     if (button === sort) {
       const mode = sort.dataset.steamSort === 'recent' ? 'hours' : 'recent';
       sort.dataset.steamSort = mode;
-      const label = mode === 'hours' ? '累计时长' : '最近游玩';
+      const english = document.documentElement.lang === 'en';
+      const label = mode === 'hours' ? (english ? 'Total playtime' : '累计时长') : (english ? 'Last played' : '最近游玩');
       sort.querySelector('.sort-label').textContent = label;
-      sort.setAttribute('aria-label', `当前按${label}排序，点击切换为${mode === 'hours' ? '最近游玩' : '累计时长'}`);
+      sort.setAttribute('aria-label', english ? `Sorted by ${label}. Switch to ${mode === 'hours' ? 'last played' : 'total playtime'}.` : `当前按${label}排序，点击切换为${mode === 'hours' ? '最近游玩' : '累计时长'}`);
     }
     const key = sort.dataset.steamSort === 'hours' ? 'minutes' : 'lastPlayed';
     const secondary = key === 'minutes' ? 'lastPlayed' : 'minutes';

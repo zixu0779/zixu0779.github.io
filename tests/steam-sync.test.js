@@ -32,3 +32,33 @@ assert.equal(gameView.recentMinutes,5);
 assert.equal(gameView.gameCount,1);
 assert.notEqual(gameView.hero,'/software.jpg');
 assert.equal(activityHistory({...previous,baseline:{1:800,2:100}},library,'2026-11-05T00:17:00Z').history[0].minutes,20);
+
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
+const checkout = fs.mkdtempSync(path.join(os.tmpdir(), 'steam-fragments-'));
+try {
+  fs.mkdirSync(path.join(checkout, 'js'));
+  const snapshot = JSON.parse(fs.readFileSync('source/_data/steam.json', 'utf8'));
+  const localTitles = require('js-yaml').load(fs.readFileSync('en/steam-titles.yml', 'utf8'));
+  const game = view(snapshot, {}, localTitles).featured;
+  for (const lang of ['', 'en/']) {
+    for (const [dir, kind] of [['about','card'], ['steam','detail']]) {
+      const folder = path.join(checkout, lang, dir);
+      fs.mkdirSync(folder, {recursive:true});
+      fs.writeFileSync(path.join(folder, 'index.html'), before.replaceAll('steam-card-', 'steam-' + kind + '-'));
+    }
+    // Exercise both an older Chinese-only checkout and a bilingual one.
+    execFileSync(process.execPath, ['lib/steam-publish.cjs', checkout]);
+    const card = fs.readFileSync(path.join(checkout, lang, 'about/index.html'), 'utf8');
+    const detail = fs.readFileSync(path.join(checkout, lang, 'steam/index.html'), 'utf8');
+    assert(card.includes('href="/' + lang + 'steam/"'));
+    assert(detail.includes('href="/' + lang + 'about/#about-steam"'));
+    assert(card.includes(lang ? 'Most played' : '游玩最多'));
+    if (lang && game) assert(require('hexo-util').unescapeHTML(card).includes(game.name));
+    assert(detail.includes(lang ? 'Library' : '游戏库'));
+  }
+} finally {
+  fs.rmSync(checkout, { recursive: true, force: true });
+}

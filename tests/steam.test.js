@@ -9,7 +9,7 @@ const all=element({filter:'all'}), recent=element({filter:'recent'}),sort=elemen
 all['aria-pressed']='true';recent['aria-pressed']='false';
 const empty={},activity={},inner={items:[],replaceChildren(){this.items=[]},append(item){this.items.push(item)}},nav={querySelector:()=>inner};
 const section={querySelector:s=>({'.games':grid,'[data-steam-sort]':sort,'[data-filter="recent"]':recent,'.steam-pagination':nav,'.steam-empty':empty,'[data-steam-activity]':activity,'.section-head':{scrollIntoView(){}}})[s],querySelectorAll:()=>[all,recent]};
-let click;vm.runInNewContext(source.slice(source.indexOf('  // Keep filtering'),source.indexOf('  const refresh =')), {document:{addEventListener:(_,f)=>click=f,createElement:()=>element({})},fitSteamTitles:()=>{},reducedMotion:()=>true});
+let click;vm.runInNewContext(source.slice(source.indexOf('  // Keep filtering'),source.indexOf('  const refresh =')), {document:{documentElement:{lang:"zh-CN"},addEventListener:(_,f)=>click=f,createElement:()=>element({})},fitSteamTitles:()=>{},reducedMotion:()=>true});
 const press=b=>click({target:{closest:()=>b}}),visible=()=>cards.filter(c=>!c.hidden);
 press(all);assert.equal(visible().length,12);press(next);assert.equal(grid.dataset.page,1);next.dataset.steamPage='2';press(next);assert.equal(visible().length,1);
 press(sort);assert.equal(grid.dataset.page,0);assert.equal(visible()[0].dataset.appid,'25');press(recent);assert.equal(visible().length,2);assert(nav.hidden);assert.equal(activity.hidden,false);press(all);assert.equal(visible().length,12);assert(activity.hidden);

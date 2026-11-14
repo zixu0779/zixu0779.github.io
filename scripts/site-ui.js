@@ -12,7 +12,12 @@ hexo.extend.helper.register('cloud_tags', function () {
     .map(entry => entry.tag);
 });
 
-hexo.extend.helper.register('steam_view', function () { return steamView(this.site.data.steam, this.site.data['steam-display']); });
+hexo.extend.helper.register('steam_view', function () {
+  const titles = this.page.language === 'en'
+    ? require('js-yaml').load(readFileSync(join(hexo.base_dir, 'en/steam-titles.yml'), 'utf8'))
+    : null;
+  return steamView(this.site.data.steam, this.site.data['steam-display'], titles);
+});
 const { readFileSync } = require('node:fs');
 const { join, dirname } = require('node:path');
 const { createHash } = require('node:crypto');

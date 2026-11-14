@@ -1,6 +1,6 @@
 # Steam 家庭库每周同步
 
-每周一北京时间 08:17，由 GitHub Actions 更新；定时任务可能受 GitHub 队列延迟。当前家庭库接入须完成首次授权与一次云端验证，不能把本地测试通过视为已启用。
+每周一北京时间 08:17，由 GitHub Actions 更新；定时任务可能受 GitHub 队列延迟。更换账号或重新授权时，先完成本地授权，再验证一次云端同步。
 
 ## 首次授权与重新授权
 
@@ -64,20 +64,14 @@ GitHub Actions 每周从云端下载 namespace 1，更新全部已分类静态�
 
 `steam-display.json` 的 `titles` 按 App ID 配置中文显示名和可选 `edition`。原始同步名称不改写，标题提示保留原名；未知游戏使用同步名称。重新导出合集时保留这些名称配置。游戏列表先排序、筛选，再按每页 12 款分页；切换排序或筛选回到第一页。总游戏数与时长仍统计全部游戏库。
 
-### 云端合集调查（2026-11-04）
-
-已在 Steam 客户端 `sp.js` 的 `DownloadFromServer` 中确认：通过 `m_CMInterface.GetServiceTransport()` 调用 `CloudConfigStore.Download#1`，传入 namespace/version，返回 entries。来源：https://github.com/SteamTracking/SteamTracking/blob/master/ClientExtracted/steamui/sp.js 。这是已登录 CM 连接上的统一消息，不能把未认证 HTTP 探测的 404 当作没有云端接口。
-
-旧版 MobileApp 授权面向 web/mobile；现已迁移到面向 web/client 的客户端授权。一个客户端会话既读取云端合集，也生成家庭库使用的网页访问令牌。
-
 ### 客户端单凭据接入
 
 本地 `lib/steam-auth/login.cjs` 现在请求 SteamClient QR 授权。二维码仅在本机页面按需生成；程序先建立 CM 连接，下载 namespace 1 合集，并验证同一会话生成的网页访问令牌可读取家庭库。两项成功后，才更新 `STEAM_TOKEN_KEY` 与加密状态文件，不额外增加登录密钥。无需提交账号密码。
 
 `client.cjs` 固定 steam-user 5.3.0，通过其 CM 消息发送接口调用 `CloudConfigStore.Download#1`；每周运行时开启 `renewRefreshTokens`，在 refreshToken 事件中立即加密保存轮换后的凭据。工作流继续每周一 08:17（上海时间）运行，保存加密恢复副本，再采集、发布。移动端旧状态保留兼容路径，迁移成功后仅使用客户端状态。
 
-已完成协议编解码（含 Steam 返回的 ByteBuffer）、合集解析、失败拒绝和加密轮换单元验证。2026-11-04 本机真实客户端会话读取 73 个已分类 App ID，家庭库验证通过；已实际请求续期，Steam 本次未签发替换 refresh token。GitHub Actions 完整运行 [41828865002](https://github.com/zixu0779/zixu0779.github.io/actions/runs/41828865002) 已成功完成登录续期、合集下载、家庭库采集和站点数据发布。真实轮换仍取决于 Steam 是否签发新 token，不能将本次未轮换说成轮换已实测。
-
 显示规则：先拆出版本标签并中文化，版本标签和时长同排；剩余纯英文标题只有在实际宽度不足一行时才采用配置的中文名称。窗口缩放与分页后重新判断。LAST 14 DAYS 位于列表底部，只在近两周筛选下出现。
 
 关于页按累计时长选择展示游戏，使用该游戏的 `library_hero.jpg` 横幅。缺少对应横幅时使用个人主页背景；不回退到商店缩略图，也不复用另一款游戏的横幅。
+
+定向更新会先核对目标页中的 Steam 片段。中文站更新关于页卡片与 Steam 游戏库；已经包含英文站时，同时更新英文卡片和游戏库，并使用英文游戏名与界面标签。
