@@ -1,7 +1,7 @@
 ---
 title: OneDrop Storage and Multi-Device Sync (Part Two)
 translation_id: onedrop-storage-sync-2
-source_digest: 5f731f8aa55a0c73906f84d3c018eef67a2e8a7f60cfa7efad5d9c5ffd5aed5c
+source_digest: f0bd6d543561fe888b2c68d716296b5fb9d7bab7caf9c7c311f9e47c87e0294b
 tags:
   - OneDrop
   - OneDrive
@@ -26,13 +26,13 @@ sections: {"synchronisation-conflicts-and-archives": "多设备同步-冲突与�
 
 Clients pull changes when the interface opens, comes to the foreground, refreshes manually or needs to read data as part of sending. There’s no server of mine continually pushing updates. Once the browser closes, you can’t treat it as an always-online messenger.
 
-On returning to the foreground, the UI checks the time since the previous sync. This avoids rereading the month every time you switch windows. Normal mode checks after 30 seconds, Reduce mode after five minutes. Manual mode doesn’t trigger a sync from this foreground check.
+On returning to the foreground, the UI checks the time since the previous sync. This avoids rereading the month every time you switch windows. Normal mode checks after 30 seconds, Reduced mode after five minutes. Manual mode doesn’t trigger a sync from this foreground check.
 
 #### Reading a month and reusing cached chunks
 
 The client lists files under `messages/YYYY-MM`, requests 200 items per page, follows `@odata.nextLink` and reads the chunks in numerical order. The 200-item limit applies to a single listing request. It doesn’t limit the number of messages or chunks in the month. A missing monthly directory is a valid empty state; a failed request is an error. Pagination URLs are checked against the expected Graph API scope.
 
-The cache stores more than the merged list. For each chunk it retains the DriveItem ID, ETag, parsed document and message line numbers. An ETag identifies the version returned by the server. If the version matches and line information is present, the cached document can be reused. Changed chunks are downloaded and parsed, up to three at once. A growing history doesn’t mean downloading every JSON body on every refresh. In the code below, a matching version and complete line information let OneDrop reuse the local record. Otherwise it calls `downloadDocument()`.
+The cache stores more than the merged list. For each chunk it retains the `DriveItem` ID, ETag, parsed document and message line numbers. An ETag identifies the version returned by the server. If the version matches and line information is present, the cached document can be reused. Changed chunks are downloaded and parsed, up to three at once. A growing history doesn’t mean downloading every JSON body on every refresh. In the code below, a matching version and complete line information let OneDrop reuse the local record. Otherwise it calls `downloadDocument()`.
 
 ```typescript
 const downloaded =
@@ -83,7 +83,7 @@ If a directory has been deleted and Graph returns 404, OneDrop clears the corres
 
 A network error has different semantics. The server may have committed the request even if the client never received its response. The write function invalidates the cache and reports the error without automatically replaying the write. A subsequent sync or explicit retry can inspect the message ID to determine what happened.
 
-Within one runtime, a Promise queue serialises modifications to monthly messages. Operations across devices still depend on server-side conditional writes. Keeping the queue at the message-write layer also means a large attachment needn’t block text messages for the entire duration of its upload.
+Within one runtime, a `Promise` queue serialises modifications to monthly messages. Operations across devices still depend on server-side conditional writes. Keeping the queue at the message-write layer also means a large attachment needn’t block text messages for the entire duration of its upload.
 
 ### Chunking and damaged records
 
@@ -92,6 +92,8 @@ Within one runtime, a Promise queue serialises modifications to monthly messages
 A single ever-growing monthly JSON file would make every append more expensive. OneDrop tries the last active chunk first. If the proposed append exceeds the 256 KiB soft limit, it starts a new chunk. The final document has a separate 320 KB hard limit, and chunk numbers stop at 9999. Exceeding those limits is an error; reaching the numbering limit seems unlikely for message metadata alone.
 
 The soft limit decides when to roll over. The hard limit applies to every final chunk, including a new one or an existing one after a placeholder is replaced. Older chunks remain readable. Committing a file message requires finding the chunk that contains its placeholder, regardless of which chunk is now last.
+
+The code first merges the message into the last chunk to measure the result. If it exceeds the soft limit, OneDrop starts a new chunk and checks its size against the hard limit before writing.
 
 ![Choosing the append target and checking the final size](https://res.cloudinary.com/sycamore/image/upload/v1793289728/Typora/2026/10/29/onedrop-tech-message-chunk-selection.png)
 
@@ -121,19 +123,21 @@ After thirty seconds the task can report a timeout. That notification doesn’t 
 
 A successful archive leaves the monthly source directory in place initially. The task saves a digest of the archive and sets `cleanupPending`. Cleanup rereads the raw archive and checks that digest before trying to remove the source directory. A failed cleanup can be retried independently.
 
+The check returns early if the archive is missing, there’s no saved digest, or the digest no longer matches.
+
 ![Checking the saved digest before removing the source directory](https://res.cloudinary.com/sycamore/image/upload/v1793271806/Typora/2026/10/29/onedrop-tech-archive-check.png)
 
-The check returns early if the archive is missing, there’s no saved digest, or the digest no longer matches. There is a limitation here: the digest verifies the archive, but the implementation doesn’t check that the **source** still matches its archived version immediately before deletion. Another device could have changed the source since the archive was created.
+There is a limitation here: the digest verifies the archive, but the implementation doesn’t check that the **source** still matches its archived version immediately before deletion. Another device could have changed the source since the archive was created.
 
-The archive also contains visible messages after tombstone filtering. It doesn’t preserve every original deleted record. Cleaning the source directory can therefore remove the only remaining recovery source for a deleted message. Recovery has to check what still exists.
+The archive also contains visible messages after `tombstone` filtering. It doesn’t preserve every original deleted record. Cleaning the source directory can therefore remove the only remaining recovery source for a deleted message. Recovery has to check what still exists.
 
 ## Deletion, recovery and physical cleanup
 
 ### Tombstones and retention
 
-Removing a message from a local array would let the next sync bring it back. Removing it from one chunk still leaves the possibility of a stale writer. OneDrop records deletion separately as a tombstone, and all read paths apply the same deletion state.
+Removing a message from a local array would let the next sync bring it back. Removing it from one chunk still leaves the possibility of a stale writer. OneDrop records deletion separately as a `tombstone`, and all read paths apply the same deletion state.
 
-A tombstone records `messageId`, `originalMonth`, `deletedAt` and optionally `recovery`. It’s saved by original month in `tombstones/YYYY-MM.json`. Monthly and archive reads filter the matching IDs. Hiding a message therefore doesn’t require its attachment and original JSON to disappear at the same instant. The monthly read below fetches the set of deleted IDs and excludes them from the merged result. It leaves the source files in place.
+A `tombstone` records `messageId`, `originalMonth`, `deletedAt` and optionally `recovery`. It’s saved by original month in `tombstones/YYYY-MM.json`. Monthly and archive reads filter the matching IDs. Hiding a message therefore doesn’t require its attachment and original JSON to disappear at the same instant. The monthly read below fetches the set of deleted IDs and excludes them from the merged result. It leaves the source files in place.
 
 ```typescript
 const deletedMessageIds = await readTombstoneIds(month, accessToken);
@@ -150,13 +154,15 @@ The deletion action records its recovery policy: disabled, 3, 7, 10 or 30 days, 
 
 ### The recycle bin and restoring messages
 
-A tombstone stores deletion state, not a full copy of the text or attachment. For the recycle bin, OneDrop reads the raw archive and unfiltered records in the source chunks, merges them and looks for the matching ID. A hidden message can appear there while its original content remains available.
+A `tombstone` stores deletion state, not a full copy of the text or attachment. For the recycle bin, OneDrop reads the raw archive and unfiltered records in the source chunks, merges them and looks for the matching ID. A hidden message can appear there while its original content remains available.
 
-Identical records can merge. Contradictory versions with the same ID don’t count as one unambiguously recoverable message. If the source is gone, the client doesn’t construct a placeholder from the tombstone and present it as recoverable.
+![Deleted messages, days remaining and Restore buttons in the OneDrop recycle bin](https://res.cloudinary.com/sycamore/image/upload/v1794676941/Typora/2026/10/29/onedrop-tech-recycle-bin.png)
 
-Restore checks the tombstone and original again, removes the marker, then clears the monthly cache. If either the tombstone or the original is missing, the restore function returns an error here. Otherwise, the next normal read includes the message. There’s no new message ID or attachment upload.
+Identical records can merge. Contradictory versions with the same ID don’t count as one unambiguously recoverable message. If the source is gone, the client doesn’t construct a placeholder from the `tombstone` and present it as recoverable.
 
-![Verifying both sources before removing the tombstone](https://res.cloudinary.com/sycamore/image/upload/v1793271803/Typora/2026/10/29/onedrop-tech-message-restore.png)
+Restore checks the `tombstone` and original again, removes the marker, then clears the monthly cache. If either the `tombstone` or the original is missing, the restore function returns an error here. Otherwise, the next normal read includes the message. There’s no new message ID or attachment upload.
+
+![Verifying both sources before removing the `tombstone`](https://res.cloudinary.com/sycamore/image/upload/v1793271803/Typora/2026/10/29/onedrop-tech-message-restore.png)
 
 Retention defines cleanup eligibility; it isn’t an independent backup. A manually removed original or a source lost during archive cleanup can’t be reconstructed from an ID. Even an intact file message doesn’t guarantee the attachment is still there: external operations can move or delete it.
 
@@ -166,16 +172,19 @@ Retention defines cleanup eligibility; it isn’t an independent backup. A manua
 
 A separate cleanup process removes remote attachments and metadata. Automatic scans run at 24-hour intervals and inspect up to twenty eligible items per round. A manual cleanup skips the normal interval, expiry wait and ordinary round limit. Automatic scans skip permanent retention; disabled recovery is eligible from deletion time. The code below calculates the earliest cleanup time as `eligibleAt`. Automatic scans skip records that haven’t reached it, while manual cleanup skips that time check.
 
-![Checking eligibleAt against the recovery policy](https://res.cloudinary.com/sycamore/image/upload/v1793289744/Typora/2026/10/29/onedrop-tech-cleanup-retention.png)
+![Checking whether a deleted record is eligible for cleanup](https://res.cloudinary.com/sycamore/image/upload/v1793289744/Typora/2026/10/29/onedrop-tech-cleanup-retention.png)
 
 Before deleting anything, the client reads the source and checks the month implied by the message timestamp. If it can’t identify the record uniquely, it stops processing that item. An absent record alongside a damaged file warrants investigation: an empty set of successfully parsed records doesn’t prove cleanup is complete.
 
 #### Checking references and deleting in order
 
-For a file message, the client checks whether another undeleted message in the **currently read month** refers to the same `driveItemId`. If it does, it keeps the attachment. Otherwise it locates `files/year/month/message-ID`, verifies that it’s a folder containing the target DriveItem, and only then deletes that attachment folder. This check doesn’t build a global reference index over all of OneDrive.
+For a file message, the client checks whether another undeleted message in the **currently read month** refers to the same `driveItemId`. If it does, it keeps the attachment. Otherwise it locates `files/year/month/message-ID`, verifies that it’s a folder containing the target `DriveItem`, and only then deletes that attachment folder. This check doesn’t build a global reference index over all of OneDrive.
 
-After handling the attachment it removes metadata from message chunks or the archive. JSON rewrites use ETags. A change or conflict defers the operation and leaves the tombstone for later. The marker is removed last, once the metadata step is confirmed, and the item is marked complete.
+After handling the attachment it removes metadata from message chunks or the archive. JSON rewrites use ETags. A change or conflict defers the operation and leaves the `tombstone` for later. The marker is removed last, once the metadata step is confirmed, and the item is marked complete.
 
 An intermediate state is possible: the attachment is gone but a conditional metadata update hasn’t succeeded yet. A local maintenance queue serialises restore and cleanup on one device; it doesn’t lock every device. A subsequent restore must still recheck its sources.
 
-Two other cases are worth distinguishing. A failed local send that never reached the cloud can be removed from IndexedDB after confirmation, without creating a cloud tombstone. A file the user has already downloaded to a system directory is their own copy. Cleaning up its message or deleting its download registration doesn’t delete that local file.
+Two other cases are worth distinguishing.
+
+- A failed local send that never reached the cloud can be removed from IndexedDB after confirmation, without creating a cloud `tombstone`.
+- A file the user has already downloaded to a system directory is their own copy. Cleaning up its message or deleting its download registration doesn’t delete that local file.
