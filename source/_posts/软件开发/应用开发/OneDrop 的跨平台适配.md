@@ -1,7 +1,7 @@
 ---
 translation_id: onedrop-platforms
 title: OneDrop 的跨平台适配
-date: 2026-10-29 02:54:42
+date: 2026-10-21 20:34:27
 updated: 2026-10-29 02:54:42
 categories: [["软件开发", "应用开发"]]
 tags: ["OneDrop", "TypeScript", "Microsoft Graph", "Edge插件开发"]

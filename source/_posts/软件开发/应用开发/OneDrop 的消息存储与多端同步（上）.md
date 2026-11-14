@@ -1,7 +1,7 @@
 ---
 translation_id: onedrop-storage-sync-1
 title: OneDrop 的消息存储与多端同步（上）
-date: 2026-10-29 02:54:42
+date: 2026-10-06 19:42:08
 updated: 2026-10-29 02:54:42
 categories: [["软件开发", "应用开发"]]
 tags: ["OneDrop", "OneDrive", "TypeScript", "Microsoft Graph", "Edge插件开发"]
