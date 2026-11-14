@@ -59,10 +59,14 @@ hexo.extend.generator.register('english-pages', async function (locals) {
       index.push({ title: meta.title, url: '/' + route, text: unescapeHTML(stripHTML(content)).replace(/\s+/g, ' ').trim(),
         tags: (meta.tags || []).join(' '), categories: (meta.categories || []).flat().join(' ') });
     }
+    const categories = original.categories?.map(category => ({
+      _id: category._id, path: category.path, name: labels[category.name] ?? category.name
+    }));
     routes.push({
       path: route,
       layout: original.layout || 'page',
       data: { math: original.math, prompt_glyph: original.prompt_glyph, date: original.date, updated: original.updated, cover: original.cover, layout: original.layout, source: original.source,
+        categories: categories && Object.assign(categories, { toArray: () => categories }),
         title: meta.title, content, language: 'en', path: route,
         permalink: new URL(route, this.config.url + '/').href
       }
@@ -114,6 +118,13 @@ hexo.extend.filter.register('after_render:html', function (html, data) {
         return this.route.get(route) ? `href="/${encodeURI(destination)}${suffix}"` : attribute;
       });
     });
+    // The theme compares the Chinese post paths against the English page path.
+    // Restore its current-article marker after the bookmark URLs have been localised.
+    html = html.replace(/<li\s*><a href="([^"]+)" rel="bookmark" title="[^"]*">([^<]+)<\/a><\/li>/g,
+      (_, href, text) => {
+        const active = decodeURI(href) === '/' + current ? ' class="active"' : '';
+        return `<li${active}><a href="${href}" rel="bookmark" title="${escapeHTML(unescapeHTML(text))}">${text}</a></li>`;
+      });
     html = html.replace(/(<link\b[^>]*\btype="application\/(?:rss\+xml|atom\+xml|feed\+json|json)"[^>]*>)/g,
       tag => tag.replace(/href="([^"]*?)\/(rss\.xml|atom\.xml|feed\.json)"/, 'href="$1/en/$2"'));
   }
