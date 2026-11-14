@@ -304,6 +304,108 @@ OneDrop 先检查 ID 是否对应当前附件，再查询这项任务的完整�
  ]]></description>
         </item>
         <item>
+            <guid isPermalink="true">https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D/</guid>
+            <title>OneDrop 的跨平台适配</title>
+            <link>https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D/</link>
+            <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
+            <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
+            <category term="OneDrop" scheme="https://www.sycamore.top/tags/OneDrop/" />
+            <category term="TypeScript" scheme="https://www.sycamore.top/tags/TypeScript/" />
+            <category term="Microsoft Graph" scheme="https://www.sycamore.top/tags/Microsoft-Graph/" />
+            <category term="Edge插件开发" scheme="https://www.sycamore.top/tags/Edge%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
+            <pubDate>Thu, 29 Oct 2026 02:54:42 +0800</pubDate>
+            <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;OneDrop&lt;/a&gt; 的消息存储与同步已经在&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/&#34;&gt;上篇&lt;/a&gt;和&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;下篇&lt;/a&gt;中说明。&lt;br /&gt;
+这一篇先整理浏览器扩展和原生 iOS 应用之间的代码复用与平台适配，仍以 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3&#34;&gt;1.0.3&lt;/a&gt; 为准。&lt;/p&gt;
+&lt;p&gt;&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;h2 id=&#34;共享代码的组织&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#共享代码的组织&#34;&gt;#&lt;/a&gt; 共享代码的组织&lt;/h2&gt;
+&lt;p&gt;OneDrop 的多个入口都围绕同一套消息模型工作。&lt;br /&gt;
+如果每个平台分别实现消息合并、墓碑和归档，后面修复一个边界问题就要重复修改多份代码，也容易让不同设备对同一份云端数据产生不同解释。&lt;br /&gt;
+所以项目把这些行为尽量放在共享包里，应用入口负责组合。&lt;/p&gt;
+&lt;p&gt;目前的主要分工如下：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;目录&lt;/th&gt;
+&lt;th&gt;职责&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/core&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;消息、月份、设置类型及运行时请求协议&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/onedrive&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Graph 请求、消息块、归档、墓碑和附件操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/web-storage&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;IndexedDB 缓存、待发送任务和下载登记&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/platform&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;平台桥接接口、运行时依赖入口&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/app-runtime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;授权、设备、设置和下载服务&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/extension-runtime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;扩展后台请求分发与平台入口处理&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/ui&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;共享 React 界面及交互状态&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apps/edge&lt;/code&gt; 、 &lt;code&gt;apps/ios&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;各平台的具体装配和原生适配&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;核心类型不需要知道 React 组件、浏览器下载对象或者 Swift 插件长什么样。&lt;br /&gt;
+界面通过有类型的  &lt;code&gt;RuntimeRequest&lt;/code&gt;  发出意图，运行时返回  &lt;code&gt;RuntimeResponse&lt;/code&gt; ；扩展中实际走的是  &lt;code&gt;browser.runtime.sendMessage&lt;/code&gt; 。&lt;br /&gt;
+这样 UI 可以说 “发送文字”“读取某月”“恢复某条消息”，而不用在组件里组织 Graph URL 和 Authorization 请求头。&lt;/p&gt;
+&lt;h2 id=&#34;平台能力与适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#平台能力与适配&#34;&gt;#&lt;/a&gt; 平台能力与适配&lt;/h2&gt;
+&lt;p&gt;跨平台不只是把同一份页面塞到不同外壳里。&lt;br /&gt;
+桌面浏览器有下载目录和 “在文件夹中显示”，移动端更常用系统分享；某些浏览器入口也不具备相同的 API。&lt;br /&gt;
+项目用  &lt;code&gt;PlatformBridge&lt;/code&gt;  作为界面与平台实现之间的连接层：界面提出 “保存文件” 这样的请求，再由当前平台选择具体做法。&lt;br /&gt;
+其中  &lt;code&gt;PlatformCapabilities&lt;/code&gt;  声明当前平台支持哪些操作：&lt;/p&gt;
+&lt;figure class=&#34;highlight typescript&#34;&gt;&lt;figcaption data-lang=&#34;typescript&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;token class-name&#34;&gt;PlatformCapabilities&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  showInFolder&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;       &lt;span class=&#34;token comment&#34;&gt;// 在系统文件夹中显示文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  saveAs&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;             &lt;span class=&#34;token comment&#34;&gt;// 另存为&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  navigationDownload&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;// 通过打开下载地址获取文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  systemFileShare&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;     &lt;span class=&#34;token comment&#34;&gt;// 调用系统文件分享&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;桥接层除了  &lt;code&gt;request()&lt;/code&gt; ，还提供下载查询、打开、附件准备、系统分享、文本和图片复制等方法。&lt;br /&gt;
+共享界面根据能力决定提供什么操作，具体调用再交给平台实现。&lt;br /&gt;
+例如 iOS Edge 声明不支持桌面的下载管理入口，但支持系统文件分享；它会先取得附件，检查缓存中的名称、大小和 Blob 是否一致，再准备可分享的  &lt;code&gt;File&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;没有可用缓存时，iOS Edge 桥接读取下载响应流，逐段累加已接收字节数，向界面报告进度。&lt;br /&gt;
+总量优先来自  &lt;code&gt;Content-Length&lt;/code&gt; ，没有这个值时使用消息记录中的附件大小。&lt;br /&gt;
+读完后还会核对 Blob 大小，再保存到 IndexedDB 附件缓存，构造  &lt;code&gt;File&lt;/code&gt;  交给系统分享。&lt;br /&gt;
+分享前需要通过  &lt;code&gt;navigator.canShare&lt;/code&gt;  检查文件是否受支持，因此附件准备完成以后，仍有一个调用系统分享的步骤。&lt;/p&gt;
+&lt;p&gt;这也解释了为什么 “同一个附件按钮” 在不同平台上可以有不同的最后一步。&lt;br /&gt;
+消息和 DriveItem 的含义相同，系统接收文件的方式不同，不需要为了保持按钮外观一致而假装桌面 API 到处存在。&lt;/p&gt;
+&lt;h2 id=&#34;浏览器扩展入口&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#浏览器扩展入口&#34;&gt;#&lt;/a&gt; 浏览器扩展入口&lt;/h2&gt;
+&lt;p&gt;浏览器扩展使用 WXT 组织开发和构建，React 编写界面，TypeScript 编写业务代码，并按 Manifest V3 的扩展规范运行。&lt;br /&gt;
+桌面、Android 与 iOS 使用同一套扩展代码，但并不都使用侧栏。&lt;br /&gt;
+桌面打开 side panel，Android 使用独立的移动页面，iOS 使用适合其扩展环境的移动入口。&lt;br /&gt;
+入口判断和相关桥接放在应用层，共享 UI 不需要把每个页面都复制一份。&lt;/p&gt;
+&lt;p&gt;iOS Edge 还保留了侧栏路径的兼容处理：即使浏览器进入静态声明的 side-panel 页面，也能检测平台并装载 iOS 的界面与桥接。&lt;br /&gt;
+登录缺少 Identity API、下载需要系统分享等差异，也在对应运行时和桥接中处理。&lt;br /&gt;
+同一个扩展包并不意味着所有平台 API 都会按桌面行为工作。&lt;/p&gt;
+&lt;h2 id=&#34;原生-ios-适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#原生-ios-适配&#34;&gt;#&lt;/a&gt; 原生 iOS 适配&lt;/h2&gt;
+&lt;p&gt;原生 iOS 应用使用 Capacitor，把共享 React 页面放进应用内的 WebView（网页显示容器），再通过原生插件调用系统功能。&lt;br /&gt;
+它的登录入口是  &lt;code&gt;OneDropAuth&lt;/code&gt; ，Swift 代码用系统提供的  &lt;code&gt;ASWebAuthenticationSession&lt;/code&gt;  打开登录授权流程，并通过 Keychain（系统钥匙串）保存和读取 token。&lt;br /&gt;
+这与上篇介绍的浏览器扩展使用  &lt;code&gt;browser.storage.local&lt;/code&gt;  的方式不同，系统授权窗口与凭据保存都由原生插件处理。&lt;/p&gt;
+&lt;p&gt;共享 OneDrive 代码需要访问令牌、本地状态存储和事件通知，但不直接决定这些能力由浏览器还是 iOS 提供。&lt;br /&gt;
+应用启动时把对应函数传给它，这就是这里的依赖注入；同一段业务代码调用这些函数即可，不必反复判断平台。&lt;br /&gt;
+iOS 入口负责把这些依赖接到原生实现，再把消息请求交给对应共享函数。&lt;br /&gt;
+原生下载插件则处理附件落地、查找与打开等系统操作，界面仍然围绕相同的附件元数据工作。&lt;/p&gt;
+&lt;p&gt;设备设置也遵循相同分工。&lt;br /&gt;
+每次安装生成匿名设备 UUID，对应  &lt;code&gt;settings/devices/&amp;lt;device-id&amp;gt;.json&lt;/code&gt; ，保存平台、显示名称和设备偏好。&lt;br /&gt;
+设备列表中的移除操作针对这份设置文档，并不会按发送设备顺带删除消息和附件；消息的生命周期由&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;下篇的删除与清理流程&lt;/a&gt;管理。&lt;/p&gt;
+&lt;p&gt;对我来说，OneDrop 仍然是围绕自己设备之间临时传递内容的小工具。&lt;br /&gt;
+OneDrive 承担存储以后，项目里需要反复处理的是这些状态之间的关系：一条消息何时算发出，另一台设备看到什么，失败后还有什么可以继续，删除以后还剩下哪些数据。&lt;br /&gt;
+把这些规则留在共享代码里，再把登录、下载和入口交给各平台处理，后续完善时也能沿着明确的边界继续修改。&lt;/p&gt;
+ ]]></description>
+        </item>
+        <item>
             <guid isPermalink="true">https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/</guid>
             <title>OneDrop 的消息存储与多端同步（下）</title>
             <link>https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/</link>
@@ -326,7 +428,7 @@ OneDrop 先检查 ID 是否对应当前附件，再查询这项任务的完整�
 打开界面、回到前台、手动刷新和发送相关流程都会触发对应的读取，因为没有一个自建服务持续向所有客户端推送消息，这也是无服务器方案的一种妥协。&lt;br /&gt;
 关闭浏览器以后，也就不能把它当作始终在线的即时消息系统。&lt;/p&gt;
 &lt;p&gt;界面重新回到前台时，还会检查距离上次同步已经过去多久，避免每次切换窗口都重复读取。&lt;br /&gt;
-设置中，针对同步的频率，设计了 3 个模式。普通模式在距离上次同步达到三十秒时检查更新，Reduce 模式把这个判断间隔延长到五分钟，手动模式则不会因为这项前台检查而自动同步。&lt;/p&gt;
+设置中，针对同步的频率，设计了 3 个模式。普通模式在距离上次同步达到三十秒时检查更新，Reduced 模式把这个判断间隔延长到五分钟，手动模式则不会因为这项前台检查而自动同步。&lt;/p&gt;
 &lt;h4 id=&#34;按月份读取与复用缓存&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#按月份读取与复用缓存&#34;&gt;#&lt;/a&gt; 按月份读取与复用缓存&lt;/h4&gt;
 &lt;p&gt;读取某个月份的消息时，程序先列出  &lt;code&gt;messages/YYYY-MM&lt;/code&gt;  下的文件，每页请求 200 项，根据返回结果中的下一页地址  &lt;code&gt;@odata.nextLink&lt;/code&gt;  继续读取，再按块编号读取。&lt;br /&gt;
 这里的 “200 项” 指一次最多请求多少个文件条目，并不是这个月只能保存 200 条消息或 200 个块。&lt;br /&gt;
@@ -443,6 +545,7 @@ OneDrop 因此把 “这条消息已删除” 单独保存成  &lt;code&gt;tombs
 &lt;p&gt;墓碑只记录删除状态，不保存完整文本或文件内容。&lt;br /&gt;
 显示回收站时，程序要把  &lt;code&gt;tombstone&lt;/code&gt;  与原始消息重新对应起来：读取原始归档，再读取源块中的未过滤消息，合并后找对应 ID。&lt;br /&gt;
 所以普通列表已经隐藏的记录，只要原始内容还在，回收站仍然可以显示。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794676941/Typora/2026/10/29/onedrop-tech-recycle-bin.png&#34; alt=&#34;OneDrop 回收站中的已删除消息、剩余保留天数和恢复按钮&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;回收站读取时也会检查同 ID 的内容。&lt;br /&gt;
 相同记录可以合并，有互相矛盾的版本则不把它当作一条确定可恢复的消息。&lt;br /&gt;
 原始记录已经不存在时，也不会仅凭墓碑造出一个空壳，继续显示成 “可以恢复”。&lt;/p&gt;
@@ -476,112 +579,12 @@ JSON 改写使用 ETag 条件；遇到变化或冲突就推迟，保留墓碑等
 &lt;p&gt;这个顺序意味着物理清理也可能有中间状态，例如附件已经删除，但元数据条件更新还没成功。&lt;br /&gt;
 本地维护队列可以让当前设备上的恢复与清理串行执行，但不是所有设备共同持有的一把锁。&lt;br /&gt;
 一次清理操作可能需要分几步完成，恢复前仍然要重新检查来源。&lt;/p&gt;
-&lt;p&gt;还有两类数据需要分开看。&lt;br /&gt;
-从未成功提交到云端的本地失败发送，可以在确认后删除 IndexedDB 记录，不需要制造一个云端  &lt;code&gt;tombstone&lt;/code&gt; 。&lt;br /&gt;
-已经由用户下载、保存到系统目录中的文件，则属于用户自己的副本，不在 OneDrop 的消息清理范围内。&lt;br /&gt;
-删除下载登记信息也不等于删除那个本地文件。&lt;/p&gt;
- ]]></description>
-        </item>
-        <item>
-            <guid isPermalink="true">https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D/</guid>
-            <title>OneDrop 的跨平台适配</title>
-            <link>https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D/</link>
-            <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
-            <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
-            <category term="OneDrop" scheme="https://www.sycamore.top/tags/OneDrop/" />
-            <category term="TypeScript" scheme="https://www.sycamore.top/tags/TypeScript/" />
-            <category term="Microsoft Graph" scheme="https://www.sycamore.top/tags/Microsoft-Graph/" />
-            <category term="Edge插件开发" scheme="https://www.sycamore.top/tags/Edge%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
-            <pubDate>Thu, 29 Oct 2026 02:54:42 +0800</pubDate>
-            <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;OneDrop&lt;/a&gt; 的消息存储与同步已经在&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/&#34;&gt;上篇&lt;/a&gt;和&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;下篇&lt;/a&gt;中说明。&lt;br /&gt;
-这一篇先整理浏览器扩展和原生 iOS 应用之间的代码复用与平台适配，仍以 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3&#34;&gt;1.0.3&lt;/a&gt; 为准。&lt;/p&gt;
-&lt;p&gt;&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;h2 id=&#34;共享代码的组织&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#共享代码的组织&#34;&gt;#&lt;/a&gt; 共享代码的组织&lt;/h2&gt;
-&lt;p&gt;OneDrop 的多个入口都围绕同一套消息模型工作。&lt;br /&gt;
-如果每个平台分别实现消息合并、墓碑和归档，后面修复一个边界问题就要重复修改多份代码，也容易让不同设备对同一份云端数据产生不同解释。&lt;br /&gt;
-所以项目把这些行为尽量放在共享包里，应用入口负责组合。&lt;/p&gt;
-&lt;p&gt;目前的主要分工如下：&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;目录&lt;/th&gt;
-&lt;th&gt;职责&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/core&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;消息、月份、设置类型及运行时请求协议&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/onedrive&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;Graph 请求、消息块、归档、墓碑和附件操作&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/web-storage&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;IndexedDB 缓存、待发送任务和下载登记&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/platform&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;平台桥接接口、运行时依赖入口&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/app-runtime&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;授权、设备、设置和下载服务&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/extension-runtime&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;扩展后台请求分发与平台入口处理&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;packages/ui&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;共享 React 界面及交互状态&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-&lt;td&gt;&lt;code&gt;apps/edge&lt;/code&gt; 、 &lt;code&gt;apps/ios&lt;/code&gt;&lt;/td&gt;
-&lt;td&gt;各平台的具体装配和原生适配&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;核心类型不需要知道 React 组件、浏览器下载对象或者 Swift 插件长什么样。&lt;br /&gt;
-界面通过有类型的  &lt;code&gt;RuntimeRequest&lt;/code&gt;  发出意图，运行时返回  &lt;code&gt;RuntimeResponse&lt;/code&gt; ；扩展中实际走的是  &lt;code&gt;browser.runtime.sendMessage&lt;/code&gt; 。&lt;br /&gt;
-这样 UI 可以说 “发送文字”“读取某月”“恢复某条消息”，而不用在组件里组织 Graph URL 和 Authorization 请求头。&lt;/p&gt;
-&lt;h2 id=&#34;平台能力与适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#平台能力与适配&#34;&gt;#&lt;/a&gt; 平台能力与适配&lt;/h2&gt;
-&lt;p&gt;跨平台不只是把同一份页面塞到不同外壳里。&lt;br /&gt;
-桌面浏览器有下载目录和 “在文件夹中显示”，移动端更常用系统分享；某些浏览器入口也不具备相同的 API。&lt;br /&gt;
-项目用  &lt;code&gt;PlatformBridge&lt;/code&gt;  作为界面与平台实现之间的连接层：界面提出 “保存文件” 这样的请求，再由当前平台选择具体做法。&lt;br /&gt;
-其中  &lt;code&gt;PlatformCapabilities&lt;/code&gt;  声明当前平台支持哪些操作：&lt;/p&gt;
-&lt;figure class=&#34;highlight typescript&#34;&gt;&lt;figcaption data-lang=&#34;typescript&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;export&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;type&lt;/span&gt; &lt;span class=&#34;token class-name&#34;&gt;PlatformCapabilities&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;&amp;#123;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  showInFolder&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;       &lt;span class=&#34;token comment&#34;&gt;// 在系统文件夹中显示文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  saveAs&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;             &lt;span class=&#34;token comment&#34;&gt;// 另存为&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  navigationDownload&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt; &lt;span class=&#34;token comment&#34;&gt;// 通过打开下载地址获取文件&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;  systemFileShare&lt;span class=&#34;token operator&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token builtin&#34;&gt;boolean&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;     &lt;span class=&#34;token comment&#34;&gt;// 调用系统文件分享&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;桥接层除了  &lt;code&gt;request()&lt;/code&gt; ，还提供下载查询、打开、附件准备、系统分享、文本和图片复制等方法。&lt;br /&gt;
-共享界面根据能力决定提供什么操作，具体调用再交给平台实现。&lt;br /&gt;
-例如 iOS Edge 声明不支持桌面的下载管理入口，但支持系统文件分享；它会先取得附件，检查缓存中的名称、大小和 Blob 是否一致，再准备可分享的  &lt;code&gt;File&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;没有可用缓存时，iOS Edge 桥接读取下载响应流，逐段累加已接收字节数，向界面报告进度。&lt;br /&gt;
-总量优先来自  &lt;code&gt;Content-Length&lt;/code&gt; ，没有这个值时使用消息记录中的附件大小。&lt;br /&gt;
-读完后还会核对 Blob 大小，再保存到 IndexedDB 附件缓存，构造  &lt;code&gt;File&lt;/code&gt;  交给系统分享。&lt;br /&gt;
-分享前需要通过  &lt;code&gt;navigator.canShare&lt;/code&gt;  检查文件是否受支持，因此附件准备完成以后，仍有一个调用系统分享的步骤。&lt;/p&gt;
-&lt;p&gt;这也解释了为什么 “同一个附件按钮” 在不同平台上可以有不同的最后一步。&lt;br /&gt;
-消息和 DriveItem 的含义相同，系统接收文件的方式不同，不需要为了保持按钮外观一致而假装桌面 API 到处存在。&lt;/p&gt;
-&lt;h2 id=&#34;浏览器扩展入口&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#浏览器扩展入口&#34;&gt;#&lt;/a&gt; 浏览器扩展入口&lt;/h2&gt;
-&lt;p&gt;浏览器扩展使用 WXT 组织开发和构建，React 编写界面，TypeScript 编写业务代码，并按 Manifest V3 的扩展规范运行。&lt;br /&gt;
-桌面、Android 与 iOS 使用同一套扩展代码，但并不都使用侧栏。&lt;br /&gt;
-桌面打开 side panel，Android 使用独立的移动页面，iOS 使用适合其扩展环境的移动入口。&lt;br /&gt;
-入口判断和相关桥接放在应用层，共享 UI 不需要把每个页面都复制一份。&lt;/p&gt;
-&lt;p&gt;iOS Edge 还保留了侧栏路径的兼容处理：即使浏览器进入静态声明的 side-panel 页面，也能检测平台并装载 iOS 的界面与桥接。&lt;br /&gt;
-登录缺少 Identity API、下载需要系统分享等差异，也在对应运行时和桥接中处理。&lt;br /&gt;
-同一个扩展包并不意味着所有平台 API 都会按桌面行为工作。&lt;/p&gt;
-&lt;h2 id=&#34;原生-ios-适配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#原生-ios-适配&#34;&gt;#&lt;/a&gt; 原生 iOS 适配&lt;/h2&gt;
-&lt;p&gt;原生 iOS 应用使用 Capacitor，把共享 React 页面放进应用内的 WebView（网页显示容器），再通过原生插件调用系统功能。&lt;br /&gt;
-它的登录入口是  &lt;code&gt;OneDropAuth&lt;/code&gt; ，Swift 代码用系统提供的  &lt;code&gt;ASWebAuthenticationSession&lt;/code&gt;  打开登录授权流程，并通过 Keychain（系统钥匙串）保存和读取 token。&lt;br /&gt;
-这与上篇介绍的浏览器扩展使用  &lt;code&gt;browser.storage.local&lt;/code&gt;  的方式不同，系统授权窗口与凭据保存都由原生插件处理。&lt;/p&gt;
-&lt;p&gt;共享 OneDrive 代码需要访问令牌、本地状态存储和事件通知，但不直接决定这些能力由浏览器还是 iOS 提供。&lt;br /&gt;
-应用启动时把对应函数传给它，这就是这里的依赖注入；同一段业务代码调用这些函数即可，不必反复判断平台。&lt;br /&gt;
-iOS 入口负责把这些依赖接到原生实现，再把消息请求交给对应共享函数。&lt;br /&gt;
-原生下载插件则处理附件落地、查找与打开等系统操作，界面仍然围绕相同的附件元数据工作。&lt;/p&gt;
-&lt;p&gt;设备设置也遵循相同分工。&lt;br /&gt;
-每次安装生成匿名设备 UUID，对应  &lt;code&gt;settings/devices/&amp;lt;device-id&amp;gt;.json&lt;/code&gt; ，保存平台、显示名称和设备偏好。&lt;br /&gt;
-设备列表中的移除操作针对这份设置文档，并不会按发送设备顺带删除消息和附件；消息的生命周期由&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;下篇的删除与清理流程&lt;/a&gt;管理。&lt;/p&gt;
-&lt;p&gt;对我来说，OneDrop 仍然是围绕自己设备之间临时传递内容的小工具。&lt;br /&gt;
-OneDrive 承担存储以后，项目里需要反复处理的是这些状态之间的关系：一条消息何时算发出，另一台设备看到什么，失败后还有什么可以继续，删除以后还剩下哪些数据。&lt;br /&gt;
-把这些规则留在共享代码里，再把登录、下载和入口交给各平台处理，后续完善时也能沿着明确的边界继续修改。&lt;/p&gt;
+&lt;p&gt;还有两类数据需要分开看。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从未成功提交到云端的本地失败发送，可以在确认后删除 IndexedDB 记录，不需要制造一个云端  &lt;code&gt;tombstone&lt;/code&gt; 。&lt;/li&gt;
+&lt;li&gt;已经由用户下载、保存到系统目录中的文件，则属于用户自己的副本，不在 OneDrop 的消息清理范围内。&lt;br /&gt;
+删除下载登记信息也不等于删除那个本地文件。&lt;/li&gt;
+&lt;/ul&gt;
  ]]></description>
         </item>
         <item>
@@ -1315,8 +1318,8 @@ Zsh 在这里补充了不带前导零的  &lt;code&gt;%f&lt;/code&gt; （日）�
             <link>https://www.sycamore.top/%E7%94%9F%E6%B4%BB%E8%AE%B0%E5%BD%95/%E6%97%A5%E5%B8%B8%E7%90%90%E8%AE%B0/%E7%94%A8%E8%BF%87%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/</link>
             <category term="生活记录" scheme="https://www.sycamore.top/categories/Diary/" />
             <category term="日常琐记" scheme="https://www.sycamore.top/categories/Diary/%E6%97%A5%E5%B8%B8%E7%90%90%E8%AE%B0/" />
-            <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
             <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
+            <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
             <category term="Hexo" scheme="https://www.sycamore.top/tags/Hexo/" />
             <category term="博客主题" scheme="https://www.sycamore.top/tags/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/" />
             <pubDate>Sun, 12 Oct 2025 12:54:13 +0800</pubDate>
@@ -1552,9 +1555,9 @@ Zsh 在这里补充了不带前导零的  &lt;code&gt;%f&lt;/code&gt; （日）�
             <link>https://www.sycamore.top/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/%E5%8F%8D%E5%BC%B9%20Shell%EF%BC%9A%E8%BF%9E%E6%8E%A5%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</link>
             <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
             <category term="安全实验" scheme="https://www.sycamore.top/categories/CyberSecurity/%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/" />
-            <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
             <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
             <category term="反弹 Shell" scheme="https://www.sycamore.top/tags/%E5%8F%8D%E5%BC%B9-Shell/" />
+            <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
             <category term="Netcat" scheme="https://www.sycamore.top/tags/Netcat/" />
             <pubDate>Sun, 15 Jun 2025 21:48:27 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;什么是反弹shell&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#什么是反弹shell&#34;&gt;#&lt;/a&gt; 什么是反弹 shell？&lt;/h1&gt;
@@ -1783,8 +1786,8 @@ make clean
             <link>https://www.sycamore.top/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/Linux/%E9%87%8D%E6%96%B0%E7%BC%96%E8%AF%91%20Bash%EF%BC%9A%E7%BD%91%E7%BB%9C%E9%87%8D%E5%AE%9A%E5%90%91/</link>
             <category term="系统环境" scheme="https://www.sycamore.top/categories/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/" />
             <category term="Linux" scheme="https://www.sycamore.top/categories/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/Linux/" />
-            <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
             <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
+            <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
             <category term="源码编译" scheme="https://www.sycamore.top/tags/%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" />
             <category term="网络重定向" scheme="https://www.sycamore.top/tags/%E7%BD%91%E7%BB%9C%E9%87%8D%E5%AE%9A%E5%90%91/" />
             <pubDate>Sun, 20 Apr 2025 13:09:20 +0800</pubDate>
@@ -2844,11 +2847,11 @@ M834 80h400000v40h-400000z&#34;/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;&lt;/s
             <link>https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/%E6%8A%8A%20Electron%20%E7%AA%97%E5%8F%A3%E5%B5%8C%E5%85%A5%E6%A1%8C%E9%9D%A2/</link>
             <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
             <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
-            <category term="Windows" scheme="https://www.sycamore.top/tags/Windows/" />
             <category term="Electron" scheme="https://www.sycamore.top/tags/Electron/" />
             <category term="Node.js" scheme="https://www.sycamore.top/tags/Node-js/" />
             <category term="C++" scheme="https://www.sycamore.top/tags/C/" />
             <category term="npm" scheme="https://www.sycamore.top/tags/npm/" />
+            <category term="Windows" scheme="https://www.sycamore.top/tags/Windows/" />
             <pubDate>Sun, 19 May 2024 19:30:03 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;做&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/%E6%A1%8C%E9%9D%A2%E4%B8%80%E8%A8%80%EF%BC%9ASentences-Desktop/&#34;&gt;桌面一言&lt;/a&gt;时，我希望能把一言窗口直接放在 Windows 桌面上。为此写了插件 &lt;a href=&#34;https://github.com/noneSycamore/electron-addtodesktop&#34;&gt;electron-addtodesktop&lt;/a&gt;，把桌面窗口操作封装成  &lt;code&gt;attach&lt;/code&gt;  和  &lt;code&gt;detach&lt;/code&gt;  两个接口，在 Electron 主进程中调用。&lt;/p&gt;
 &lt;p&gt;这个扩展由 JavaScript 和 C++ 两部分组成。下面从窗口句柄的传递开始，整理桌面嵌入的实现，以及把原生扩展做成 npm 包时需要处理的内容。&lt;/p&gt;
