@@ -67,7 +67,7 @@ hexo.extend.generator.register('english-pages', async function (locals) {
       layout: original.layout || 'page',
       data: { math: original.math, prompt_glyph: original.prompt_glyph, date: original.date, updated: original.updated, cover: original.cover, layout: original.layout, source: original.source,
         categories: categories && Object.assign(categories, { toArray: () => categories }),
-        title: meta.title, content, language: 'en', path: route,
+        title: meta.title, _content: body, content, language: 'en', path: route,
         permalink: new URL(route, this.config.url + '/').href
       }
     });
