@@ -12,10 +12,12 @@ hexo.extend.generator.register('merged-article-redirects', () => {
 }));
   return [...aliases, ...previous].map(([path, target]) => {
   const url = encodeURI('/' + target);
+  // A saved comment or section on a renamed article takes precedence over a default section.
+  const preserveHash = `<script>if(location.hash)location.replace(${JSON.stringify(url.split('#')[0])}+location.hash)</script>`;
   const prefix = path.startsWith('en/');
   return {
     path: path + 'index.html',
-    data: `<!doctype html><html lang="${prefix ? 'en' : 'zh-CN'}"><meta charset="utf-8"><meta name="robots" content="noindex"><meta http-equiv="refresh" content="0;url=${url}"><title>${prefix ? 'Article moved' : '文章地址已更新'}</title><a href="${url}">${prefix ? 'Read the article' : '查看文章'}</a></html>`
+    data: `<!doctype html><html lang="${prefix ? 'en' : 'zh-CN'}"><meta charset="utf-8"><meta name="robots" content="noindex">${preserveHash}<meta http-equiv="refresh" content="0;url=${url}"><title>${prefix ? 'Article moved' : '文章地址已更新'}</title><a href="${url}">${prefix ? 'Read the article' : '查看文章'}</a></html>`
   };
 });
 });

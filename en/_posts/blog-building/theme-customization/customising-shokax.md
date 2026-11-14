@@ -9,7 +9,7 @@ tags:
 categories:
   - Blog Building
   - Theme Customization
-sections: {"installing-the-theme": "主题安装", "customising-the-theme": "主题修改", "basic-settings-worth-mentioning": "值得一说的基础配置", "top-navigation": "顶栏", "comments": "评论系统", "search": "搜索系统", "replacing-the-default-images": "默认图片更改", "changes-to-theme-files": "主题文件的修改和配置", "music-player": "音乐播放器", "browser-tab-title-and-favicon-text": "tab标签favicon内容修改", "editing-the-footer": "底部foot内容删改", "adding-an-iconfont-library": "iconfont图标库添加"}
+sections: {"installing-the-theme": "主题安装", "customising-the-theme": "主题修改", "basic-settings-worth-mentioning": "值得一说的基础配置", "top-navigation": "顶栏", "comment-settings": "评论系统", "search": "搜索系统", "replacing-the-default-images": "默认图片更改", "changes-to-theme-files": "主题文件的修改和配置", "music-player": "音乐播放器", "browser-tab-title-and-favicon-text": "tab标签favicon内容修改", "editing-the-footer": "底部foot内容删改", "adding-an-iconfont-library": "iconfont图标库添加"}
 ---
 
 [ShokaX]{.label} grew out of [Shoka]{.label}, apparently after the original theme stopped receiving updates. During my blog migration I found myself going back and forth between the two sets of documentation. Here’s what I changed in my installation.
@@ -58,7 +58,7 @@ menu:
 The Shoka docs suggest one way to add custom icons. I used the approach in [the Iconfont section below](#adding-an-iconfont-library).
 :::
 
-### Comments
+### Comment Settings
 
 MiniValine was no longer maintained, and there were serious security concerns with Valine. The ShokaX guide recommended another member of the Valine family. I went with Waline. These are the settings where my setup differed from the theme guide:
 

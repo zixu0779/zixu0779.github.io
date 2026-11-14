@@ -9,6 +9,12 @@ function checkRedirect(previous, target) {
   assert.equal(decodeURI(fallback), '/' + target, previous);
   assert.equal(refresh, fallback, previous);
   const [pathname, anchor] = target.split('#');
+  const hash = '#678fa86d6e25c660f9426655';
+  let destination;
+  require('node:vm').runInNewContext(redirect.match(/<script>([^<]+)<\/script>/)[1], {
+    location: {hash, replace: value => { destination = value; }}
+  });
+  assert.equal(decodeURI(destination), '/' + pathname + hash);
   const html = fs.readFileSync(path.join('public', pathname, 'index.html'), 'utf8');
   assert(!html.includes('http-equiv="refresh"'), 'Redirect chain: ' + target);
   if (anchor) assert(html.includes(`id="${anchor}"`), 'Missing merged section: ' + target);

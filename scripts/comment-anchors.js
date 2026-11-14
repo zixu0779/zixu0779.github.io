@@ -51,13 +51,18 @@ hexo.extend.generator.register('comment-tools', () => ({
 }));
 hexo.extend.filter.register('after_generate', async () => {
   const pending = new Map();
+  const { english } = require('../lib/english-routes');
+  const postPaths = Object.fromEntries(hexo.locals.get('posts').toArray().map(post => [
+    '/' + post.path, '/' + english(post.path)
+  ]));
   for (const path of hexo.route.list().filter(path => /^js\/.*\.js$/.test(path))) {
     let source = '';
     for await (const chunk of hexo.route.get(path)) source += chunk;
     let patched = fixCommentNavigation(fixRecentExcerpt(fixHashLookup(source)));
     if (/^js\/comments-[\w-]+\.js$/.test(path)) {
       patched = fixPreviewSecurity(patched)
-        .replace(/([\w$]+)\.url\+"#"\+\1\.objectId/g, '(document.documentElement.lang==="en"?"/en":"")+$1.url+"#"+$1.objectId')
+        .replace(/([\w$]+)\.url\+"#"\+\1\.objectId/g, (_, item) =>
+          `(document.documentElement.lang==="en"?(${JSON.stringify(postPaths)}[decodeURI(${item}.url)]||"/en"+${item}.url):${item}.url)+"#"+${item}.objectId`)
         .replaceAll('path:window.location.pathname', 'path:((document.documentElement.lang==="en"&&document.querySelector("#rightNav [data-counterpart]")?.dataset.counterpart)||window.location.pathname.replace(/^\\/en(?=\\/)/, "") || "/")')
         .replace(/lang:([\w$]+)\.waline\.lang,locale:\1\.waline\.locale/, 'lang:document.documentElement.lang,locale:document.documentElement.lang==="en"?{}:$1.waline.locale');
     }
