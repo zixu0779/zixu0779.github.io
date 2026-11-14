@@ -83,3 +83,16 @@ html[lang="en"] #sidebar .overview .menu {
   align-items: center;
   justify-content: center;
 }
+
+#brand .meta .item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .3em;
+  white-space: nowrap;
+}
+
+#brand .meta {
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: .25em;
+}
