@@ -1,5 +1,5 @@
 ---
-title: Machine learning notes
+title: Machine Learning Notes
 translation_id: machine-learning-notes
 source_digest: f2624e99fe08a492cb5fb2a45b1d6781ea991993bd090b865cb1c9b286555131
 tags:

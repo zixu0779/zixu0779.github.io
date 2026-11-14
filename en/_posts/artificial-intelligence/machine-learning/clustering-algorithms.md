@@ -1,5 +1,5 @@
 ---
-title: Clustering algorithms
+title: Clustering Algorithms
 translation_id: clustering-algorithms
 source_digest: 4fbf5a4e738047dfa5d879ce2b2bb040b320ed4c502209123cd9e9181b4eba48
 math: true

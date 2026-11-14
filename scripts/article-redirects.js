@@ -1,7 +1,6 @@
 // Merged articles retain their published addresses without duplicate archive entries.
 hexo.extend.generator.register('merged-article-redirects', () => {
-  const { english, files } = require('../lib/english-routes');
-  const previous = hexo.locals.get('posts').toArray().filter(p => files.has(p.source)).map(p => ['en/' + p.path, english(p.path)]);
+  const { english, formerPosts } = require('../lib/english-routes');
   const aliases = [
   ['网络安全/安全实验/反弹 Shell/', '网络安全/安全实验/反弹 Shell：连接原理与实现方式/'],
   ['博客建设/建站部署/云服务器建站准备/', '博客搭建/建站部署/用宝塔搭建 WordPress/#准备工作'],
@@ -10,7 +9,7 @@ hexo.extend.generator.register('merged-article-redirects', () => {
   const [pathname, hash] = target.split('#');
   return [prefix + path, (prefix ? english(pathname) : pathname) + (hash ? '#' + hash : '')];
 }));
-  return [...aliases, ...previous].map(([path, target]) => {
+  return [...aliases, ...formerPosts].map(([path, target]) => {
   const url = encodeURI('/' + target);
   // A saved comment or section on a renamed article takes precedence over a default section.
   const preserveHash = `<script>if(location.hash)location.replace(${JSON.stringify(url.split('#')[0])}+location.hash)</script>`;

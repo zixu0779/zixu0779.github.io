@@ -1,5 +1,5 @@
 ---
-title: Notes on the basics of cryptography
+title: Cryptography Basics
 translation_id: cryptography-basics
 source_digest: d87bd72b6313bcd23f2f92e1e3e48eed649c327483eb24a1c17db7a32d83e9cc
 tags:

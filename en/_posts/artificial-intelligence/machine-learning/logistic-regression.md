@@ -1,5 +1,5 @@
 ---
-title: Logistic regression
+title: Logistic Regression
 translation_id: logistic-regression
 source_digest: 8bd821371ddeafc93f1a7dac436bba706e618e32694dbab5e4419521b84cf27f
 math: true
