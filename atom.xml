@@ -92,17 +92,24 @@
 &lt;h3 id=&#34;android-edge-的标签页&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#android-edge-的标签页&#34;&gt;#&lt;/a&gt; Android Edge 的标签页&lt;/h3&gt;
 &lt;p&gt;在 Android Edge 上点击 OneDrop，扩展会打开独立的  &lt;code&gt;android-mobile.html&lt;/code&gt;  标签页。&lt;br /&gt;
 如果上次打开的 OneDrop 标签页还在，再点图标时就切回那一页。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794817674/Typora/2026/10/29/onedrop-android-tab.png&#34; alt=&#34;Android Edge 切换到已有 OneDrop 标签页或新建标签页的源码&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794818604/Typora/2026/10/29/onedrop-android-edge-messages.png&#34; alt=&#34;Android Edge 标签页中的 OneDrop 消息列表和底部浏览器地址栏&#34; /&gt;&lt;/p&gt;
 &lt;h3 id=&#34;ios-edge-的弹窗&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#ios-edge-的弹窗&#34;&gt;#&lt;/a&gt; iOS Edge 的弹窗&lt;/h3&gt;
-&lt;p&gt;iOS Edge 使用  &lt;code&gt;ios-mobile.html&lt;/code&gt;  弹窗。扩展清单里还声明了桌面的侧栏页面，因此侧栏入口也会检查一次平台。&lt;br /&gt;
+&lt;p&gt;iOS Edge 使用  &lt;code&gt;ios-mobile.html&lt;/code&gt;  弹窗。&lt;br /&gt;
+扩展清单里还声明了桌面的侧栏页面，因此侧栏入口也会检查一次平台。&lt;br /&gt;
 即使浏览器从这个入口加载，只要识别为 iOS，就改用移动样式和 iOS Edge 对应的桥接。&lt;/p&gt;
+&lt;p&gt;弹窗展开后，消息列表和底部输入框如下图所示。&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794743409/Typora/2026/10/29/onedrop-ios-edge-messages.png&#34; alt=&#34;iPhone 上的 OneDrop 消息列表与底部输入框&#34; /&gt;&lt;/p&gt;
 &lt;h3 id=&#34;移动端键盘的弹出效果&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#移动端键盘的弹出效果&#34;&gt;#&lt;/a&gt; 移动端键盘的弹出效果&lt;/h3&gt;
-&lt;p&gt;移动端的消息输入框在页面底部。点进输入框后，软键盘会占去一部分屏幕。&lt;br /&gt;
-页面需要随可见区域一起缩短，才能让输入框留在键盘上方。&lt;/p&gt;
-&lt;p&gt;以 iOS Edge 的弹窗为例，这里用浏览器的  &lt;code&gt;visualViewport&lt;/code&gt;  取得可见区域。&lt;br /&gt;
+&lt;p&gt;在移动端 Edge 里，弹出软键盘的时候，屏幕上能看到的区域变小了，但窗口却还按原来的高度显示，底部的输入框就会被键盘挡住。&lt;br /&gt;
+如果让浏览器按默认方式执行，虽然它会自主调整可见区域的位置，但其位置往往不精准。所以正确的做法是，在键盘弹出时获取相关的变动数据，并进行准确的调整。&lt;/p&gt;
+&lt;p&gt;而对于 iOS Edge 来说，情况会更加复杂一点。&lt;br /&gt;
+因为 iOS Edge 用弹窗来展示 OneDrop 的内容，其弹窗有半高和全高两种状态，因此可见区域的大小也要动态获取。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794820657/Typora/2026/10/29/onedrop-ios-edge-half-height-popup.png&#34; alt=&#34;iOS Edge 中半高显示的 OneDrop 弹窗&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;这里用浏览器的  &lt;code&gt;visualViewport&lt;/code&gt;  取得可见区域。&lt;br /&gt;
 它的  &lt;code&gt;height&lt;/code&gt;  表示当前可见区域的高度， &lt;code&gt;offsetTop&lt;/code&gt;  表示可见区域顶部相对布局视口的偏移。&lt;br /&gt;
-OneDrop 在可见区域大小或位置发生变化时，把这两个数写入 CSS 变量，弹窗根元素据此调整自己的高度和位置：&lt;/p&gt;
+如果浏览器没有提供  &lt;code&gt;visualViewport&lt;/code&gt; ，就取  &lt;code&gt;window.innerHeight&lt;/code&gt;  作为高度，顶部偏移按 0 处理。&lt;br /&gt;
+每次可见区域发生变化，OneDrop 都会重新取值，四舍五入到整数像素后写入两个 CSS 变量。&lt;/p&gt;
+&lt;figure class=&#34;highlight js&#34;&gt;&lt;figcaption data-lang=&#34;JavaScript&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;const&lt;/span&gt; viewport &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; window&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;visualViewport&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;const&lt;/span&gt; height &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; viewport&lt;span class=&#34;token operator&#34;&gt;?.&lt;/span&gt;height &lt;span class=&#34;token operator&#34;&gt;??&lt;/span&gt; window&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;innerHeight&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;const&lt;/span&gt; offsetTop &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; viewport&lt;span class=&#34;token operator&#34;&gt;?.&lt;/span&gt;offsetTop &lt;span class=&#34;token operator&#34;&gt;??&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;const&lt;/span&gt; style &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; document&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;documentElement&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;style&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;style&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;setProperty&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#34;--ios-edge-popup-height&#34;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token template-string&#34;&gt;&lt;span class=&#34;token template-punctuation string&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;token interpolation&#34;&gt;&lt;span class=&#34;token interpolation-punctuation punctuation&#34;&gt;$&amp;#123;&lt;/span&gt;Math&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;round&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;height&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token interpolation-punctuation punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;px&lt;/span&gt;&lt;span class=&#34;token template-punctuation string&#34;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;style&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;setProperty&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;&#34;--ios-edge-popup-offset-top&#34;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token template-string&#34;&gt;&lt;span class=&#34;token template-punctuation string&#34;&gt;`&lt;/span&gt;&lt;span class=&#34;token interpolation&#34;&gt;&lt;span class=&#34;token interpolation-punctuation punctuation&#34;&gt;$&amp;#123;&lt;/span&gt;Math&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;round&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;offsetTop&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token interpolation-punctuation punctuation&#34;&gt;&amp;#125;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token string&#34;&gt;px&lt;/span&gt;&lt;span class=&#34;token template-punctuation string&#34;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;弹窗根元素用这两个变量设置顶部位置和高度：&lt;/p&gt;
 &lt;figure class=&#34;highlight css&#34;&gt;&lt;figcaption data-lang=&#34;CSS&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token property&#34;&gt;top&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;--ios-edge-popup-offset-top&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; 0px&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token property&#34;&gt;height&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;:&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;--ios-edge-popup-height&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; 100dvh&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;键盘弹出的动画还在进行时，可见高度可能继续变化。&lt;br /&gt;
 因此输入框获得焦点后，弹窗会在接下来的半秒内分几次更新尺寸，并对仍然聚焦的输入框调用  &lt;code&gt;scrollIntoView(&amp;#123; block: &amp;quot;nearest&amp;quot; &amp;#125;)&lt;/code&gt; ，让它留在可见范围内。&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794743413/Typora/2026/10/29/onedrop-ios-edge-keyboard.png&#34; alt=&#34;键盘弹出后，OneDrop 的输入框仍位于键盘上方&#34; /&gt;&lt;/p&gt;
@@ -130,9 +137,12 @@ OneDrop 在可见区域大小或位置发生变化时，把这两个数写入 CS
 下次再点同一个附件时，可以先查这个编号，文件还在就直接打开。具体怎样确认浏览器下载完成，见&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/#%E4%B8%8B%E8%BD%BD%E8%AE%B0%E5%BD%95%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%8D%E7%94%A8&#34;&gt;上篇的下载记录与文件复用&lt;/a&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;android-edge-的附件下载&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#android-edge-的附件下载&#34;&gt;#&lt;/a&gt; Android Edge 的附件下载&lt;/h3&gt;
 &lt;p&gt;Android Edge 从 OneDrop 的标签页发起下载。&lt;br /&gt;
-用户点下载时，扩展先准备好附件地址，再通过  &lt;code&gt;location.assign()&lt;/code&gt;  访问这个地址，把文件交给 Edge 下载。&lt;br /&gt;
-页面还会跟进这次任务，取得已完成的浏览器下载编号后，将它与附件关联起来。&lt;br /&gt;
-如果下载期间离开了页面，回来后也可以根据已保存的任务状态继续检查。&lt;/p&gt;
+用户点下载时，扩展先准备好附件地址，再通过  &lt;code&gt;location.assign()&lt;/code&gt;  访问这个地址，把文件交给 Edge 下载。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794818863/Typora/2026/10/29/onedrop-android-edge-download-confirmation.png&#34; alt=&#34;Android Edge 询问是否下载 MP4 附件&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;点确认后，文件由 Edge 下载，OneDrop 还要在附件旁显示进度。&lt;br /&gt;
+页面用附件的  &lt;code&gt;driveItemId&lt;/code&gt;  向后台查询下载状态，两次查询之间间隔 250 毫秒。进度根据已接收字节数和文件总大小计算，Edge 确认完成前最多显示 99%。&lt;/p&gt;
+&lt;p&gt;下载完成后，OneDrop 把 Edge 返回的下载编号和附件关联起来。&lt;br /&gt;
+如果中途离开标签页，再次打开时，OneDrop 会先查询之前的任务。还在下载的继续显示进度，已经完成的直接补上下载记录。&lt;/p&gt;
 &lt;h3 id=&#34;ios-edge-的文件分享&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#ios-edge-的文件分享&#34;&gt;#&lt;/a&gt; iOS Edge 的文件分享&lt;/h3&gt;
 &lt;p&gt;在 iOS Edge 里，附件要先准备成浏览器可以分享的  &lt;code&gt;File&lt;/code&gt; 。&lt;br /&gt;
 OneDrop 会按  &lt;code&gt;driveItemId&lt;/code&gt;  查找 IndexedDB 里的附件缓存，核对文件名、记录的大小和实际二进制数据的大小。&lt;br /&gt;
@@ -1356,9 +1366,9 @@ Zsh 在这里补充了不带前导零的  &lt;code&gt;%f&lt;/code&gt; （日）�
 &lt;/style&gt;</content>
         <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
         <category term="开发环境" scheme="https://www.sycamore.top/categories/Develop/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" />
+        <category term="主题定制" scheme="https://www.sycamore.top/tags/%E4%B8%BB%E9%A2%98%E5%AE%9A%E5%88%B6/" />
         <category term="Zsh" scheme="https://www.sycamore.top/tags/Zsh/" />
         <category term="Oh My Zsh" scheme="https://www.sycamore.top/tags/Oh-My-Zsh/" />
-        <category term="主题定制" scheme="https://www.sycamore.top/tags/%E4%B8%BB%E9%A2%98%E5%AE%9A%E5%88%B6/" />
         <updated>2026-02-18T08:19:45.000Z</updated>
     </entry>
     <entry>
@@ -1414,9 +1424,9 @@ Zsh 在这里补充了不带前导零的  &lt;code&gt;%f&lt;/code&gt; （日）�
 </content>
         <category term="生活记录" scheme="https://www.sycamore.top/categories/Diary/" />
         <category term="日常琐记" scheme="https://www.sycamore.top/categories/Diary/%E6%97%A5%E5%B8%B8%E7%90%90%E8%AE%B0/" />
-        <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
-        <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
         <category term="Hexo" scheme="https://www.sycamore.top/tags/Hexo/" />
+        <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
+        <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
         <category term="博客主题" scheme="https://www.sycamore.top/tags/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/" />
         <updated>2025-10-12T04:54:13.000Z</updated>
     </entry>
@@ -1823,9 +1833,9 @@ make clean
 </content>
         <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
         <category term="安全实验" scheme="https://www.sycamore.top/categories/CyberSecurity/%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/" />
+        <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
         <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="反弹 Shell" scheme="https://www.sycamore.top/tags/%E5%8F%8D%E5%BC%B9-Shell/" />
-        <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
         <category term="Netcat" scheme="https://www.sycamore.top/tags/Netcat/" />
         <updated>2025-06-15T13:48:27.000Z</updated>
     </entry>
@@ -1874,8 +1884,8 @@ make clean
 </content>
         <category term="系统环境" scheme="https://www.sycamore.top/categories/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/" />
         <category term="Linux" scheme="https://www.sycamore.top/categories/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/Linux/" />
-        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
+        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="源码编译" scheme="https://www.sycamore.top/tags/%E6%BA%90%E7%A0%81%E7%BC%96%E8%AF%91/" />
         <category term="网络重定向" scheme="https://www.sycamore.top/tags/%E7%BD%91%E7%BB%9C%E9%87%8D%E5%AE%9A%E5%90%91/" />
         <updated>2025-04-20T05:09:20.000Z</updated>
@@ -1972,8 +1982,8 @@ CNN 的输入数据都是 3 维的，不用拉成一个向量&lt;br /&gt;
 </content>
         <category term="人工智能" scheme="https://www.sycamore.top/categories/AI/" />
         <category term="深度学习" scheme="https://www.sycamore.top/categories/AI/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" />
-        <category term="CNN" scheme="https://www.sycamore.top/tags/CNN/" />
         <category term="机器学习" scheme="https://www.sycamore.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" />
+        <category term="CNN" scheme="https://www.sycamore.top/tags/CNN/" />
         <category term="残差网络" scheme="https://www.sycamore.top/tags/%E6%AE%8B%E5%B7%AE%E7%BD%91%E7%BB%9C/" />
         <updated>2025-03-16T00:09:05.000Z</updated>
     </entry>
@@ -2281,8 +2291,8 @@ crontab 是用来定期执行程序的命令，&lt;br /&gt;
 </content>
         <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
         <category term="Linux 后门" scheme="https://www.sycamore.top/categories/CyberSecurity/Linux-%E5%90%8E%E9%97%A8/" />
-        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="SSH" scheme="https://www.sycamore.top/tags/SSH/" />
+        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="权限维持" scheme="https://www.sycamore.top/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/" />
         <category term="计划任务" scheme="https://www.sycamore.top/tags/%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1/" />
         <updated>2024-12-15T15:36:35.000Z</updated>
@@ -2564,8 +2574,8 @@ make
 </content>
         <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
         <category term="Linux 后门" scheme="https://www.sycamore.top/categories/CyberSecurity/Linux-%E5%90%8E%E9%97%A8/" />
-        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="SSH" scheme="https://www.sycamore.top/tags/SSH/" />
+        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="权限维持" scheme="https://www.sycamore.top/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/" />
         <category term="PAM" scheme="https://www.sycamore.top/tags/PAM/" />
         <updated>2024-10-13T15:35:57.000Z</updated>
@@ -2628,10 +2638,10 @@ make
 </content>
         <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
         <category term="Linux 后门" scheme="https://www.sycamore.top/categories/CyberSecurity/Linux-%E5%90%8E%E9%97%A8/" />
+        <category term="SSH" scheme="https://www.sycamore.top/tags/SSH/" />
         <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
         <category term="Kali" scheme="https://www.sycamore.top/tags/Kali/" />
         <category term="VMware" scheme="https://www.sycamore.top/tags/VMware/" />
-        <category term="SSH" scheme="https://www.sycamore.top/tags/SSH/" />
         <updated>2024-09-15T13:36:37.000Z</updated>
     </entry>
     <entry>
@@ -2883,10 +2893,10 @@ M834 80h400000v40h-400000z&#34;/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;&lt;/s
 </content>
         <category term="人工智能" scheme="https://www.sycamore.top/categories/AI/" />
         <category term="机器学习" scheme="https://www.sycamore.top/categories/AI/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" />
-        <category term="机器学习" scheme="https://www.sycamore.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" />
         <category term="决策树" scheme="https://www.sycamore.top/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" />
         <category term="异常检测" scheme="https://www.sycamore.top/tags/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/" />
         <category term="主成分分析" scheme="https://www.sycamore.top/tags/%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90/" />
+        <category term="机器学习" scheme="https://www.sycamore.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" />
         <category term="模型优化" scheme="https://www.sycamore.top/tags/%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96/" />
         <updated>2024-06-15T18:14:36.000Z</updated>
     </entry>
@@ -2960,11 +2970,11 @@ M834 80h400000v40h-400000z&#34;/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;&lt;/s
 </content>
         <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
         <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
+        <category term="Windows" scheme="https://www.sycamore.top/tags/Windows/" />
         <category term="Electron" scheme="https://www.sycamore.top/tags/Electron/" />
         <category term="Node.js" scheme="https://www.sycamore.top/tags/Node-js/" />
         <category term="C++" scheme="https://www.sycamore.top/tags/C/" />
         <category term="npm" scheme="https://www.sycamore.top/tags/npm/" />
-        <category term="Windows" scheme="https://www.sycamore.top/tags/Windows/" />
         <updated>2024-05-19T11:30:03.000Z</updated>
     </entry>
 </feed>
