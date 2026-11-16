@@ -50,6 +50,8 @@ hexo.extend.filter.register('theme_inject', injects => {
   const vendors = hexo.theme.config.vendors;
   const viewer = { js: getVendorLink(hexo, vendors.async_js.fancybox), css: getVendorLink(hexo, vendors.css.fancybox) };
   injects.bodyEnd.raw('image-viewer', `<script src="/js/image-viewer.js" data-vendors="${escapeHTML(JSON.stringify(viewer))}" defer></script>`);
+  injects.head.raw('post-image-feedback', '<link rel="stylesheet" href="/css/post-image-feedback.css">');
+  injects.bodyEnd.raw('post-image-feedback', '<script src="/js/post-image-feedback.js" defer></script>');
   const uiVersion = createHash('sha256').update(readFileSync(join(hexo.source_dir, 'js/site-ui.js'))).digest('hex').slice(0, 12);
   injects.bodyEnd.raw('site-ui', `<script src="/js/search-match.js" defer></script><script src="/js/site-ui.js?v=${uiVersion}" data-empty-social="${escapeHTML(JSON.stringify(emptySocial))}" defer></script>`);
 });
