@@ -61,17 +61,27 @@ hexo.extend.generator.register('english-pages', async function (locals) {
     }
     const categories = original.categories?.map(category => ({
       _id: category._id, path: category.path, name: labels[category.name] ?? category.name
-    }));
+    })) || [];
     routes.push({
       path: route,
       layout: original.layout || 'page',
       data: { math: original.math, prompt_glyph: original.prompt_glyph, date: original.date, updated: original.updated, cover: original.cover, layout: original.layout, source: original.source,
-        categories: categories && Object.assign(categories, { toArray: () => categories }),
+        categories: Object.assign(categories, { toArray: () => categories, last: () => categories.at(-1) }),
         title: meta.title, _content: body, content, language: 'en', path: route,
         permalink: new URL(route, this.config.url + '/').href
       }
     });
   }
+  // Match the date-descending archive, keeping standalone pages outside the post sequence.
+  const posts = routes.filter(route => route.layout === 'post');
+  const neighbors = posts.map(({ path, data: { title, cover, categories } }) => ({ path, title, cover, categories }));
+  posts.forEach(({ data }, i) => {
+    data.prev = neighbors[i - 1];
+    data.next = neighbors[i + 1];
+    // ShokaX's sidebar uses the explicit links for custom-generated routes.
+    data.prev_link = data.prev?.path;
+    data.next_link = data.next?.path;
+  });
   routes.push({ path: 'en/search.json', data: JSON.stringify(index) });
   if (feedPosts.length) {
     const helpers = this.extend.helper;
