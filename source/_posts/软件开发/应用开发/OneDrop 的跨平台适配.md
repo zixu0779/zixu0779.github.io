@@ -69,23 +69,44 @@ const response = await sendRequest({ type: "messages/read-current-month" });
 在 Android Edge 上点击 OneDrop，扩展会打开独立的 `android-mobile.html` 标签页。
 如果上次打开的 OneDrop 标签页还在，再点图标时就切回那一页。
 
-![Android Edge 切换到已有 OneDrop 标签页或新建标签页的源码](https://res.cloudinary.com/sycamore/image/upload/v1794817674/Typora/2026/10/29/onedrop-android-tab.png)
+![Android Edge 标签页中的 OneDrop 消息列表和底部浏览器地址栏](https://res.cloudinary.com/sycamore/image/upload/v1794818604/Typora/2026/10/29/onedrop-android-edge-messages.png)
 
 ### iOS Edge 的弹窗
 
-iOS Edge 使用 `ios-mobile.html` 弹窗。扩展清单里还声明了桌面的侧栏页面，因此侧栏入口也会检查一次平台。
+iOS Edge 使用 `ios-mobile.html` 弹窗。
+扩展清单里还声明了桌面的侧栏页面，因此侧栏入口也会检查一次平台。
 即使浏览器从这个入口加载，只要识别为 iOS，就改用移动样式和 iOS Edge 对应的桥接。
+
+弹窗展开后，消息列表和底部输入框如下图所示。
 
 ![iPhone 上的 OneDrop 消息列表与底部输入框](https://res.cloudinary.com/sycamore/image/upload/v1794743409/Typora/2026/10/29/onedrop-ios-edge-messages.png)
 
 ### 移动端键盘的弹出效果
 
-移动端的消息输入框在页面底部。点进输入框后，软键盘会占去一部分屏幕。
-页面需要随可见区域一起缩短，才能让输入框留在键盘上方。
+在移动端 Edge 里，弹出软键盘的时候，屏幕上能看到的区域变小了，但窗口却还按原来的高度显示，底部的输入框就会被键盘挡住。
+如果让浏览器按默认方式执行，虽然它会自主调整可见区域的位置，但其位置往往不精准。所以正确的做法是，在键盘弹出时获取相关的变动数据，并进行准确的调整。
 
-以 iOS Edge 的弹窗为例，这里用浏览器的 `visualViewport` 取得可见区域。
+而对于 iOS Edge 来说，情况会更加复杂一点。
+因为 iOS Edge 用弹窗来展示 OneDrop 的内容，其弹窗有半高和全高两种状态，因此可见区域的大小也要动态获取。
+
+![iOS Edge 中半高显示的 OneDrop 弹窗](https://res.cloudinary.com/sycamore/image/upload/v1794820657/Typora/2026/10/29/onedrop-ios-edge-half-height-popup.png)
+
+这里用浏览器的 `visualViewport` 取得可见区域。
 它的 `height` 表示当前可见区域的高度，`offsetTop` 表示可见区域顶部相对布局视口的偏移。
-OneDrop 在可见区域大小或位置发生变化时，把这两个数写入 CSS 变量，弹窗根元素据此调整自己的高度和位置：
+如果浏览器没有提供 `visualViewport`，就取 `window.innerHeight` 作为高度，顶部偏移按 0 处理。
+每次可见区域发生变化，OneDrop 都会重新取值，四舍五入到整数像素后写入两个 CSS 变量。
+
+```js
+const viewport = window.visualViewport;
+const height = viewport?.height ?? window.innerHeight;
+const offsetTop = viewport?.offsetTop ?? 0;
+
+const style = document.documentElement.style;
+style.setProperty("--ios-edge-popup-height", `${Math.round(height)}px`);
+style.setProperty("--ios-edge-popup-offset-top", `${Math.round(offsetTop)}px`);
+```
+
+弹窗根元素用这两个变量设置顶部位置和高度：
 
 ```css
 top: var(--ios-edge-popup-offset-top, 0px);
@@ -135,8 +156,14 @@ height: var(--ios-edge-popup-height, 100dvh);
 
 Android Edge 从 OneDrop 的标签页发起下载。
 用户点下载时，扩展先准备好附件地址，再通过 `location.assign()` 访问这个地址，把文件交给 Edge 下载。
-页面还会跟进这次任务，取得已完成的浏览器下载编号后，将它与附件关联起来。
-如果下载期间离开了页面，回来后也可以根据已保存的任务状态继续检查。
+
+![Android Edge 询问是否下载 MP4 附件](https://res.cloudinary.com/sycamore/image/upload/v1794818863/Typora/2026/10/29/onedrop-android-edge-download-confirmation.png)
+
+点确认后，文件由 Edge 下载，OneDrop 还要在附件旁显示进度。
+页面用附件的 `driveItemId` 向后台查询下载状态，两次查询之间间隔 250 毫秒。进度根据已接收字节数和文件总大小计算，Edge 确认完成前最多显示 99%。
+
+下载完成后，OneDrop 把 Edge 返回的下载编号和附件关联起来。
+如果中途离开标签页，再次打开时，OneDrop 会先查询之前的任务。还在下载的继续显示进度，已经完成的直接补上下载记录。
 
 ### iOS Edge 的文件分享
 

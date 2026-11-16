@@ -1,7 +1,7 @@
 ---
 title: How OneDrop Adapts to Each Platform
 translation_id: onedrop-platforms
-source_digest: 18697662dfffe5369b5a30002cc2ac8c407e355bdfbc42e27b36a94c4272989b
+source_digest: f1ad14e02b43c256b9a5a4c2435a8babd233e402a532d153f2c83ef307ab2846
 tags:
   - OneDrop
   - TypeScript
@@ -67,19 +67,39 @@ When the side panel API is available, OneDrop configures the toolbar icon to ope
 
 Tapping OneDrop in Edge on Android opens a separate `android-mobile.html` tab. If that tab is still open, tapping the icon again brings it back into view.
 
-![Source code for reusing an existing OneDrop tab or opening a new one in Edge on Android](https://res.cloudinary.com/sycamore/image/upload/v1794817674/Typora/2026/10/29/onedrop-android-tab.png)
+![The OneDrop message list in an Edge tab on Android, with the browser address bar below](https://res.cloudinary.com/sycamore/image/upload/v1794818604/Typora/2026/10/29/onedrop-android-edge-messages.png)
 
 ### The popup in Edge on iOS
 
 Edge on iOS uses the `ios-mobile.html` popup. The extension manifest also declares the desktop side panel page, so that entry point checks the platform too. If Edge loads the panel on iOS, it switches to the mobile styles and the iOS Edge bridge.
 
+The expanded popup shows the message list with the composer at the bottom.
+
 ![The OneDrop message list and composer in Edge on iPhone](https://res.cloudinary.com/sycamore/image/upload/v1794743409/Typora/2026/10/29/onedrop-ios-edge-messages.png)
 
 ### When the mobile keyboard opens
 
-On mobile, the message composer sits at the bottom of the page. Tapping it brings up the keyboard and reduces the visible area. The page needs to shrink with that area to keep the composer above the keyboard.
+When the keyboard opens in Edge on mobile, the visible area shrinks. If the window keeps its original height, the keyboard can cover the composer at the bottom.
+The browser may scroll the focused field into view, but it doesn’t always end up in the right place. I adjust the layout using the new height and position instead.
 
-The popup in Edge on iOS gets the visible area through the browser’s `visualViewport`. Its `height` is the available height and `offsetTop` is the distance from the top of the layout viewport. When the visible area changes size or position, OneDrop writes both values to CSS variables. The popup’s root element uses them to adjust its height and position:
+There’s one more detail in Edge on iOS. OneDrop runs in a popup that can be half height or fully expanded, so its available space has to be measured as it changes.
+
+![The OneDrop popup at half height in Edge on iOS](https://res.cloudinary.com/sycamore/image/upload/v1794820657/Typora/2026/10/29/onedrop-ios-edge-half-height-popup.png)
+
+The browser exposes the visible area through `visualViewport`. Its `height` is the available height, and `offsetTop` is the distance from the top of the layout viewport.
+If the browser doesn’t provide `visualViewport`, OneDrop uses `window.innerHeight` and a top offset of zero. When the visible area changes, it reads the values again, rounds them to whole pixels and writes them to two CSS variables.
+
+```js
+const viewport = window.visualViewport;
+const height = viewport?.height ?? window.innerHeight;
+const offsetTop = viewport?.offsetTop ?? 0;
+
+const style = document.documentElement.style;
+style.setProperty("--ios-edge-popup-height", `${Math.round(height)}px`);
+style.setProperty("--ios-edge-popup-offset-top", `${Math.round(offsetTop)}px`);
+```
+
+The popup’s root element uses those variables to set its top position and height:
 
 ```css
 top: var(--ios-edge-popup-offset-top, 0px);
@@ -116,7 +136,14 @@ Desktop Edge saves files through the browser’s downloads API. It also supports
 
 ### Downloading attachments in Edge on Android
 
-In Edge on Android, the download starts from the OneDrop tab. When I tap download, the extension prepares the attachment URL and navigates to it with `location.assign()`, handing the file to Edge. The page follows the task and associates the completed browser download ID with the attachment. If I leave the page during a download, it can use the saved task state to check on the download when I return.
+In Edge on Android, the download starts from the OneDrop tab. When I tap download, the extension prepares the attachment URL and navigates to it with `location.assign()`, handing the file to Edge.
+
+![Edge on Android asking whether to download the MP4 attachment](https://res.cloudinary.com/sycamore/image/upload/v1794818863/Typora/2026/10/29/onedrop-android-edge-download-confirmation.png)
+
+After I confirm, Edge downloads the file while OneDrop shows the progress next to the attachment.
+The page queries the background process using the attachment’s `driveItemId`, waiting 250 milliseconds between checks. It calculates progress from the bytes received and the total file size, and caps it at 99% until Edge reports that the download is complete.
+
+OneDrop then associates the download ID from Edge with the attachment. If I leave the tab and come back, OneDrop checks the saved task first. It resumes showing progress for an active download or records the download ID straight away if it has already finished.
 
 ### Sharing files in Edge on iOS
 
