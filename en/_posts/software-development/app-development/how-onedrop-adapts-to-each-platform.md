@@ -1,7 +1,7 @@
 ---
 title: How OneDrop Adapts to Each Platform
 translation_id: onedrop-platforms
-source_digest: 396a61ebbd694fa44c6d5532921bdb7f297e8ea76891b67ec6ff8a40f61478e0
+source_digest: 18697662dfffe5369b5a30002cc2ac8c407e355bdfbc42e27b36a94c4272989b
 tags:
   - OneDrop
   - TypeScript
@@ -10,63 +10,136 @@ tags:
 categories:
   - Software Development
   - App Development
-sections: {"sharing-the-message-model": "共享代码的组织", "platform-capabilities": "平台能力与适配", "browser-extension-entry-points": "浏览器扩展入口", "native-ios": "原生-ios-适配"}
+sections: {"shared-code-across-platforms": "多端共用的代码结构", "app-entry-points-and-shared-packages": "平台入口和共享包", "reading-the-current-months-messages": "读取当月消息", "edge-extension-entry-points-and-layout": "edge-扩展的入口和布局", "the-desktop-edge-side-panel": "桌面-edge-的侧栏", "the-onedrop-tab-in-edge-on-android": "android-edge-的标签页", "the-popup-in-edge-on-ios": "ios-edge-的弹窗", "when-the-mobile-keyboard-opens": "移动端键盘的弹出效果", "account-and-device-settings": "账户和设备设置", "sign-in-windows-and-token-storage": "登录窗口与令牌保存", "per-device-settings": "每台设备的设置", "attachment-actions": "附件操作", "downloads-in-desktop-edge": "桌面-edge-的浏览器下载", "downloading-attachments-in-edge-on-android": "android-edge-的附件下载", "sharing-files-in-edge-on-ios": "ios-edge-的文件分享", "previewing-and-exporting-files-in-the-ios-app": "独立-ios-应用的文件预览与导出", "copying-an-image": "复制图片"}
 ---
 
-[Part one](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/) and [part two](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-two/) cover how [OneDrop](https://github.com/zixu0779/OneDrop) stores and syncs messages. This post looks at what the browser extension and native iOS app share, and where they need different implementations. I’m still referring to [version 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3).
+I originally built [OneDrop](https://github.com/zixu0779/OneDrop) to send files from Edge. On a phone I could keep the same message list and composer, but opening a file needed different handling. On my computer I want to open the downloaded file. In Edge on my iPhone I want the system share sheet so I can choose which app receives it.
+
+[Part one](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/) and [part two](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-two/) cover storing messages in OneDrive and syncing them across devices. Here I’m using [OneDrop 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3) again to look at the changes needed for desktop Edge, mobile Edge and the standalone iOS app.
 
 <!-- more -->
 
-## Sharing the message model
+## Shared code across platforms
 
-All the entry points work with the same message model. If each platform implemented merging, deletion tombstones and archiving separately, an edge case would need fixing in several places. Two devices could even interpret the same cloud data differently. OneDrop puts those rules in shared packages and lets each app assemble the pieces it needs.
+### App entry points and shared packages
 
-| Directory | Responsibility |
+OneDrop’s entry points live under `apps/`. Edge on desktop and mobile uses the same extension, while the standalone iOS app has its own entry point.
+The UI, message model and OneDrive operations used across platforms live under `packages/`.
+
+| Directory | Purpose |
 | --- | --- |
-| `packages/core` | Message, month and settings types; runtime request protocol |
-| `packages/onedrive` | Graph requests, message chunks, archives, tombstones and attachments |
-| `packages/web-storage` | IndexedDB cache, pending sends and download records |
-| `packages/platform` | Platform bridge interfaces and runtime dependencies |
-| `packages/app-runtime` | Authorisation, device, settings and download services |
-| `packages/extension-runtime` | Dispatching background requests and handling extension entry points |
-| `packages/ui` | Shared React UI and interaction state |
-| `apps/edge`, `apps/ios` | Platform-specific assembly and native adapters |
+| `apps/edge` | Desktop side panel, mobile extension pages and adaptations for Edge on iOS |
+| `apps/ios` | WebView entry point and Swift plugins for the standalone iOS app |
+| `packages/ui` | React message list, composer and settings screens |
+| `packages/core` | Message model, settings types and runtime request protocol |
+| `packages/platform` | Interfaces the UI uses to access platform features, plus the runtime dependencies for OneDrive operations |
+| `packages/app-runtime` | Application services for sign-in, device settings and downloads |
+| `packages/extension-runtime` | Background request dispatch and entry point handling for the Edge extension |
+| `packages/onedrive` | Reading and writing message chunks, archives and attachments through Microsoft Graph |
+| `packages/web-storage` | IndexedDB storage for cached data, pending tasks and download records |
 
-The core types don’t need to know about React components, browser download objects or Swift plugins. The UI sends a typed `RuntimeRequest` and receives a `RuntimeResponse`. In the extension the request travels over `browser.runtime.sendMessage`. A component can ask to send text, read a month or restore a message without assembling a Graph URL or an Authorization header.
+### Reading the current month’s messages
 
-## Platform capabilities
-
-The same page behaves differently depending on its host. Desktop browsers have a download directory and a “Show in folder” command; mobile devices tend to use the system share sheet. Even browser extension entry points differ in which APIs they expose.
-
-`PlatformBridge` connects UI requests such as “save this file” to the platform implementation. `PlatformCapabilities` declares the available operations:
+Every version of OneDrop loads the React UI from `packages/ui`. To read the current month’s messages, for example, the message list sends this request:
 
 ```typescript
-export type PlatformCapabilities = {
-  showInFolder: boolean;       // Reveal a file in its system folder
-  saveAs: boolean;             // Save As
-  navigationDownload: boolean; // Download by opening the download URL
-  systemFileShare: boolean;    // Use the system file share sheet
-};
+const response = await sendRequest({ type: "messages/read-current-month" });
 ```
 
-Alongside `request()`, the bridge can look up and open downloads, prepare attachments, share files, and copy text or images. The UI offers actions according to those capabilities. On iOS Edge there’s no desktop download manager entry point, but system file sharing is available. The bridge retrieves the attachment, checks that the cached name, size and Blob agree, then prepares a shareable `File`.
+Each entry point installs its own `PlatformBridge` before loading the UI. This bridge receives requests from the UI and passes them to the appropriate handler. The request names, parameters and response types are all defined in `packages/core`.
 
-Without a usable cache entry, the bridge reads the response stream and accumulates the number of bytes received so the UI can display progress. It gets the total from `Content-Length` when available and otherwise uses the attachment size in the message. Once the stream ends, it checks the Blob size, caches the attachment in IndexedDB and constructs the `File`. It also checks `navigator.canShare` before invoking system sharing. Preparing the file and opening the share sheet are separate steps.
+- **The Edge extension** passes the request to its background process with `browser.runtime.sendMessage`. The handler gets the current UTC month and calls `readMonthDocument()` to fetch the messages.
+- **The standalone iOS app** uses Capacitor to load the same UI in a WebView. It has no extension background process. Its bridge handles the request inside the app, gets an access token from the native authentication plugin and passes it to `readMonthDocumentWithAccessToken()` to read the same month.
 
-That’s why the same attachment button can have a different final action. The message and DriveItem mean the same thing across platforms; the way the system receives the file differs. I don’t need to emulate a desktop API on every platform just to make the button look the same.
+Both paths use the monthly message reader in `packages/onedrive`. The UI receives the same `messages/month` response and can display it with the same list component. That leaves just one place to change the rules for reading message chunks.
 
-## Browser extension entry points
+## Edge extension entry points and layout
 
-The extension uses WXT for development and builds, React for the UI, TypeScript for application logic and Manifest V3 for the extension. Desktop, Android and iOS share the extension code. Desktop opens a side panel, Android opens a separate mobile page and iOS uses an entry point suited to its extension environment. The app layer selects the entry point and bridge, so the shared UI doesn’t need a separate copy of every page.
+The extension chooses its entry point using the platform information reported by Edge and the browser’s user agent.
 
-There’s also a compatibility path for iOS Edge. Even if the browser opens the statically declared side-panel page, the app detects the platform and loads the iOS UI and bridge. The runtime and bridge handle differences such as the missing Identity API during login and the need to share downloads through the system. Shipping one extension package doesn’t make mobile APIs behave like their desktop counterparts.
+### The desktop Edge side panel
 
-## Native iOS
+When the side panel API is available, OneDrop configures the toolbar icon to open the message list beside the current page. I can keep the page I’m reading open and drop text or files into the composer next to it.
 
-The native app uses Capacitor to host the shared React UI in a WebView, a browser view embedded in the app. Native plugins provide access to system features. For login, the `OneDropAuth` Swift plugin opens the authorisation flow with `ASWebAuthenticationSession` and stores and retrieves tokens through Keychain. The browser extension described in part one uses `browser.storage.local`; on native iOS both the authorisation window and credential storage belong to the plugin.
+![OneDrop open in the desktop Edge sidebar](https://res.cloudinary.com/sycamore/image/upload/v1793199120/Typora/2026/10/28/onedrop-desktop.png)
 
-The shared OneDrive code needs an access token, local state and a way to send events. The app supplies those functions at startup. That’s what dependency injection means here: the business logic calls the supplied functions without repeatedly checking which platform it’s on. The iOS entry point wires up native implementations and forwards message requests to the same shared functions. The native download plugin saves, locates and opens files while the UI continues to work with the same attachment metadata.
+### The OneDrop tab in Edge on Android
 
-Device settings follow the same division. Each installation generates an anonymous UUID and stores its platform, display name and preferences in `settings/devices/<device-id>.json`. Removing a device from the list removes its settings document. Messages and attachments from that device have a separate lifecycle, described in [part two’s deletion and cleanup flow](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-two/).
+Tapping OneDrop in Edge on Android opens a separate `android-mobile.html` tab. If that tab is still open, tapping the icon again brings it back into view.
 
-For me, OneDrop is still a little tool for passing things between my devices. Once OneDrive took over storage, the recurring questions were about state: when a send counts as complete, what another device sees, what can resume after a failure and what survives deletion. Keeping those rules shared and leaving login, downloads and entry points to each platform gives me a clear place to make the next change.
+![Source code for reusing an existing OneDrop tab or opening a new one in Edge on Android](https://res.cloudinary.com/sycamore/image/upload/v1794817674/Typora/2026/10/29/onedrop-android-tab.png)
+
+### The popup in Edge on iOS
+
+Edge on iOS uses the `ios-mobile.html` popup. The extension manifest also declares the desktop side panel page, so that entry point checks the platform too. If Edge loads the panel on iOS, it switches to the mobile styles and the iOS Edge bridge.
+
+![The OneDrop message list and composer in Edge on iPhone](https://res.cloudinary.com/sycamore/image/upload/v1794743409/Typora/2026/10/29/onedrop-ios-edge-messages.png)
+
+### When the mobile keyboard opens
+
+On mobile, the message composer sits at the bottom of the page. Tapping it brings up the keyboard and reduces the visible area. The page needs to shrink with that area to keep the composer above the keyboard.
+
+The popup in Edge on iOS gets the visible area through the browser’s `visualViewport`. Its `height` is the available height and `offsetTop` is the distance from the top of the layout viewport. When the visible area changes size or position, OneDrop writes both values to CSS variables. The popup’s root element uses them to adjust its height and position:
+
+```css
+top: var(--ios-edge-popup-offset-top, 0px);
+height: var(--ios-edge-popup-height, 100dvh);
+```
+
+The height can keep changing while the keyboard animates into place. After the composer receives focus, the popup updates its dimensions several times over the next half second and calls `scrollIntoView({ block: "nearest" })` on the still-focused input to keep it on screen.
+
+![The OneDrop composer above the mobile keyboard](https://res.cloudinary.com/sycamore/image/upload/v1794743413/Typora/2026/10/29/onedrop-ios-edge-keyboard.png)
+
+## Account and device settings
+
+### Sign-in windows and token storage
+
+When I click sign in in the Edge extension, OneDrop uses the browser’s `identity.launchWebAuthFlow` to open Microsoft’s authorisation window and receive the callback. If the browser doesn’t provide that method, the extension completes authorisation in a temporary tab. Once signed in, it stores the tokens in `browser.storage.local`. [Part one covers the authorisation code exchange](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/#the-client-authorisation-flow).
+
+The standalone iOS app has its own sign-in path. Tapping the same button calls the Swift plugin `OneDropAuth` through Capacitor. The plugin starts an `ASWebAuthenticationSession` to display Microsoft’s sign-in page.
+
+After sign-in, iOS returns the result to the plugin through the app’s registered callback scheme. The plugin checks that the callback’s `state` matches this sign-in attempt, exchanges the authorisation code for tokens and stores them in the iOS Keychain. When the UI needs to read OneDrive, it asks the plugin for an access token. The plugin also refreshes it when it approaches expiry.
+
+### Per-device settings
+
+These devices can share a Microsoft account and still keep their own settings. Each installation generates a device ID and saves its display name and preferences in `settings/devices/<device-id>.json`. When I replace a phone and remove the old device from the list, OneDrop removes its settings. Messages and attachments sent from that phone still follow [the deletion and recovery rules in part two](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-two/#tombstones-and-retention).
+
+![OneDrop’s device list and settings actions for a single account](https://res.cloudinary.com/sycamore/image/upload/v1794712894/Typora/2026/10/29/onedrop-platform-devices.png)
+
+## Attachment actions
+
+Suppose I send a file from my computer and tap the message on another device. Each platform receives the same OneDrive file identifier, `driveItemId`. What changes is where the file goes and how I can open it. The UI reads `PlatformCapabilities` to find the actions available on the current platform and decide which buttons to show.
+
+### Downloads in desktop Edge
+
+Desktop Edge saves files through the browser’s downloads API. It also supports Save As and showing a file in its folder. OneDrop remembers the browser download ID for each attachment. When I open the same attachment again, it can look up that ID and open the file if it’s still there. [Part one describes how OneDrop confirms a download has finished](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/#downloads-and-file-reuse).
+
+### Downloading attachments in Edge on Android
+
+In Edge on Android, the download starts from the OneDrop tab. When I tap download, the extension prepares the attachment URL and navigates to it with `location.assign()`, handing the file to Edge. The page follows the task and associates the completed browser download ID with the attachment. If I leave the page during a download, it can use the saved task state to check on the download when I return.
+
+### Sharing files in Edge on iOS
+
+Edge on iOS needs a browser `File` object before it can share an attachment. OneDrop looks up the attachment in IndexedDB using its `driveItemId`. It checks the cached name, recorded size and actual size of the binary data. A match lets it prepare the file straight from the cache and skip the download.
+
+If the cache can’t supply the file, OneDrop asks the background process for a download URL and reads the response stream, counting bytes as each chunk arrives. The progress indicator takes the total size from the `Content-Length` header when available, falling back to the size in the message. If the attachment has a known size greater than zero, OneDrop checks the final length before caching it.
+
+Once the file is ready, OneDrop checks that the browser can share it with `navigator.canShare()`, then calls `navigator.share()` to open the system share sheet. I can choose which app receives the file there. On the first tap, OneDrop downloads it before attempting to share. With a usable cached copy it can open the share sheet straight away.
+
+![The iOS share sheet opened for an image attachment in OneDrop](https://res.cloudinary.com/sycamore/image/upload/v1794743416/Typora/2026/10/29/onedrop-ios-edge-share.png)
+
+### Previewing and exporting files in the iOS app
+
+On the same iPhone, the standalone app can download an attachment to local storage through a Swift plugin. It uses `URLSession` to download the file into the app’s Documents directory and records its location by `driveItemId`. If the name is taken, the plugin saves the new file under a numbered name.
+
+When I tap Open, the plugin checks that the file still exists and asks `UIDocumentInteractionController` to present a system preview. I opened the same dog photo I shared from Edge earlier. The system preview shows its filename, `IMG_4566`, at the top.
+
+![The system preview for IMG_4566 opened from the native iOS app](https://res.cloudinary.com/sycamore/image/upload/v1794763834/Typora/2026/10/29/onedrop-ios-native-preview.png)
+
+To save the photo somewhere else, I can return to the attachment menu and choose **Save as**. The plugin opens the iOS document picker so I can choose a folder for the copy.
+
+## Copying an image
+
+To paste a photo into a chat, I can choose **Copy image** from the OneDrop attachment menu once the image preview has loaded. The shared UI takes the preview data, converts it to PNG and passes it to the current platform to write to the clipboard.
+
+The Edge extension wraps the PNG data in a `ClipboardItem` and calls `navigator.clipboard.write()`. In the standalone iOS app, Capacitor passes the image data to the Swift plugin, which decodes it into a `UIImage` and assigns it to `UIPasteboard.general.image`. I can then paste the photo into another app that accepts images.

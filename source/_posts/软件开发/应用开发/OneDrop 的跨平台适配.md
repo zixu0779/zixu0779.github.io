@@ -7,88 +7,170 @@ categories: [["软件开发", "应用开发"]]
 tags: ["OneDrop", "TypeScript", "Microsoft Graph", "Edge插件开发"]
 ---
 
-[OneDrop](https://github.com/zixu0779/OneDrop) 的消息存储与同步已经在[上篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/)和[下篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（下）/)中说明。
-这一篇先整理浏览器扩展和原生 iOS 应用之间的代码复用与平台适配，仍以 [1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3) 为准。
+[OneDrop](https://github.com/zixu0779/OneDrop) 最先是为了在 Edge 里传文件才做的。
+用到手机上以后，消息列表和输入框都可以沿用，点开文件后的操作却要根据设备来改。
+在电脑上我希望直接打开下载好的文件，在 iPhone 的 Edge 里则希望能调出系统分享菜单，自己选择用哪个应用接收。
+
+之前的[上篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/)和[下篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（下）/)写了这些消息怎样保存到 OneDrive，以及不同设备如何同步。
+这里沿用 [OneDrop 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3)，接着说桌面 Edge、手机上的 Edge，以及独立安装的 iOS 应用各自要做哪些适配。
 
 <!-- more -->
 
-## 共享代码的组织
+## 多端共用的代码结构
 
-OneDrop 的多个入口都围绕同一套消息模型工作。
-如果每个平台分别实现消息合并、墓碑和归档，后面修复一个边界问题就要重复修改多份代码，也容易让不同设备对同一份云端数据产生不同解释。
-所以项目把这些行为尽量放在共享包里，应用入口负责组合。
+### 平台入口和共享包
 
-目前的主要分工如下：
+OneDrop 的应用入口放在 `apps/` 下，桌面和手机上的 Edge 使用同一份扩展，独立的 iOS 应用则有自己的入口。
+各端用到的界面、消息模型和 OneDrive 读写代码放在 `packages/` 下。主要目录如下：
 
-| 目录 | 职责 |
+| 目录 | 用途 |
 | --- | --- |
-| `packages/core` | 消息、月份、设置类型及运行时请求协议 |
-| `packages/onedrive` | Graph 请求、消息块、归档、墓碑和附件操作 |
-| `packages/web-storage` | IndexedDB 缓存、待发送任务和下载登记 |
-| `packages/platform` | 平台桥接接口、运行时依赖入口 |
-| `packages/app-runtime` | 授权、设备、设置和下载服务 |
-| `packages/extension-runtime` | 扩展后台请求分发与平台入口处理 |
-| `packages/ui` | 共享 React 界面及交互状态 |
-| `apps/edge`、`apps/ios` | 各平台的具体装配和原生适配 |
+| `apps/edge` | 桌面侧栏、移动端扩展页面和 iOS Edge 的适配 |
+| `apps/ios` | 独立 iOS 应用的 WebView 入口和 Swift 插件 |
+| `packages/ui` | React 消息列表、输入框和设置界面 |
+| `packages/core` | 消息模型、设置类型和运行时请求协议 |
+| `packages/platform` | 界面调用平台功能的接口，以及 OneDrive 代码所需的运行环境 |
+| `packages/app-runtime` | 登录、设备设置和下载等应用服务 |
+| `packages/extension-runtime` | Edge 扩展后台的请求分发和入口处理 |
+| `packages/onedrive` | 通过 Microsoft Graph 读写消息块、归档和附件 |
+| `packages/web-storage` | 使用 IndexedDB 保存缓存、待发送任务和下载记录 |
 
-核心类型不需要知道 React 组件、浏览器下载对象或者 Swift 插件长什么样。
-界面通过有类型的 `RuntimeRequest` 发出意图，运行时返回 `RuntimeResponse`；扩展中实际走的是 `browser.runtime.sendMessage`。
-这样 UI 可以说“发送文字”“读取某月”“恢复某条消息”，而不用在组件里组织 Graph URL 和 Authorization 请求头。
+### 读取当月消息
 
-## 平台能力与适配
-
-跨平台不只是把同一份页面塞到不同外壳里。
-桌面浏览器有下载目录和“在文件夹中显示”，移动端更常用系统分享；某些浏览器入口也不具备相同的 API。
-项目用 `PlatformBridge` 作为界面与平台实现之间的连接层：界面提出“保存文件”这样的请求，再由当前平台选择具体做法。
-其中 `PlatformCapabilities` 声明当前平台支持哪些操作：
+打开 OneDrop 时，各端加载的都是 `packages/ui` 里的 React 界面。
+以读取当月消息为例，消息列表只需发出这样一条请求：
 
 ```typescript
-export type PlatformCapabilities = {
-  showInFolder: boolean;       // 在系统文件夹中显示文件
-  saveAs: boolean;             // 另存为
-  navigationDownload: boolean; // 通过打开下载地址获取文件
-  systemFileShare: boolean;     // 调用系统文件分享
-};
+const response = await sendRequest({ type: "messages/read-current-month" });
 ```
 
-桥接层除了 `request()`，还提供下载查询、打开、附件准备、系统分享、文本和图片复制等方法。
-共享界面根据能力决定提供什么操作，具体调用再交给平台实现。
-例如 iOS Edge 声明不支持桌面的下载管理入口，但支持系统文件分享；它会先取得附件，检查缓存中的名称、大小和 Blob 是否一致，再准备可分享的 `File`。
+这条请求能在几个平台使用，是因为每个入口都会先给界面装上自己的 `PlatformBridge`。
+这里的桥接负责接收界面发来的请求，决定交给谁处理。请求的名称、参数和返回类型则统一定义在 `packages/core` 中。
 
-没有可用缓存时，iOS Edge 桥接读取下载响应流，逐段累加已接收字节数，向界面报告进度。
-总量优先来自 `Content-Length`，没有这个值时使用消息记录中的附件大小。
-读完后还会核对 Blob 大小，再保存到 IndexedDB 附件缓存，构造 `File` 交给系统分享。
-分享前需要通过 `navigator.canShare` 检查文件是否受支持，因此附件准备完成以后，仍有一个调用系统分享的步骤。
+- **Edge 扩展**通过 `browser.runtime.sendMessage` 把请求交给扩展后台。后台找到相应的处理函数，取当前 UTC 月份，调用 `readMonthDocument()` 读取消息。
+- **独立 iOS 应用**通过 Capacitor 在应用内的 WebView 中加载这套界面。它没有扩展后台，桥接直接在应用内处理请求，从原生登录插件取得访问令牌，再交给 `readMonthDocumentWithAccessToken()` 读取同一个月份。
 
-这也解释了为什么“同一个附件按钮”在不同平台上可以有不同的最后一步。
-消息和 DriveItem 的含义相同，系统接收文件的方式不同，不需要为了保持按钮外观一致而假装桌面 API 到处存在。
+两边最终用到的月份读取代码都在 `packages/onedrive`。
+界面收到的也是同一种 `messages/month` 响应，可以把消息交给同一份列表组件显示。以后修改消息块的读取规则时，只需要改这一处。
 
-## 浏览器扩展入口
+## Edge 扩展的入口和布局
 
-浏览器扩展使用 WXT 组织开发和构建，React 编写界面，TypeScript 编写业务代码，并按 Manifest V3 的扩展规范运行。
-桌面、Android 与 iOS 使用同一套扩展代码，但并不都使用侧栏。
-桌面打开 side panel，Android 使用独立的移动页面，iOS 使用适合其扩展环境的移动入口。
-入口判断和相关桥接放在应用层，共享 UI 不需要把每个页面都复制一份。
+扩展会根据 Edge 报告的平台信息和浏览器标识来选择入口。
 
-iOS Edge 还保留了侧栏路径的兼容处理：即使浏览器进入静态声明的 side-panel 页面，也能检测平台并装载 iOS 的界面与桥接。
-登录缺少 Identity API、下载需要系统分享等差异，也在对应运行时和桥接中处理。
-同一个扩展包并不意味着所有平台 API 都会按桌面行为工作。
+### 桌面 Edge 的侧栏
 
-## 原生 iOS 适配
+桌面 Edge 提供侧栏接口时，OneDrop 会把工具栏图标设为侧栏入口。点击图标，消息列表就会显示在当前网页旁边。
+我可以保留正在浏览的网页，把临时要发的文字和文件放进旁边的输入框。
 
-原生 iOS 应用使用 Capacitor，把共享 React 页面放进应用内的 WebView（网页显示容器），再通过原生插件调用系统功能。
-它的登录入口是 `OneDropAuth`，Swift 代码用系统提供的 `ASWebAuthenticationSession` 打开登录授权流程，并通过 Keychain（系统钥匙串）保存和读取 token。
-这与上篇介绍的浏览器扩展使用 `browser.storage.local` 的方式不同，系统授权窗口与凭据保存都由原生插件处理。
+![在 Edge 桌面浏览器的侧栏中打开 OneDrop](https://res.cloudinary.com/sycamore/image/upload/v1793199120/Typora/2026/10/28/onedrop-desktop.png)
 
-共享 OneDrive 代码需要访问令牌、本地状态存储和事件通知，但不直接决定这些能力由浏览器还是 iOS 提供。
-应用启动时把对应函数传给它，这就是这里的依赖注入；同一段业务代码调用这些函数即可，不必反复判断平台。
-iOS 入口负责把这些依赖接到原生实现，再把消息请求交给对应共享函数。
-原生下载插件则处理附件落地、查找与打开等系统操作，界面仍然围绕相同的附件元数据工作。
+### Android Edge 的标签页
 
-设备设置也遵循相同分工。
-每次安装生成匿名设备 UUID，对应 `settings/devices/<device-id>.json`，保存平台、显示名称和设备偏好。
-设备列表中的移除操作针对这份设置文档，并不会按发送设备顺带删除消息和附件；消息的生命周期由[下篇的删除与清理流程](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（下）/)管理。
+在 Android Edge 上点击 OneDrop，扩展会打开独立的 `android-mobile.html` 标签页。
+如果上次打开的 OneDrop 标签页还在，再点图标时就切回那一页。
 
-对我来说，OneDrop 仍然是围绕自己设备之间临时传递内容的小工具。
-OneDrive 承担存储以后，项目里需要反复处理的是这些状态之间的关系：一条消息何时算发出，另一台设备看到什么，失败后还有什么可以继续，删除以后还剩下哪些数据。
-把这些规则留在共享代码里，再把登录、下载和入口交给各平台处理，后续完善时也能沿着明确的边界继续修改。
+![Android Edge 切换到已有 OneDrop 标签页或新建标签页的源码](https://res.cloudinary.com/sycamore/image/upload/v1794817674/Typora/2026/10/29/onedrop-android-tab.png)
+
+### iOS Edge 的弹窗
+
+iOS Edge 使用 `ios-mobile.html` 弹窗。扩展清单里还声明了桌面的侧栏页面，因此侧栏入口也会检查一次平台。
+即使浏览器从这个入口加载，只要识别为 iOS，就改用移动样式和 iOS Edge 对应的桥接。
+
+![iPhone 上的 OneDrop 消息列表与底部输入框](https://res.cloudinary.com/sycamore/image/upload/v1794743409/Typora/2026/10/29/onedrop-ios-edge-messages.png)
+
+### 移动端键盘的弹出效果
+
+移动端的消息输入框在页面底部。点进输入框后，软键盘会占去一部分屏幕。
+页面需要随可见区域一起缩短，才能让输入框留在键盘上方。
+
+以 iOS Edge 的弹窗为例，这里用浏览器的 `visualViewport` 取得可见区域。
+它的 `height` 表示当前可见区域的高度，`offsetTop` 表示可见区域顶部相对布局视口的偏移。
+OneDrop 在可见区域大小或位置发生变化时，把这两个数写入 CSS 变量，弹窗根元素据此调整自己的高度和位置：
+
+```css
+top: var(--ios-edge-popup-offset-top, 0px);
+height: var(--ios-edge-popup-height, 100dvh);
+```
+
+键盘弹出的动画还在进行时，可见高度可能继续变化。
+因此输入框获得焦点后，弹窗会在接下来的半秒内分几次更新尺寸，并对仍然聚焦的输入框调用 `scrollIntoView({ block: "nearest" })`，让它留在可见范围内。
+
+![键盘弹出后，OneDrop 的输入框仍位于键盘上方](https://res.cloudinary.com/sycamore/image/upload/v1794743413/Typora/2026/10/29/onedrop-ios-edge-keyboard.png)
+
+## 账户和设备设置
+
+### 登录窗口与令牌保存
+
+在 Edge 扩展中点登录，OneDrop 优先使用浏览器提供的 `identity.launchWebAuthFlow` 打开 Microsoft 授权窗口、接收回调。
+如果当前浏览器没有提供这个接口，就在临时标签页里完成授权。登录成功后，扩展把令牌保存在 `browser.storage.local` 中。
+授权码和令牌的兑换过程可以参考[上篇的客户端授权流程](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/#客户端授权流程)。
+
+独立安装的 iOS 应用有自己的登录入口。
+点同一个登录按钮时，应用会通过 Capacitor 调用 Swift 写的 `OneDropAuth` 插件，由它创建系统提供的 `ASWebAuthenticationSession`，打开 Microsoft 的登录页面。
+
+登录完成后，系统根据应用登记的回调协议把结果交回插件。
+插件先核对回调里的 `state` 是否与本次登录请求一致，再用授权码换取令牌，写入 iOS 的 Keychain（系统钥匙串）。
+之后界面要读取 OneDrive 时，仍然向这个插件请求访问令牌，接近过期时也由插件负责刷新。
+
+### 每台设备的设置
+
+这些设备使用同一个 Microsoft 账户，也可以各自保留一份设置。
+每次安装都会生成设备 ID，显示名称和偏好写在对应的 `settings/devices/<device-id>.json` 里。
+以后换了手机，从设备列表移除旧设备时，清理的是它的设置，原来发送的消息和附件仍按[下篇的删除与恢复流程](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（下）/#删除标记与保留策略)处理。
+
+![同一账户下的 OneDrop 设备列表与设置操作](https://res.cloudinary.com/sycamore/image/upload/v1794712894/Typora/2026/10/29/onedrop-platform-devices.png)
+
+## 附件操作
+
+假设我在电脑上发了一个文件，再到另一台设备上点这条消息。
+各端拿到的都是同一个 OneDrive 文件标识 `driveItemId`，区别在于文件下载到哪里、接下来能用什么方式打开。
+界面通过 `PlatformCapabilities` 读取当前平台支持的操作，再决定显示哪些按钮。
+
+### 桌面 Edge 的浏览器下载
+
+桌面 Edge 可以通过浏览器的下载接口保存文件，也支持“另存为”和在文件夹中显示。OneDrop 会记住附件对应的浏览器下载编号。
+下次再点同一个附件时，可以先查这个编号，文件还在就直接打开。具体怎样确认浏览器下载完成，见[上篇的下载记录与文件复用](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/#下载记录与文件复用)。
+
+### Android Edge 的附件下载
+
+Android Edge 从 OneDrop 的标签页发起下载。
+用户点下载时，扩展先准备好附件地址，再通过 `location.assign()` 访问这个地址，把文件交给 Edge 下载。
+页面还会跟进这次任务，取得已完成的浏览器下载编号后，将它与附件关联起来。
+如果下载期间离开了页面，回来后也可以根据已保存的任务状态继续检查。
+
+### iOS Edge 的文件分享
+
+在 iOS Edge 里，附件要先准备成浏览器可以分享的 `File`。
+OneDrop 会按 `driveItemId` 查找 IndexedDB 里的附件缓存，核对文件名、记录的大小和实际二进制数据的大小。
+一致时就可以用缓存准备文件，省去再次下载的时间。
+
+缓存不可用时，OneDrop 向后台取得下载地址，读取响应流，每读到一段就更新已接收的字节数。
+进度条优先使用响应头 `Content-Length` 作为总大小，取不到时用附件消息里记录的大小。
+附件大小已知且大于零时，下载结束还会核对实际长度，然后才写入缓存。
+
+文件准备好以后，OneDrop 用 `navigator.canShare()` 检查浏览器能否分享这份文件，再调用 `navigator.share()` 打开系统分享菜单。我可以在菜单里选择接收文件的应用。
+首次点击时会先下载再尝试分享，已有可用缓存时则可直接调出菜单。
+
+![在 iOS Edge 中把 OneDrop 图片附件交给系统分享菜单](https://res.cloudinary.com/sycamore/image/upload/v1794743416/Typora/2026/10/29/onedrop-ios-edge-share.png)
+
+### 独立 iOS 应用的文件预览与导出
+
+同样是在 iPhone 上，独立应用可以通过 Swift 插件直接把附件下载到本地。
+插件使用 `URLSession` 下载文件，放进应用的文稿目录，并按 `driveItemId` 记下文件位置。
+同名文件已经存在时，新文件会换一个带编号的名字保存。
+
+用户点“打开”时，插件先检查文件是否还在，再交给 `UIDocumentInteractionController` 显示系统预览。
+我在原生应用中打开了前面用 Edge 分享的那张小狗照片，系统预览顶部显示文件名 `IMG_4566`。
+
+![原生 iOS 应用打开 IMG_4566 后的系统预览](https://res.cloudinary.com/sycamore/image/upload/v1794763834/Typora/2026/10/29/onedrop-ios-native-preview.png)
+
+如果想把这张照片存到其他位置，可以回到附件菜单点 **Save as**。插件会打开 iOS 的文件选取器，让我选择把副本存在哪个文件夹。
+
+## 复制图片
+
+如果只是想把照片贴进聊天框，还可以打开 OneDrop 的附件菜单，选择 **Copy image**。
+这个选项会在图片预览加载好后出现。共用界面取出预览数据，转成 PNG，再交给当前平台写入剪贴板。
+
+Edge 扩展把 PNG 数据封装为 `ClipboardItem`，调用 `navigator.clipboard.write()` 写入。
+独立 iOS 应用则通过 Capacitor 把图片数据交给 Swift 插件，解码为 `UIImage`，再赋给系统剪贴板的 `UIPasteboard.general.image`。
+这样切换到支持粘贴图片的应用后，就可以直接贴入照片。
