@@ -495,7 +495,8 @@ html { background: var(--grey-2); color-scheme: light; }
   }
 }
 @media(min-width:992px) {
-  #sidebar.desktop-docked .panels { transform: translateY(var(--sidebar-content-offset, 0px)); transition: transform .2s ease-in-out; }
+  /* A flex margin moves the panel top while its bottom stays above the quick actions. */
+  #sidebar.desktop-docked .panels { margin-top: var(--sidebar-content-offset, 0px); transition: margin-top .2s ease-in-out; }
   #sidebar.desktop-docked .panels > .inner { transition: max-height .2s ease-in-out; }
 }
 @media(min-width:992px) and (prefers-reduced-motion: reduce) {
