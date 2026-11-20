@@ -2,7 +2,7 @@
 translation_id: dungeontavern-npc-pathfinding
 title: 地下酒馆：NPC 寻路算法
 date: 2026-11-02 23:26:43
-updated: 2026-11-17 23:26:43
+updated: 2026-11-02 23:26:43
 categories: [["游戏工坊", "游戏开发"]]
 tags: ["DungeonTavern", "Unity"]
 ---
