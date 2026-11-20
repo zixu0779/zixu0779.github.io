@@ -603,10 +603,10 @@ JSON 改写使用 ETag 条件；遇到变化或冲突就推迟，保留墓碑等
         <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
         <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
         <category term="OneDrop" scheme="https://www.sycamore.top/tags/OneDrop/" />
-        <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
         <category term="TypeScript" scheme="https://www.sycamore.top/tags/TypeScript/" />
         <category term="Microsoft Graph" scheme="https://www.sycamore.top/tags/Microsoft-Graph/" />
         <category term="Edge插件开发" scheme="https://www.sycamore.top/tags/Edge%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
+        <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
         <updated>2026-10-10T13:16:53.000Z</updated>
     </entry>
     <entry>
@@ -891,10 +891,10 @@ OneDrop 先检查 ID 是否对应当前附件，再查询这项任务的完整�
         <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
         <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
         <category term="OneDrop" scheme="https://www.sycamore.top/tags/OneDrop/" />
-        <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
         <category term="TypeScript" scheme="https://www.sycamore.top/tags/TypeScript/" />
         <category term="Microsoft Graph" scheme="https://www.sycamore.top/tags/Microsoft-Graph/" />
         <category term="Edge插件开发" scheme="https://www.sycamore.top/tags/Edge%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
+        <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
         <updated>2026-10-06T11:42:08.000Z</updated>
     </entry>
     <entry>
@@ -1675,9 +1675,9 @@ Zsh 在这里补充了不带前导零的  &lt;code&gt;%f&lt;/code&gt; （日）�
 </content>
         <category term="生活记录" scheme="https://www.sycamore.top/categories/Diary/" />
         <category term="日常琐记" scheme="https://www.sycamore.top/categories/Diary/%E6%97%A5%E5%B8%B8%E7%90%90%E8%AE%B0/" />
-        <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
-        <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
         <category term="Hexo" scheme="https://www.sycamore.top/tags/Hexo/" />
+        <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
+        <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
         <category term="博客主题" scheme="https://www.sycamore.top/tags/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/" />
         <updated>2025-10-12T04:54:13.000Z</updated>
     </entry>
@@ -2085,8 +2085,8 @@ make clean
         <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
         <category term="安全实验" scheme="https://www.sycamore.top/categories/CyberSecurity/%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/" />
         <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
-        <category term="反弹 Shell" scheme="https://www.sycamore.top/tags/%E5%8F%8D%E5%BC%B9-Shell/" />
         <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
+        <category term="反弹 Shell" scheme="https://www.sycamore.top/tags/%E5%8F%8D%E5%BC%B9-Shell/" />
         <category term="Netcat" scheme="https://www.sycamore.top/tags/Netcat/" />
         <updated>2025-06-15T13:48:27.000Z</updated>
     </entry>

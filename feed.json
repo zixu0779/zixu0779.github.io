@@ -70,10 +70,10 @@
                 "软件开发",
                 "应用开发",
                 "OneDrop",
-                "OneDrive",
                 "TypeScript",
                 "Microsoft Graph",
-                "Edge插件开发"
+                "Edge插件开发",
+                "OneDrive"
             ]
         },
         {
@@ -86,10 +86,10 @@
                 "软件开发",
                 "应用开发",
                 "OneDrop",
-                "OneDrive",
                 "TypeScript",
                 "Microsoft Graph",
-                "Edge插件开发"
+                "Edge插件开发",
+                "OneDrive"
             ]
         },
         {
@@ -144,9 +144,9 @@
             "tags": [
                 "生活记录",
                 "日常琐记",
-                "Typecho",
-                "WordPress",
                 "Hexo",
+                "WordPress",
+                "Typecho",
                 "博客主题"
             ]
         },
@@ -189,8 +189,8 @@
                 "网络安全",
                 "安全实验",
                 "Linux",
-                "反弹 Shell",
                 "Bash",
+                "反弹 Shell",
                 "Netcat"
             ]
         },
