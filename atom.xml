@@ -8,14 +8,116 @@
     <author>
       <name>Z1gg7x</name>
     </author>
-    <updated>2026-11-17T06:05:03.000Z</updated>
+    <updated>2026-11-02T15:26:43.000Z</updated>
     <category term="CTF" />
     <category term=" Electron" />
     <category term=" Cyberpunk2077" />
     <entry>
-        <id>https://www.sycamore.top/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9A%E9%A1%BE%E5%AE%A2%20NPC%20%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA/</id>
-        <title>地下酒馆：顾客 NPC 的状态与行为</title>
-        <link rel="alternate" href="https://www.sycamore.top/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9A%E9%A1%BE%E5%AE%A2%20NPC%20%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA/"/>
+        <id>https://www.sycamore.top/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9ANPC%20%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/</id>
+        <title>地下酒馆：NPC 寻路算法</title>
+        <link rel="alternate" href="https://www.sycamore.top/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9ANPC%20%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/"/>
+        <content type="html">&lt;p&gt;在上一篇&lt;a href=&#34;/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9A%E9%A1%BE%E5%AE%A2%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA/&#34;&gt;《地下酒馆：顾客的状态与行为》&lt;/a&gt;里，顾客点完菜后已经有了自己的座位，接下来就该走去桌边了。&lt;br /&gt;
+出发点和目标点之间可能还隔着几张桌子，这条路具体是怎么算出来的？&lt;/p&gt;
+&lt;p&gt;地下酒馆 Demo 里的 NPC 使用 Unity 的导航系统。&lt;br /&gt;
+为了说清楚它用到的 A* 算法，我先把酒馆简化成一张方格图，从最简单的广度优先搜索说起。&lt;/p&gt;
+&lt;h2 id=&#34;地图的表示&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#地图的表示&#34;&gt;#&lt;/a&gt; 地图的表示&lt;/h2&gt;
+&lt;p&gt;假设顾客站在 B3，要去 H3，每一步只能向上、下、左、右走一格，家具占用的格子不能进入。&lt;br /&gt;
+同一张图上还标了三个拥挤的格子 D3、E3、F3，后面会用到。这里的拥挤代价是为了比较算法加的，游戏里没有给这段过道单独计费。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154331/Typora/2026/11/02/dungeon-tavern-navigation-map-zh.png&#34; alt=&#34;示意地图，起点在 B3，终点在 H3，直走会经过三个拥挤的格子&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;对搜索算法来说，每个能站人的格子都是一个节点，可以直接迈过去的两个格子之间彼此相接。&lt;br /&gt;
+如果每一步都算 1，从 B3 向右走到 H3 只需 6 步，这已经是最短的。现在把规则稍微改一下：进入普通格的花费为 1，进入拥挤格的花费为 4。直走的步数没有变，但代价却成了 15。而绕到下一排虽然多走两步，但反而可能更划算。&lt;/p&gt;
+&lt;p&gt;那么怎么把上述示例应用到真实的游戏场景中呢？&lt;br /&gt;
+在 Unity 的导航网格中，用的是另一种类似的表示方法来划分地图。&lt;br /&gt;
+简单来说，我们把可行走的地面分成多个凸多边形，相邻多边形之间可以通行，这样每个多边形就相当于上面示意中的格子。&lt;br /&gt;
+因为多边形有大有小，走过的距离也不同，所以这里要把距离算进代价。Unity 会在多边形上放置用于搜索的节点，节点之间的通行代价按 “距离 × 所经区域的代价系数” 计算。&lt;br /&gt;
+因此，我们使用图来抽象 Unity 的导航网格：每个多边形对应一个搜索节点，节点之间的边表示可以通行，边上的权重记录这段路的代价。&lt;/p&gt;
+&lt;h2 id=&#34;寻路算法&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#寻路算法&#34;&gt;#&lt;/a&gt; 寻路算法&lt;/h2&gt;
+&lt;p&gt;为了更直观地展示搜索过程，下面仍用前面的方格图来说明这几种算法。&lt;br /&gt;
+先用 BFS 找到步数最少的路线，再用 Dijkstra 处理每一步代价不同的情况，最后让 A* 根据终点的位置来决定优先往哪个方向搜索。&lt;/p&gt;
+&lt;h3 id=&#34;bfs-与最少步数&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#bfs-与最少步数&#34;&gt;#&lt;/a&gt; BFS 与最少步数&lt;/h3&gt;
+&lt;p&gt;广度优先搜索（BFS）的思路是按步数从起点逐层向外找，先检查一步能到的位置，再检查两步、三步的位置。这样先找到的就是步数最少的路线。&lt;br /&gt;
+当每一步的代价都相同时，最少步数也就对应最低代价。实现这个搜索顺序，只需要一个先进先出的队列。&lt;/p&gt;
+&lt;p&gt;先把 B3 放进队列。取出 B3，按右、下、左、上的顺序检查邻居，把第一次见到的 C3、B4、A3、B2 依次放到队尾，并记下它们都是从 B3 来的。&lt;br /&gt;
+下一次取出 C3，刚发现的 D3 和 C4 也要排到队尾。因此，离起点一步的几个格子一定会比它们先得到处理。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154322/Typora/2026/11/02/dungeon-tavern-navigation-bfs-zh.png&#34; alt=&#34;BFS 取出第六个格子时的搜索范围，以及到达 H3 后沿第三行直走的路线&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;第一次发现一个格子时，就已经知道了到这里的最少步数。同一格之后再被别的邻居发现，可以直接跳过。&lt;br /&gt;
+每格只要记住第一次从哪里来，最后从 H3 沿着它的前驱一路往回找，再把顺序倒过来，就能得到整条路线。&lt;/p&gt;
+&lt;p&gt;图中的三次搜索都在终点&lt;strong&gt;出队&lt;/strong&gt;时停止，起点和终点也计入取出的格数。BFS 取出了 28 格，得到的路线是从 B3 直走到 H3。&lt;br /&gt;
+如果只计步数，这个答案没有问题。可是这条路正好穿过三格拥挤的过道。要让顾客考虑绕路，就要把每一步实际付出的代价算进去。&lt;/p&gt;
+&lt;h3 id=&#34;dijkstra-与累计代价&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#dijkstra-与累计代价&#34;&gt;#&lt;/a&gt; Dijkstra 与累计代价&lt;/h3&gt;
+&lt;p&gt;当每一步的代价不同时，Dijkstra 会把沿途的花费加起来，每次优先检查累计代价最低的位置。这样便宜的绕路就有机会先于昂贵的近路被找到。&lt;br /&gt;
+具体来说，它给每个已发现的格子记一个数  &lt;code&gt;g&lt;/code&gt; ，表示&lt;strong&gt;目前找到的从起点到这里的最低代价&lt;/strong&gt;。待检查的格子放进优先队列，每次先取  &lt;code&gt;g&lt;/code&gt;  最小的一个。图上优先级相同时，仍按入队先后处理。&lt;/p&gt;
+&lt;p&gt;以 C3 为例，从 B3 向右一步到这里， &lt;code&gt;g = 1&lt;/code&gt; 。再向右进 D3 是拥挤过道，累计代价变成 5；向下进 C4 则只要 2。&lt;br /&gt;
+因此，即使先看到了 D3，C4 也会排在它前面。每次检查邻居时，都把 “到当前格的代价 + 迈进邻格的代价” 与邻格原有的记录比较。如果新路线更便宜，就把它的代价和前驱一起更新。第一次发现邻格时，还不能像 BFS 那样把走法定下来。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154327/Typora/2026/11/02/dungeon-tavern-navigation-dijkstra-zh.png&#34; alt=&#34;Dijkstra 优先检查累计代价较低的格子，最后沿第四行绕开拥挤过道&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;只要每条边的代价都非负，队首格子被取出时，就不会再有一条尚未检查的路线能把它的代价降得更低。&lt;strong&gt;所以终点要等到出队时才算找到最优解。&lt;/strong&gt;&lt;br /&gt;
+这次顾客从 C3 转到 C4，沿第四行走到 H4，再向上到 H3。全程 8 步，累计代价也是 8，比直走的 15 低。&lt;/p&gt;
+&lt;p&gt;Dijkstra 在这张图里一共取出了 33 格。左侧那些离座位越来越远、但从入口走过去很便宜的位置，它也检查了。既然已经知道座位在右边，能不能先看看更接近座位的位置？&lt;/p&gt;
+&lt;h3 id=&#34;a-与剩余距离的估计&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#a-与剩余距离的估计&#34;&gt;#&lt;/a&gt; A* 与剩余距离的估计&lt;/h3&gt;
+&lt;p&gt;A* 在累计代价之外，还会考虑候选位置离终点有多远，让搜索优先沿着预计总花费较低的方向展开。这个对剩余代价的估计叫作启发函数。&lt;br /&gt;
+它保留了 Dijkstra 的实际代价  &lt;code&gt;g&lt;/code&gt; ，又加上一个  &lt;code&gt;h&lt;/code&gt; ，估计从当前格到终点至少还要花多少代价。每次从优先队列取出的，是 &lt;strong&gt; &lt;code&gt;f = g + h&lt;/code&gt;  最小的格子&lt;/strong&gt;。&lt;br /&gt;
+记录走过的路线、发现更便宜的走法时更新前驱，这些做法和 Dijkstra 一样。&lt;/p&gt;
+&lt;p&gt;这张地图只允许四方向移动，每一步的最低代价是 1。于是可以暂时忽略桌椅和拥挤过道，用横向格数差加上纵向格数差来估计  &lt;code&gt;h&lt;/code&gt; ，即&lt;strong&gt;曼哈顿距离&lt;/strong&gt;。&lt;br /&gt;
+例如，从 C3 到 H3 至少还要横走 5 格， &lt;code&gt;h = 5&lt;/code&gt; 。从 B4 到 H3 至少横走 6 格、竖走 1 格， &lt;code&gt;h = 7&lt;/code&gt; 。两处从起点走过去都只花 1，A* 就会先取  &lt;code&gt;f = 6&lt;/code&gt;  的 C3。到了 C3，昂贵的 D3 得到的是  &lt;code&gt;g = 5、h = 4、f = 9&lt;/code&gt; ，从下面绕行的 C4 则是  &lt;code&gt;g = 2、h = 6、f = 8&lt;/code&gt; ，这次先走下面更划算。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154318/Typora/2026/11/02/dungeon-tavern-navigation-astar-zh.png&#34; alt=&#34;A* 按累计代价与剩余距离估计之和检查候选格，找到同一条代价为 8 的路线&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;这个估计可以偏低。桌子挡路时实际要多走几步，但忽略障碍算出的距离依然是下限。并且在这张图上，相邻两格的  &lt;code&gt;h&lt;/code&gt;  最多相差 1，迈过去至少也要花 1，因此沿一条路线继续走， &lt;code&gt;f&lt;/code&gt;  不会变小。采用这个估计，终点出队时仍能得到最低代价的路线。&lt;br /&gt;
+如果把  &lt;code&gt;h&lt;/code&gt;  全设为 0，队列又只按  &lt;code&gt;g&lt;/code&gt;  排，A* 就退回了 Dijkstra；反过来，若把代价估得过高，真正便宜的绕路可能一直排在队尾，先取出的终点就未必是最优解了。&lt;/p&gt;
+&lt;p&gt;这组图里，A* 和 Dijkstra 都找到了代价为 8 的同一条路，A* 只取出了 13 格。同代价时先取哪一格会影响这个数字，也可能改变最后选中的等价路线。这里更值得比较的是两图中搜索展开的方向。&lt;/p&gt;
+&lt;h2 id=&#34;unity-的导航网格&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#unity-的导航网格&#34;&gt;#&lt;/a&gt; Unity 的导航网格&lt;/h2&gt;
+&lt;p&gt;回到酒馆场景。烘焙导航网格（ &lt;code&gt;NavMesh&lt;/code&gt; ）时，Unity 根据场景几何和角色的尺寸等设置，算出 NPC 能走的地面。相邻的导航多边形构成了前面说的图。&lt;/p&gt;
+&lt;p&gt;项目调用  &lt;code&gt;NavMeshAgent.SetDestination&lt;/code&gt;  指定目标后，Unity 用 A* 在起点与终点所在的多边形之间搜索，得到一串连通的多边形，也就是角色可以经过的通道。&lt;br /&gt;
+详见：&lt;a href=&#34;https://docs.unity3d.com/Packages/com.unity.ai.navigation@2.0/manual/NavInnerWorkings.html&#34;&gt;Unity 导航系统原理&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154336/Typora/2026/11/02/dungeon-tavern-navigation-navmesh-zh.png&#34; alt=&#34;多边形导航网格示意，终点移到 H1，角色沿着通道绕过桌子走向座位&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;这张图仍沿用前面几个示例中的家具布局，把座位移到了 H1，方便看清拐角。浅色块是一条可通过的多边形通道，折线是角色可以沿它行走的一条路线。&lt;br /&gt;
+当然，此图只是一个平面示意图，实际场景中烘焙出来的多边形边界会有所不同。&lt;/p&gt;
+&lt;p&gt;角色没有必要走到每个多边形的中心。&lt;br /&gt;
+眼前一段通道是直的，就直接走向下一个能看见的拐角。&lt;/p&gt;
+&lt;p&gt;行走过程中迎面来了另一位顾客，局部避让还可以临时调整移动方向。这样两人错身而过后，仍能继续沿原来的通道往桌边走。&lt;/p&gt;
+&lt;h2 id=&#34;酒馆里的两个寻路问题&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#酒馆里的两个寻路问题&#34;&gt;#&lt;/a&gt; 酒馆里的两个寻路问题&lt;/h2&gt;
+&lt;h3 id=&#34;菜单前的站位&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#菜单前的站位&#34;&gt;#&lt;/a&gt; 菜单前的站位&lt;/h3&gt;
+&lt;p&gt;轮到结伴的顾客点单时，游戏会在菜单前排出一道浅弧，给每位组员找一个站位。&lt;br /&gt;
+这里容易漏掉一步： &lt;code&gt;NavMesh.SamplePosition&lt;/code&gt;  能在期望位置附近找到网格上的点，却没有检查这位顾客从队列里能不能走过去。&lt;br /&gt;
+两块地面即使隔得很近，也可能被桌椅或一段断开的网格隔开。&lt;/p&gt;
+&lt;p&gt;因此，这里还要从这位顾客的实际位置再算一次路径。&lt;br /&gt;
+ &lt;code&gt;CalculatePath&lt;/code&gt;  在只能到达半途的情况下也可能返回  &lt;code&gt;true&lt;/code&gt; ，还得检查状态是否为  &lt;code&gt;PathComplete&lt;/code&gt; 。&lt;br /&gt;
+最后再和已经选好的站位比一下距离，免得两位顾客挤在同一个位置。&lt;/p&gt;
+&lt;p&gt;下面摘录了  &lt;code&gt;ServiceOrderQueue.TryBeginGroup&lt;/code&gt;  中检查一位组员站位的部分代码。 &lt;code&gt;desired&lt;/code&gt;  是给这位组员预先算好的位置， &lt;code&gt;positions&lt;/code&gt;  里保存着已经选好的站位。&lt;/p&gt;
+&lt;figure class=&#34;highlight csharp&#34;&gt;&lt;figcaption data-lang=&#34;C#&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;!&lt;/span&gt;NavMesh&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;SamplePosition&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;desired&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;out&lt;/span&gt; &lt;span class=&#34;token class-name&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;var&lt;/span&gt;&lt;/span&gt; hit&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;.65f&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; NavMesh&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;AllAreas&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token class-name&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;var&lt;/span&gt;&lt;/span&gt; path &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;new&lt;/span&gt; &lt;span class=&#34;token constructor-invocation class-name&#34;&gt;NavMeshPath&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;token operator&#34;&gt;!&lt;/span&gt;NavMesh&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;CalculatePath&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;members&lt;span class=&#34;token punctuation&#34;&gt;[&lt;/span&gt;i&lt;span class=&#34;token punctuation&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;transform&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;position&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; hit&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;position&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;        NavMesh&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;AllAreas&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; path&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;5&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token operator&#34;&gt;||&lt;/span&gt; path&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;status &lt;span class=&#34;token operator&#34;&gt;!=&lt;/span&gt; NavMeshPathStatus&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;PathComplete&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;6&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;    &lt;span class=&#34;token operator&#34;&gt;||&lt;/span&gt; positions&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Exists&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;p &lt;span class=&#34;token operator&#34;&gt;=&gt;&lt;/span&gt; Vector3&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Distance&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;p&lt;span class=&#34;token punctuation&#34;&gt;,&lt;/span&gt; hit&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;position&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;token number&#34;&gt;.7f&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;token keyword&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;7&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;positions&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Add&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;hit&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;position&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;h3 id=&#34;移动与到达判定&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#移动与到达判定&#34;&gt;#&lt;/a&gt; 移动与到达判定&lt;/h3&gt;
+&lt;p&gt;假设这样的一种场景：顾客正沿着桌边走，导航组件已经算出了下一步的位置，但角色的碰撞体可能碰到桌角，实际只走了这一步的一部分。那么下一次移动就需要从角色实际站到的位置继续计算。&lt;br /&gt;
+即角色真正走起来，还要经过一次碰撞处理。&lt;br /&gt;
+ &lt;code&gt;NpcNavigator&lt;/code&gt;  先取出导航组件计划移动到的位置，让  &lt;code&gt;CharacterController&lt;/code&gt;  执行这一步，再把实际站到的位置写回去：&lt;/p&gt;
+&lt;figure class=&#34;highlight csharp&#34;&gt;&lt;figcaption data-lang=&#34;C#&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token class-name&#34;&gt;&lt;span class=&#34;token keyword&#34;&gt;var&lt;/span&gt;&lt;/span&gt; step &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; agent&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;nextPosition &lt;span class=&#34;token operator&#34;&gt;-&lt;/span&gt; transform&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;position&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;step&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;y &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;-&lt;/span&gt;&lt;span class=&#34;token number&#34;&gt;2f&lt;/span&gt; &lt;span class=&#34;token operator&#34;&gt;*&lt;/span&gt; Time&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;deltaTime&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;body&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Move&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;step&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;4&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;agent&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;nextPosition &lt;span class=&#34;token operator&#34;&gt;=&lt;/span&gt; transform&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;position&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;走到桌边时，先看顾客和椅旁站位的水平距离，已经在允许范围内就直接停下。还要继续走的话，才让导航组件朝站位移动，并通过  &lt;code&gt;HasArrived&lt;/code&gt;  检查这次移动有没有结束。&lt;br /&gt;
+这里要等路径计算完毕、确认路径完整，再看两个距离：沿路径还剩多远，以及&lt;strong&gt;角色现在站的位置和导航终点在地面上实际相距多远&lt;/strong&gt;。即使导航显示只剩最后一点距离，角色还被障碍挡在远处，也不会被这一步误判为已经到达。&lt;/p&gt;
+&lt;h2 id=&#34;ue5-中的点击移动&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#ue5-中的点击移动&#34;&gt;#&lt;/a&gt; UE5 中的点击移动&lt;/h2&gt;
+&lt;p&gt;在另一个 UE5 项目里做点击移动时，我也遇到过这样一个问题：&lt;br /&gt;
+用  &lt;code&gt;Simple Move to Location&lt;/code&gt;  把点击位置交给导航后，角色总是在离实际点击位置还差一点的地方停下。&lt;/p&gt;
+&lt;p&gt;排查主要通过  &lt;code&gt;Print String&lt;/code&gt;  进行。&lt;br /&gt;
+先获取本次点击后实际传给导航节点的目标坐标，等角色停止移动，再通过  &lt;code&gt;GetActorLocation&lt;/code&gt;  获取角色的实际坐标。&lt;br /&gt;
+把两个坐标相减，接到  &lt;code&gt;Vector Length XY&lt;/code&gt;  上就能算出水平距离，再用  &lt;code&gt;Print String&lt;/code&gt;  打印，最后得到的数据约等于 50，即偏差的距离大致为 50。&lt;br /&gt;
+（这里比较的是 XY 平面上的距离。因为角色的 Actor 原点通常在胶囊体中间，点击目标却在地面上，如果直接算三维距离，就会把这段高度差也算进去。且我们实际关注的也只是这个水平距离）&lt;/p&gt;
+&lt;p&gt;因为偏差距离差不多为 50，我由此联想到角色的胶囊体半径。&lt;br /&gt;
+于是我接着打印  &lt;code&gt;GetScaledCapsuleRadius&lt;/code&gt;  返回的胶囊体缩放后半径，也同样得到 50，二者几乎相等。&lt;/p&gt;
+&lt;p&gt;我认为，问题出在我使用的导航函数  &lt;code&gt;Simple Move to Location&lt;/code&gt; 。&lt;br /&gt;
+这个函数的到达判定中，把角色胶囊体半径也算入到达范围，所以才会出现 “角色中心还没走到点击位置就停下” 的情况。&lt;br /&gt;
+我希望它能更接近点击的位置，但 &lt;code&gt;Simple Move to Location&lt;/code&gt;  节点只提供  &lt;code&gt;Controller&lt;/code&gt;  和  &lt;code&gt;Goal&lt;/code&gt;  两个输入，无法直接调整这些到达参数。&lt;/p&gt;
+&lt;p&gt;于是我改用了  &lt;code&gt;AI MoveTo&lt;/code&gt; ，把点击输入与实际移动拆开处理：&lt;br /&gt;
+点击得到目标位置后，将它交给控制角色的  &lt;code&gt;AIController&lt;/code&gt; ，由它实际执行移动。&lt;br /&gt;
+（原先这两步都是在  &lt;code&gt;PlayerController&lt;/code&gt;  中处理的）&lt;/p&gt;
+&lt;p&gt;而改用  &lt;code&gt;AI MoveTo&lt;/code&gt;  之后，就能直接调整  &lt;code&gt;Acceptance Radius&lt;/code&gt;  和  &lt;code&gt;Stop on Overlap&lt;/code&gt; 。&lt;br /&gt;
+前者设置允许提前停止的距离，后者如果开启，同样会把角色的半径加入到达判定范围。&lt;br /&gt;
+因此，我把  &lt;code&gt;Acceptance Radius&lt;/code&gt;  设为较小的非负值，并关闭  &lt;code&gt;Stop on Overlap&lt;/code&gt; 。&lt;/p&gt;
+&lt;p&gt;这样一来，角色就能在更接近点击位置的地方停下，问题解决。&lt;/p&gt;
+</content>
+        <category term="游戏工坊" scheme="https://www.sycamore.top/categories/Game-Workshop/" />
+        <category term="游戏开发" scheme="https://www.sycamore.top/categories/Game-Workshop/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" />
+        <category term="DungeonTavern" scheme="https://www.sycamore.top/tags/DungeonTavern/" />
+        <category term="Unity" scheme="https://www.sycamore.top/tags/Unity/" />
+        <updated>2026-11-02T15:26:43.000Z</updated>
+    </entry>
+    <entry>
+        <id>https://www.sycamore.top/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9A%E9%A1%BE%E5%AE%A2%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA/</id>
+        <title>地下酒馆：顾客的状态与行为</title>
+        <link rel="alternate" href="https://www.sycamore.top/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9A%E9%A1%BE%E5%AE%A2%E7%9A%84%E7%8A%B6%E6%80%81%E4%B8%8E%E8%A1%8C%E4%B8%BA/"/>
         <content type="html">&lt;p&gt;在上一篇&lt;a href=&#34;/%E6%B8%B8%E6%88%8F%E5%B7%A5%E5%9D%8A/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/%E5%9C%B0%E4%B8%8B%E9%85%92%E9%A6%86%EF%BC%9A%E6%A8%A1%E6%8B%9F%E7%BB%8F%E8%90%A5/&#34;&gt;《地下酒馆：模拟经营》&lt;/a&gt;里，我简单介绍了《地下酒馆》的经营玩法。&lt;br /&gt;
 本文着重说一下顾客 NPC 的状态和行为设计。这里用了一个有限状态机，把排队、点单、等餐等行为分成几个状态，再根据顾客到没到队首、菜有没有送到等条件切换状态。&lt;/p&gt;
 &lt;h2 id=&#34;顾客的状态流程&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#顾客的状态流程&#34;&gt;#&lt;/a&gt; 顾客的状态流程&lt;/h2&gt;
@@ -27,7 +129,7 @@
 顾客走到排队位置还不能进入下一个状态，队伍系统还要确认这位顾客是不是队首，只有顾客成为队首之后，才能进入  &lt;code&gt;Ordering&lt;/code&gt; 。&lt;/p&gt;
 &lt;p&gt;对于结伴进店的那组顾客，轮到其中一个顾客成为队首的时候，队伍系统会根据他的  &lt;code&gt;PartyId&lt;/code&gt;  找到同组的顾客，再给每个人分配菜单前的点单位置。&lt;br /&gt;
 然后组员会从队列里散开，在菜单前各找一个位置，且等所有人都站好才进入  &lt;code&gt;Ordering&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794918488/Typora/2026/11/17/dungeon-tavern-customer-party-menu-positions-turn.gif&#34; alt=&#34;轮到这组顾客点单后，四位组员离开队列、转向菜单，在各自的位置站好&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154314/Typora/2026/10/25/dungeon-tavern-customer-party-menu-positions-turn.gif&#34; alt=&#34;轮到这组顾客点单后，四位组员离开队列、转向菜单，在各自的位置站好&#34; /&gt;&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p&gt;普通顾客选完菜后会自动记录订单，并通过头顶气泡展示菜品，然后离开排队的队伍，进入  &lt;code&gt;FindingSeat&lt;/code&gt;  状态。&lt;br /&gt;
 以第一天的老铁匠布兰为例，他有一份预设的饮品订单。他在菜单前停留片刻，登记订单后先进入  &lt;code&gt;ShowingOrder&lt;/code&gt; ，短暂展示点好的饮品，随后才去找座位。&lt;/p&gt;
@@ -37,7 +139,7 @@
 &lt;p&gt;顾客走到桌边，还要转向桌面并执行入座动作才会进入等餐状态。&lt;br /&gt;
 之后可以在等餐和进食状态之间来回切换，等整份订单吃完，才会喊老板来结账。&lt;br /&gt;
 离店时也是一样，开始往外走是  &lt;code&gt;Leaving&lt;/code&gt; ，真正到达门口以后才进入  &lt;code&gt;Finished&lt;/code&gt; 。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794895624/Typora/2026/11/17/dungeon-tavern-customer-states-zh.png&#34; alt=&#34;顾客从进店到离店的状态变化，包含等餐、布兰点单和提前打烊的分支&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154300/Typora/2026/10/25/dungeon-tavern-customer-states-zh.png&#34; alt=&#34;顾客从进店到离店的状态变化，包含等餐、布兰点单和提前打烊的分支&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;每一帧， &lt;code&gt;Update()&lt;/code&gt;  会把  &lt;code&gt;arrived&lt;/code&gt;  初始设为  &lt;code&gt;false&lt;/code&gt; 。如果顾客正在进店、排队、前往座位或离店，就检查他有没有走到目标位置。&lt;br /&gt;
 随后调用  &lt;code&gt;Tick(Time.deltaTime, arrived)&lt;/code&gt; 。&lt;br /&gt;
  &lt;code&gt;Tick()&lt;/code&gt;  按状态检查不同的条件。例如，等餐时要看订单里有没有已经送到、还没吃完的餐品：&lt;/p&gt;
@@ -47,7 +149,7 @@
 &lt;h2 id=&#34;顾客的座位分配&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#顾客的座位分配&#34;&gt;#&lt;/a&gt; 顾客的座位分配&lt;/h2&gt;
 &lt;p&gt;大厅里有长桌、小圆桌和大圆桌。下面按我调整后的设计说明选座和拼桌规则，Demo 中的代码还保留着前一版实现。&lt;br /&gt;
 顾客进店前， &lt;code&gt;SeatRegistry&lt;/code&gt;  会先预留这次进店所需的位置。因此，即使椅子上还没有人坐，也可能是另一位正在点单的顾客的位置。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794895823/Typora/2026/11/17/dungeon-tavern-customer-table-models.png&#34; alt=&#34;游戏中的三种桌子模型，从左至右为长桌、小圆桌和大圆桌&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154302/Typora/2026/10/25/dungeon-tavern-customer-table-models.png&#34; alt=&#34;游戏中的三种桌子模型，从左至右为长桌、小圆桌和大圆桌&#34; /&gt;&lt;/p&gt;
 &lt;h3 id=&#34;独自进店的顾客&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#独自进店的顾客&#34;&gt;#&lt;/a&gt; 独自进店的顾客&lt;/h3&gt;
 &lt;p&gt;单人顾客有孤僻和热情两种。两者都会先找整张空着的长桌，再找空的小圆桌。如果都没有空位，就看已有顾客的长桌上还能不能拼座。&lt;br /&gt;
 二者的区别在于选哪一张凳子：&lt;/p&gt;
@@ -64,7 +166,7 @@
 如果分配到一半失败，已经给这组人留的座位会一起释放。整组都分到座位之后，才算作分配完成。&lt;br /&gt;
 如果两个人占用一张四人桌，另外两个空位只会分给小于 2 人的新顾客；&lt;br /&gt;
 且只有等到最后一位组员起身释放座位，这张圆桌中被结伴顾客占用的座位才重新算作空闲。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794915793/Typora/2026/11/17/dungeon-tavern-customer-seating-parties-zh.png&#34; alt=&#34;独行顾客在长桌上的邻座偏好，以及单人顾客与两人小队拼圆桌、组员全部离席后释放原小队两席的过程&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154310/Typora/2026/10/25/dungeon-tavern-customer-seating-parties-zh.png&#34; alt=&#34;独行顾客在长桌上的邻座偏好，以及单人顾客与两人小队拼圆桌、组员全部离席后释放原小队两席的过程&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;多人点单&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#多人点单&#34;&gt;#&lt;/a&gt; 多人点单&lt;/h2&gt;
 &lt;p&gt;同一组顾客进店时会拿到相同的  &lt;code&gt;PartyId&lt;/code&gt; 。&lt;br /&gt;
 当其中一人到达队首后，队列会用这个编号找到其余组员，让他们在菜单前围成浅弧。&lt;br /&gt;
@@ -73,12 +175,12 @@
 &lt;p&gt;每个人会从个人菜品中选一到两份，再选一杯饮品。&lt;br /&gt;
 选个人菜的时候，每个人都有各自的计时，所以几个人站在一起，头顶出现的气泡内容也不完全同步。&lt;br /&gt;
 气泡下面是正在考虑的菜，确认后图标移到上面，下面就能继续展示下一道。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794918486/Typora/2026/11/17/dungeon-tavern-customer-order-bubble.png&#34; alt=&#34;气泡上层是已经确认的菜品，下层带勾的是正在确认的菜品&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154312/Typora/2026/10/25/dungeon-tavern-customer-order-bubble.png&#34; alt=&#34;气泡上层是已经确认的菜品，下层带勾的是正在确认的菜品&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;组里还可以合点共享菜品，目前的菜单中有铁锅洞菇炖肉和炭烤穴猪拼盘。&lt;br /&gt;
 以拼盘为例，当一名顾客提议时，他头顶会出现拼盘的图标和问号。&lt;br /&gt;
 其他组员手上如果还有一道菜正在确认，会先把它选完，再各自表态。&lt;br /&gt;
 只要有人给出叉号，这道菜就不加入订单；其余组员全部同意，才把拼盘加进每个人头顶的已确认菜品里。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794895824/Typora/2026/11/17/dungeon-tavern-customer-group-order.gif&#34; alt=&#34;四位顾客在菜单前各自选菜，再用头顶的气泡提议和确认共享菜&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1795154304/Typora/2026/10/25/dungeon-tavern-customer-group-order.gif&#34; alt=&#34;四位顾客在菜单前各自选菜，再用头顶的气泡提议和确认共享菜&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;在一轮投票结束时， &lt;code&gt;votes&lt;/code&gt;  收齐了除提议者外所有组员的答复。&lt;br /&gt;
 是否把这道菜保留下来，只需通过下面这个代码：&lt;/p&gt;
 &lt;figure class=&#34;highlight csharp&#34;&gt;&lt;figcaption data-lang=&#34;C#&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token keyword&#34;&gt;if&lt;/span&gt; &lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;votes&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;Values&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;All&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;yes &lt;span class=&#34;token operator&#34;&gt;=&gt;&lt;/span&gt; yes&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt; shared&lt;span class=&#34;token punctuation&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;token function&#34;&gt;Add&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;(&lt;/span&gt;item&lt;span class=&#34;token punctuation&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;token punctuation&#34;&gt;;&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;虽然每个人头顶的气泡都包含了这个拼盘，但厨房只需要送一份。&lt;br /&gt;
@@ -104,7 +206,7 @@
         <category term="游戏开发" scheme="https://www.sycamore.top/categories/Game-Workshop/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" />
         <category term="DungeonTavern" scheme="https://www.sycamore.top/tags/DungeonTavern/" />
         <category term="Unity" scheme="https://www.sycamore.top/tags/Unity/" />
-        <updated>2026-11-17T06:05:03.000Z</updated>
+        <updated>2026-10-25T06:05:03.000Z</updated>
     </entry>
     <entry>
         <id>https://www.sycamore.top/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E9%80%82%E9%85%8D/</id>
@@ -1983,8 +2085,8 @@ make clean
         <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
         <category term="安全实验" scheme="https://www.sycamore.top/categories/CyberSecurity/%E5%AE%89%E5%85%A8%E5%AE%9E%E9%AA%8C/" />
         <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
-        <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
         <category term="反弹 Shell" scheme="https://www.sycamore.top/tags/%E5%8F%8D%E5%BC%B9-Shell/" />
+        <category term="Bash" scheme="https://www.sycamore.top/tags/Bash/" />
         <category term="Netcat" scheme="https://www.sycamore.top/tags/Netcat/" />
         <updated>2025-06-15T13:48:27.000Z</updated>
     </entry>
@@ -2131,9 +2233,9 @@ CNN 的输入数据都是 3 维的，不用拉成一个向量&lt;br /&gt;
 </content>
         <category term="人工智能" scheme="https://www.sycamore.top/categories/AI/" />
         <category term="深度学习" scheme="https://www.sycamore.top/categories/AI/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" />
+        <category term="机器学习" scheme="https://www.sycamore.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" />
         <category term="CNN" scheme="https://www.sycamore.top/tags/CNN/" />
         <category term="残差网络" scheme="https://www.sycamore.top/tags/%E6%AE%8B%E5%B7%AE%E7%BD%91%E7%BB%9C/" />
-        <category term="机器学习" scheme="https://www.sycamore.top/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" />
         <updated>2025-03-16T00:09:05.000Z</updated>
     </entry>
     <entry>
@@ -2290,8 +2392,8 @@ CNN 的输入数据都是 3 维的，不用拉成一个向量&lt;br /&gt;
 </content>
         <category term="系统环境" scheme="https://www.sycamore.top/categories/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/" />
         <category term="虚拟机" scheme="https://www.sycamore.top/categories/%E7%B3%BB%E7%BB%9F%E7%8E%AF%E5%A2%83/%E8%99%9A%E6%8B%9F%E6%9C%BA/" />
-        <category term="Windows" scheme="https://www.sycamore.top/tags/Windows/" />
         <category term="VMware" scheme="https://www.sycamore.top/tags/VMware/" />
+        <category term="Windows" scheme="https://www.sycamore.top/tags/Windows/" />
         <updated>2025-02-16T10:35:51.000Z</updated>
     </entry>
     <entry>
@@ -2728,69 +2830,5 @@ make
         <category term="权限维持" scheme="https://www.sycamore.top/tags/%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81/" />
         <category term="PAM" scheme="https://www.sycamore.top/tags/PAM/" />
         <updated>2024-10-13T15:35:57.000Z</updated>
-    </entry>
-    <entry>
-        <id>https://www.sycamore.top/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/Linux%20%E5%90%8E%E9%97%A8/Linux%20%E5%90%8E%E9%97%A8%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
-        <title>Linux 后门实验环境搭建</title>
-        <link rel="alternate" href="https://www.sycamore.top/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/Linux%20%E5%90%8E%E9%97%A8/Linux%20%E5%90%8E%E9%97%A8%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-        <content type="html">&lt;p&gt;这次用 Kali Linux 虚拟机作为实验服务器，在 Windows 主机上通过 Xshell 建立 SSH 连接，为后面的 Linux 后门实验准备环境。这里先记录连接过程，以及我遇到的几个问题。&lt;/p&gt;
-&lt;p&gt;&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;div class=&#34;note info&#34;&gt;
-&lt;p&gt;本文的操作和截图来自 2022 年使用的 Kali 2022.1 与 Windows 下的 VMware。其他版本的界面、服务状态和 SSH 配置可能不同，下面的旧镜像链接留作版本对照。&lt;/p&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;vmware创建kali虚拟机&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#vmware创建kali虚拟机&#34;&gt;#&lt;/a&gt; VMware 创建 Kali 虚拟机&lt;/h2&gt;
-&lt;p&gt;我使用的是 VMware，创建虚拟机的过程就不展开了。如果不想从 ISO 镜像开始安装，可以直接下载 Kali 官方预配置的虚拟机镜像。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://old.kali.org/virtual-images/kali-2022.1/kali-linux-2022.1-vmware-amd64.7z&#34;&gt;Kali 2022.1 VMware 镜像&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://old.kali.org/virtual-images/kali-2022.1/kali-linux-2022.1-virtualbox-amd64.ova&#34;&gt;Kali 2022.1 VirtualBox 镜像&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;新建环境可以从 &lt;a href=&#34;https://www.kali.org/get-kali/#kali-virtual-machines&#34;&gt;Kali 官方下载页&lt;/a&gt;选择当前版本。本文后面的操作以 Kali 为准。&lt;/p&gt;
-&lt;h2 id=&#34;xshell安装和会话创建&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#xshell安装和会话创建&#34;&gt;#&lt;/a&gt; Xshell 安装和会话创建&lt;/h2&gt;
-&lt;p&gt;Xshell 的安装过程这里不展开，可以从 &lt;a href=&#34;https://www.netsarang.com/en/xshell/&#34;&gt;NetSarang 官网&lt;/a&gt;获取安装包。&lt;/p&gt;
-&lt;p&gt;打开 Xshell，选择 “文件 → 新建”，创建一个 SSH 会话：&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696473/Typora/2025/11/ec0e3b63c1b6407381f5fc198204b88b.png&#34; alt=&#34;Xshell 新建 SSH 会话的设置窗口&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;会话名称可以自己填写，协议选择 &lt;strong&gt;SSH&lt;/strong&gt;。如果没有修改 SSH 服务的监听端口，端口号就填 &lt;strong&gt;22&lt;/strong&gt;；主机地址则填写 Kali 虚拟机的 IP。&lt;/p&gt;
-&lt;p&gt;启动虚拟机，在终端中输入  &lt;code&gt;ip addr&lt;/code&gt;  查看网卡地址。下面是我使用  &lt;code&gt;ifconfig&lt;/code&gt;  得到的结果；如果系统没有安装这个命令，使用  &lt;code&gt;ip addr&lt;/code&gt;  即可。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696474/Typora/2025/11/03de79df0a7a5f15066393d8b3fdc732.png&#34; alt=&#34;Kali 虚拟机的网卡与 IP 地址&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;图中的地址是 &lt;strong&gt;192.168.158.128&lt;/strong&gt;，把它填进会话的主机地址一栏。这个地址要以自己虚拟机的实际地址为准，不要填回环地址  &lt;code&gt;127.0.0.1&lt;/code&gt; 。&lt;/p&gt;
-&lt;h2 id=&#34;kali配置ssh连接问题汇总&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#kali配置ssh连接问题汇总&#34;&gt;#&lt;/a&gt; Kali 配置 SSH 连接（问题汇总）&lt;/h2&gt;
-&lt;p&gt;创建完会话后，我还没有顺利连上，Xshell 显示了连接失败：&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696474/Typora/2025/11/44ad2149c5ece1467cd8f0dee447a105.png&#34; alt=&#34;Xshell 连接失败提示&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;服务没有启动、网络不通和认证失败是不同的问题，下面是排查的记录。&lt;/p&gt;
-&lt;h3 id=&#34;ssh-是否开启&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#ssh-是否开启&#34;&gt;#&lt;/a&gt; SSH 是否开启&lt;/h3&gt;
-&lt;p&gt;先在 Kali 中查看 SSH 服务状态，如果还没有运行，再启动它：&lt;/p&gt;
-&lt;figure class=&#34;highlight bash&#34;&gt;&lt;figcaption data-lang=&#34;bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; systemctl status &lt;span class=&#34;token function&#34;&gt;ssh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; systemctl start &lt;span class=&#34;token function&#34;&gt;ssh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;3&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; systemctl status &lt;span class=&#34;token function&#34;&gt;ssh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;这是使用  &lt;code&gt;service ssh status&lt;/code&gt;  查看状态的截图，显示  &lt;code&gt;active (running)&lt;/code&gt;  说明服务正在运行。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696477/Typora/2025/11/bf8774117739cb26e9767cc0b5a1f9f5.png&#34; alt=&#34;SSH 服务运行状态&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;如果希望虚拟机开机后自动启动 SSH，可以执行：&lt;/p&gt;
-&lt;figure class=&#34;highlight bash&#34;&gt;&lt;figcaption data-lang=&#34;bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&#34;token builtin class-name&#34;&gt;enable&lt;/span&gt; &lt;span class=&#34;token function&#34;&gt;ssh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;不需要开机自启时，用  &lt;code&gt;sudo systemctl disable ssh&lt;/code&gt;  取消。启动服务后可以直接重新连接，不需要为了这一步重启虚拟机。&lt;/p&gt;
-&lt;h3 id=&#34;能否-ping-通&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#能否-ping-通&#34;&gt;#&lt;/a&gt; 能否 ping 通&lt;/h3&gt;
-&lt;p&gt;如果服务已经启动，Xshell 仍然连不上，可以先在 Windows 主机上 ping 虚拟机的 IP，看看网络是否能通：&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696477/Typora/2025/11/c72106aee3f1d8b7ac9a24d572b59b36.png&#34; alt=&#34;Windows 主机 ping Kali 虚拟机失败&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;ping 不通不一定就是 SSH 的问题，也可能是地址、虚拟网卡或防火墙的设置。我遇到的是 VMnet8 的连接问题。&lt;/p&gt;
-&lt;p&gt;打开 VMware 的 “编辑 → 虚拟网络编辑器”，点击 “更改设置”，选中 &lt;strong&gt;VMnet8&lt;/strong&gt;，勾选 “将主机虚拟适配器连接到此网络”。&lt;/p&gt;
-&lt;p&gt;如果已经勾选，可以先取消勾选并应用，再重新勾选并应用，重新启用宿主机与虚拟网络的连接。&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696477/Typora/2025/11/97fccc2c2ee041cbd1e6feb5cacbf47d.png&#34; alt=&#34;VMnet8 的主机虚拟适配器设置&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;这样处理后就能连上了。不过重启电脑后还得再做一遍，确实有点麻烦 (￣_￣|||)&lt;/p&gt;
-&lt;p&gt;我也尝试过配置端口转发，但没有解决这个问题。Windows 宿主机可以通过 VMnet8 虚拟适配器直接访问同一私有网络里的 Kali；外部机器要主动访问 NAT 内的服务时，才需要考虑端口转发。具体网络模式可参考 &lt;a href=&#34;https://knowledge.broadcom.com/external/article/309842/understanding-networking-types-in-hosted.html&#34;&gt;VMware 官方说明&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;这个问题还没有彻底解决，重新勾选只是临时处理。后续还需要检查 VMnet8 适配器、双方的子网地址和防火墙规则。&lt;/p&gt;
-&lt;h3 id=&#34;ssh服务拒绝密码&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#ssh服务拒绝密码&#34;&gt;#&lt;/a&gt; SSH 服务拒绝密码&lt;/h3&gt;
-&lt;p&gt;网络连通后，我又遇到了另一个提示：&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696478/Typora/2025/11/4a17b7f6085ed11e25581ad4af01ad96.png&#34; alt=&#34;Xshell 提示 SSH 服务器拒绝密码&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;这里使用  &lt;code&gt;root&lt;/code&gt;  登录，提示 “SSH 服务器拒绝了密码，请再试一次”。确认用户名和密码无误后，还需要检查账户状态和服务端的认证设置。&lt;/p&gt;
-&lt;p&gt;我修改了服务端的  &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt; ，配置如下：&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696481/Typora/2025/11/8900184ed3d063762a64a4307d9111e0.png&#34; alt=&#34;修改后的 sshd_config 配置，包含 PermitRootLogin yes&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;图中的  &lt;code&gt;PermitRootLogin yes&lt;/code&gt;  允许 root 登录。普通账户无需修改这一项，其他配置也只需按需要调整，不必全部取消注释。各项含义可以查看 &lt;a href=&#34;https://man.openbsd.org/sshd_config&#34;&gt;OpenSSH 配置手册&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;修改配置后，先检查语法，再重启服务：&lt;/p&gt;
-&lt;figure class=&#34;highlight bash&#34;&gt;&lt;figcaption data-lang=&#34;bash&#34;&gt;&lt;/figcaption&gt;&lt;table&gt;&lt;tr&gt;&lt;td data-num=&#34;1&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; /usr/sbin/sshd &lt;span class=&#34;token parameter variable&#34;&gt;-t&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td data-num=&#34;2&#34;&gt;&lt;/td&gt;&lt;td&gt;&lt;pre&gt;&lt;span class=&#34;token function&#34;&gt;sudo&lt;/span&gt; systemctl restart &lt;span class=&#34;token function&#34;&gt;ssh&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;p&gt;语法检查通过后再重启  &lt;code&gt;ssh&lt;/code&gt;  服务，不需要重启虚拟机。&lt;/p&gt;
-&lt;p&gt;重新连接 Xshell，成功！&lt;/p&gt;
-&lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1792696482/Typora/2025/11/bc8a0d69bbf2c5972d1bb2864e8e36f7.png&#34; alt=&#34;Xshell 成功连接 Kali 虚拟机&#34; /&gt;&lt;/p&gt;
-</content>
-        <category term="网络安全" scheme="https://www.sycamore.top/categories/CyberSecurity/" />
-        <category term="Linux 后门" scheme="https://www.sycamore.top/categories/CyberSecurity/Linux-%E5%90%8E%E9%97%A8/" />
-        <category term="SSH" scheme="https://www.sycamore.top/tags/SSH/" />
-        <category term="Kali" scheme="https://www.sycamore.top/tags/Kali/" />
-        <category term="Linux" scheme="https://www.sycamore.top/tags/Linux/" />
-        <category term="VMware" scheme="https://www.sycamore.top/tags/VMware/" />
-        <updated>2024-09-15T13:36:37.000Z</updated>
     </entry>
 </feed>
