@@ -2067,36 +2067,76 @@
     1924,
     1080
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794895624/Typora/2026/11/17/dungeon-tavern-customer-states-zh.png": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154300/Typora/2026/10/25/dungeon-tavern-customer-states-zh.png": [
     1320,
     1659
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794895624/Typora/2026/11/17/dungeon-tavern-customer-states-en.png": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154298/Typora/2026/10/25/dungeon-tavern-customer-states-en.png": [
     1320,
     1659
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794895823/Typora/2026/11/17/dungeon-tavern-customer-table-models.png": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154302/Typora/2026/10/25/dungeon-tavern-customer-table-models.png": [
     1210,
     370
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794895824/Typora/2026/11/17/dungeon-tavern-customer-group-order.gif": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154304/Typora/2026/10/25/dungeon-tavern-customer-group-order.gif": [
     500,
     518
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794915793/Typora/2026/11/17/dungeon-tavern-customer-seating-parties-zh.png": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154310/Typora/2026/10/25/dungeon-tavern-customer-seating-parties-zh.png": [
     1320,
     1578
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794915793/Typora/2026/11/17/dungeon-tavern-customer-seating-parties-en.png": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154307/Typora/2026/10/25/dungeon-tavern-customer-seating-parties-en.png": [
     1320,
     1578
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794918488/Typora/2026/11/17/dungeon-tavern-customer-party-menu-positions-turn.gif": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154314/Typora/2026/10/25/dungeon-tavern-customer-party-menu-positions-turn.gif": [
     636,
     586
   ],
-  "https://res.cloudinary.com/sycamore/image/upload/v1794918486/Typora/2026/11/17/dungeon-tavern-customer-order-bubble.png": [
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154312/Typora/2026/10/25/dungeon-tavern-customer-order-bubble.png": [
     254,
     224
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154316/Typora/2026/11/02/dungeon-tavern-navigation-astar-en.png": [
+    1272,
+    1716
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154318/Typora/2026/11/02/dungeon-tavern-navigation-astar-zh.png": [
+    1272,
+    1716
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154320/Typora/2026/11/02/dungeon-tavern-navigation-bfs-en.png": [
+    1272,
+    1716
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154322/Typora/2026/11/02/dungeon-tavern-navigation-bfs-zh.png": [
+    1272,
+    1716
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154324/Typora/2026/11/02/dungeon-tavern-navigation-dijkstra-en.png": [
+    1272,
+    1716
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154327/Typora/2026/11/02/dungeon-tavern-navigation-dijkstra-zh.png": [
+    1272,
+    1716
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154329/Typora/2026/11/02/dungeon-tavern-navigation-map-en.png": [
+    1272,
+    906
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154331/Typora/2026/11/02/dungeon-tavern-navigation-map-zh.png": [
+    1272,
+    906
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154334/Typora/2026/11/02/dungeon-tavern-navigation-navmesh-en.png": [
+    1272,
+    870
+  ],
+  "https://res.cloudinary.com/sycamore/image/upload/v1795154336/Typora/2026/11/02/dungeon-tavern-navigation-navmesh-zh.png": [
+    1272,
+    870
   ]
 }

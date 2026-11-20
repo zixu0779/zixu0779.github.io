@@ -1,7 +1,7 @@
 ---
-title: "DungeonTavern: Customer NPC States and Behavior"
+title: "DungeonTavern: Customer States and Behavior"
 translation_id: dungeontavern-customer-behavior
-source_digest: 3fa529c0e96f2cefbdd810924bb929353106f3b1df0f46e1954be129c0ea100e
+source_digest: 62072162a01e509480ce88a8e79730299d4212bc626edb887e987198de31882e
 tags: ["DungeonTavern", "Unity"]
 categories: ["Game Workshop", "Game Development"]
 sections: {"customer-state-transitions": "顾客的状态流程", "customer-seat-allocation": "顾客的座位分配", "customers-arriving-alone": "独自进店的顾客", "customers-arriving-together": "结伴进店的顾客", "group-ordering": "多人点单", "serving-settling-bills-and-closing-time": "送餐-结账与打烊"}
@@ -24,7 +24,7 @@ Reaching their place in line doesn’t mean they can start ordering. The queue a
 When one member of a party reaches the front, the queue uses that customer’s `PartyId` to find the rest of the group and assigns each member a place in front of the menu board.
 They spread out from the line and move to their assigned places. Only once everyone is in position do they enter `Ordering` together.
 
-![When it’s the party’s turn, the four customers leave the queue and turn to face the menu at their assigned places](https://res.cloudinary.com/sycamore/image/upload/v1794918488/Typora/2026/11/17/dungeon-tavern-customer-party-menu-positions-turn.gif)
+![When it’s the party’s turn, the four customers leave the queue and turn to face the menu at their assigned places](https://res.cloudinary.com/sycamore/image/upload/v1795154314/Typora/2026/10/25/dungeon-tavern-customer-party-menu-positions-turn.gif)
 
 ---
 
@@ -39,7 +39,7 @@ Once at the table, the customer turns to face it and sits down before waiting fo
 From there, they can go back and forth between eating and waiting. They call the owner over to settle the bill only after they’ve finished the whole order.
 Leaving is also a two-step process: they enter `Leaving` on the way out and `Finished` once they reach the door.
 
-![Customer states from arrival to departure, including the branches for waiting for food, Bran’s order and early closing](https://res.cloudinary.com/sycamore/image/upload/v1794895624/Typora/2026/11/17/dungeon-tavern-customer-states-en.png)
+![Customer states from arrival to departure, including the branches for waiting for food, Bran’s order and early closing](https://res.cloudinary.com/sycamore/image/upload/v1795154298/Typora/2026/10/25/dungeon-tavern-customer-states-en.png)
 
 Each frame, `Update()` starts with `arrived` set to `false`. If the customer is entering, queuing, approaching their seat or leaving, the game checks whether they have reached their destination. It then calls `Tick(Time.deltaTime, arrived)`. Inside `Tick()`, the condition to check depends on the state. While a customer is waiting for food, for example, the game looks for a portion that has been delivered but hasn’t been finished:
 
@@ -56,7 +56,7 @@ case CustomerOrderState.WaitingForFood:
 
 The hall has long tables, small round tables and large round tables. The seat assignments and table-sharing rules below follow my revised design. The demo code still uses the earlier implementation. Before a customer or party comes in, `SeatRegistry` reserves the places they need. An empty-looking stool can already belong to someone who’s still at the menu board.
 
-![Table models from the game: the long table, small round table and large round table, from left to right](https://res.cloudinary.com/sycamore/image/upload/v1794895823/Typora/2026/11/17/dungeon-tavern-customer-table-models.png)
+![Table models from the game: the long table, small round table and large round table, from left to right](https://res.cloudinary.com/sycamore/image/upload/v1795154302/Typora/2026/10/25/dungeon-tavern-customer-table-models.png)
 
 ### Customers arriving alone
 
@@ -80,7 +80,7 @@ Parties consist of two to four customers and give priority to an empty large rou
 
 `TryReserveParty()` finds an empty large round table and checks that it has enough active places before assigning a stool to each customer. If a reservation fails partway through, the places already reserved for this party are released together. The reservation is complete only when everyone has a seat. When a party of two takes a four-person table, the two remaining seats are available only to new customers arriving alone. The seats the party occupied become available again once the last member gets up and releases their seat.
 
-![Neighbor preferences at a long table and a solo customer joining a party of two at a round table. The party’s two seats are released together when its last member leaves](https://res.cloudinary.com/sycamore/image/upload/v1794915793/Typora/2026/11/17/dungeon-tavern-customer-seating-parties-en.png)
+![Neighbor preferences at a long table and a solo customer joining a party of two at a round table. The party’s two seats are released together when its last member leaves](https://res.cloudinary.com/sycamore/image/upload/v1795154307/Typora/2026/10/25/dungeon-tavern-customer-seating-parties-en.png)
 
 ## Group ordering
 
@@ -88,11 +88,11 @@ Customers who arrive together share a `PartyId`. When one reaches the front of t
 
 Each customer chooses one or two portions from the individual dishes on the menu, then a drink. They decide at their own pace, so the bubbles above their heads change at different times. A dish under consideration appears in the lower part of the bubble. When it’s confirmed, its icon moves to the top, leaving room below for the next choice.
 
-![Confirmed dishes appear at the top of the bubble. The tick below marks the dish the customer is confirming](https://res.cloudinary.com/sycamore/image/upload/v1794918486/Typora/2026/11/17/dungeon-tavern-customer-order-bubble.png)
+![Confirmed dishes appear at the top of the bubble. The tick below marks the dish the customer is confirming](https://res.cloudinary.com/sycamore/image/upload/v1795154312/Typora/2026/10/25/dungeon-tavern-customer-order-bubble.png)
 
 A party can also order a pot of mushroom stew or a roast cave boar platter to share. When one customer suggests the platter, its icon appears with a question mark. Anyone in the middle of confirming an individual dish finishes that first, then each of the other diners casts a vote. A single cross keeps the platter off the order. If all the others agree, it appears among the confirmed dishes above everyone’s head.
 
-![Four customers choosing dishes at the board, with speech bubbles showing proposals and votes on shared dishes](https://res.cloudinary.com/sycamore/image/upload/v1794895824/Typora/2026/11/17/dungeon-tavern-customer-group-order.gif)
+![Four customers choosing dishes at the board, with speech bubbles showing proposals and votes on shared dishes](https://res.cloudinary.com/sycamore/image/upload/v1795154304/Typora/2026/10/25/dungeon-tavern-customer-group-order.gif)
 
 By the end of a round of voting, `votes` contains an answer from every diner except the one who proposed the dish. One line decides whether the dish stays on the order:
 
