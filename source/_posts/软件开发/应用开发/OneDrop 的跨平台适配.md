@@ -2,7 +2,7 @@
 translation_id: onedrop-platforms
 title: OneDrop 的跨平台适配
 date: 2026-10-21 20:34:27
-updated: 2026-10-29 02:54:42
+updated: 2026-11-22 13:12:19
 categories: [["软件开发", "应用开发"]]
 tags: ["OneDrop", "TypeScript", "Microsoft Graph", "Edge插件开发"]
 ---
@@ -12,7 +12,8 @@ tags: ["OneDrop", "TypeScript", "Microsoft Graph", "Edge插件开发"]
 在电脑上我希望直接打开下载好的文件，在 iPhone 的 Edge 里则希望能调出系统分享菜单，自己选择用哪个应用接收。
 
 之前的[上篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/)和[下篇](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（下）/)写了这些消息怎样保存到 OneDrive，以及不同设备如何同步。
-这里沿用 [OneDrop 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3)，接着说桌面 Edge、手机上的 Edge，以及独立安装的 iOS 应用各自要做哪些适配。
+这里沿用 [OneDrop 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3) 来说桌面 Edge、手机上的 Edge，以及独立安装的 iOS 应用各自要做哪些适配。
+[OneDrop 1.1.0](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0) 中加入了独立 Android 应用，下面也补上它在登录、打开附件和复制图片时用到的 Android 接口。
 
 <!-- more -->
 
@@ -20,13 +21,15 @@ tags: ["OneDrop", "TypeScript", "Microsoft Graph", "Edge插件开发"]
 
 ### 平台入口和共享包
 
-OneDrop 的应用入口放在 `apps/` 下，桌面和手机上的 Edge 使用同一份扩展，独立的 iOS 应用则有自己的入口。
+OneDrop 的应用入口放在 `apps/` 下，桌面和手机上的 Edge 使用同一份扩展，独立 Android 和 iOS 应用各有自己的入口。
 各端用到的界面、消息模型和 OneDrive 读写代码放在 `packages/` 下。主要目录如下：
 
 | 目录 | 用途 |
 | --- | --- |
 | `apps/edge` | 桌面侧栏、移动端扩展页面和 iOS Edge 的适配 |
 | `apps/ios` | 独立 iOS 应用的 WebView 入口和 Swift 插件 |
+| `apps/android` | 独立 Android 应用的 WebView 入口和 Java 插件 |
+| `packages/native-runtime` | 1.1.0 中两个独立应用共用的平台桥接 |
 | `packages/ui` | React 消息列表、输入框和设置界面 |
 | `packages/core` | 消息模型、设置类型和运行时请求协议 |
 | `packages/platform` | 界面调用平台功能的接口，以及 OneDrive 代码所需的运行环境 |
@@ -48,7 +51,7 @@ const response = await sendRequest({ type: "messages/read-current-month" });
 这里的桥接负责接收界面发来的请求，决定交给谁处理。请求的名称、参数和返回类型则统一定义在 `packages/core` 中。
 
 - **Edge 扩展**通过 `browser.runtime.sendMessage` 把请求交给扩展后台。后台找到相应的处理函数，取当前 UTC 月份，调用 `readMonthDocument()` 读取消息。
-- **独立 iOS 应用**通过 Capacitor 在应用内的 WebView 中加载这套界面。它没有扩展后台，桥接直接在应用内处理请求，从原生登录插件取得访问令牌，再交给 `readMonthDocumentWithAccessToken()` 读取同一个月份。
+- **独立 Android 和 iOS 应用**通过 Capacitor 在应用内的 WebView 中加载这套界面。它们共用的原生端桥接没有扩展后台，桥接直接在应用内处理请求，从应用内的原生认证模块（Capacitor 插件）取得访问令牌，再交给 `readMonthDocumentWithAccessToken()` 读取同一个月份。
 
 两边最终用到的月份读取代码都在 `packages/onedrive`。
 界面收到的也是同一种 `messages/month` 响应，可以把消息交给同一份列表组件显示。以后修改消息块的读取规则时，只需要改这一处。
@@ -127,11 +130,13 @@ height: var(--ios-edge-popup-height, 100dvh);
 授权码和令牌的兑换过程可以参考[上篇的客户端授权流程](/软件开发/应用开发/OneDrop%20的消息存储与多端同步（上）/#客户端授权流程)。
 
 独立安装的 iOS 应用有自己的登录入口。
-点同一个登录按钮时，应用会通过 Capacitor 调用 Swift 写的 `OneDropAuth` 插件，由它创建系统提供的 `ASWebAuthenticationSession`，打开 Microsoft 的登录页面。
+点同一个登录按钮时，应用会通过 Capacitor 调用 Swift 写的 `OneDropAuth` 原生认证模块，由它创建系统提供的 `ASWebAuthenticationSession`，打开 Microsoft 的登录页面。
+登录完成后，系统根据应用登记的回调协议把结果交回原生认证模块。
+原生认证模块先核对回调里的 `state` 是否与本次登录请求一致，再用授权码换取令牌，写入 iOS 的 Keychain（系统钥匙串）。
+之后界面要读取 OneDrive 时，仍然向这个模块请求访问令牌，接近过期时也由它负责刷新。
 
-登录完成后，系统根据应用登记的回调协议把结果交回插件。
-插件先核对回调里的 `state` 是否与本次登录请求一致，再用授权码换取令牌，写入 iOS 的 Keychain（系统钥匙串）。
-之后界面要读取 OneDrive 时，仍然向这个插件请求访问令牌，接近过期时也由插件负责刷新。
+在独立 Android 应用中点登录时，Java 写的原生认证模块通过 AppAuth 打开手机上的浏览器，接收授权结果后换取令牌。
+为了在下次打开时继续使用这次登录，原生认证模块用 Android Keystore 中的 AES 密钥加密授权状态，再把密文存入应用私有的 `SharedPreferences`。
 
 ### 每台设备的设置
 
@@ -193,6 +198,12 @@ OneDrop 会按 `driveItemId` 查找 IndexedDB 里的附件缓存，核对文件�
 
 如果想把这张照片存到其他位置，可以回到附件菜单点 **Save as**。插件会打开 iOS 的文件选取器，让我选择把副本存在哪个文件夹。
 
+### 独立 Android 应用怎样打开和另存附件
+
+在 Android 独立应用里下载同一张照片，插件会按 `driveItemId` 把它保存在应用自己的文件目录。点“打开”时，OneDrop 通过 `FileProvider` 为照片生成一个 `content://` 地址，把地址、文件类型和临时读取权限交给 `ACTION_VIEW`。这时可以在系统的“打开方式”菜单里选择用哪个应用看图。
+
+想把照片留到自己选的文件夹，可以点 **Save as**。OneDrop 用 `ACTION_CREATE_DOCUMENT` 打开系统文件选择器，再把已有的本地照片复制到选定位置，无需重新下载。
+
 ## 复制图片
 
 如果只是想把照片贴进聊天框，还可以打开 OneDrop 的附件菜单，选择 **Copy image**。
@@ -200,4 +211,4 @@ OneDrop 会按 `driveItemId` 查找 IndexedDB 里的附件缓存，核对文件�
 
 Edge 扩展把 PNG 数据封装为 `ClipboardItem`，调用 `navigator.clipboard.write()` 写入。
 独立 iOS 应用则通过 Capacitor 把图片数据交给 Swift 插件，解码为 `UIImage`，再赋给系统剪贴板的 `UIPasteboard.general.image`。
-这样切换到支持粘贴图片的应用后，就可以直接贴入照片。
+Android 插件则先把 PNG 写入应用的缓存目录，用 `FileProvider` 生成地址，再通过 `ClipData.newUri()` 把这个地址放到剪贴板。支持粘贴图片的应用可以通过它读取照片。

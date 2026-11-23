@@ -1,7 +1,7 @@
 ---
 title: How OneDrop Adapts to Each Platform
 translation_id: onedrop-platforms
-source_digest: f1ad14e02b43c256b9a5a4c2435a8babd233e402a532d153f2c83ef307ab2846
+source_digest: 25407082b4af8fa5025ba4ff07346c52a3e26d3148f61bb4df814c2665c7c4d1
 tags:
   - OneDrop
   - TypeScript
@@ -10,12 +10,12 @@ tags:
 categories:
   - Software Development
   - App Development
-sections: {"shared-code-across-platforms": "多端共用的代码结构", "app-entry-points-and-shared-packages": "平台入口和共享包", "reading-the-current-months-messages": "读取当月消息", "edge-extension-entry-points-and-layout": "edge-扩展的入口和布局", "the-desktop-edge-side-panel": "桌面-edge-的侧栏", "the-onedrop-tab-in-edge-on-android": "android-edge-的标签页", "the-popup-in-edge-on-ios": "ios-edge-的弹窗", "when-the-mobile-keyboard-opens": "移动端键盘的弹出效果", "account-and-device-settings": "账户和设备设置", "sign-in-windows-and-token-storage": "登录窗口与令牌保存", "per-device-settings": "每台设备的设置", "attachment-actions": "附件操作", "downloads-in-desktop-edge": "桌面-edge-的浏览器下载", "downloading-attachments-in-edge-on-android": "android-edge-的附件下载", "sharing-files-in-edge-on-ios": "ios-edge-的文件分享", "previewing-and-exporting-files-in-the-ios-app": "独立-ios-应用的文件预览与导出", "copying-an-image": "复制图片"}
+sections: {"shared-code-across-platforms": "多端共用的代码结构", "app-entry-points-and-shared-packages": "平台入口和共享包", "reading-the-current-months-messages": "读取当月消息", "edge-extension-entry-points-and-layout": "edge-扩展的入口和布局", "the-desktop-edge-side-panel": "桌面-edge-的侧栏", "the-onedrop-tab-in-edge-on-android": "android-edge-的标签页", "the-popup-in-edge-on-ios": "ios-edge-的弹窗", "when-the-mobile-keyboard-opens": "移动端键盘的弹出效果", "account-and-device-settings": "账户和设备设置", "sign-in-windows-and-token-storage": "登录窗口与令牌保存", "per-device-settings": "每台设备的设置", "attachment-actions": "附件操作", "downloads-in-desktop-edge": "桌面-edge-的浏览器下载", "downloading-attachments-in-edge-on-android": "android-edge-的附件下载", "sharing-files-in-edge-on-ios": "ios-edge-的文件分享", "previewing-and-exporting-files-in-the-ios-app": "独立-ios-应用的文件预览与导出", "opening-and-saving-attachments-in-the-android-app": "独立-android-应用怎样打开和另存附件", "copying-an-image": "复制图片"}
 ---
 
 I originally built [OneDrop](https://github.com/zixu0779/OneDrop) to send files from Edge. On a phone I could keep the same message list and composer, but opening a file needed different handling. On my computer I want to open the downloaded file. In Edge on my iPhone I want the system share sheet so I can choose which app receives it.
 
-[Part one](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/) and [part two](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-two/) cover storing messages in OneDrive and syncing them across devices. Here I’m using [OneDrop 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3) again to look at the changes needed for desktop Edge, mobile Edge and the standalone iOS app.
+[Part one](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/) and [part two](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-two/) cover storing messages in OneDrive and syncing them across devices. Here I’m using [OneDrop 1.0.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3) again to look at the changes needed for desktop Edge, mobile Edge and the standalone iOS app. [Version 1.1.0](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0) added a standalone Android app. This article also covers how it handles sign-in, opens attachments and copies images on Android.
 
 <!-- more -->
 
@@ -23,13 +23,15 @@ I originally built [OneDrop](https://github.com/zixu0779/OneDrop) to send files 
 
 ### App entry points and shared packages
 
-OneDrop’s entry points live under `apps/`. Edge on desktop and mobile uses the same extension, while the standalone iOS app has its own entry point.
+OneDrop’s entry points live under `apps/`. Edge on desktop and mobile uses the same extension, while the standalone Android and iOS apps each have their own entry point.
 The UI, message model and OneDrive operations used across platforms live under `packages/`.
 
 | Directory | Purpose |
 | --- | --- |
 | `apps/edge` | Desktop side panel, mobile extension pages and adaptations for Edge on iOS |
 | `apps/ios` | WebView entry point and Swift plugins for the standalone iOS app |
+| `apps/android` | WebView entry point and Java plugins for the standalone Android app |
+| `packages/native-runtime` | Platform bridge shared by both standalone apps in 1.1.0 |
 | `packages/ui` | React message list, composer and settings screens |
 | `packages/core` | Message model, settings types and runtime request protocol |
 | `packages/platform` | Interfaces the UI uses to access platform features, plus the runtime dependencies for OneDrive operations |
@@ -49,7 +51,7 @@ const response = await sendRequest({ type: "messages/read-current-month" });
 Each entry point installs its own `PlatformBridge` before loading the UI. This bridge receives requests from the UI and passes them to the appropriate handler. The request names, parameters and response types are all defined in `packages/core`.
 
 - **The Edge extension** passes the request to its background process with `browser.runtime.sendMessage`. The handler gets the current UTC month and calls `readMonthDocument()` to fetch the messages.
-- **The standalone iOS app** uses Capacitor to load the same UI in a WebView. It has no extension background process. Its bridge handles the request inside the app, gets an access token from the native authentication plugin and passes it to `readMonthDocumentWithAccessToken()` to read the same month.
+- **The standalone Android and iOS apps** use Capacitor to load the same UI in a WebView. They share a native bridge, with no extension background process. The bridge handles the request inside the app, gets an access token from an in-app native authentication module (a Capacitor plugin) and passes it to `readMonthDocumentWithAccessToken()` to read the same month.
 
 Both paths use the monthly message reader in `packages/onedrive`. The UI receives the same `messages/month` response and can display it with the same list component. That leaves just one place to change the rules for reading message chunks.
 
@@ -116,9 +118,11 @@ The height can keep changing while the keyboard animates into place. After the c
 
 When I click sign in in the Edge extension, OneDrop uses the browser’s `identity.launchWebAuthFlow` to open Microsoft’s authorisation window and receive the callback. If the browser doesn’t provide that method, the extension completes authorisation in a temporary tab. Once signed in, it stores the tokens in `browser.storage.local`. [Part one covers the authorisation code exchange](/en/software-development/app-development/onedrop-storage-and-multi-device-sync-part-one/#the-client-authorisation-flow).
 
-The standalone iOS app has its own sign-in path. Tapping the same button calls the Swift plugin `OneDropAuth` through Capacitor. The plugin starts an `ASWebAuthenticationSession` to display Microsoft’s sign-in page.
+The standalone iOS app has its own sign-in path. Tapping the same button calls `OneDropAuth`, a native authentication module written in Swift, through Capacitor. The module starts an `ASWebAuthenticationSession` to display Microsoft’s sign-in page.
 
-After sign-in, iOS returns the result to the plugin through the app’s registered callback scheme. The plugin checks that the callback’s `state` matches this sign-in attempt, exchanges the authorisation code for tokens and stores them in the iOS Keychain. When the UI needs to read OneDrive, it asks the plugin for an access token. The plugin also refreshes it when it approaches expiry.
+After sign-in, iOS returns the result to the native authentication module through the app’s registered callback scheme. The module checks that the callback’s `state` matches this sign-in attempt, exchanges the authorisation code for tokens and stores them in the iOS Keychain. When the UI needs to read OneDrive, it asks the module for an access token. The module also refreshes it when it approaches expiry.
+
+When the user taps sign in in the standalone Android app, its native authentication module, written in Java, uses AppAuth to open the phone’s browser for sign-in. It receives the authorization result and exchanges the code for tokens. To keep the user signed in when the app reopens, the native authentication module encrypts the authorization state with an AES key held in Android Keystore and saves the ciphertext in the app’s private `SharedPreferences`.
 
 ### Per-device settings
 
@@ -165,8 +169,14 @@ When I tap Open, the plugin checks that the file still exists and asks `UIDocume
 
 To save the photo somewhere else, I can return to the attachment menu and choose **Save as**. The plugin opens the iOS document picker so I can choose a folder for the copy.
 
+### Opening and saving attachments in the Android app
+
+When I download the same photo in the standalone Android app, the plugin stores it under the app’s own files directory, organized by `driveItemId`. When I tap **Open**, OneDrop uses `FileProvider` to create a `content://` URI for the photo. It passes the URI, the file type and temporary read permission to an `ACTION_VIEW` intent. Android then lets me choose which app to view the photo in.
+
+To keep the photo in a folder of my choice, I tap **Save as**. OneDrop opens the system file picker with `ACTION_CREATE_DOCUMENT`, then copies the local photo to the selected destination without downloading it again.
+
 ## Copying an image
 
 To paste a photo into a chat, I can choose **Copy image** from the OneDrop attachment menu once the image preview has loaded. The shared UI takes the preview data, converts it to PNG and passes it to the current platform to write to the clipboard.
 
-The Edge extension wraps the PNG data in a `ClipboardItem` and calls `navigator.clipboard.write()`. In the standalone iOS app, Capacitor passes the image data to the Swift plugin, which decodes it into a `UIImage` and assigns it to `UIPasteboard.general.image`. I can then paste the photo into another app that accepts images.
+The Edge extension wraps the PNG data in a `ClipboardItem` and calls `navigator.clipboard.write()`. In the standalone iOS app, Capacitor passes the image data to the Swift plugin, which decodes it into a `UIImage` and assigns it to `UIPasteboard.general.image`. On Android, the plugin writes the PNG to the app’s cache, gets a URI from `FileProvider` and places that URI on the clipboard using `ClipData.newUri()`. An app that supports pasting images can read the photo through the URI.

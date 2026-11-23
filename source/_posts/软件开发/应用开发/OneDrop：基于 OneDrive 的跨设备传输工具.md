@@ -2,7 +2,7 @@
 translation_id: onedrop-introduction
 title: OneDrop：基于 OneDrive 的跨设备传输工具
 date: 2026-09-20 20:36:17
-updated: 2026-09-20 20:36:17
+updated: 2026-11-22 13:12:19
 categories: [["软件开发", "应用开发"]]
 tags: ["OneDrop", "Edge插件开发", "跨设备传输"]
 ---
@@ -67,11 +67,13 @@ OneDrop 的主要界面采用消息列表的形式，文本和文件放在同一
 
 桌面端已经在 [Edge 扩展商店](https://microsoftedge.microsoft.com/addons/detail/onedrop/omfponfedcemkidfmpkojmhfofgmfmgh)上线，可以直接从商店安装。
 
-移动端暂时没有这么方便。
+Android 7.0 及以上版本可以直接安装独立应用。从 [OneDrop 1.1.0 的发布页](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0) 下载 `OneDrop-1.1.0-android.apk`，打开后按系统提示允许安装。登录 Microsoft 账户时会用到手机上的浏览器。
+
+如果习惯在手机上的 Edge 里使用 OneDrop，也可以选择移动扩展。
 Edge 提供了移动端插件的上架方式，可是出于各种不知名的原因，虽然 Android 和 iOS 的移动扩展申请表都已经提交，但我目前还没有收到任何回复。
 因此还不能按桌面端的方式从商店安装。
 
-如果想提前使用，可以从 [GitHub Release](https://github.com/zixu0779/OneDrop/releases/latest) 下载 CRX 扩展包，不过需要对应的测试版浏览器和开发模式：Android 使用 Edge Canary，iOS 使用 Edge 的 TestFlight 版本。
+要安装移动扩展，可以从 [GitHub Release](https://github.com/zixu0779/OneDrop/releases/latest) 下载 CRX 扩展包，不过需要对应的测试版浏览器和开发模式：Android 使用 Edge Canary，iOS 使用 Edge 的 TestFlight 版本。
 具体入口整理在[安装说明](https://github.com/zixu0779/OneDrop/blob/main/docs/installation.md)中，普通稳定版 Edge 不能直接照搬这条安装路径。
 
 iOS 还提供了原生应用的 IPA 包，作为浏览器扩展之外的另一种使用方式。
@@ -80,7 +82,7 @@ iOS 还提供了原生应用的 IPA 包，作为浏览器扩展之外的另一�
 
 ## 目前的不足与后续打算
 
-目前最明显的问题还是移动端的使用门槛。
+本文最初发布时（OneDrop 1.0.3），最明显的问题还是移动端的使用门槛。
 桌面端已经有商店入口，而手机上无论是测试版浏览器，还是 LiveContainer，都需要额外准备。
 对于一个本来想减少操作的工具来说，这部分还不够方便。
 
@@ -89,7 +91,19 @@ iOS 还提供了原生应用的 IPA 包，作为浏览器扩展之外的另一�
 OneDrop 会继续围绕设备之间的临时传递来完善，把发送、查看和清理这些基本操作做好。
 项目代码放在 [GitHub](https://github.com/zixu0779/OneDrop)，有类似使用习惯的话，可以先看看安装条件，再决定是否适合自己。
 
-目前已经更新到 1.0.3，大部分功能已经完善，并进行过初步测试。
+下图记录的是 1.0.3 版本，当时大部分功能已经完善，并进行过初步测试。
 使用时如果遇到问题，欢迎在评论区或 [GitHub Issues](https://github.com/zixu0779/OneDrop/issues) 中提出。
 
 ![OneDrop 的设备列表与版本信息](https://res.cloudinary.com/sycamore/image/upload/v1793209186/Typora/2026/10/29/onedrop-devices-about.png)
+
+---
+
+**2026-11-21：** [OneDrop 1.1.0](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0) 加入了独立 Android 应用，手机上可以直接安装 APK。
+
+**2026-11-23：** [OneDrop 1.1.1](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.1) 支持多账户切换和自定义头像，修复 Android 下载失败的问题。
+
+**2026-11-23：** [OneDrop 1.1.2](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.2) 加入检查更新功能。
+
+**2026-11-23：** [OneDrop 1.1.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.3) 调整检查更新入口的布局。
+
+**2026-11-23：** [OneDrop 1.2.0](https://github.com/zixu0779/OneDrop/releases/tag/v1.2.0) 支持最多三个账户切换、自定义头像和应用内检查更新，并修复原生端的登录、下载及界面问题。

@@ -1,7 +1,7 @@
 ---
 title: 'OneDrop: Sending Text and Files through OneDrive'
 translation_id: onedrop-introduction
-source_digest: 3f3afded81438e9a7506844de107fa3aa6cf724d380c0ec70e0c3b33783804f2
+source_digest: af65137ff4c8811eef83316108a212cf302b4af63bd54958e8c17d198a0c0263
 tags:
   - OneDrop
   - Edge Extension Development
@@ -54,18 +54,34 @@ The free 5 GB can fill up. OneDrop lets you delete individual messages and has a
 
 The desktop extension is available from the [Edge Add-ons store](https://microsoftedge.microsoft.com/addons/detail/onedrop/omfponfedcemkidfmpkojmhfofgmfmgh).
 
-Mobile installation takes more work. Edge has a submission process for mobile extensions. I submitted the Android and iOS forms, but at the time of writing I hadn’t received a reply to either. The desktop store installation route doesn’t work for them yet.
+On Android 7.0 or later, download `OneDrop-1.1.0-android.apk` from the [OneDrop 1.1.0 release](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0). Open the APK and allow installation when Android prompts you. The app uses a browser on the phone for Microsoft sign-in.
 
-For early access, the [GitHub release](https://github.com/zixu0779/OneDrop/releases/latest) includes a CRX package. It requires developer mode and the corresponding test browser: Edge Canary on Android or the TestFlight version of Edge on iOS. The [installation guide](https://github.com/zixu0779/OneDrop/blob/main/docs/installation.md) lists the steps. They don’t carry over directly to stable mobile Edge.
+There’s also a mobile extension if you prefer to use OneDrop inside Edge. Edge has a submission process for mobile extensions. I submitted the Android and iOS forms, but at the time of writing I hadn’t received a reply to either. The desktop store installation route doesn’t work for them yet.
+
+To install the mobile extension, the [GitHub release](https://github.com/zixu0779/OneDrop/releases/latest) includes a CRX package. It requires developer mode and the corresponding test browser: Edge Canary on Android or the TestFlight version of Edge on iOS. The [installation guide](https://github.com/zixu0779/OneDrop/blob/main/docs/installation.md) lists the steps. They don’t carry over directly to stable mobile Edge.
 
 On iOS there’s also an IPA for the native application. It’s intended for import into [LiveContainer](https://github.com/LiveContainer/LiveContainer), which you need to set up first. It isn’t an App Store build or something you can install by tapping the download.
 
 ## Rough edges and plans
 
-The hurdle I notice most is still installation on mobile. The desktop version has a store listing, while both a test browser and LiveContainer need extra setup. That’s an awkward first impression for a tool I made to save myself a few steps.
+When this post was first published (OneDrop 1.0.3), the biggest hurdle was installation on mobile. The desktop version has a store listing, while both a test browser and LiveContainer need extra setup. That’s an awkward first impression for a tool I made to save myself a few steps.
 
-I’ll keep an eye on the mobile extension submissions. I’ve also considered a standalone Android app, but I haven’t set a date. For now I want to get the everyday operations right: sending, viewing and clearing items across devices.
+I’ll keep an eye on the mobile extension submissions. I’ve also considered a standalone Android app, but I haven’t set a date.
 
-The [source is on GitHub](https://github.com/zixu0779/OneDrop). If you have similar habits, the installation requirements are a good place to start. At the time of this post, the project had reached 1.0.3. Most features were in place and had been through an initial round of testing. If you run into anything, leave a comment or open a [GitHub issue](https://github.com/zixu0779/OneDrop/issues).
+For now I want to get the everyday operations right: sending, viewing and clearing items across devices.
+
+The [source is on GitHub](https://github.com/zixu0779/OneDrop). If you have similar habits, the installation requirements are a good place to start. The screenshot below shows version 1.0.3. Most features were in place and had been through an initial round of testing. If you run into anything, leave a comment or open a [GitHub issue](https://github.com/zixu0779/OneDrop/issues).
 
 ![Device list and version information](https://res.cloudinary.com/sycamore/image/upload/v1793209186/Typora/2026/10/29/onedrop-devices-about.png)
+
+---
+
+**2026-11-21:** [OneDrop 1.1.0](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0) added a standalone Android app that you can install directly from the APK.
+
+**2026-11-23:** [OneDrop 1.1.1](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.1) adds account switching and custom avatars, and fixes failed downloads on Android.
+
+**2026-11-23:** [OneDrop 1.1.2](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.2) adds a check-for-updates feature.
+
+**2026-11-23:** [OneDrop 1.1.3](https://github.com/zixu0779/OneDrop/releases/tag/v1.1.3) adjusts the layout of the update-check entry.
+
+**2026-11-23:** [OneDrop 1.2.0](https://github.com/zixu0779/OneDrop/releases/tag/v1.2.0) supports switching between up to three accounts, custom avatars and in-app update checks, and fixes sign-in, download and UI issues in the native apps.
