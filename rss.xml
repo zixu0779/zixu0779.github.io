@@ -226,11 +226,12 @@
 用到手机上以后，消息列表和输入框都可以沿用，点开文件后的操作却要根据设备来改。&lt;br /&gt;
 在电脑上我希望直接打开下载好的文件，在 iPhone 的 Edge 里则希望能调出系统分享菜单，自己选择用哪个应用接收。&lt;/p&gt;
 &lt;p&gt;之前的&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/&#34;&gt;上篇&lt;/a&gt;和&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8B%EF%BC%89/&#34;&gt;下篇&lt;/a&gt;写了这些消息怎样保存到 OneDrive，以及不同设备如何同步。&lt;br /&gt;
-这里沿用 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3&#34;&gt;OneDrop 1.0.3&lt;/a&gt;，接着说桌面 Edge、手机上的 Edge，以及独立安装的 iOS 应用各自要做哪些适配。&lt;/p&gt;
+这里沿用 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.0.3&#34;&gt;OneDrop 1.0.3&lt;/a&gt; 来说桌面 Edge、手机上的 Edge，以及独立安装的 iOS 应用各自要做哪些适配。&lt;br /&gt;
+&lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0&#34;&gt;OneDrop 1.1.0&lt;/a&gt; 中加入了独立 Android 应用，下面也补上它在登录、打开附件和复制图片时用到的 Android 接口。&lt;/p&gt;
 &lt;p&gt;&lt;span id=&#34;more&#34;&gt;&lt;/span&gt;&lt;/p&gt;
 &lt;h2 id=&#34;多端共用的代码结构&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#多端共用的代码结构&#34;&gt;#&lt;/a&gt; 多端共用的代码结构&lt;/h2&gt;
 &lt;h3 id=&#34;平台入口和共享包&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#平台入口和共享包&#34;&gt;#&lt;/a&gt; 平台入口和共享包&lt;/h3&gt;
-&lt;p&gt;OneDrop 的应用入口放在  &lt;code&gt;apps/&lt;/code&gt;  下，桌面和手机上的 Edge 使用同一份扩展，独立的 iOS 应用则有自己的入口。&lt;br /&gt;
+&lt;p&gt;OneDrop 的应用入口放在  &lt;code&gt;apps/&lt;/code&gt;  下，桌面和手机上的 Edge 使用同一份扩展，独立 Android 和 iOS 应用各有自己的入口。&lt;br /&gt;
 各端用到的界面、消息模型和 OneDrive 读写代码放在  &lt;code&gt;packages/&lt;/code&gt;  下。主要目录如下：&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -247,6 +248,14 @@
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;apps/ios&lt;/code&gt;&lt;/td&gt;
 &lt;td&gt;独立 iOS 应用的 WebView 入口和 Swift 插件&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;apps/android&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;独立 Android 应用的 WebView 入口和 Java 插件&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;packages/native-runtime&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;1.1.0 中两个独立应用共用的平台桥接&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;&lt;code&gt;packages/ui&lt;/code&gt;&lt;/td&gt;
@@ -285,7 +294,7 @@
 这里的桥接负责接收界面发来的请求，决定交给谁处理。请求的名称、参数和返回类型则统一定义在  &lt;code&gt;packages/core&lt;/code&gt;  中。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Edge 扩展&lt;/strong&gt;通过  &lt;code&gt;browser.runtime.sendMessage&lt;/code&gt;  把请求交给扩展后台。后台找到相应的处理函数，取当前 UTC 月份，调用  &lt;code&gt;readMonthDocument()&lt;/code&gt;  读取消息。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;独立 iOS 应用&lt;/strong&gt;通过 Capacitor 在应用内的 WebView 中加载这套界面。它没有扩展后台，桥接直接在应用内处理请求，从原生登录插件取得访问令牌，再交给  &lt;code&gt;readMonthDocumentWithAccessToken()&lt;/code&gt;  读取同一个月份。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;独立 Android 和 iOS 应用&lt;/strong&gt;通过 Capacitor 在应用内的 WebView 中加载这套界面。它们共用的原生端桥接没有扩展后台，桥接直接在应用内处理请求，从应用内的原生认证模块（Capacitor 插件）取得访问令牌，再交给  &lt;code&gt;readMonthDocumentWithAccessToken()&lt;/code&gt;  读取同一个月份。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;两边最终用到的月份读取代码都在  &lt;code&gt;packages/onedrive&lt;/code&gt; 。&lt;br /&gt;
 界面收到的也是同一种  &lt;code&gt;messages/month&lt;/code&gt;  响应，可以把消息交给同一份列表组件显示。以后修改消息块的读取规则时，只需要改这一处。&lt;/p&gt;
@@ -325,10 +334,12 @@
 如果当前浏览器没有提供这个接口，就在临时标签页里完成授权。登录成功后，扩展把令牌保存在  &lt;code&gt;browser.storage.local&lt;/code&gt;  中。&lt;br /&gt;
 授权码和令牌的兑换过程可以参考&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%8E%88%E6%9D%83%E6%B5%81%E7%A8%8B&#34;&gt;上篇的客户端授权流程&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;独立安装的 iOS 应用有自己的登录入口。&lt;br /&gt;
-点同一个登录按钮时，应用会通过 Capacitor 调用 Swift 写的  &lt;code&gt;OneDropAuth&lt;/code&gt;  插件，由它创建系统提供的  &lt;code&gt;ASWebAuthenticationSession&lt;/code&gt; ，打开 Microsoft 的登录页面。&lt;/p&gt;
-&lt;p&gt;登录完成后，系统根据应用登记的回调协议把结果交回插件。&lt;br /&gt;
-插件先核对回调里的  &lt;code&gt;state&lt;/code&gt;  是否与本次登录请求一致，再用授权码换取令牌，写入 iOS 的 Keychain（系统钥匙串）。&lt;br /&gt;
-之后界面要读取 OneDrive 时，仍然向这个插件请求访问令牌，接近过期时也由插件负责刷新。&lt;/p&gt;
+点同一个登录按钮时，应用会通过 Capacitor 调用 Swift 写的  &lt;code&gt;OneDropAuth&lt;/code&gt;  原生认证模块，由它创建系统提供的  &lt;code&gt;ASWebAuthenticationSession&lt;/code&gt; ，打开 Microsoft 的登录页面。&lt;br /&gt;
+登录完成后，系统根据应用登记的回调协议把结果交回原生认证模块。&lt;br /&gt;
+原生认证模块先核对回调里的  &lt;code&gt;state&lt;/code&gt;  是否与本次登录请求一致，再用授权码换取令牌，写入 iOS 的 Keychain（系统钥匙串）。&lt;br /&gt;
+之后界面要读取 OneDrive 时，仍然向这个模块请求访问令牌，接近过期时也由它负责刷新。&lt;/p&gt;
+&lt;p&gt;在独立 Android 应用中点登录时，Java 写的原生认证模块通过 AppAuth 打开手机上的浏览器，接收授权结果后换取令牌。&lt;br /&gt;
+为了在下次打开时继续使用这次登录，原生认证模块用 Android Keystore 中的 AES 密钥加密授权状态，再把密文存入应用私有的  &lt;code&gt;SharedPreferences&lt;/code&gt; 。&lt;/p&gt;
 &lt;h3 id=&#34;每台设备的设置&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#每台设备的设置&#34;&gt;#&lt;/a&gt; 每台设备的设置&lt;/h3&gt;
 &lt;p&gt;这些设备使用同一个 Microsoft 账户，也可以各自保留一份设置。&lt;br /&gt;
 每次安装都会生成设备 ID，显示名称和偏好写在对应的  &lt;code&gt;settings/devices/&amp;lt;device-id&amp;gt;.json&lt;/code&gt;  里。&lt;br /&gt;
@@ -367,12 +378,15 @@ OneDrop 会按  &lt;code&gt;driveItemId&lt;/code&gt;  查找 IndexedDB 里的附
 我在原生应用中打开了前面用 Edge 分享的那张小狗照片，系统预览顶部显示文件名  &lt;code&gt;IMG_4566&lt;/code&gt; 。&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1794763834/Typora/2026/10/29/onedrop-ios-native-preview.png&#34; alt=&#34;原生 iOS 应用打开 IMG_4566 后的系统预览&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;如果想把这张照片存到其他位置，可以回到附件菜单点 &lt;strong&gt;Save as&lt;/strong&gt;。插件会打开 iOS 的文件选取器，让我选择把副本存在哪个文件夹。&lt;/p&gt;
+&lt;h3 id=&#34;独立-android-应用怎样打开和另存附件&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#独立-android-应用怎样打开和另存附件&#34;&gt;#&lt;/a&gt; 独立 Android 应用怎样打开和另存附件&lt;/h3&gt;
+&lt;p&gt;在 Android 独立应用里下载同一张照片，插件会按  &lt;code&gt;driveItemId&lt;/code&gt;  把它保存在应用自己的文件目录。点 “打开” 时，OneDrop 通过  &lt;code&gt;FileProvider&lt;/code&gt;  为照片生成一个  &lt;code&gt;content://&lt;/code&gt;  地址，把地址、文件类型和临时读取权限交给  &lt;code&gt;ACTION_VIEW&lt;/code&gt; 。这时可以在系统的 “打开方式” 菜单里选择用哪个应用看图。&lt;/p&gt;
+&lt;p&gt;想把照片留到自己选的文件夹，可以点 &lt;strong&gt;Save as&lt;/strong&gt;。OneDrop 用  &lt;code&gt;ACTION_CREATE_DOCUMENT&lt;/code&gt;  打开系统文件选择器，再把已有的本地照片复制到选定位置，无需重新下载。&lt;/p&gt;
 &lt;h2 id=&#34;复制图片&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#复制图片&#34;&gt;#&lt;/a&gt; 复制图片&lt;/h2&gt;
 &lt;p&gt;如果只是想把照片贴进聊天框，还可以打开 OneDrop 的附件菜单，选择 &lt;strong&gt;Copy image&lt;/strong&gt;。&lt;br /&gt;
 这个选项会在图片预览加载好后出现。共用界面取出预览数据，转成 PNG，再交给当前平台写入剪贴板。&lt;/p&gt;
 &lt;p&gt;Edge 扩展把 PNG 数据封装为  &lt;code&gt;ClipboardItem&lt;/code&gt; ，调用  &lt;code&gt;navigator.clipboard.write()&lt;/code&gt;  写入。&lt;br /&gt;
 独立 iOS 应用则通过 Capacitor 把图片数据交给 Swift 插件，解码为  &lt;code&gt;UIImage&lt;/code&gt; ，再赋给系统剪贴板的  &lt;code&gt;UIPasteboard.general.image&lt;/code&gt; 。&lt;br /&gt;
-这样切换到支持粘贴图片的应用后，就可以直接贴入照片。&lt;/p&gt;
+Android 插件则先把 PNG 写入应用的缓存目录，用  &lt;code&gt;FileProvider&lt;/code&gt;  生成地址，再通过  &lt;code&gt;ClipData.newUri()&lt;/code&gt;  把这个地址放到剪贴板。支持粘贴图片的应用可以通过它读取照片。&lt;/p&gt;
  ]]></description>
         </item>
         <item>
@@ -437,10 +451,10 @@ NPC 米拉手里的黑石片也来自那处遗迹，但它只是另一件残留�
             <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
             <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
             <category term="OneDrop" scheme="https://www.sycamore.top/tags/OneDrop/" />
+            <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
             <category term="TypeScript" scheme="https://www.sycamore.top/tags/TypeScript/" />
             <category term="Microsoft Graph" scheme="https://www.sycamore.top/tags/Microsoft-Graph/" />
             <category term="Edge插件开发" scheme="https://www.sycamore.top/tags/Edge%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
-            <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
             <pubDate>Sat, 10 Oct 2026 21:16:53 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%20%E7%9A%84%E6%B6%88%E6%81%AF%E5%AD%98%E5%82%A8%E4%B8%8E%E5%A4%9A%E7%AB%AF%E5%90%8C%E6%AD%A5%EF%BC%88%E4%B8%8A%EF%BC%89/&#34;&gt;上篇&lt;/a&gt;已经说明账户授权、消息和附件的存储结构，以及文件传输的过程。&lt;br /&gt;
 这一篇接着讨论数据保存之后的问题：多台设备怎样读取和修改同一份消息，历史记录怎样归档，以及删除后如何恢复或清理。&lt;/p&gt;
@@ -619,10 +633,10 @@ JSON 改写使用 ETag 条件；遇到变化或冲突就推迟，保留墓碑等
             <category term="软件开发" scheme="https://www.sycamore.top/categories/Develop/" />
             <category term="应用开发" scheme="https://www.sycamore.top/categories/Develop/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/" />
             <category term="OneDrop" scheme="https://www.sycamore.top/tags/OneDrop/" />
+            <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
             <category term="TypeScript" scheme="https://www.sycamore.top/tags/TypeScript/" />
             <category term="Microsoft Graph" scheme="https://www.sycamore.top/tags/Microsoft-Graph/" />
             <category term="Edge插件开发" scheme="https://www.sycamore.top/tags/Edge%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
-            <category term="OneDrive" scheme="https://www.sycamore.top/tags/OneDrive/" />
             <pubDate>Tue, 06 Oct 2026 19:42:08 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/OneDrop%EF%BC%9A%E5%9F%BA%E4%BA%8E%20OneDrive%20%E7%9A%84%E8%B7%A8%E8%AE%BE%E5%A4%87%E4%BC%A0%E8%BE%93%E5%B7%A5%E5%85%B7/&#34;&gt;《基于 OneDrive 的跨设备传输工具》&lt;/a&gt;中，大致介绍了 &lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;OneDrop&lt;/a&gt; 项目，包括它目前的安装方式和后续计划等内容。&lt;br /&gt;
 本文为实现部分的一些算法和思路的分享，分成上下两篇。这篇先讲 Microsoft 账户怎样接入，以及文本和文件怎样保存、上传和下载。&lt;br /&gt;
@@ -946,24 +960,31 @@ OneDrop 先检查 ID 是否对应当前附件，再查询这项任务的完整�
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1793200453/Typora/2026/10/28/onedrop-recycle-bin.png&#34; alt=&#34;OneDrop 的回收站界面&#34; /&gt;&lt;/p&gt;
 &lt;h2 id=&#34;目前的发布情况&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#目前的发布情况&#34;&gt;#&lt;/a&gt; 目前的发布情况&lt;/h2&gt;
 &lt;p&gt;桌面端已经在 &lt;a href=&#34;https://microsoftedge.microsoft.com/addons/detail/onedrop/omfponfedcemkidfmpkojmhfofgmfmgh&#34;&gt;Edge 扩展商店&lt;/a&gt;上线，可以直接从商店安装。&lt;/p&gt;
-&lt;p&gt;移动端暂时没有这么方便。&lt;br /&gt;
+&lt;p&gt;Android 7.0 及以上版本可以直接安装独立应用。从 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0&#34;&gt;OneDrop 1.1.0 的发布页&lt;/a&gt; 下载  &lt;code&gt;OneDrop-1.1.0-android.apk&lt;/code&gt; ，打开后按系统提示允许安装。登录 Microsoft 账户时会用到手机上的浏览器。&lt;/p&gt;
+&lt;p&gt;如果习惯在手机上的 Edge 里使用 OneDrop，也可以选择移动扩展。&lt;br /&gt;
 Edge 提供了移动端插件的上架方式，可是出于各种不知名的原因，虽然 Android 和 iOS 的移动扩展申请表都已经提交，但我目前还没有收到任何回复。&lt;br /&gt;
 因此还不能按桌面端的方式从商店安装。&lt;/p&gt;
-&lt;p&gt;如果想提前使用，可以从 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/latest&#34;&gt;GitHub Release&lt;/a&gt; 下载 CRX 扩展包，不过需要对应的测试版浏览器和开发模式：Android 使用 Edge Canary，iOS 使用 Edge 的 TestFlight 版本。&lt;br /&gt;
+&lt;p&gt;要安装移动扩展，可以从 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/latest&#34;&gt;GitHub Release&lt;/a&gt; 下载 CRX 扩展包，不过需要对应的测试版浏览器和开发模式：Android 使用 Edge Canary，iOS 使用 Edge 的 TestFlight 版本。&lt;br /&gt;
 具体入口整理在&lt;a href=&#34;https://github.com/zixu0779/OneDrop/blob/main/docs/installation.md&#34;&gt;安装说明&lt;/a&gt;中，普通稳定版 Edge 不能直接照搬这条安装路径。&lt;/p&gt;
 &lt;p&gt;iOS 还提供了原生应用的 IPA 包，作为浏览器扩展之外的另一种使用方式。&lt;br /&gt;
 这个包需要导入 &lt;a href=&#34;https://github.com/LiveContainer/LiveContainer&#34;&gt;LiveContainer&lt;/a&gt;，不能下载后直接点开安装，也不是 App Store 版本。&lt;br /&gt;
 选择这条路径之前，需要先配置好 LiveContainer。&lt;/p&gt;
 &lt;h2 id=&#34;目前的不足与后续打算&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#目前的不足与后续打算&#34;&gt;#&lt;/a&gt; 目前的不足与后续打算&lt;/h2&gt;
-&lt;p&gt;目前最明显的问题还是移动端的使用门槛。&lt;br /&gt;
+&lt;p&gt;本文最初发布时（OneDrop 1.0.3），最明显的问题还是移动端的使用门槛。&lt;br /&gt;
 桌面端已经有商店入口，而手机上无论是测试版浏览器，还是 LiveContainer，都需要额外准备。&lt;br /&gt;
 对于一个本来想减少操作的工具来说，这部分还不够方便。&lt;/p&gt;
 &lt;p&gt;后续我会继续关注移动扩展的申请进度，也有考虑给 Android 也增加一个独立应用，但目前还没有确定的时间安排。&lt;/p&gt;
 &lt;p&gt;OneDrop 会继续围绕设备之间的临时传递来完善，把发送、查看和清理这些基本操作做好。&lt;br /&gt;
 项目代码放在 &lt;a href=&#34;https://github.com/zixu0779/OneDrop&#34;&gt;GitHub&lt;/a&gt;，有类似使用习惯的话，可以先看看安装条件，再决定是否适合自己。&lt;/p&gt;
-&lt;p&gt;目前已经更新到 1.0.3，大部分功能已经完善，并进行过初步测试。&lt;br /&gt;
+&lt;p&gt;下图记录的是 1.0.3 版本，当时大部分功能已经完善，并进行过初步测试。&lt;br /&gt;
 使用时如果遇到问题，欢迎在评论区或 &lt;a href=&#34;https://github.com/zixu0779/OneDrop/issues&#34;&gt;GitHub Issues&lt;/a&gt; 中提出。&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; data-src=&#34;https://res.cloudinary.com/sycamore/image/upload/v1793209186/Typora/2026/10/29/onedrop-devices-about.png&#34; alt=&#34;OneDrop 的设备列表与版本信息&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;&lt;strong&gt;2026-11-21：&lt;/strong&gt; &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.1.0&#34;&gt;OneDrop 1.1.0&lt;/a&gt; 加入了独立 Android 应用，手机上可以直接安装 APK。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2026-11-23：&lt;/strong&gt; &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.1.1&#34;&gt;OneDrop 1.1.1&lt;/a&gt; 支持多账户切换和自定义头像，修复 Android 下载失败的问题。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2026-11-23：&lt;/strong&gt; &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.1.2&#34;&gt;OneDrop 1.1.2&lt;/a&gt; 加入检查更新功能。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2026-11-23：&lt;/strong&gt; &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.1.3&#34;&gt;OneDrop 1.1.3&lt;/a&gt; 调整检查更新入口的布局。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2026-11-23：&lt;/strong&gt; &lt;a href=&#34;https://github.com/zixu0779/OneDrop/releases/tag/v1.2.0&#34;&gt;OneDrop 1.2.0&lt;/a&gt; 支持最多三个账户切换、自定义头像和应用内检查更新，并修复原生端的登录、下载及界面问题。&lt;/p&gt;
  ]]></description>
         </item>
         <item>
@@ -1631,9 +1652,9 @@ Zsh 在这里补充了不带前导零的  &lt;code&gt;%f&lt;/code&gt; （日）�
             <link>https://www.sycamore.top/%E7%94%9F%E6%B4%BB%E8%AE%B0%E5%BD%95/%E6%97%A5%E5%B8%B8%E7%90%90%E8%AE%B0/%E7%94%A8%E8%BF%87%E7%9A%84%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/</link>
             <category term="生活记录" scheme="https://www.sycamore.top/categories/Diary/" />
             <category term="日常琐记" scheme="https://www.sycamore.top/categories/Diary/%E6%97%A5%E5%B8%B8%E7%90%90%E8%AE%B0/" />
-            <category term="Hexo" scheme="https://www.sycamore.top/tags/Hexo/" />
-            <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
             <category term="Typecho" scheme="https://www.sycamore.top/tags/Typecho/" />
+            <category term="WordPress" scheme="https://www.sycamore.top/tags/WordPress/" />
+            <category term="Hexo" scheme="https://www.sycamore.top/tags/Hexo/" />
             <category term="博客主题" scheme="https://www.sycamore.top/tags/%E5%8D%9A%E5%AE%A2%E4%B8%BB%E9%A2%98/" />
             <pubDate>Sun, 12 Oct 2025 12:54:13 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;罗列一下用过的（装过的）主题，根据我的使用体验，简单评价一下它们。最后也补了两个看过资料后觉得可以试试的主题。&lt;/p&gt;
